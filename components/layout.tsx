@@ -22,5 +22,4 @@ export default function Layout({ children }: LayoutProps) {
     </div>
   );
 
-print("Hello World");
 }
