@@ -4,4 +4,5 @@ declare module 'pdf-parse/lib/pdf-parse.js' {
   export default pdf;
 
   "Hello Carl"
+  "Hello Mith"
 }
