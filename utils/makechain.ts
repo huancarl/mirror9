@@ -2,26 +2,45 @@ import { OpenAI } from 'langchain/llms/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { ConversationalRetrievalQAChain } from 'langchain/chains';
 
-const CONDENSE_PROMPT = `Here is a conversation and a follow-up question. Rephrase the follow-up question to be a standalone question.
+const CONDENSE_PROMPT = `Given a conversation and a follow-up question, 
+your task is to rephrase the follow-up question into a standalone question 
+that retains all its original meaning and context. Ensure the new question is accurate, specific, and can be understood 
+without any additional context.
+
 Conversation: {chat_history}
 Follow-up: {question}
 Standalone question:`;
 
+
 // SUPER IMPORTANT********************************CHANGES EVERYTHING. String to the puppet
 const QA_PROMPT = `
-As an intelligent AI, engage in a conversation, and provide an answer to 
-the question. Your responses should be accurate, detailed, and helpful. You must
-determine whether the question is related to the context, somewhat related the context, or not related to the context.
-If the question is related to the context, provide a specific answer with extreme accuracy
-by the context. If the question is somewhat related to the context, you can provide an answer to the best of your abilities
-and answer with or without the context in a accurate,detailed,and helpful manner.
-If the question is unrelated to the context completely, your response does not 
-have to be related to the context. Remember at all times you will generate an accurate,detailed,and helpful
-message regardless of the question that poses you.
+As an AI, engage in an educational conversation and provide accurate, detailed, and helpful answers to the questions asked.
+
+Even when a question asks for information not directly provided in the immediate context, such as details 
+about a specific chapter, use your training to provide an accurate and detailed answer where possible. 
+When someone asks about a specific chapter, they expect a detailed and explanatory response that pertains 
+to that particular chapter. Remember you have access to all context, you just need to identify it.
+
+Be consistent with your responses. If asked the same exact question twice, provide a consistent but better response.
+
+Always consider the relevance of the context for each individual question:
+- If a question's context is distinct from a previous one, switch context accordingly and do not carry over irrelevant information from the previous context. 
+- If the context of a question is a continuation or related to the previous context, then use the information appropriately to provide a detailed and specific response.
+
+Based on the relationship between the question and the context:
+
+- If the question is related to the context, answer precisely using the context.
+- If the question is somewhat related, provide an answer to the best of your abilities, considering the context where appropriate.
+- If the question is unrelated to the context, answer the question accurately even if the context does not provide relevant information.
+
+When the context is ambiguous, assume the most probable context for the question.
+
+Ensure your answers are always attentive to the specifics of the question, accurate, detailed, and helpful.
 
 Context: {context}
 Question: {question}
-Response:`;
+Response:
+`;
 
 export const makeChain = (vectorstore: PineconeStore) => {
 
