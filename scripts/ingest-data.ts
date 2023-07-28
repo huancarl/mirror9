@@ -10,16 +10,31 @@ import { text } from 'stream/consumers';
 
 const filePath = 'docs';
 
+type PdfDocument<T = Record<string, any>> = {
+  metadata: T;
+  pageContent: string;
+};
+
+function groupDocumentsByNumb(docs: PdfDocument[]): Map<number, PdfDocument[]> {
+  const groupedDocs = new Map<number, PdfDocument[]>();
+  for (const doc of docs) {
+    const numb = doc.metadata.numb;
+    const numbDocs = groupedDocs.get(numb) ?? [];
+    numbDocs.push(doc);
+    groupedDocs.set(numb, numbDocs);
+  }
+  return groupedDocs;
+}
+
 export const run = async () => {
   try {
     const directoryLoader = new DirectoryLoader(filePath, {
       '.pdf': (path) => new PDFLoader(path),
     });
 
-    const docs = await directoryLoader.load();
+    const docs: PdfDocument<Record<string, any>>[] = await directoryLoader.load();
 
-    // Please provide your own function to group the documents by title
-    const groupedDocs = groupDocumentsByTitle(docs);
+    const groupedDocs = groupDocumentsByNumb(docs);
 
     const json = JSON.stringify(Array.from(groupedDocs.entries()));
     await fs.promises.writeFile('test.json', json);
@@ -32,7 +47,7 @@ export const run = async () => {
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
     for (const [title, documents] of groupedDocs.entries()) {
-      const namespace = title;
+      const namespace = String(title);
 
       const splitDocs = await textSplitter.splitDocuments(documents);
 
@@ -42,13 +57,11 @@ export const run = async () => {
       const upsertChunkSize = 50;
       for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
         const chunk = splitDocs.slice(i, i + upsertChunkSize);
-        await PineconeStore.fromDocuments (
-          index,
-          chunk,
-          new OpenAIEmbeddings(),
-          'text',
-          PINECONE_NAME_SPACE,
-        );
+        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
+          pineconeIndex: index,
+          namespace: namespace,
+          textKey: 'text',
+        });
       }
     }
 
@@ -68,5 +81,7 @@ export const run = async () => {
   await run();
   console.log('ingestion complete');
 })();
+
+
 
 
