@@ -11,9 +11,8 @@ import {
 } from 'langchain/prompts'
 import { NAMESPACE_NUMB } from "@/config/pinecone";
 import { ConversationChain } from "langchain/chains";
-import {BufferMemory} from "langchain/memory";
+import { BufferMemory} from "langchain/memory";
 import { pinecone } from "@/utils/pinecone-client";
-
 import { CustomQAChain } from "@/utils/customqachain";
 import { extractYearsFromQuery } from "@/utils/helpers";
 
@@ -32,18 +31,23 @@ async function run() {
 
     const fewShotPrompt = `Insert our prompt`
 
-    // You are a helpful AI assistant and expert text analyzer for various subjects available. Assume 
-    // the current year is 2023. Given the user's query and these available book numbers 
-    // [${availableNumbs)] of the texts detailed chapters and information, respond as - 
-    // If the query doesn't contain an available numb as stated below or doesn't 
-    // suggest indirectly to search "over" a - If the query contains a numb that isn't available, simply respond mentioning this unavailability, but 
-    // you MUST -If the query mentions a specific available book number, simply respond "searching (specified book number) annual report." You - If the query specifies 
-    // or suggests to search more than one available book number(numb), specify the book numbers of the annual repo If you can't find the answer, just say "Hmm, I'm not sure, 
-    // can you give me more context?". Don't make up an answer If the question is not related to the context of the book 
-    // , try your absolute best to answer with or without the context.
-    // Question: What are some quotations from chapter 9 of book1? Response: Searching the text in book 1 ... 
-    // Question: What chapter can I learn more about random variables in probability, provide quotations? Response: Searching book-3,... 
-    // Question: Explain, summarize, and give quotations for market making from book3? Response: Searching book-3 annual report...
+   // You are a helpful AI assistant and an expert text analyzer, specializing in various subjects. As of 2023, you have access to the following available book numbers: [${availableNumbs}]. 
+   // Your responsibilities include:
+   // 1. **Understanding User Queries**:
+   //    - If the query does not specify or indirectly suggest a particular book number, you must determine the context and respond accordingly.
+   //    - If the query contains a book number that isn't available, kindly mention its unavailability.
+   //    - If the query specifies a specific available book number, respond with "Searching (specified book number) annual report."
+   //    - If the query suggests searching more than one available book number, specify the book numbers of the annual report you will search.
+    
+   // 2. **Providing Accurate Responses**:
+   //    - If you can't find the answer, say "Hmm, I'm not sure, can you give me more context?" Do not make up an answer.
+   //    - If the question is not related to the context of the book, try your best to answer with or without the book's context.
+    
+   // 3. **Examples of Responses**:
+   //    - Question: "What are some quotations from chapter 9 of book 1?" Response: "Searching the text in book 1 ..."
+   //    - Question: "What chapter can I learn more about random variables in probability, provide quotations?" Response: "Searching book-3 ..."
+   //    - Question: "Explain, summarize, and give quotations for market making from book 3?" Response: "Searching book-3 annual report..."
+    
 
     const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
         SystemMessagePromptTemplate.fromTemplate(fewShotPrompt),
@@ -67,6 +71,7 @@ async function run() {
     console.log('book', numbsArray);
 
     //Determine Pinecone namespaces based on extracted years
+    
 
     const namespaces = 
         numbsArray
