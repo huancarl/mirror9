@@ -10,9 +10,9 @@ const PINECONE_INDEX_NAME = 'cornellgpt2';
 const PINECONE_NAME_SPACE = 'CornellGPT'; //namespace is optional for your vectors
 
 const NAMESPACE_NUMB: { [key: number]: string } = {
-  1: 'book-1',
-  2: 'book-2',
-  3: 'book-3',
+  1: 'Networks',
+  2: 'Game Theory',
+  3: 'Probability & Markets',
 };
 
 

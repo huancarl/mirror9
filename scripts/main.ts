@@ -27,7 +27,7 @@ async function run() {
 
     
     //Process user query
-    const userQuery = 'What are the key points mentioned in the texts for the past 3 years?'
+    const userQuery = 'What are the key points mentioned in the networks, game theory, and the Probability & Markets textbooks?'
 
     const availableNumbs = `1 , 2 , 3`;
 
