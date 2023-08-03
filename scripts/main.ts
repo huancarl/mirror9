@@ -89,20 +89,16 @@ async function run() {
 
     console.log(response);
 
-
     const extractedNumbs = await extractYearsFromQuery(response.response);
-    const numbsArray = extractedNumbs === undefined ? undefined : extractedNumbs as number[];
+    const numbsArray: string[] | undefined = extractedNumbs as string[] | undefined;
 
     console.log('book', numbsArray);
-
-    //Determine Pinecone namespaces based on extracted years
-
+    
+    // Determine Pinecone namespaces based on extracted years
     const namespaces = 
         numbsArray
-            ?.map((numb) => NAMESPACE_NUMB[numb])
-            .filter((namespace) => namespace !== undefined) ?? [];
-
-    console.log('namespaces', namespaces);
+            ?.map((numb: string) => NAMESPACE_NUMB[Number(numb)])
+            .filter((namespace: string | undefined) => namespace !== undefined) ?? [];
 
     //selects the index
 
@@ -110,8 +106,7 @@ async function run() {
 
     //init class
     const qaChain = CustomQAChain.fromLLM(model, index, namespaces, {
-        returnSourceDocuments: true,
-    });
+        returnSourceDocuments: true, });
 
     const chatHistory = '';
 

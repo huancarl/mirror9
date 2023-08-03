@@ -1,36 +1,36 @@
 import { OpenAIChat } from "langchain/llms";
-import { Index } from "@/utils/pinecone-client";
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { NAMESPACE_NUMB } from "@/config/pinecone";
 import { pinecone } from "@/utils/pinecone-client";
-import { extractYearsFromQuery } from "@/utils/helpers";
 import { PINECONE_INDEX_NAME } from "@/config/pinecone";
+
 
 interface CustomQAChainOptions {
   returnSourceDocuments: boolean;
 }
 
 export class CustomQAChain {
-  private model: OpenAIChat;
-  private index: Index;
-  private namespaces: string[];
-  private options: CustomQAChainOptions;
+    private model: OpenAIChat;
+    private index: any; 
+    private namespaces: string[];
+    private options: CustomQAChainOptions;
 
-  constructor(model: OpenAIChat, index: Index, namespaces: string[], options: CustomQAChainOptions) {
-    this.model = model;
-    this.index = index;
-    this.namespaces = namespaces;
-    this.options = options;
-  }
+    constructor(model: OpenAIChat, index: any, namespaces: string[], options: CustomQAChainOptions) {
+      this.model = model;
+      this.index = index;
+      this.namespaces = namespaces;
+      this.options = options;
+    }
 
-  public static fromLLM(model: OpenAIChat, index: Index, namespaces: string[], options: CustomQAChainOptions): CustomQAChain {
-    return new CustomQAChain(model, index, namespaces, options);
-  }
+    public static fromLLM(model: OpenAIChat, index: any, namespaces: string[], options: CustomQAChainOptions): CustomQAChain {
+      return new CustomQAChain(model, index, namespaces, options);
+    }
 
   public async call({ question, chat_history }: { question: string; chat_history: string }) {
     // Generate the query embedding using the model.
     const queryEmbedding = await this.model.embed(question);
 
-    // Perform a search across multiple namespaces.
+    // Perform a search across the specified namespaces ("book-1", "book-2", "book-3").
     const searchResults = await Promise.all(this.namespaces.map((namespace) => {
       return this.index.search({
         query: queryEmbedding,
