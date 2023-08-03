@@ -1,5 +1,5 @@
-import { MessagesPlaceholder, PromptTemplate } from "langchain/dist/prompts";
-import { FewShotPromptTemplate } from "langchain/dist/prompts";
+import { MessagesPlaceholder, PromptTemplate } from "node_modules/langchain/dist/prompts";
+import { FewShotPromptTemplate } from "node_modules/langchain/dist/prompts";
 import { ChatOpenAI } from 'langchain/chat_models';
 import { OpenAIChat } from "langchain/llms";
 import { PINECONE_INDEX_NAME } from "@/config/pinecone";
@@ -14,7 +14,7 @@ import { ConversationChain } from "langchain/chains";
 import { BufferMemory} from "langchain/memory";
 import { pinecone } from "@/utils/pinecone-client";
 import { CustomQAChain } from "@/utils/customqachain";
-import { extractYearsFromQuery } from "@/utils/helpers";
+import { extractTitlesFromQuery } from "@/utils/helpers";
 
 //Main application function
 
@@ -74,7 +74,7 @@ async function run() {
     const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
         SystemMessagePromptTemplate.fromTemplate(fewShotPrompt),
         new MessagesPlaceholder('history'),
-        HumanMessagePromptTemplate.fromTemplate('{query'),
+        HumanMessagePromptTemplate.fromTemplate('{query}'),
     ]);
 
     const chain = new ConversationChain({
@@ -89,7 +89,7 @@ async function run() {
 
     console.log(response);
 
-    const extractedNumbs = await extractYearsFromQuery(response.response);
+    const extractedNumbs = await extractTitlesFromQuery(response.response);
     const numbsArray: string[] | undefined = extractedNumbs as string[] | undefined;
 
     console.log('book', numbsArray);

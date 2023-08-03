@@ -1,4 +1,4 @@
-export function extractYearsFromQuery(query: string) {
+export function extractTitlesFromQuery(query: string) {
     // extract name of textbooks from the query and return them as an array using regex
 
     const pattern: RegExp = /\b(networks|game theory)\b/gi;
