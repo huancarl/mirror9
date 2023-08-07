@@ -27,7 +27,7 @@ async function run() {
 
     
     //Process user query
-    const userQuery = 'What are the main key points in Math 21a, the provided context?'
+    const userQuery = 'What are the main key points in the probability cheatsheet v2.0?'
 
     const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
 

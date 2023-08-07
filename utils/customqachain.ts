@@ -81,8 +81,6 @@ private parseResults(searchResults: any[]): any[] {
     }
     return processedResults; // Adjust as needed.
   }  
-
-  
 }
 
 
