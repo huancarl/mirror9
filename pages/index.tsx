@@ -139,8 +139,8 @@ export default function Home() {
                         key={index}
                         src="/big-read-bear.png"
                         alt="AI"
-                        width="40"
-                        height="40"
+                        width="60"
+                        height="60"
                         className={styles.boticon}
                         priority
                       />
@@ -171,6 +171,7 @@ export default function Home() {
                         <div className={styles.markdownanswer}>
                           <ReactMarkdown linkTarget="_blank">
                             {message.message}
+                            {/* //look at this section */}
                           </ReactMarkdown>
                         </div>
                       </div>
@@ -185,7 +186,8 @@ export default function Home() {
                             className="flex-col"
                           >
                             {message.sourceDocs.map((doc, index) => (
-                              <div key={`messageSourceDocs-${index}`}>
+                              <div key={`messageSourceDocs-${index}`}> 
+                              {/* //look at this section */}
                                 <AccordionItem value={`item-${index}`}>
                                   <AccordionTrigger>
                                     <h3>Source {index + 1}</h3>
@@ -261,8 +263,7 @@ export default function Home() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a href="https://twitter.com/mayowaoshin">
-            Powered by LangChainAI. Demo built by Mayo (Twitter: @mayowaoshin).
+          <a href="Carl Huang and Mith Patel">
           </a>
         </footer>
       </Layout>

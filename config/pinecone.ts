@@ -11,8 +11,8 @@ const PINECONE_NAME_SPACE = 'CornellGPT'; //namespace is optional for your vecto
 
 const NAMESPACE_NUMB: { [key: number]: string } = {
   1: 'Networks',
-  2: 'Game Theory',
-  3: 'Probability & Markets',
+  2: 'Probability Cheatsheet v2.0',
+  3: 'Harvard: Math 21a Review Sheet',
 };
 
 

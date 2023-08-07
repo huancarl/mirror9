@@ -47,6 +47,7 @@ export const run = async () => {
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
     for (const [title, documents] of groupedDocs.entries()) {
+
       const namespace = String(title);
 
       const splitDocs = await textSplitter.splitDocuments(documents);

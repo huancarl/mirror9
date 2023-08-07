@@ -77,7 +77,6 @@ export const run = async () => {
   console.log('ingestion complete');
 })();
 
-
 // 1. Load documents using 'directionaryLoader'
 // 2. Group documents by year using the 'groupDocumentsByNumb' function
 // 3. Iterate through the grouped documents by numb using the for-of loop
