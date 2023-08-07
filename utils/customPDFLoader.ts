@@ -35,13 +35,22 @@ export class CustomPDFLoader extends BufferLoader {
   ): Promise<Document[]> {
     const { pdf } = await PDFLoaderImports();
     const parsed = await pdf(raw);
+
+    // Extract the filename from the source
+    const sourceFileName = metadata.source.split('/').pop();
+
+    // Here we format the metadata to your desired structure
+    const formattedMetadata = {
+      source: sourceFileName,
+      totalpages: parsed.numpages,
+      pageNumber: parsed.pageNumber, // replace this with the actual method to get page number
+      year: parsed.year, // replace this with the actual method to get year
+    };
+
     return [
       new Document({
         pageContent: parsed.text,
-        metadata: {
-          ...metadata,
-          pdf_numpages: parsed.numpages,
-        },
+        metadata: formattedMetadata, // Use the new metadata format
       }),
     ];
   }
@@ -59,3 +68,4 @@ async function PDFLoaderImports() {
     );
   }
 }
+
