@@ -37,7 +37,7 @@ async function run() {
 
         You have access to the contents of textbooks and their titles are as follows [${availableTitles}]. Given the user query respond as follows: 
         - If the query does not contain the title of textbook as stated below or suggests indirectly to search "over" a specific textbook by mentioning relevant context to an available textbook
-        assume the most probable context and textbook and respond "searching (title of textbook)". You must respond in this exact format which is also shown below.
+        assume the most probable context and textbook and respond "Searching (title of textbook)...". You must respond in this exact format which is also shown below.
         - If the query contains the title of a textbook that is absolutely not available, simply respond mentioning this unavailability, but do NOT assume an available textbook title that is 
         available and instead respond with "This textbook is not available"
         - If the query mentions a specific available title of a textbook, simply respond "searching (specified textbook title)". You must respond in this exact format which is also shown below.
