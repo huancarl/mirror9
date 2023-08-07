@@ -83,10 +83,12 @@ async function run() {
     // Determine Pinecone namespaces based on extracted years
     const namespaces = 
         numbsArray
-            ?.map((numb: string) => NAMESPACE_NUMB[Number(numb)])
+            ?.map((title) => NAMESPACE_NUMB[title])
             .filter((namespace: string | undefined) => namespace !== undefined) ?? [];
 
     //selects the index
+
+    console.log('namespaces', namespaces)
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
