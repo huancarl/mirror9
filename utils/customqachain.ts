@@ -34,15 +34,27 @@ export class CustomQAChain {
         const embeddings = new OpenAIEmbeddings();
         const queryEmbedding = await embeddings.embedQuery(question); // Ensure the embedding is resolved
 
+        console.log(queryEmbedding)
         if (!queryEmbedding) {
             throw new Error("Failed to generate embedding for the question.");
         }
 
         const searchResults = await Promise.all(this.namespaces.map((namespace) => {
-            return this.index.query({
-                query: queryEmbedding, // Directly set query to the embedding, assuming Pinecone wants the array directly
-                namespace,
-            });
+          console.log('runs')
+          console.log("Using namespace:", namespace);
+
+          return this.index.query({
+            queryRequest: {
+              vector: queryEmbedding,
+              topK: 3,
+              includeValues: true,
+            },
+            namespace: 'cornellgpt',
+          });
+            // return this.index.query({
+            //     query: queryEmbedding, // Directly set query to the embedding, assuming Pinecone wants the array directly
+            //     namespace,
+            // });
         }));
 
       }
