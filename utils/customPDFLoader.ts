@@ -39,7 +39,7 @@ export class CustomPDFLoader extends BufferLoader {
     // Extract the filename from the source
     const sourceFileName = metadata.source.split('/').pop();
 
-    // Here we format the metadata to your desired structure
+    // Here we format the metadata to desired structure
     const formattedMetadata = {
       source: sourceFileName,
       totalpages: parsed.numpages,
