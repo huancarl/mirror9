@@ -117,7 +117,6 @@ async function run() {
     const json = JSON.stringify(data);
 
     await fs.writeFile(`main-test-response.json`, json);
-
     
 }
 
