@@ -139,8 +139,8 @@ export default function Home() {
                         key={index}
                         src="/big-read-bear.png"
                         alt="AI"
-                        width="60"
-                        height="60"
+                        width="40"
+                        height="40"
                         className={styles.boticon}
                         priority
                       />
