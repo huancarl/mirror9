@@ -11,7 +11,7 @@ const PINECONE_INDEX_NAME = 'mithgpt';
 const NAMESPACE_NUMB: { [key: string]: string } = {
   '1': 'Networks',
   '2': 'Probability Cheatsheet v2.0',
-  '3': 'Harvard: Math 21a Review Sheet',
+  '3': 'Harvard Math 21a Review Sheet',
 };
 
 
