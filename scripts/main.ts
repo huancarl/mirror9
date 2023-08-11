@@ -104,7 +104,8 @@ async function run() {
         question: userQuery,
         chat_history: chatHistory,
     });
-
+    
+    console.log(typeof(results));
     console.log('results', results);
 
     const data = {

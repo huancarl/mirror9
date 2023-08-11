@@ -19,6 +19,8 @@ function groupDocumentsByNumb(docs: PdfDocument[]): Map<number, PdfDocument[]> {
   const groupedDocs = new Map<number, PdfDocument[]>();
   for (const doc of docs) {
     const numb = doc.metadata.numb;
+    console.log(numb, "this is numb")
+    console.log(doc, "this is doc")
     const numbDocs = groupedDocs.get(numb) ?? [];
     numbDocs.push(doc);
     groupedDocs.set(numb, numbDocs);
