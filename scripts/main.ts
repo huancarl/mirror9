@@ -105,7 +105,6 @@ async function run() {
         chat_history: chatHistory,
     });
     
-    console.log(typeof(results));
     console.log('results', results);
 
     const data = {
@@ -125,4 +124,3 @@ async function run() {
     await run();
     console.log('ingestion complete'); 
 })();
-

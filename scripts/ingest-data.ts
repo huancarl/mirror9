@@ -4,9 +4,8 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { pinecone } from '@/utils/pinecone-client';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
-import { PINECONE_INDEX_NAME, PINECONE_NAME_SPACE } from '@/config/pinecone';
+import { PINECONE_INDEX_NAME, NAMESPACE_NUMB } from '@/config/pinecone';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
-import { text } from 'stream/consumers';
 
 const filePath = 'docs';
 
@@ -15,32 +14,15 @@ type PdfDocument<T = Record<string, any>> = {
   pageContent: string;
 };
 
-function groupDocumentsByNumb(docs: PdfDocument[]): Map<number, PdfDocument[]> {
-  const groupedDocs = new Map<number, PdfDocument[]>();
-  for (const doc of docs) {
-    const numb = doc.metadata.numb;
-    console.log(numb, "this is numb")
-    console.log(doc, "this is doc")
-    const numbDocs = groupedDocs.get(numb) ?? [];
-    numbDocs.push(doc);
-    groupedDocs.set(numb, numbDocs);
-  }
-  return groupedDocs;
+async function loadDocumentsFromFolder(folderPath: string): Promise<PdfDocument[]> {
+  const loader = new DirectoryLoader(folderPath, {
+    '.pdf': (path) => new PDFLoader(path),
+  });
+  return loader.load();
 }
 
 export const run = async () => {
   try {
-    const directoryLoader = new DirectoryLoader(filePath, {
-      '.pdf': (path) => new PDFLoader(path),
-    });
-
-    const docs: PdfDocument<Record<string, any>>[] = await directoryLoader.load();
-
-    const groupedDocs = groupDocumentsByNumb(docs);
-
-    const json = JSON.stringify(Array.from(groupedDocs.entries()));
-    await fs.promises.writeFile('test.json', json);
-
     const textSplitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1000,
       chunkOverlap: 200,
@@ -48,33 +30,29 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
-    for (const [title, documents] of groupedDocs.entries()) {
+    for (const folder of ['1', '2', '3']) {
+      const docs = await loadDocumentsFromFolder(`${filePath}/${folder}`);
+      const namespace = NAMESPACE_NUMB[folder]; // Assuming folder names map to namespaces
 
-      const namespace = String(title);
+      for (const doc of docs) {
+        const splitDocs = await textSplitter.splitDocuments([doc]);
 
-      const splitDocs = await textSplitter.splitDocuments(documents);
+        const json = JSON.stringify(splitDocs);
+        await fs.promises.writeFile(`${namespace}-split.json`, json);
 
-      const json = JSON.stringify(splitDocs);
-      await fs.promises.writeFile(`${title}-split.json`, json);
-
-      const upsertChunkSize = 50;
-      for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
-        const chunk = splitDocs.slice(i, i + upsertChunkSize);
-        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
-          pineconeIndex: index,
-          namespace: namespace,
-          textKey: 'text',
-        });
+        const upsertChunkSize = 50;
+        for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
+          const chunk = splitDocs.slice(i, i + upsertChunkSize);
+          await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
+            pineconeIndex: index,
+            namespace: namespace,
+            textKey: 'text',
+          });
+        }
       }
     }
 
-    console.log('creating vector store...');
-    const embeddings = new OpenAIEmbeddings();
-    await PineconeStore.fromDocuments(docs, embeddings, {
-      pineconeIndex: index,
-      namespace: PINECONE_NAME_SPACE,
-      textKey: 'text',
-    });
+    console.log('ingestion complete');
   } catch (error) {
     console.error('Failed to ingest your data', error);
   }
@@ -82,9 +60,4 @@ export const run = async () => {
 
 (async () => {
   await run();
-  console.log('ingestion complete');
 })();
-
-
-
-

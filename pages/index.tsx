@@ -137,7 +137,7 @@ export default function Home() {
                     icon = (
                       <Image
                         key={index}
-                        src="/big-read-bear.png"
+                        src="/big-red-bear.jpeg"
                         alt="AI"
                         width="40"
                         height="40"
@@ -152,8 +152,8 @@ export default function Home() {
                         key={index}
                         src="/usericon.png"
                         alt="Me"
-                        width="30"
-                        height="30"
+                        width="40"
+                        height="40"
                         className={styles.usericon}
                         priority
                       />

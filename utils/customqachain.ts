@@ -2,6 +2,7 @@ import { OpenAIChat } from "langchain/llms/openai";
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { NAMESPACE_NUMB } from "@/config/pinecone";
 import { PINECONE_INDEX_NAME } from "@/config/pinecone";
+import { makeChain } from "@/utils/makechain";
 
 interface CustomQAChainOptions {
     returnSourceDocuments: boolean;
@@ -35,45 +36,46 @@ export class CustomQAChain {
     }
 
     public async call({ question, chat_history }: { question: string; chat_history: string }) {
-        const embeddings = new OpenAIEmbeddings();
-        const queryEmbedding = await embeddings.embedQuery(question); // Ensure the embedding is resolved
-
-        console.log(queryEmbedding);
-        if (!queryEmbedding) {
-            throw new Error("Failed to generate embedding for the question.");
-        }
-
-        const searchResults = await Promise.all(this.namespaces.map(async (namespace) => {
-          console.log('runs');
-
-          try {
-              const result = await this.index.query({
-                  queryRequest: {
-                      vector: queryEmbedding,
-                      topK: 3,
-                      includeValues: true,
-                  },
-                  namespace: 'cornellgpt', // ensure you meant to hard-code this or replace with `namespace`
-              });
-              console.log(`Query Result for ${namespace}:`, result);
-              return result;
-              
-          } catch (error) {
-              console.error(`Error querying namespace ${namespace}:`, error);
-              throw error; // or return an error message to be handled later
-          }
-        }));
-
-        return searchResults; // You may want to further process these results before returning
+      const embeddings = new OpenAIEmbeddings();
+      const queryEmbedding = await embeddings.embedQuery(question);
+  
+      if (!queryEmbedding) {
+          throw new Error("Failed to generate embedding for the question.");
       }
+  
+      // console.log("Generated Query Embedding:", queryEmbedding);
+  
+      const searchResults = await Promise.all(this.namespaces.map(async (namespace) => {
+          const result = await this.index.query({
+              queryRequest: {
+                  vector: queryEmbedding,
+                  topK: 10,
+                  includeValues: true,
+              },
+          });
+        //  console.log(`Results for namespace ${namespace}:`, result);
+          return result;
+      }));
+  
+      // Extracted text and documents
+      let extractedTexts: PineconeResultItem[] = [];
+      let sourceDocuments: any[] = [];
+  
+      searchResults.forEach((result) => {
+          if (result && result.results) {
+              const texts = result.results.map((item: PineconeResultItem) => item.value);
+              extractedTexts.push(...texts);
+          } else {
+              console.warn("No results found for a particular namespace.");
+          }
+      });
+  
+      const answer = extractedTexts.length > 0 ? extractedTexts[0].value.text : "Couldn't find an answer for your query.";
+  
+      return {
+          text: answer,
+          sourceDocuments // You can further populate this based on your requirements
+          // testing
+      };
+  }
 }
-
-
-
-
-
-
-
-
-
-
