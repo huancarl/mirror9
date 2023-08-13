@@ -10,6 +10,7 @@ interface PineconeResultItem {
         source: string;
         pageNumber: number;
         totalPages: number;
+        chapter: number;
         book: string;
     };
 }
@@ -93,6 +94,16 @@ export class CustomQAChain {
         const relevantDocs = await this.getRelevantDocs(question);
 
         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
+
+        const sourceDocuments = relevantDocs.map(vector => {
+            return {
+                text: vector.metadata.text,
+                "Source": vector.metadata.source,
+                'Page Number': vector.metadata['loc.pageNumber'],
+                'Total Pages': vector.metadata['pdf.totalPages']
+                // "Chapter": vector.metadata["chapter"]
+            };
+        });
         
         const prompt = `
 
@@ -102,9 +113,7 @@ export class CustomQAChain {
         You are expected to deliver answers that are attentive to details, precise, comprehensive, and valuable to the users. 
         Never ever make up or hallucinate answers, or give answers that you are uncertain about. 
 
-        - Do not apologize and never say you do not have access.
-
-        Questions that will be asked: ${question}.
+        Questions that will be asked will focus on: ${question}.
         
         --Contextual Understanding**:
         - You have been given access to various context texts denoted as ${contextTexts}. This context serves as a rich repository of information that you should consult and refer to when addressing questions that are specific to the context.
@@ -126,7 +135,11 @@ export class CustomQAChain {
         - Unrelated: Answer the question accurately, regardless of the context's relevance or lack thereof.
         
        ------Reference Citing:
-        - If your answer sources specific content from the context, like quotations, always incorporate the exact page number and chapter in your answer. This not only enhances credibility but also serves as a precise guide for the user.
+        - If your answer sources specific content from the context, like quotations, 
+          always incorporate the exact page number and chapter in your answer which is found in ${sourceDocuments} more specifically "Page Number" and "Source" .
+
+          This not only enhances credibility but also serves as a precise guide for the user.
+
         - Remember, repetition of the same information detracts from the user experience. Be mindful of this.
         - Whenever it is possible to reference where in the contexts you found your answer, you must cite them, and tell the user where they can find that exact information. Remember to
         be specific, accurate and detailed.
@@ -136,6 +149,7 @@ export class CustomQAChain {
         
         -----Engagement Tone:
         - Your interactions should exude positivity. Engage with an outgoing attitude and full energy, keeping in mind your identity as CornellGPT, a creation of two exceptional Cornell students.
+        Never apologize and do not say you sorry, never say you do not have access to specific content. This is very important.
 
         -----Feedback Queries**:
         - If a query lacks explicitness or if you believe that the provided context does not cover the specifics of the question, proactively ask for more details. 
@@ -163,8 +177,8 @@ export class CustomQAChain {
         `;
           // Create multiple models with different parameters
   const models = [{
-      temperature: 0, 
-      modelName: 'gpt-3.5-turbo',
+      temperature: 0.2, 
+      modelName: 'gpt-3.5-turbo-16k-0613',
     },
     // Add more models with different parameters here if you want to create an ensemble
   ];
@@ -173,14 +187,6 @@ export class CustomQAChain {
         let response = await this.model.predict(prompt);
 
         response = this.sanitizeResponse(response)
-
-        const sourceDocuments = relevantDocs.map(vector => {
-            return {
-                text: vector.metadata.text,
-                'loc.pageNumber': vector.metadata['loc.pageNumber'],
-                'pdf.totalPages': vector.metadata['pdf.totalPages']
-            };
-        });
 
         return {
             text: response,  // This is the result from GPT
