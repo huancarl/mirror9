@@ -20,14 +20,14 @@ import { extractTitlesFromQuery } from "@/utils/helpers";
 
 async function run() {
     const model = new OpenAIChat({
-        temperature: 0.2,
-        modelName: 'gpt-3.5-turbo-16k-0613',
+        temperature: 0.1,
+        modelName: 'gpt-3.5-turbo',
         cache: true,
     });
 
     
     //Process user query
-    const userQuery = 'Summarize chapter 23:Voting and give me 5 quotation from this chapter.'
+    const userQuery = 'Can you explain the Median Voter Theorem and where I can find it? '
 
     const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
 

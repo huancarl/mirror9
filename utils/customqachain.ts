@@ -177,8 +177,8 @@ export class CustomQAChain {
         `;
           // Create multiple models with different parameters
   const models = [{
-      temperature: 0.2, 
-      modelName: 'gpt-3.5-turbo-16k-0613',
+      temperature: 0.1, 
+      modelName: 'gpt-3.5-turbo',
     },
     // Add more models with different parameters here if you want to create an ensemble
   ];
