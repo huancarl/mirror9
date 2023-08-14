@@ -17,9 +17,9 @@ import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
 
 //Process user query
-const userQuery = 'Tell me about probability'
+const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?'
 
-const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
+const availableTextbooks = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
 
 const fewShotPrompt = `(
 
@@ -27,8 +27,8 @@ const fewShotPrompt = `(
 
   Your mission is to furnish accurate, detailed, and educational answers by referring to specified textbook material when asked a question that is relevant to the material.
   Here are the refined guidelines for your operation:
-  
-  ---Available Textbooks: [${availableTitles}].
+
+  ---Available Textbooks: [${availableTextbooks}].
   
   -----Detailed Instructions**:
   1. Parse the user's query for subject hints or explicit textbook mentions.
@@ -43,10 +43,12 @@ const fewShotPrompt = `(
 
   6. Do not give false answers or makeup answers.
 
-  7. If the the question has no relevance at all with ${availableTitles}, then you do not need to analyze the material. Instead answer with accuracy, precision and detail
+  7. If the the question has no relevance at all with ${availableTextbooks}, then you do not need to analyze the material. Instead answer with accuracy, precision and detail
   without analyzing the material.
   
   ----Enhanced Example Responses:
+  Query = ${userQuery}
+
   - Query: "Can you elucidate on network structures and their importance?" 
     Response: "Searching the Networks textbook..."
   
@@ -68,7 +70,6 @@ const fewShotPrompt = `(
   - Query: "Can you please tell me about Albert Einsteins Work?"
     Response: "Albert Einsteins work is centered around...."
   )`
-
 
 export default async function handler(
   req: NextApiRequest,

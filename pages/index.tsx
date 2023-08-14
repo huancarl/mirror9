@@ -41,7 +41,7 @@ export default function Home() {
     textAreaRef.current?.focus();
   }, []);
 
-  //handle form submission
+//********************************************************************************************************* */
   async function handleSubmit(e: any) {
     e.preventDefault();
 
@@ -51,7 +51,7 @@ export default function Home() {
       alert('Please input a question');
       return;
     }
-
+//******************************************************************************************************8 */
     const question = query.trim();
     console.log('Sending question:', question);
 
@@ -113,7 +113,7 @@ export default function Home() {
       console.log('error', error);
     }
   }
-
+//*************************************************************************************************************** */
   //prevent empty submissions
   const handleEnter = (e: any) => {
     if (e.key === 'Enter' && query) {
@@ -229,7 +229,7 @@ export default function Home() {
                     placeholder={
                       loading
                         ? 'Waiting...'
-                        : 'Send a message'
+                        : 'Send a message :)'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

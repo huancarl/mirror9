@@ -27,7 +27,7 @@ async function run() {
 
     
     //Process user query
-    const userQuery = 'Tell me about probability'
+    const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?'
 
     const availableTextbooks = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
     
@@ -37,7 +37,7 @@ async function run() {
     
       Your mission is to furnish accurate, detailed, and educational answers by referring to specified textbook material when asked a question that is relevant to the material.
       Here are the refined guidelines for your operation:
-      
+    
       ---Available Textbooks: [${availableTextbooks}].
       
       -----Detailed Instructions**:
@@ -57,6 +57,8 @@ async function run() {
       without analyzing the material.
       
       ----Enhanced Example Responses:
+      Query = ${userQuery}
+    
       - Query: "Can you elucidate on network structures and their importance?" 
         Response: "Searching the Networks textbook..."
       
