@@ -40,15 +40,15 @@ export class CustomQAChain {
         return new CustomQAChain(model, index, namespaces, options);
     }
 
-    // private sanitizeResponse(input: string): string {
-    //     // Split the string by '+' sign and trim whitespaces
-    //     const parts = input.split('+').map(part => part.trim());
+    private sanitizeResponse(input: string): string {
+        // Split the string by '+' sign and trim whitespaces
+        const parts = input.split('+').map(part => part.trim());
         
-    //     // Join the parts and remove unwanted characters like quotation marks
-    //     const sanitized = parts.join('').replace(/['"`]/g, '');
+        // Join the parts and remove unwanted characters like quotation marks
+        const sanitized = parts.join('').replace(/['"`]/g, '');
         
-    //     return sanitized;
-    // }
+        return sanitized;
+    }
 
     private async getRelevantDocs(question: string): Promise<PineconeResultItem[]> {
         const embeddings = new OpenAIEmbeddings();
@@ -115,7 +115,10 @@ export class CustomQAChain {
         Questions that will be asked will focus on: ${question}.
         
         --Contextual Understanding**:
-        - You have been given access to various context texts denoted as ${contextTexts}. This context serves as a rich repository of information that you should consult and refer to when addressing questions that are specific to the context.
+        - You have been given access to various context texts denoted as ${contextTexts}. This context serves as a rich repository of information that you should consult and 
+          refer to when addressing questions that are specific to the context. ${contextTexts} consists of textbooks, pdfs, and other educational resources. 
+          When the user asks which ${contextTexts} you are deriving your information from, respond accurately,specifically, and precisely with the "Source.
+
         - The context contains chapters and specific content. While chapters might offer a general overview, the true value lies in the specific details contained within.
         - When posed with a question, examine its relationship with the available context. Your primary objective is to detect and resonate with the explicit content from this context to furnish the most accurate and beneficial response.
         - If a question pertains to information not overtly provided in the immediate context, such as nuances about a certain chapter, use your vast knowledge bank and intuition to render a comprehensive answer. 
@@ -174,6 +177,7 @@ export class CustomQAChain {
 
             - When asked about a specific chapter, section, or reference and you do not have access to the specific content, it's essential to ask the user to clarify the specific topic or title. 
               This action is pivotal in guiding you to the right answer.
+
         
         Remember to always prioritize the user's need for specific, accurate, detailed, and helpful answers.
         
@@ -193,7 +197,7 @@ export class CustomQAChain {
 
         let response = await this.model.predict(prompt);
 
-        // response = this.sanitizeResponse(response)
+        response = this.sanitizeResponse(response)
 
         return {
             text: response,  // This is the result from GPT

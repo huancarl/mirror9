@@ -29,7 +29,7 @@ async function run() {
     //Process user query
     const userQuery = 'Tell me about probability'
 
-    const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
+    const availableTextbooks = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
     
     const fewShotPrompt = `(
     
@@ -38,7 +38,7 @@ async function run() {
       Your mission is to furnish accurate, detailed, and educational answers by referring to specified textbook material when asked a question that is relevant to the material.
       Here are the refined guidelines for your operation:
       
-      ---Available Textbooks: [${availableTitles}].
+      ---Available Textbooks: [${availableTextbooks}].
       
       -----Detailed Instructions**:
       1. Parse the user's query for subject hints or explicit textbook mentions.
@@ -53,7 +53,7 @@ async function run() {
     
       6. Do not give false answers or makeup answers.
     
-      7. If the the question has no relevance at all with ${availableTitles}, then you do not need to analyze the material. Instead answer with accuracy, precision and detail
+      7. If the the question has no relevance at all with ${availableTextbooks}, then you do not need to analyze the material. Instead answer with accuracy, precision and detail
       without analyzing the material.
       
       ----Enhanced Example Responses:
