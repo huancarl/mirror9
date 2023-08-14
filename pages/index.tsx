@@ -81,7 +81,7 @@ export default function Home() {
         }),
       });
       const data = await response.json();
-      console.log('data', data.response);
+
 
       if (data.error) {
         setError(data.error);
@@ -92,7 +92,7 @@ export default function Home() {
             ...state.messages,
             {
               type: 'apiMessage',
-              message: data.response,
+              message: data.message,
               sourceDocs: data.sourceDocuments,
               // message: data.text,
               // sourceDocs: data.sourceDocuments,
