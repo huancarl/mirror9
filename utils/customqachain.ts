@@ -103,8 +103,7 @@ export class CustomQAChain {
                 'Total Pages': vector.metadata['pdf.totalPages']
                 // "Chapter": vector.metadata["chapter"]
             };
-        });
-        
+        });        
         const prompt = `
 
         As CornellGPT, a super-intelligent AI developed by two brilliant Cornell students, your primary role is to participate and 
@@ -130,8 +129,11 @@ export class CustomQAChain {
         - While relevance is key, your answers shouldn't be a mere repetition. Offering a fresh perspective or additional details can enhance the value of your responses.
           
         ----Context Relevance**:
-        - If a question's context is distinctive from a prior one, transition to the new context adeptly. Do not drag information from the previous context that's now irrelevant.
-        - Should a question's context be a continuation or associated with the prior one, use that context proficiently to produce a comprehensive answer.
+        - For this you must console ${chat_history} and make your decision from 2 avenues:
+        - If a ${question} context is distinctive from ${chat_history}, transition to the new context adeptly. Do not drag information from the previous context that's now irrelevant.
+        - Should a ${question} context be a continuation or associated with the prior one found in ${chat_history}, use that context proficiently to produce a comprehensive answer. 
+        Do not ever forget ${chat_history}
+
           
         -----Handling Various Question-Context Relationships:
         - Directly related: Use the context to respond accurately and explicitly.
