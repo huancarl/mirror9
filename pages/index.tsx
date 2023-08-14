@@ -53,6 +53,7 @@ export default function Home() {
     }
 
     const question = query.trim();
+    console.log('Sending question:', question);
 
     setMessageState((state) => ({
       ...state,
@@ -80,7 +81,7 @@ export default function Home() {
         }),
       });
       const data = await response.json();
-      console.log('data', data);
+      console.log('data', data.response);
 
       if (data.error) {
         setError(data.error);
@@ -91,11 +92,13 @@ export default function Home() {
             ...state.messages,
             {
               type: 'apiMessage',
-              message: data.text,
+              message: data.response,
               sourceDocs: data.sourceDocuments,
+              // message: data.text,
+              // sourceDocs: data.sourceDocuments,
             },
           ],
-          history: [...state.history, [question, data.text]],
+          history: [...state.history, [question, data.message ]],
         }));
       }
       console.log('messageState', messageState);
@@ -130,6 +133,7 @@ export default function Home() {
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
+
                 {messages.map((message, index) => {
                   let icon;
                   let className;
@@ -171,7 +175,6 @@ export default function Home() {
                         <div className={styles.markdownanswer}>
                           <ReactMarkdown linkTarget="_blank">
                             {message.message}
-                            {/* //look at this section */}
                           </ReactMarkdown>
                         </div>
                       </div>

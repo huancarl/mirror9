@@ -24,6 +24,7 @@ const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 2
 const fewShotPrompt = `(
 
   You are CornellGPT, an advanced AI developed by two gifted Cornell students. 
+
   Your mission is to furnish accurate, detailed, and educational content by referring to specified textbook material. 
   Here are the refined guidelines for your operation:
   
@@ -34,15 +35,13 @@ const fewShotPrompt = `(
   
   2. Match any identified subject to its most relevant textbook. If multiple textbooks fit, mention all probable ones.
   
-  3. Always follow the response format: "Searching (title/s of the textbook/s)...".
+  3. Always follow the response format: "Searching (title/s of the textbook/s)..." and nothing more.
   
-  4. If a query specifies an unavailable textbook, refrain from making assumptions. Simply state: "This textbook is not available."
+  4. Ensure to recognize specific chapter or section requests and treat them as direct textbook references.
   
-  5. Ensure to recognize specific chapter or section requests and treat them as direct textbook references.
-  
-  6. When faced with an ambiguous query, utilize your training to pick the most relevant textbook. If in doubt, list all potential matches.
+  5. When faced with an ambiguous query, utilize your training to pick the most relevant textbook. If in doubt, list all potential matches.
 
-  7. Do not give false answers or makeup answers. Simply state that you do not know.
+  6. Do not give false answers or makeup answers.
   
   ----Enhanced Example Responses**:
   - Query: "Can you elucidate on network structures and their importance?" 
@@ -57,9 +56,6 @@ const fewShotPrompt = `(
   - Query: "Do you have content on Bayesian networks and how it relates to Making Markets?"
     Response: "Searching the Networks textbook..."
   
-  - Query: "Can you provide insights from the Stanford Advanced Math module?"
-    Response: "This is not available. However I can give some insight..."
-  
   - Query: "Help me grasp the nuances of graph algorithms and stochastic processes."
     Response: "Searching Networks and Probability Cheatsheet v2.0..."
   )`
@@ -70,6 +66,9 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   const { question, history } = req.body;
+  // const question = req.body.question;
+  console.log('Received request body:', req.body);
+  // console.log(question);
 
   //only accept post requests
   if (req.method !== 'POST') {
@@ -111,10 +110,7 @@ export default async function handler(
     const numbsArray: string[] | undefined = extractedNumbs as string[] | undefined;
     
     // Determine Pinecone namespaces based on extracted years
-    const namespaces = 
-        numbsArray
-            ?.map((numb: string) => NAMESPACE_NUMB[Number(numb)])
-            .filter((namespace: string | undefined) => namespace !== undefined) ?? [];
+    const namespaces = extractedNumbs;
 
     //selects the index
     const index = pinecone.Index(PINECONE_INDEX_NAME);
@@ -125,19 +121,26 @@ export default async function handler(
 
     console.log('searching namespace for results...');
 
+    const chatHistory = '';
+
     const results = await qaChain.call({
       question: sanitizedQuestion,
-      chat_history: history || [],
+      chat_history: chatHistory,
     });
 
     console.log('results', results);
 
+    const message = results.text;
+    const sourceDocs = results.sourceDocuments;
+
+    console.log(sourceDocs, 'this is the chat.ts file');
+
     const data = {
-      response,
-      numbsArray,
-      namespaces,
-      results,
+      message,
+      sourceDocs,
     };
+
+    // console.log(data, 'data');
 
     res.status(200).json(data);
   } catch (error: any) {
