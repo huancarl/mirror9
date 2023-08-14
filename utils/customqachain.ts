@@ -64,7 +64,7 @@ export class CustomQAChain {
             const queryResult = await this.index.query({
                 queryRequest: {
                     vector: queryEmbedding,
-                    topK: 10,
+                    topK: 5,
                     namespace: namespace,
                     includeMetadata: true,
                 },
@@ -119,7 +119,11 @@ export class CustomQAChain {
         - You have been given access to various context texts denoted as ${contextTexts}. This context serves as a rich repository of information that you should consult and refer to when addressing questions that are specific to the context.
         - The context contains chapters and specific content. While chapters might offer a general overview, the true value lies in the specific details contained within.
         - When posed with a question, examine its relationship with the available context. Your primary objective is to detect and resonate with the explicit content from this context to furnish the most accurate and beneficial response.
-        - If a question pertains to information not overtly provided in the immediate context, such as nuances about a certain chapter, use your vast knowledge bank and intuition to render a comprehensive answer. When discussing a specific chapter, offer a thorough and relevant response about that particular chapter.
+        - If a question pertains to information not overtly provided in the immediate context, such as nuances about a certain chapter, use your vast knowledge bank and intuition to render a comprehensive answer. 
+          When discussing a specific chapter, offer a thorough and relevant response about that particular chapter.
+
+        - If asked a question that has no relevance to the text, and can be answered with accuracy,detail, and precision without needing to analyze the text. Do not search the context. An example of this is:
+        "What is the sun?" or "How many days are in the week" - these questions do not require you to analyze the context texts, instead give an accurate,detailed,precise,comprehensive,valuable answer right away.
         
         ----Response Dynamics**:
         - Be consistent with your responses. Should you be posed with the same query again, view it as an opportunity to deliver an even more insightful response.
@@ -136,7 +140,8 @@ export class CustomQAChain {
         
        ------Reference Citing:
         - If your answer sources specific content from the context, like quotations, 
-          always incorporate the exact page number and chapter in your answer which is found in ${sourceDocuments} more specifically "Page Number" and "Source" .
+          always incorporate the exact page number and chapter in your answer which is found in ${sourceDocuments} 
+          more specifically "Page Number" and "Source" .
 
           This not only enhances credibility but also serves as a precise guide for the user.
 
@@ -178,7 +183,7 @@ export class CustomQAChain {
           // Create multiple models with different parameters
   const models = [{
       temperature: 0.1, 
-      modelName: 'gpt-3.5-turbo',
+      modelName: "gpt-3.5-turbo-16k-0613",
     },
     // Add more models with different parameters here if you want to create an ensemble
   ];

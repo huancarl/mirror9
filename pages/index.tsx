@@ -143,8 +143,8 @@ export default function Home() {
                         key={index}
                         src="/big-red-bear.jpeg"
                         alt="AI"
-                        width="40"
-                        height="40"
+                        width="50"
+                        height="50"
                         className={styles.boticon}
                         priority
                       />
@@ -156,8 +156,8 @@ export default function Home() {
                         key={index}
                         src="/usericon.png"
                         alt="Me"
-                        width="40"
-                        height="40"
+                        width="45"
+                        height="45"
                         className={styles.usericon}
                         priority
                       />
