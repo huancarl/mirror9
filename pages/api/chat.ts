@@ -130,11 +130,11 @@ export default async function handler(
 
     console.log('searching namespace for results...');
 
-    const chatHistory = '';
+
 
     const results = await qaChain.call({
       question: sanitizedQuestion,
-      chat_history: chatHistory,
+      chat_history: history,
     });
 
     console.log('results', results);

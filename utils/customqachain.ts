@@ -40,15 +40,15 @@ export class CustomQAChain {
         return new CustomQAChain(model, index, namespaces, options);
     }
 
-    private sanitizeResponse(input: string): string {
-        // Split the string by '+' sign and trim whitespaces
-        const parts = input.split('+').map(part => part.trim());
+    // private sanitizeResponse(input: string): string {
+    //     // Split the string by '+' sign and trim whitespaces
+    //     const parts = input.split('+').map(part => part.trim());
         
-        // Join the parts and remove unwanted characters like quotation marks
-        const sanitized = parts.join('').replace(/['"`]/g, '');
+    //     // Join the parts and remove unwanted characters like quotation marks
+    //     const sanitized = parts.join('').replace(/['"`]/g, '');
         
-        return sanitized;
-    }
+    //     return sanitized;
+    // }
 
     private async getRelevantDocs(question: string): Promise<PineconeResultItem[]> {
         const embeddings = new OpenAIEmbeddings();
@@ -193,7 +193,7 @@ export class CustomQAChain {
 
         let response = await this.model.predict(prompt);
 
-        response = this.sanitizeResponse(response)
+        // response = this.sanitizeResponse(response)
 
         return {
             text: response,  // This is the result from GPT
