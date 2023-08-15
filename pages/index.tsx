@@ -21,7 +21,7 @@ export default function Home() {
     messages: Message[];
     pending?: string;
     history: [string, string][];
-    pendingSourceDocs?: Document[];
+    pendingSourceDocs?: any;
   }>({
     messages: [
       {
@@ -82,10 +82,14 @@ export default function Home() {
       });
       const data = await response.json();
 
+      console.log(messages, 'is messages');
+      console.log(data.sourceDocs, 'is sourceDocs');
+      
 
       if (data.error) {
         setError(data.error);
       } else {
+
         setMessageState((state) => ({
           ...state,
           messages: [
@@ -93,7 +97,8 @@ export default function Home() {
             {
               type: 'apiMessage',
               message: data.message,
-              sourceDocs: data.sourceDocuments,
+              sourceDocs: data.sourceDocs,
+              // sourceDocs: data.sourceDocs,
               // message: data.text,
               // sourceDocs: data.sourceDocuments,
             },
@@ -188,7 +193,7 @@ export default function Home() {
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.map((doc, index) => (
+                            {message.sourceDocs.map((doc: any, index) => (
                               <div key={`messageSourceDocs-${index}`}> 
                               {/* //look at this section */}
                                 <AccordionItem value={`item-${index}`}>
@@ -197,10 +202,16 @@ export default function Home() {
                                   </AccordionTrigger>
                                   <AccordionContent>
                                     <ReactMarkdown linkTarget="_blank">
-                                      {doc.pageContent}
+                                      {doc.text}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> {doc.metadata.source}
+                                      <b>Source:</b> {doc.Source}
+                                    </p>
+                                    <p>
+                                      <b> Page number: </b> {doc.Page_Number}
+                                    </p>
+                                    <p>
+                                      <b> Total Pages: </b> {doc.Total_Pages}
                                     </p>
                                   </AccordionContent>
                                 </AccordionItem>

@@ -101,8 +101,8 @@ export class CustomQAChain {
             return {
                 text: vector.metadata.text,
                 "Source": vector.metadata.source,
-                'Page Number': vector.metadata['loc.pageNumber'],
-                'Total Pages': vector.metadata['pdf.totalPages']
+                'Page_Number': vector.metadata['loc.pageNumber'],
+                'Total_Pages': vector.metadata['pdf.totalPages']
                 // "Chapter": vector.metadata["chapter"]
             };
 
