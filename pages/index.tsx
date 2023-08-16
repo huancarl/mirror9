@@ -51,7 +51,7 @@ export default function Home() {
       alert('Please input a question');
       return;
     }
-//******************************************************************************************************8 */
+    
     const question = query.trim();
     console.log('Sending question:', question);
 
@@ -205,7 +205,7 @@ export default function Home() {
                                       {doc.text}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                      <b>Source:</b> {doc.Source}
+                                    <b>Source:</b> {doc.Source.split('/').pop()}
                                     </p>
                                     <p>
                                       <b> Page number: </b> {doc.Page_Number}

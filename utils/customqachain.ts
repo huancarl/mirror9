@@ -1,3 +1,69 @@
+//     // private async history_relevance(question: string, chat_history: string): Promise<'relevant' | 'distinct'> {
+//     //     const embeddings = new OpenAIEmbeddings();
+        
+//     //     const questionEmbedding = await embeddings.embedQuery(question);
+    
+//     //     // Check for chat_history content before embedding
+//     //     let historyEmbedding;
+//     //     if (typeof chat_history === 'string' && chat_history.trim()) {
+//     //         historyEmbedding = await embeddings.embedQuery(chat_history);
+//     //     } else {
+//     //         return 'distinct';  // Return distinct directly if chat history is not a string or is empty
+//     //     }
+//     //     // Calculate cosine similarity between the two embeddings
+//     //     const similarity = this.calculateCosineSimilarity(questionEmbedding, historyEmbedding);
+    
+//     //     // If similarity is above a certain threshold, consider them related
+//     //     const threshold = 0.85;  // This threshold can be fine-tuned based on your needs
+//     //     if (similarity > threshold) {
+//     //         return 'relevant';
+//     //     } else {
+//     //         return 'distinct';
+//     //     }
+//     // }
+    
+//     // private calculateCosineSimilarity(vecA: number[], vecB: number[]): number {
+//     //     const dotProduct = vecA.reduce((sum, a, index) => sum + a * vecB[index], 0);
+//     //     const magA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
+//     //     const magB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
+//     //     return dotProduct / (magA * magB);
+//     // }
+    
+
+//     public async call({ question, chat_history = ''}: { question: string; chat_history?: string }) {
+//         const relevantDocs = await this.getRelevantDocs(question);
+    
+//         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
+    
+//         const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
+    
+//         const sourceDocuments = relevantDocs.map(vector => {
+//             return {
+//                 text: vector.metadata.text,
+//                 "Source": vector.metadata.source,
+//                 'Page Number': vector.metadata['loc.pageNumber'],
+//                 'Total Pages': vector.metadata['pdf.totalPages']
+//                 // "Chapter": vector.metadata["chapter"]
+//             };
+//         });
+    
+//         // const relevance = await this.history_relevance(question, chat_history);
+//         // let relevanceInstruction = '';
+//         // if (relevance === 'relevant') {
+//         //     // Handle the case where the question is related to the chat history
+//         //     relevanceInstruction = `
+//         //     Given the chat history, the context of the current question appears to be relevant. 
+//         //     Ensure that your response aligns with the preceding conversation.`
+//         //     ;
+//         // } else {
+//         //     // Handle the case where the question is distinct from the chat history
+//         //     relevanceInstruction = `
+//         //     Given the chat history, the context of the current question appears to be distinct. 
+//         //     You should transition adeptly to this new context without dragging information 
+//         //     from the previous conversation that's now irrelevant.`
+//         //     ;
+//         // }    
+
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAIChat } from "langchain/llms/openai";
 
@@ -90,7 +156,7 @@ export class CustomQAChain {
         return fetchedTexts;
     }
 
-    public async call({ question, chat_history }: { question: string; chat_history: string }) {
+    public async call({ question, chat_history }: { question: string; chat_history?: string }) {
         const relevantDocs = await this.getRelevantDocs(question);
 
         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
@@ -186,8 +252,8 @@ export class CustomQAChain {
         `;
           // Create multiple models with different parameters
     const models = [{
-        temperature: 0.1, 
-        modelName: "gpt-3.5-turbo-16k-0613",
+        temperature: 0.2, 
+        modelName: "gpt-4",
     },
     // Add more models with different parameters here if you want to create an ensemble
   ];
