@@ -29,71 +29,6 @@
 //     //     return dotProduct / (magA * magB);
 //     // }
     
-//     public async call({ question, chat_history = ''}: { question: string; chat_history?: string }) {
-//         const relevantDocs = await this.getRelevantDocs(question);
-    
-//         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
-    
-//         const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
-    
-//         const sourceDocuments = relevantDocs.map(vector => {
-//             return {
-//                 text: vector.metadata.text,
-//                 "Source": vector.metadata.source,
-//                 'Page Number': vector.metadata['loc.pageNumber'],
-//                 'Total Pages': vector.metadata['pdf.totalPages']
-//                 // "Chapter": vector.metadata["chapter"]
-//             };
-//         });
-    
-//         // const relevance = await this.history_relevance(question, chat_history);
-//         // let relevanceInstruction = '';
-//         // if (relevance === 'relevant') {
-//         //     // Handle the case where the question is related to the chat history
-//         //     relevanceInstruction = `
-//         //     Given the chat history, the context of the current question appears to be relevant. 
-//         //     Ensure that your response aligns with the preceding conversation.`
-//         //     ;
-//         // } else {
-//         //     // Handle the case where the question is distinct from the chat history
-//         //     relevanceInstruction = `
-//         //     Given the chat history, the context of the current question appears to be distinct. 
-//         //     You should transition adeptly to this new context without dragging information 
-//         //     from the previous conversation that's now irrelevant.`
-//         //     ;
-//         // }    
-
-//     // private async history_relevance(question: string, chat_history: string): Promise<'relevant' | 'distinct'> {
-//     //     const embeddings = new OpenAIEmbeddings();
-        
-//     //     const questionEmbedding = await embeddings.embedQuery(question);
-    
-//     //     // Check for chat_history content before embedding
-//     //     let historyEmbedding;
-//     //     if (typeof chat_history === 'string' && chat_history.trim()) {
-//     //         historyEmbedding = await embeddings.embedQuery(chat_history);
-//     //     } else {
-//     //         return 'distinct';  // Return distinct directly if chat history is not a string or is empty
-//     //     }
-//     //     // Calculate cosine similarity between the two embeddings
-//     //     const similarity = this.calculateCosineSimilarity(questionEmbedding, historyEmbedding);
-    
-//     //     // If similarity is above a certain threshold, consider them related
-//     //     const threshold = 0.85;  // This threshold can be fine-tuned based on your needs
-//     //     if (similarity > threshold) {
-//     //         return 'relevant';
-//     //     } else {
-//     //         return 'distinct';
-//     //     }
-//     // }
-    
-//     // private calculateCosineSimilarity(vecA: number[], vecB: number[]): number {
-//     //     const dotProduct = vecA.reduce((sum, a, index) => sum + a * vecB[index], 0);
-//     //     const magA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
-//     //     const magB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
-//     //     return dotProduct / (magA * magB);
-//     // }
-    
 
 //     public async call({ question, chat_history = ''}: { question: string; chat_history?: string }) {
 //         const relevantDocs = await this.getRelevantDocs(question);
@@ -221,10 +156,13 @@ export class CustomQAChain {
         return fetchedTexts;
     }
 
-    public async call({ question, chat_history }: { question: string; chat_history: string }) {
+    public async call({ question, chat_history }: { question: string; chat_history?: string }) {
         const relevantDocs = await this.getRelevantDocs(question);
 
         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
+        console.log(relevantDocs, 'this is relevantDocs');
+        console.log(relevantDocs.length, 'is the length of relevantDocs');
+        console.log(contextTexts, 'is context texts');
 
         const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
 
@@ -249,9 +187,8 @@ export class CustomQAChain {
         Questions that will be asked are: ${question}.
         
         --Contextual Understanding**:
-        - You have access and deep knowledge about various specific content denoted as ${contextTexts}. This context serves as a rich repository of information that you should consult and 
-          refer to when addressing questions that are specific to the context. ${contextTexts} consists of textbooks, course-specific content, and other educational resources. 
-          When the user asks which ${contextTexts} you are deriving your information from, respond simply with which of the ${contextTexts} you are referring to. 
+        - You have access and deep knowledge about various specific content denoted as ${contextTexts}. The specific 
+          textbooks you have access to are ${availableTitles}
 
         - The context contains chapters and specific content. While chapters might offer a general overview, the true value lies in the specific details contained within.
         - When posed with a question, examine its relationship with the available context. Your primary objective is to detect and resonate with the explicit content from this context to furnish the most accurate and beneficial response.
@@ -274,19 +211,18 @@ export class CustomQAChain {
         -----Handling Various Question-Context Relationships:
         - Directly related: Use the context to respond accurately,precisely, and explicitly.
         - Somewhat related: Even if the context isn't an exact match, provide the most informed response using both context and intuition.
-        - Unrelated: Answer the question accurately, regardless of the context's relevance or lack thereof. Give your best response regardless.
+        - Unrelated: Answer the question accurately, regardless of the context's relevance or lack thereof.
         
        ------Reference Citing:
         - If your answer sources specific content from the context, like quotations, 
           always incorporate the exact page number and chapter in your answer which is found in ${sourceDocuments} 
           more specifically "Page Number" and "Source" .This not only enhances credibility but also serves as a precise guide for the user.
-
         - Remember, repetition of the same information detracts from the user experience. Be mindful of this.
         - Whenever it is possible to reference where in the contexts you found your answer, you must cite them specifically, 
           and tell the user where they can find that exact information. Remember to be specific, accurate and detailed.
         
         -----In Ambiguity:
-        - When faced with a question where the context isn't clear-cut. Do your best to give an accurate and detailed answer regardless.
+        - When faced with a question where the context isn't clear-cut, lean towards the most probable context. Your vast training data should guide this decision.
         
         -----Feedback Queries**:
         - If a query lacks explicitness or if you believe that the provided context does not cover the specifics of the question, proactively ask for more details. 
@@ -300,13 +236,10 @@ export class CustomQAChain {
               in their educational journey. Do not be afraid to ask questions that will guide you to the right answer.
 
               - Query: "Can you explain Chapter 10 in the Networks textbook?" 
-              Response: "Certainly! Could you specify the title or main topic within Chapter 10 so I can assist you in the best way possible?"
+              Response: "Certainly! Could you specify the title or main topic of Chapter 10 so I can assist you in the best way possible?"
 
-            - When asked about a specific chapter, section, or reference and you do not have access to the specific content, 
-              it's essential to ask the user to clarify the specific topic or title. This action is pivotal in guiding you to the right answer.
-
-        ----Formatting:
-        -Whenever you are writing any type of code use markdown format so the user can easily read and copy the code******//need to edit
+            - When asked about a specific chapter, section, or reference and you do not have access to the specific content, it's essential to ask the user to clarify the specific topic or title. 
+              This action is pivotal in guiding you to the right answer.
         
         -----Engagement Tone:
         - Your interactions should exude positivity. Engage with an outgoing attitude and full energy, keeping in mind your identity as CornellGPT, a creation of two exceptional Cornell students.
@@ -321,8 +254,8 @@ export class CustomQAChain {
         `;
           // Create multiple models with different parameters
     const models = [{
-        temperature: 0.1, 
-        modelName: "gpt-3.5-turbo-16k-0613",
+        temperature: 0.2,
+        modelName: "gpt-4",
     },
     // Add more models with different parameters here if you want to create an ensemble
   ];
@@ -331,6 +264,8 @@ export class CustomQAChain {
         let response = await this.model.predict(prompt);
 
         response = this.sanitizeResponse(response)
+
+        console.log(prompt.length, 'length of prompt')
 
         return {
             text: response,  // This is the result from GPT

@@ -88,7 +88,7 @@ export default async function handler(
   try {
     const model = new OpenAIChat({
       temperature: 0.1,
-      modelName: "gpt-3.5-turbo-16k-0613",
+      modelName: "gpt-4",
       cache: true,
     });
 
