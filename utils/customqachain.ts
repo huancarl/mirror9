@@ -160,11 +160,11 @@ export class CustomQAChain {
         const relevantDocs = await this.getRelevantDocs(question);
 
         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
-        console.log(relevantDocs, 'this is relevantDocs');
-        console.log(relevantDocs.length, 'is the length of relevantDocs');
-        console.log(contextTexts, 'is context texts');
+        // console.log(relevantDocs, 'this is relevantDocs');
+        // console.log(relevantDocs.length, 'is the length of relevantDocs');
+        // console.log(contextTexts, 'is context texts');
 
-        const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
+        const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, INFO 2950 Syllabus`;
 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
@@ -248,6 +248,7 @@ export class CustomQAChain {
         Remember to always prioritize the user's need for specific, accurate, detailed, and helpful answers.
         
         Context: {context}
+        Chat History: ${chat_history}
         Question: ${question}
         Response:
         
@@ -265,7 +266,7 @@ export class CustomQAChain {
 
         response = this.sanitizeResponse(response)
 
-        console.log(prompt.length, 'length of prompt')
+        console.log(prompt.length, 'length of prompt');
 
         return {
             text: response,  // This is the result from GPT

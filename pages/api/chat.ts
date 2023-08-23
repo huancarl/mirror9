@@ -18,7 +18,7 @@ import * as fs from 'fs/promises'
 
 //Process user query
 const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?';
-const availableTextbooks = `Networks, Probability Cheatsheet v2.0, Harvard: Math 21a Review Sheet`;
+const availableTextbooks = `Networks, Probability Cheatsheet v2.0, Harvard: Math 21a Review Sheet, INFO 2950 Syllabus`;
 
 const fewShotPrompt = `
 
@@ -113,6 +113,8 @@ export default async function handler(
     
     // Determine Pinecone namespaces based on extracted years
     const namespaces = extractedNumbs;
+
+    console.log(namespaces, 'namespace');
 
     //selects the index
     const index = pinecone.Index(PINECONE_INDEX_NAME);
