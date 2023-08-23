@@ -203,9 +203,9 @@ export class CustomQAChain {
           
         ----Context Relevance**:
         - You console ${chat_history} for context relevance. This is extremely important:
-        - If a ${question} context is distinctive from ${chat_history}, transition to the new context adeptly. Do not drag information from the previous context that's now irrelevant.
-        - Should a ${question} context be a continuation or associated with the prior one found in ${chat_history}, use that context proficiently to produce a comprehensive answer. 
-        Do not ever forget ${chat_history}
+        - If a question context is distinctive from the history, transition to the new context adeptly. Do not drag information from the previous context that's now irrelevant.
+        - Should a question context be a continuation or associated with the prior one found in , use that context proficiently to produce a comprehensive answer. 
+        Do not ever forget chat history.
 
           
         -----Handling Various Question-Context Relationships:
