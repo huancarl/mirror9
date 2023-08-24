@@ -149,7 +149,12 @@ export class CustomQAChain {
                     namespace: namespace
                 });
                 const vectorsArray: PineconeResultItem[] = Object.values(fetchResponse.vectors) as PineconeResultItem[];
-                fetchedTexts.push(...vectorsArray);
+                if(fetchedTexts.length < 5){
+                    fetchedTexts.push(...vectorsArray);
+                }
+                else{
+                    break;
+                }
             }
         }
 
