@@ -205,7 +205,7 @@ export default function Home() {
                                       {doc.text}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                    <b>Source:</b> {doc.Source.split('/').pop()}
+                                    <b>Source:</b> {doc.Source.split('/').pop()} 
                                     </p>
                                     <p>
                                       <b> Page number: </b> {doc.Page_Number}
@@ -234,7 +234,7 @@ export default function Home() {
                     ref={textAreaRef}
                     autoFocus={false}
                     rows={1}
-                    maxLength={800} // input size adjustment***
+                    maxLength={512} // input size adjustment***
                     id="userInput"
                     name="userInput"
                     placeholder={
