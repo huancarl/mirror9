@@ -30,7 +30,7 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
-    for (const folder of ['1','2','3','4']) {
+    for (const folder of ['MATH_4710']) {
       const docs = await loadDocumentsFromFolder(`${filePath}/${folder}`);
       const namespace = NAMESPACE_NUMB[folder]; // Assuming folder names map to namespaces
 

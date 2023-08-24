@@ -1,13 +1,14 @@
 export function extractTitlesFromQuery(query: string) {
   // extract name of textbooks from the query and return them as an array using regex
 
-  const pattern: RegExp = /\b(Networks|Probability Cheatsheet v2.0|Harvard: Math 21a Review Sheet|INFO 2950 Syllabus)\b/gi;
+  const pattern: RegExp = /\b(Networks|Probability Cheatsheet v2.0|Harvard: Math 21a Review Sheet|INFO 2950 Syllabus| Introduction To Probability)\b/gi;
     const titles: string[] = [];
     const titlesMap: Record<string, string> = {
         "networks": "Networks",
         'probability cheatsheet v2.0': 'Probability Cheatsheet v2.0',
         "harvard: math 21a review sheet": "Harvard: Math 21a Review Sheet", // o(n) -- carl huangie
-        "info 2950 syllabus" : "INFO 2950 Syllabus"
+        "info 2950 syllabus" : "INFO 2950 Syllabus",
+        "introduction to probability": "Introduction To Probability"
     };
     let match: RegExpExecArray | null;
 

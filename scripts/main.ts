@@ -29,7 +29,7 @@ async function run() {
     // Process user query
     const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?'
 
-    const availableTextbooks = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, INFO 2950 Syllabus`;
+    const availableTextbooks = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, INFO 2950 Syllabus, Introduction To Probability`;
     
     const fewShotPrompt = `(
     
@@ -67,6 +67,9 @@ async function run() {
 
     - Query: "What is the grade breakdown for INFO 2950?"
       Response: "Searching INFO 2950 Syllabus..." 
+
+    -Query: "Explain chapter 1 of the introduction to probability textbook"
+    Response: "Searching Introduction To Probability textbook..." 
     
     - Query: "Do you have content on Bayesian networks and how it relates to Making Markets?"
       Response: "Searching the Networks textbook..."

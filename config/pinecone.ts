@@ -12,7 +12,8 @@ const NAMESPACE_NUMB: { [key: string]: string } = {
   '1': 'Networks',
   '2': 'Probability Cheatsheet v2.0',
   '3': 'Harvard Math 21a Review Sheet',
-  '4': 'INFO 2950 Syllabus'
+  '4': 'INFO 2950 Syllabus',
+  'MATH_4710': "Introduction To Probability"
 };
 
 

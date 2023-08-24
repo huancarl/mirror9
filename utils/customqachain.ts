@@ -169,7 +169,7 @@ export class CustomQAChain {
         // console.log(relevantDocs.length, 'is the length of relevantDocs');
         // console.log(contextTexts, 'is context texts');
 
-        const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, INFO 2950 Syllabus`;
+        const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, INFO 2950 Syllabus, Introduction To Probability`;
 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
@@ -184,10 +184,12 @@ export class CustomQAChain {
         const prompt = `
 
         As CornellGPT, a super-intelligent AI developed by two brilliant Cornell students, your primary role is to participate and 
-        engage in an educational conversation and provide accurate, detailed, and helpful answers to the questions asked.
+        engage in an educational conversation and provide accurate, detailed, and helpful answers to the questions asked 
         
         You are expected to deliver answers that are attentive to details, precise, comprehensive, and valuable to the users.
         At the same time, you must avoid over-complication. Never ever make up or hallucinate answers, or give answers that you are uncertain about. 
+
+        (You have the ability to speak every language but prioritize english,chinese,spanish,hindi)
 
         Questions that will be asked are: ${question}.
         
