@@ -6,6 +6,8 @@ import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import LoadingDots from '@/components/ui/LoadingDots';
 import { Document } from 'langchain/document';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css'; 
 import {
   Accordion,
   AccordionContent,
@@ -127,7 +129,51 @@ export default function Home() {
       e.preventDefault();
     }
   };
-
+  function messageContainsCode(message:any, userMessage:any) {
+    const codeKeywords = ['function', 'var', 'let', 'const', 'if', 'else', 'for', 'while']; // Expand this list as necessary
+    const isQuestionCodeRelated = codeKeywords.some(keyword => message.includes(keyword));
+    const isAnswerCodeRelated = codeKeywords.some(keyword => userMessage.includes(keyword));
+  
+    return isQuestionCodeRelated && isAnswerCodeRelated;
+  }
+function transformMessageWithCode(message: any) {
+  const codeKeywords = ['function', 'var', 'let', 'const', 'if', 'else', 'for', 'while'];
+  
+  const segments = message.split('`');
+  
+  // Transform code segments
+  for (let i = 1; i < segments.length; i += 2) {
+    if (codeKeywords.some(keyword => segments[i].includes(keyword))) {
+      segments[i] = `\`\`\`\n${segments[i]}\n\`\`\``; // Convert single backticks to triple for block code
+    }
+  }
+  
+  return segments.join('');
+}
+  function CodeBlock({ code }: { code: string }) {
+    const [copied, setCopied] = useState(false);
+  
+    const handleCopy = () => {
+      navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    };
+  
+    return (
+      <div className={styles.codeBlock}>
+        <pre className={styles.code}>
+        <code style={{ color: "#8B0000" }}>{code}</code>
+        </pre>
+        <button
+          className={styles.copyButton}
+          onClick={handleCopy}
+          disabled={copied}
+        >
+          {copied ? 'Copied ✔' : 'Copy'}
+        </button>
+      </div>
+    );
+  }
   return (
     <>
       <Layout>
@@ -140,6 +186,8 @@ export default function Home() {
               <div ref={messageListRef} className={styles.messagelist}>
 
                 {messages.map((message, index) => {
+                  const transformedMessage = transformMessageWithCode(message.message);
+                  const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
                   let icon;
                   let className;
                   if (message.type === 'apiMessage') {
@@ -177,10 +225,31 @@ export default function Home() {
                     <>
                       <div key={`chatMessage-${index}`} className={className}>
                         {icon}
-                        <div className={styles.markdownanswer}>
-                          <ReactMarkdown linkTarget="_blank">
-                            {message.message}
-                          </ReactMarkdown>
+<div className={styles.markdownanswer}
+    style={
+        isCodeMessage ? {
+            backgroundColor: "#f5f5f5",
+            padding: "10px",
+            borderRadius: "5px",
+            display: "block",
+            margin: "1em 0",
+            border: "1px solid #ddd",
+            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+            fontFamily: "'Courier New', monospace",
+            fontSize: "14px",
+            color: "black",
+            lineHeight: "1.4",
+        } : {}
+        
+    }        
+>
+                    {isCodeMessage ? (
+                      <CodeBlock code={transformedMessage} />
+                    ) : (
+                      <ReactMarkdown linkTarget="_blank">
+                        {transformedMessage}
+                      </ReactMarkdown>
+                    )}
                         </div>
                       </div>
                       {message.sourceDocs && (
@@ -283,5 +352,4 @@ export default function Home() {
       </Layout>
     </>
   );
-  
 }

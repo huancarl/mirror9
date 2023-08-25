@@ -21,7 +21,7 @@ import { extractTitlesFromQuery } from "@/utils/helpers";
 async function run() {
     const model = new OpenAIChat({
         temperature: 0.1,
-        modelName: "gpt-3.5-turbo-0613",
+        modelName: "gpt-4",
         cache: true,
     });
 
