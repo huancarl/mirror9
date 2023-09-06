@@ -134,7 +134,9 @@ export default async function handler(
 
     //init class
     const qaChain = CustomQAChain.fromLLM(model, index, namespaces, {
-      returnSourceDocuments: true, });
+      returnSourceDocuments: true, 
+      bufferMaxSize: 4000,
+    });
 
     console.log('searching namespace for results...');
 
@@ -165,6 +167,3 @@ export default async function handler(
     res.status(500).json({ error: error.message || 'Something went wrong' });
   }
 }
-
-
-

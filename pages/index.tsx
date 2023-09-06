@@ -2,18 +2,20 @@ import { useRef, useState, useEffect } from 'react';
 import Layout from '@/components/layout';
 import styles from '@/styles/Home.module.css';
 import { Message } from '@/types/chat';
-import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import LoadingDots from '@/components/ui/LoadingDots';
 import { Document } from 'langchain/document';
 import hljs from 'highlight.js';
-import 'highlight.js/styles/github.css'; 
+import 'highlight.js/styles/github.css';
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
+Accordion,
+AccordionContent,
+AccordionItem,
+AccordionTrigger,
 } from '@/components/ui/accordion';
+import React from "react";
+import * as math from 'mathjs';
+import Image from 'next/image';
 
 export default function Home() {
   const [query, setQuery] = useState<string>('');
@@ -122,25 +124,192 @@ export default function Home() {
   }
 //*************************************************************************************************************** */
   //prevent empty submissions
+
   const handleEnter = (e: any) => {
     if (e.key === 'Enter' && query) {
       handleSubmit(e);
     } else if (e.key == 'Enter') {
       e.preventDefault();
     }
+
   };
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+function messageContainsMath(message) {
+  const containsLatexURL = message.includes('https://latex.codecogs.com/png.image?');
+  if (containsLatexURL) return false;
+
+  const mathPatterns = [
+    /\d+/,
+    /[+\-*/^]/,
+    /\b(sqrt|sin|cos|tan|log)\b/,
+    /[a-zA-Z]\d*/,
+    /(\d+\/\d+)/,
+    /[a-zA-Z]=/,
+    /\b(pi|e|phi|theta|sigma)\b/,
+    /<=|>=|!=/,
+  ];
+
+  return mathPatterns.some(pattern => pattern.test(message));
+}
+
+
+function hasBalancedBraces(expression: string): boolean {
+  let stack: string[] = [];
+  for(let char of expression) {
+      if(char === '{') stack.push(char);
+      else if(char === '}') {
+          if(stack.length === 0) return false;
+          stack.pop();
+      }
+  }
+  return stack.length === 0;
+}
+
+const symbolToLatex = {
+  'α': '\\alpha',
+  'β': '\\beta',
+  'γ': '\\gamma',
+  'δ': '\\delta',
+  'ε': '\\epsilon',
+  'ζ': '\\zeta',
+  'η': '\\eta',
+  'θ': '\\theta',
+  'ι': '\\iota',
+  'κ': '\\kappa',
+  'λ': '\\lambda',
+  'μ': '\\mu',
+  'ν': '\\nu',
+  'ξ': '\\xi',
+  'ο': '\\omicron',  // Note: Rarely used in math notation
+  'π': '\\pi',
+  'ρ': '\\rho',
+  'σ': '\\sigma',
+  'τ': '\\tau',
+  'υ': '\\upsilon',
+  'φ': '\\phi',
+  'χ': '\\chi',
+  'ψ': '\\psi',
+  'ω': '\\omega',
+  '∫': '\int',
+  
+  
+};
+
+
+
+
+function transformMessageWithLatex(message) {
+  let transformedMessage = message;
+  
+  transformedMessage = transformedMessage.replace(/(\w+)\^(\w+)/g, '$1^{$2}');
+  transformedMessage = transformedMessage.replace(/\b(sqrt|sin|cos|tan|log)\b/g, '\\$1 ');
+  transformedMessage = transformedMessage.replace(/(\d+)\/(\d+)/g, '\\frac{$1}{$2}');
+  transformedMessage = transformedMessage.replace(/\b(pi|e|phi|theta|sigma|alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|omicron|pi|rho|sigma|tau|upsilon|phi|chi|psi|omega)\b/g, '\\$1 ');
+  transformedMessage = transformedMessage.replace(/<=/g, '\\leq');
+  transformedMessage = transformedMessage.replace(/>=/g, '\\geq');
+  transformedMessage = transformedMessage.replace(/!=/g, '\\neq');
+  
+  for (let symbol in symbolToLatex) {
+    const regex = new RegExp(symbol, 'g');
+    transformedMessage = transformedMessage.replace(regex, symbolToLatex[symbol]);
+  }
+
+  if(!hasBalancedBraces(transformedMessage)) {
+      console.error("Braces are not balanced:", transformedMessage);
+      return null; // or however you want to handle this
+  }
+  transformedMessage = transformedMessage.replace(/\\piT/g, '\\pi T');
+  transformedMessage = transformedMessage.replace(/d([a-zA-Z])/g, '\\mathrm{d}$1');
+  
+  return transformedMessage;
+}
+
+
+function generateLatexURL(latexExpression) {
+  if (!latexExpression) {
+      console.error("No LaTeX expression provided.");
+      return;
+  }
+
+  try {
+      const encodedExpression = encodeURIComponent(latexExpression);
+      const url = `https://latex.codecogs.com/png.image?${encodedExpression}`;
+
+      // Simple validation; you can expand this
+      if (url.length > 2000) { // Most browsers have a URL limit of around 2000 characters
+          console.error("Generated LaTeX URL is too long:", url);
+          return;
+      }
+
+      return url;
+  } catch (error) {
+      console.error("Error generating LaTeX URL:", error);
+  }
+}
+
+
+function transformMathToLatexURL(message) {
+  let modifiedMessage = message;
+  
+  let stack: string[] = [];
+  let startPos = -1;
+
+  for(let i = 0; i < message.length; i++) {
+    if(message[i] === '{') {
+      stack.push('{');
+      if(startPos === -1) startPos = i;
+    } else if(message[i] === '}') {
+      stack.pop();
+      if(stack.length === 0 && startPos !== -1) {
+        const segment = message.substring(startPos + 1, i);
+        const latexMessage = transformMessageWithLatex(segment);
+        const latexURL = generateLatexURL(latexMessage);
+
+        if (!latexURL) {
+          console.warn(`Unable to generate LaTeX URL for segment: ${segment}`);
+          continue;
+        }
+
+        const imgTag = `<img src="${latexURL}" alt="LaTeX Expression" style="margin: 0; padding: 0; display: inline-block;"/>`; 
+        modifiedMessage = modifiedMessage.replace(`{${segment}}`, imgTag);
+
+        startPos = -1; // reset
+      }
+    }
+  }
+
+  return modifiedMessage;
+}
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   function messageContainsCode(message:any, userMessage:any) {
-    const codeKeywords = ['function', 'var', 'let', 'const', 'if', 'else', 'for', 'while']; // Expand this list as necessary
+    const codeKeywords = [
+
+      'python', 'java', 'javascript', 'typescript', 'OCaml','SQL','Swift','Perl','PHP',
+      'typescript','HTML','C',"C++",'MATLAB','C#','Julia','Rust'
+
+    ];
+
     const isQuestionCodeRelated = codeKeywords.some(keyword => message.includes(keyword));
     const isAnswerCodeRelated = codeKeywords.some(keyword => userMessage.includes(keyword));
   
     return isQuestionCodeRelated && isAnswerCodeRelated;
   }
+
 function transformMessageWithCode(message: any) {
-  const codeKeywords = ['function', 'var', 'let', 'const', 'if', 'else', 'for', 'while'];
+    const codeKeywords = [
+
+      'python', 'java', 'javascript', 'typescript', 'OCaml','SQL','Swift','Perl','PHP',
+      'typescript','HTML','C',"C++",'MATLAB','C#','Julia','Rust'
+
+    ];
   
   const segments = message.split('`');
-  
   // Transform code segments
   for (let i = 1; i < segments.length; i += 2) {
     if (codeKeywords.some(keyword => segments[i].includes(keyword))) {
@@ -150,6 +319,7 @@ function transformMessageWithCode(message: any) {
   
   return segments.join('');
 }
+
   function CodeBlock({ code }: { code: string }) {
     const [copied, setCopied] = useState(false);
   
@@ -169,7 +339,7 @@ function transformMessageWithCode(message: any) {
           onClick={handleCopy}
           disabled={copied}
         >
-          {copied ? 'Copied ✔' : 'Copy'}
+          {copied ? 'Copied🐻' : 'Copy'}
         </button>
       </div>
     );
@@ -186,8 +356,18 @@ function transformMessageWithCode(message: any) {
               <div ref={messageListRef} className={styles.messagelist}>
 
                 {messages.map((message, index) => {
-                  const transformedMessage = transformMessageWithCode(message.message);
-                  const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
+
+const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
+const containsMathSegment = messageContainsMath(message.message);
+let transformedMessage;
+
+if (isCodeMessage) {
+  transformedMessage = transformMessageWithCode(message.message);
+} else if (containsMathSegment) {
+  transformedMessage = transformMathToLatexURL(message.message);
+} else {
+  transformedMessage = message.message;
+}
                   let icon;
                   let className;
                   if (message.type === 'apiMessage') {
@@ -225,6 +405,8 @@ function transformMessageWithCode(message: any) {
                     <>
                       <div key={`chatMessage-${index}`} className={className}>
                         {icon}
+                        
+                        
 <div className={styles.markdownanswer}
     style={
         isCodeMessage ? {
@@ -243,13 +425,15 @@ function transformMessageWithCode(message: any) {
         
     }        
 >
-                    {isCodeMessage ? (
-                      <CodeBlock code={transformedMessage} />
-                    ) : (
-                      <ReactMarkdown linkTarget="_blank">
-                        {transformedMessage}
-                      </ReactMarkdown>
-                    )}
+{isCodeMessage ? (
+    <CodeBlock code={transformedMessage} />
+) : containsMathSegment ? (
+<div dangerouslySetInnerHTML={{ __html: transformedMessage }} />
+) : (
+    <ReactMarkdown linkTarget="_blank">
+        {transformedMessage}
+    </ReactMarkdown>
+)}
                         </div>
                       </div>
                       {message.sourceDocs && (
@@ -274,7 +458,17 @@ function transformMessageWithCode(message: any) {
                                       {doc.text}
                                     </ReactMarkdown>
                                     <p className="mt-2">
-                                    <b>Source:</b> {doc.Source.split('/').pop()} 
+                                    <b>Source: </b> 
+                                    <a href={`/pdfs\${doc.Source.split('\').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
+                                    style={{
+                                      color: 'red',
+                                      textDecoration: 'underline',
+                                      cursor: 'pointer',
+                                      fontWeight: 625
+                                  }}>
+                                    {doc.Source.split('/').pop()}
+                                    </a>
+
                                     </p>
                                     <p>
                                       <b> Page number: </b> {doc.Page_Number}
@@ -308,7 +502,7 @@ function transformMessageWithCode(message: any) {
                     name="userInput"
                     placeholder={
                       loading
-                        ? 'Waiting...'
+                        ? 'Retrieving...'
                         : 'Send a message :)'
                     }
                     value={query}

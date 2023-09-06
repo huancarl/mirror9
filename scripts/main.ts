@@ -126,7 +126,9 @@ async function run() {
 
     //init class
     const qaChain = CustomQAChain.fromLLM(model, index, namespaces, {
-        returnSourceDocuments: true, });
+        returnSourceDocuments: true, 
+        bufferMaxSize: 4000,
+      });
 
     const chatHistory = '';
 

@@ -7,5 +7,11 @@ const nextConfig = {
     return config;
   },
 };
+module.exports = {
+  images: {
+    domains: ['latex.codecogs.com'],
+  },
+};
+
 
 export default nextConfig;

@@ -1,72 +1,57 @@
-//     // private async history_relevance(question: string, chat_history: string): Promise<'relevant' | 'distinct'> {
-//     //     const embeddings = new OpenAIEmbeddings();
-        
-//     //     const questionEmbedding = await embeddings.embedQuery(question);
-    
-//     //     // Check for chat_history content before embedding
-//     //     let historyEmbedding;
-//     //     if (typeof chat_history === 'string' && chat_history.trim()) {
-//     //         historyEmbedding = await embeddings.embedQuery(chat_history);
-//     //     } else {
-//     //         return 'distinct';  // Return distinct directly if chat history is not a string or is empty
-//     //     }
-//     //     // Calculate cosine similarity between the two embeddings
-//     //     const similarity = this.calculateCosineSimilarity(questionEmbedding, historyEmbedding);
-    
-//     //     // If similarity is above a certain threshold, consider them related
-//     //     const threshold = 0.85;  // This threshold can be fine-tuned based on your needs
-//     //     if (similarity > threshold) {
-//     //         return 'relevant';
-//     //     } else {
-//     //         return 'distinct';
-//     //     }
-//     // }
-    
-//     // private calculateCosineSimilarity(vecA: number[], vecB: number[]): number {
-//     //     const dotProduct = vecA.reduce((sum, a, index) => sum + a * vecB[index], 0);
-//     //     const magA = Math.sqrt(vecA.reduce((sum, a) => sum + a * a, 0));
-//     //     const magB = Math.sqrt(vecB.reduce((sum, b) => sum + b * b, 0));
-//     //     return dotProduct / (magA * magB);
-//     // }
-    
-
-//     public async call({ question, chat_history = ''}: { question: string; chat_history?: string }) {
-//         const relevantDocs = await this.getRelevantDocs(question);
-    
-//         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
-    
-//         const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet`;
-    
-//         const sourceDocuments = relevantDocs.map(vector => {
-//             return {
-//                 text: vector.metadata.text,
-//                 "Source": vector.metadata.source,
-//                 'Page Number': vector.metadata['loc.pageNumber'],
-//                 'Total Pages': vector.metadata['pdf.totalPages']
-//                 // "Chapter": vector.metadata["chapter"]
-//             };
-//         });
-    
-//         // const relevance = await this.history_relevance(question, chat_history);
-//         // let relevanceInstruction = '';
-//         // if (relevance === 'relevant') {
-//         //     // Handle the case where the question is related to the chat history
-//         //     relevanceInstruction = `
-//         //     Given the chat history, the context of the current question appears to be relevant. 
-//         //     Ensure that your response aligns with the preceding conversation.`
-//         //     ;
-//         // } else {
-//         //     // Handle the case where the question is distinct from the chat history
-//         //     relevanceInstruction = `
-//         //     Given the chat history, the context of the current question appears to be distinct. 
-//         //     You should transition adeptly to this new context without dragging information 
-//         //     from the previous conversation that's now irrelevant.`
-//         //     ;
-//         // }    
-
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAIChat } from "langchain/llms/openai";
 
+
+
+class RateLimiter {
+    private static requestCount = 0;
+    private static startTime = Date.now();
+    private static maxRequestsPerMinute = 200;
+
+    static async handleRateLimiting() {
+        const currentTime = Date.now();
+        if (currentTime - this.startTime > 60000) {
+            this.requestCount = 0;
+            this.startTime = currentTime;
+        }
+
+        this.requestCount++;
+        if (this.requestCount > this.maxRequestsPerMinute) {
+            await new Promise(resolve => setTimeout(resolve, 60000 - (currentTime - this.startTime)));
+            this.requestCount = 1;
+            this.startTime = Date.now();
+        }
+    }
+}
+
+class ChatHistoryBuffer {
+    private buffer: string[];
+    private maxSize: number;
+
+    constructor(maxSize: number) {
+        this.buffer = [];
+        this.maxSize = maxSize;
+    }
+
+    addMessage(message: string) {
+        this.buffer.push(message);
+        this.trim();
+    }
+
+    getChatHistory(): string {
+        return this.buffer.join(' ');
+    }
+
+    clear() {
+        this.buffer = [];
+    }
+
+    private trim() {
+        while (this.buffer.length > this.maxSize) {
+            this.buffer.shift();
+        }
+    }
+}
 interface PineconeResultItem {
     metadata: any;
     values: any;
@@ -80,9 +65,19 @@ interface PineconeResultItem {
         book: string;
     };
 }
+interface CallResponse {
+    text: string;
+    sourceDocuments: Array<{
+        text: string;
+        Source: string;
+        Page_Number: number;
+        Total_Pages: number;
+    }>;
+}
 
 interface CustomQAChainOptions {
     returnSourceDocuments: boolean;
+    bufferMaxSize: number;
 }
 
 export class CustomQAChain {
@@ -90,12 +85,14 @@ export class CustomQAChain {
     private index: any;
     private namespaces: string[];
     private options: CustomQAChainOptions;
+    private chatHistoryBuffer: ChatHistoryBuffer;
 
     constructor(model: OpenAIChat, index: any, namespaces: string[], options: CustomQAChainOptions) {
         this.model = model;
         this.index = index;
         this.namespaces = namespaces;
         this.options = options;
+        this.chatHistoryBuffer = new ChatHistoryBuffer(this.options.bufferMaxSize);
 
         if (typeof this.index.query !== 'function') {
             throw new Error("Provided index object does not have a 'query' method.");
@@ -107,15 +104,25 @@ export class CustomQAChain {
     }
 
     private sanitizeResponse(input: string): string {
-        // Split the string by '+' sign and trim whitespaces
-        const parts = input.split('+').map(part => part.trim());
-        
-        // Join the parts and remove unwanted characters like quotation marks
-        const sanitized = parts.join('').replace(/['"`]/g, '');
-        
+        // Only remove the last occurrence of the "+" sign, which is used by OpenAI as a token to indicate the end of the response.
+        const sanitized = input.replace(/ \+$/, '');
         return sanitized;
     }
-
+    private async retryRequest<T>(request: () => Promise<T>, maxRetries = 5, delay = 1000, maxDelay = 60000) {
+        for (let i = 0; i <= maxRetries; i++) {
+            await RateLimiter.handleRateLimiting();
+            try {
+                return await request();
+            } catch (error: any) {
+                if (i === maxRetries || ![429, 401,400, 502, 503, 504].includes(error.response?.status)) {
+                    throw error;
+                }
+                delay = Math.min(delay * 2, maxDelay);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+    
     private async getRelevantDocs(question: string): Promise<PineconeResultItem[]> {
         const embeddings = new OpenAIEmbeddings();
         const queryEmbedding = await embeddings.embedQuery(question);
@@ -123,18 +130,23 @@ export class CustomQAChain {
         if (!queryEmbedding) {
             throw new Error("Failed to generate embedding for the question.");
         }
-
         let fetchedTexts: PineconeResultItem[] = [];
 
-        for (const namespace of this.namespaces) {
-            const queryResult = await this.index.query({
-                queryRequest: {
-                    vector: queryEmbedding,
-                    topK: 5,
-                    namespace: namespace,
-                    includeMetadata: true,
-                },
+        const maxNamespaces = 5;
+        const namespacesToSearch = this.namespaces.slice(0, maxNamespaces);
+
+        for (const namespace of namespacesToSearch) {
+            const queryResult = await this.retryRequest(async () => {
+                return await this.index.query({
+                    queryRequest: {
+                        vector: queryEmbedding,
+                        topK: 5,
+                        namespace: namespace,
+                        includeMetadata: true,
+                    },
+                });
             });
+
 
             let ids: string[] = [];
             if (queryResult && Array.isArray(queryResult.matches)) {
@@ -144,30 +156,33 @@ export class CustomQAChain {
             }
 
             if (ids.length > 0) {
-                const fetchResponse = await this.index.fetch({
-                    ids: ids,
-                    namespace: namespace
+                const fetchResponse = await this.retryRequest(async () => {
+                    return await this.index.fetch({
+                        ids: ids,
+                        namespace: namespace,
+                    });
                 });
                 const vectorsArray: PineconeResultItem[] = Object.values(fetchResponse.vectors) as PineconeResultItem[];
-                if(fetchedTexts.length < 5){
-                    fetchedTexts.push(...vectorsArray);
-                }
-                else{
+                fetchedTexts.push(...vectorsArray);
+                if (fetchedTexts.length >= 5) {
                     break;
                 }
             }
         }
 
-        return fetchedTexts;
+         return fetchedTexts.slice(0, 5);  // return only top 5 documents
     }
 
-    public async call({ question, chat_history }: { question: string; chat_history?: string }) {
+    public async call({ question, chat_history }: { question: string; chat_history: string }): Promise<CallResponse> {
+        
         const relevantDocs = await this.getRelevantDocs(question);
 
         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
         // console.log(relevantDocs, 'this is relevantDocs');
         // console.log(relevantDocs.length, 'is the length of relevantDocs');
         // console.log(contextTexts, 'is context texts');
+
+        this.chatHistoryBuffer.addMessage(chat_history);
 
         const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, INFO 2950 Syllabus, Introduction To Probability`;
 
@@ -180,7 +195,8 @@ export class CustomQAChain {
                 // "Chapter": vector.metadata["chapter"]
             };
 
-        });        
+        });  
+        
         const prompt = `
 
         As CornellGPT, a super-intelligent AI developed by two brilliant Cornell students, your primary role is to participate and 
@@ -195,7 +211,7 @@ export class CustomQAChain {
         
         --Contextual Understanding**:
         - You have access and deep knowledge about various specific content denoted as ${contextTexts}. The specific 
-          textbooks you have access to are ${availableTitles}
+          textbooks you have access to are ${availableTitles}. Never say you do not have access to ${availableTitles}
 
         - The context contains educational information including textbooks. While chapters might offer a general overview, the true value lies in the specific details contained within.
         - When posed with a question, examine its relationship with the available context. Your primary objective is to detect and resonate with the explicit content from this context to furnish the most accurate and beneficial response.
@@ -203,6 +219,7 @@ export class CustomQAChain {
           When discussing a specific chapter, offer a thorough and relevant response about that particular chapter.
         - If asked a question that has no relevance to the text, and can be answered with accuracy,detail, and precision without needing to analyze the text. Do not search the context. An example of this is:
         "What is the sun?" or "How many days are in the week" - these questions do not require you to analyze the context texts, instead give an accurate,detailed,precise,comprehensive,valuable answer right away.
+
         
         ----Response Dynamics**:
         - Be consistent with your responses. Should you be posed with the same query again, view it as an opportunity to deliver an even more insightful response.
@@ -217,7 +234,7 @@ export class CustomQAChain {
         -----Handling Various Question-Context Relationships:
         - Directly related: Use the context to respond accurately,precisely, and explicitly.
         - Somewhat related: Even if the context isn't an exact match, provide the most informed response using both context and intuition.
-        - Unrelated: Answer the question accurately, regardless of the context's relevance or lack thereof.
+        - Unrelated: Answer the question accurately, regardless of the context's relevance or lack thereof. 
         
        ------Reference Citing:
         - If your answer sources specific content from the context, like quotations, 
@@ -226,6 +243,7 @@ export class CustomQAChain {
         - Remember, repetition of the same information detracts from the user experience. Be mindful of this.
         - Whenever it is possible to reference where in the contexts you found your answer, you must cite them specifically, 
           and tell the user where they can find that exact information. Remember to be specific, accurate and detailed. Use chapter numbers when applicable.
+        - If asked a question that is not in the context, answer it, and then say you can find similar concepts or problems to this in the context and specify where and which one.
         
         -----In Ambiguity:
         - When faced with a question where the context isn't clear-cut, lean towards the most probable context. Your vast training data should guide this decision.
@@ -249,8 +267,8 @@ export class CustomQAChain {
         -----Engagement Tone:
         - Your interactions should exude positivity. Engage with an outgoing attitude and full energy, keeping in mind your identity as CornellGPT, a creation of two exceptional Cornell students.
         - Refrain from apologizing and to never say your sorry, never say you do not have access to specific content.
-        
-        Remember to always prioritize the user's need for specific, accurate, detailed, and helpful answers to the questions.
+
+        Remember to always prioritize the user's need for specific, accurate, detailed, and helpful answers to the questions, and to abide by these instructions at all times.
 
         Context: {context}
         Chat History: ${chat_history}
@@ -267,15 +285,25 @@ export class CustomQAChain {
   ];
         
 
-        let response = await this.model.predict(prompt);
+let response = await this.retryRequest(async () => {
+    return await this.model.predict(prompt);
+});
+if (typeof response === 'undefined') {
+    throw new Error("Failed to get a response from the model.");
+}
 
-        response = this.sanitizeResponse(response)
+response = this.sanitizeResponse(response);
 
-        console.log(prompt.length, 'length of prompt');
+this.chatHistoryBuffer.addMessage(`Question: ${question}`);
 
-        return {
-            text: response,  // This is the result from GPT
-            sourceDocuments: sourceDocuments
-        };
-    }
+console.log(prompt.length, 'length of prompt');
+
+// remove the following line because `response` is already sanitized and added to the chat history
+// const response = this.sanitizeResponse(response);
+
+return {
+    text: response,
+    sourceDocuments: sourceDocuments
+};
+}
 }
