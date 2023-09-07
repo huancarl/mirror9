@@ -14,7 +14,7 @@ AccordionItem,
 AccordionTrigger,
 } from '@/components/ui/accordion';
 import React from "react";
-
+import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 
 export default function Home() {
@@ -40,6 +40,31 @@ export default function Home() {
 
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  const userIDRef = useRef<string | null>(null);
+  const sessionIDRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    textAreaRef.current?.focus();
+
+    // Handle userID
+    let localUserID = localStorage.getItem('lapp');
+    if (!localUserID) {
+        localUserID = uuidv4();
+        localStorage.setItem('lapp', localUserID);
+    }
+    userIDRef.current = localUserID;
+
+    // Handle sessionID
+    let localSessionID = localStorage.getItem('sapp');
+    if (!localSessionID) {
+        localSessionID = uuidv4();  // Only create a new sessionID if none exists
+        localStorage.setItem('sapp', localSessionID);
+    }
+    sessionIDRef.current = localSessionID;
+    console.log(userIDRef);
+    console.log(sessionIDRef);
+}, []);
 
   useEffect(() => {
     textAreaRef.current?.focus();
