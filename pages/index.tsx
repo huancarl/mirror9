@@ -14,7 +14,7 @@ AccordionItem,
 AccordionTrigger,
 } from '@/components/ui/accordion';
 import React from "react";
-import * as math from 'mathjs';
+
 import Image from 'next/image';
 
 export default function Home() {
