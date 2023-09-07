@@ -488,7 +488,7 @@ if (isCodeMessage) {
                                     </ReactMarkdown>
                                     <p className="mt-2">
                                     <b>Source: </b> 
-                                    <a href={`/pdfs\${doc.Source.split('\').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
+                                    <a href={`/pdfs/${doc.Source.split('/').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
                                     style={{
                                       color: 'red',
                                       textDecoration: 'underline',
