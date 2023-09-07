@@ -17,6 +17,18 @@ import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
 import connectToDb from '@/config/db';
 
+function cleanText(text) {
+  // Removing lines containing only whitespace
+  const cleaned = text.split('\n').filter(line => line.trim().length > 0).join(' ');
+  return cleaned.replaceAll('  ', ' ').trim(); // Replace double spaces with single space
+}
+function cleanSourceDocs(sourceDocs) {
+  // Assuming sourceDocs is an array of strings:
+  return sourceDocs.map(doc => cleanText(doc));
+  // If sourceDocs is an array of objects with a "text" field:
+  // return sourceDocs.map(doc => ({ ...doc, text: cleanText(doc.text) }));
+}
+
 //Process user query
 const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?';
 const availableTextbooks = `Networks, Probability Cheatsheet v2.0, Harvard: Math 21a Review Sheet, INFO 2950 Syllabus, Introduction To Probability`;
@@ -152,7 +164,7 @@ export default async function handler(
     });
 
     console.log('results', results);
-    
+
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
 

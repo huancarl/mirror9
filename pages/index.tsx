@@ -117,7 +117,15 @@ export default function Home() {
 
       console.log(messages, 'is messages');
       console.log(data.sourceDocs, 'is sourceDocs');
-      
+      if (data.sourceDocs) {
+        data.sourceDocs = data.sourceDocs.map(doc => {
+          if (doc.text) {
+            // Replace sequences of spaces with a single space
+            doc.text = doc.text.replace(/\s+/g, ' ').trim();
+          }
+          return doc;
+        });
+      }
 
       if (data.error) {
         setError(data.error);
