@@ -47,8 +47,10 @@ export default function Home() {
   useEffect(() => {
     textAreaRef.current?.focus();
 
+    let localUserID: any;
+    let localSessionID: any;
     // Handle userID
-    let localUserID = localStorage.getItem('lapp');
+    localUserID = localStorage.getItem('lapp');
     if (!localUserID) {
         localUserID = uuidv4();
         localStorage.setItem('lapp', localUserID);
@@ -56,7 +58,7 @@ export default function Home() {
     userIDRef.current = localUserID;
 
     // Handle sessionID
-    let localSessionID = localStorage.getItem('sapp');
+    localSessionID = localStorage.getItem('sapp');
     if (!localSessionID) {
         localSessionID = uuidv4();  // Only create a new sessionID if none exists
         localStorage.setItem('sapp', localSessionID);
@@ -107,6 +109,8 @@ export default function Home() {
         body: JSON.stringify({
           question,
           history,
+          userID: userIDRef.current,     
+          sessionID: sessionIDRef.current 
         }),
       });
       const data = await response.json();

@@ -15,6 +15,7 @@ import {
 } from 'langchain/prompts'
 import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
+import connectToDb from '@/config/db';
 
 //Process user query
 const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?';
@@ -80,7 +81,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { question, history } = req.body;
+  const { question, history, userID, sessionID} = req.body;
   // const question = req.body.question;
   console.log('Received request body:', req.body);
   // console.log(question);
@@ -99,6 +100,9 @@ export default async function handler(
   const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
 
   try {
+    const db = await connectToDb();
+    const chatHistoryCollection = db.collection("chatHistories");
+
     const model = new OpenAIChat({
       temperature: 0.1,
       modelName: "gpt-4",
@@ -148,19 +152,27 @@ export default async function handler(
     });
 
     console.log('results', results);
-
+    
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
 
     // console.log(sourceDocs, 'this is the chat.ts file');
+    const saveToDB = {
+      userID,
+      sessionID,
+      userQuestion: question,
+      answer: message,
+      sourceDocs,
+      timestamp : new Date()
+    };
+
+    await chatHistoryCollection.insertOne(saveToDB);
 
     const data = {
       message,
       sourceDocs,
     };
-
     // console.log(data, 'data');
-
     res.status(200).json(data);
   } catch (error: any) {
     console.log('error', error);
