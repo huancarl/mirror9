@@ -44,33 +44,71 @@ export default function Home() {
   const userIDRef = useRef<string | null>(null);
   const sessionIDRef = useRef<string | null>(null);
 
+
+  // Retrieves the chat history from the backend and formats it
   useEffect(() => {
-    textAreaRef.current?.focus();
-
-    let localUserID: any;
-    let localSessionID: any;
-    // Handle userID
-    localUserID = localStorage.getItem('lapp');
-    if (!localUserID) {
-        localUserID = uuidv4();
-        localStorage.setItem('lapp', localUserID);
+    function getOrGenerateUUID(key: string): string {
+      let value = localStorage.getItem(key);
+      if (!value) {
+        value = uuidv4();
+        localStorage.setItem(key, value);
+      }
+      return value;
     }
-    userIDRef.current = localUserID;
+  
+    userIDRef.current = getOrGenerateUUID('lapp');
+    sessionIDRef.current = getOrGenerateUUID('sapp');
 
-    // Handle sessionID
-    localSessionID = localStorage.getItem('sapp');
-    if (!localSessionID) {
-        localSessionID = uuidv4();  // Only create a new sessionID if none exists
-        localStorage.setItem('sapp', localSessionID);
+    async function fetchChatHistory() {
+      try {
+        const response = await fetch('/api/fetchHistory', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userID: userIDRef.current,
+            sessionID: sessionIDRef.current,
+          }),
+        });
+        const data = await response.json();
+        console.log(data, 'data from db');
+  
+        if (data.error) {
+          console.error("Failed to fetch chat history:", data.error);
+        } else {
+          // Transform the retrieved data
+          const transformedMessages = data.messages.flatMap(msg => ([
+            {
+              type: 'userMessage',
+              message: msg.userQuestion,
+            },
+            {
+              type: 'apiMessage',
+              message: msg.answer,
+              sourceDocs: msg.sourceDocs || [],
+            }
+          ]));
+          transformedMessages.unshift({
+            type: 'apiMessage',
+            message: 'Hi, what would you like to learn today?'
+          });
+          setMessageState((state) => ({
+            ...state,
+            messages: transformedMessages,
+          }));
+          if (messageListRef.current) {
+            messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+          }
+        }
+      } catch (error) {
+        console.error('An error occurred while fetching the chat history:', error);
+      }
     }
-    sessionIDRef.current = localSessionID;
-    console.log(userIDRef);
-    console.log(sessionIDRef);
-}, []);
-
-  useEffect(() => {
-    textAreaRef.current?.focus();
+    fetchChatHistory();
   }, []);
+
+
 
 //********************************************************************************************************* */
   async function handleSubmit(e: any) {
@@ -115,12 +153,10 @@ export default function Home() {
       });
       const data = await response.json();
 
-      console.log(messages, 'is messages');
-      console.log(data.sourceDocs, 'is sourceDocs');
       if (data.sourceDocs) {
         data.sourceDocs = data.sourceDocs.map(doc => {
           if (doc.text) {
-            // Replace sequences of spaces with a single space
+            // Replace sequences of spaces with a single space when sourcing
             doc.text = doc.text.replace(/\s+/g, ' ').trim();
           }
           return doc;
