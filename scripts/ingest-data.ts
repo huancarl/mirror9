@@ -28,10 +28,18 @@ export const run = async () => {
       chunkOverlap: 200,
     });
 
+    // for (const folder of ['INFO_2950']) {
+    //   console.log(folder);
+    //   // const docs = await loadDocumentsFromFolder(`${filePath}/${folder}`);
+    //   // console.log(docs);
+      
+    // }
+
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
-    for (const folder of ['MATH_4710']) {
+    for (const folder of ['INFO_2950']) {
       const docs = await loadDocumentsFromFolder(`${filePath}/${folder}`);
+      
       const namespace = NAMESPACE_NUMB[folder]; // Assuming folder names map to namespaces
 
       for (const doc of docs) {
