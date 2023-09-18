@@ -37,6 +37,8 @@ export function transformMessageWithLatex(message) {
     }
   
     let transformedMessage = message;
+
+    transformedMessage = transformedMessage.replace(/\\\[|\\\]/g, "$$");
   
     transformedMessage = transformedMessage.replace(/(\w+)\^(\w+)/g, '$1^{$2}');
     transformedMessage = transformedMessage.replace(/\b(sqrt|sin|cos|tan|log)\b/g, '\$1 ');

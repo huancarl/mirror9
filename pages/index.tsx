@@ -27,7 +27,6 @@ import {
   messageContainsCode,
   transformMessageWithCode
 } from './codeblock'
-// import { Sidebar } from 'lucide-react';
 import Sidebar from 'components/Sidebar';
 
 declare global {
