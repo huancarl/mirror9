@@ -6,17 +6,21 @@
   padding: 1rem;
 }
 
+
 .header {
   width: auto;
 }
+
 
 .header p {
   text-align: center;
 }
 
+
 .cloudform {
   position: relative;
 }
+
 
 .textarea {
   position: relative;
@@ -31,9 +35,11 @@
   outline: none;
 }
 
+
 .textarea:disabled {
   opacity: 0.5;
 }
+
 
 .textarea:focus {
   outline: none;
@@ -41,9 +47,11 @@
   box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.5);
 }
 
+
 .textarea::placeholder {
   color: #6b7280;
 }
+
 
 .generatebutton {
   position: absolute;
@@ -56,11 +64,13 @@
   display: flex;
 }
 
+
 .loadingwheel {
   position: absolute;
   top: 0.2rem;
   right: 0.25rem;
 }
+
 
 .svgicon {
   transform: rotate(90deg);
@@ -69,16 +79,19 @@
   fill: currentColor;
 }
 
+
 .generatebutton:hover {
   background: #e4575726;
   border-radius: 0.2rem;
 }
+
 
 .generatebutton:disabled {
   opacity: 0.9;
   cursor: not-allowed;
   background: none;
 }
+
 
 .messagelist {
   width: 100%;
@@ -87,6 +100,7 @@
   border-radius: 0.5rem;
 }
 
+
 .messagelistloading {
   display: flex;
   width: 100%;
@@ -94,11 +108,13 @@
   margin-top: 1rem;
 }
 
+
 .usermessage {
   background: #ffffff;
   padding: 1.5rem;
   color: #000;
 }
+
 
 .usermessagewaiting {
   padding: 1.5rem;
@@ -111,6 +127,7 @@
   animation-name: loading-gradient;
 }
 
+
 @keyframes loading-gradient {
   0% {
     background-position: -100% 0;
@@ -120,12 +137,14 @@
   }
 }
 
+
 .apimessage {
   background: #f9fafb;
   padding: 1.5rem;
   color: #000;
   animation: fadein 0.5s;
 }
+
 
 @keyframes fadein {
   from {
@@ -136,24 +155,29 @@
   }
 }
 
+
 .apimessage,
 .usermessage,
 .usermessagewaiting {
   display: flex;
 }
 
+
 .markdownanswer {
   line-height: 1.75;
 }
+
 
 .markdownanswer a:hover {
   opacity: 0.8;
 }
 
+
 .markdownanswer a {
   color: #b13a3a;
   font-weight: 500;
 }
+
 
 .markdownanswer code {
   color: #15cb19;
@@ -161,10 +185,12 @@
   white-space: pre-wrap !important;
 }
 
+
 .markdownanswer ol,
 .markdownanswer ul {
   margin: 1rem;
 }
+
 
 .boticon,
 .usericon {
@@ -173,11 +199,13 @@
   height: 100%;
 }
 
+
 .markdownanswer h1,
 .markdownanswer h2,
 .markdownanswer h3 {
   font-size: inherit;
 }
+
 
 .center {
   display: flex;
@@ -187,6 +215,7 @@
   padding: 1rem 0;
   flex-direction: column;
 }
+
 
 .cloud {
   width: 75vw;
@@ -199,10 +228,12 @@
   align-items: center;
 }
 
+
 .pointsnormal {
   width: 90%;
   height: 90%;
 }
+
 
 .pointsdim {
   width: 90%;
@@ -210,20 +241,65 @@
   opacity: 0.25;
 }
 
+
 .footer {
   color: #5f6368;
   font-size: 0.8rem;
   margin: 1.5rem;
 }
 
+
 .footer a {
   font-weight: 500;
   color: #7a7d81;
 }
 
+
 .footer a:hover {
   opacity: 0.8;
 }
+
+
+.appWrapper {
+  display: flex;
+}
+
+
+.sidebar {
+  flex: 0 0 300px;  /* Adjust width as needed */
+  height: 100vh;
+  overflow-y: auto;  /* Allows for vertical scrolling if the content overflows */
+  border-right: 1px solid #d9d9e3;
+  padding: 1rem;
+}
+
+
+.mainContent {
+  flex: 1; /* This will make the main content take up the remaining space */
+  overflow-y: auto; /* You can use this if you want the main content to scroll independently as well */
+}
+
+
+/* You might want to adjust the .cloud and .cloudform styles, given the presence of a sidebar. Here's an example: */
+.cloud {
+  width: calc(100vw - 300px); /* Subtracting the width of the sidebar */
+  height: 65vh;
+  background: #ffffff;
+  border-radius: 0.5rem;
+  border: 1px solid #d9d9e3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.cloudform {
+  position: relative;
+  width: calc(100vw - 300px); /* Subtracting the width of the sidebar */
+}
+
+
+
 
 /* Mobile optimization */
 @media (max-width: 600px) {
@@ -231,6 +307,7 @@
     padding: 1rem;
     max-height: 90vh;
   }
+
 
   .cloud {
     width: 22rem;
@@ -245,14 +322,17 @@
     padding: 0.85rem 0.75rem 0.85rem 0.75rem;
   }
 
+
   .navlogo {
     font-size: 1.25rem;
     width: 20rem;
   }
 
+
   .markdownanswer code {
     white-space: pre-wrap !important;
   }
+
 
   .footer {
     font-size: 0.7rem;

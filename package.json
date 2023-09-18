@@ -24,6 +24,7 @@
     "dotenv": "^16.0.3",
     "g": "^2.0.1",
     "highlight.js": "^11.8.0",
+    "katex": "^0.16.8",
     "langchain": "0.0.82",
     "lucide-react": "^0.125.0",
     "mathjax": "^3.2.2",

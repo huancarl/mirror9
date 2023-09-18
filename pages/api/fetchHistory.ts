@@ -16,9 +16,11 @@ export default async (req, res) => {
     // If you're storing each message individually
     const messages = await chatHistoryCollection.find({ userID, sessionID }).toArray();
 
-    if (!messages || messages.length === 0) {
-      return res.status(404).json({ error: 'Chat history not found' });
-    }
+
+   if(!messages || messages.length === 0) {
+      return res.status(200).json({ messages: [] });
+   }
+    
 
     return res.status(200).json({ messages });
 

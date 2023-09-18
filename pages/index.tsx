@@ -27,6 +27,8 @@ import {
   messageContainsCode,
   transformMessageWithCode
 } from './codeblock'
+// import { Sidebar } from 'lucide-react';
+import Sidebar from 'components/Sidebar';
 
 declare global {
   interface Window {
@@ -54,74 +56,82 @@ export default function Home() {
 
   const { messages, history } = messageState;
 
+  const [refreshKey, setRefreshKey] = useState(0);
+
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   const userIDRef = useRef<string | null>(null);
   const sessionIDRef = useRef<string | null>(null);
+  const [currentSessionID, setCurrentSessionID] = useState<string | null>(null);
   // Retrieves the chat history from the backend and formats it
   
-  // useEffect(() => {
-  //   function getOrGenerateUUID(key: string): string {
-  //     let value = localStorage.getItem(key);
-  //     if (!value) {
-  //       value = uuidv4();
-  //       localStorage.setItem(key, value);
-  //     }
-  //     return value;
-  //   }
+  useEffect(() => {
+    function getOrGenerateUUID(key: string): string {
+      let value = localStorage.getItem(key) || '';
+      if (!value) {
+          value = uuidv4();
+          localStorage.setItem(key, value);
+      }
+      return value;
+  }
   
-  //   userIDRef.current = getOrGenerateUUID('lapp');
-  //   sessionIDRef.current = getOrGenerateUUID('sapp');
+    userIDRef.current = getOrGenerateUUID('lapp');
+    sessionIDRef.current = getOrGenerateUUID('sapp');
 
-  //   async function fetchChatHistory() {
-  //     try {
-  //       const response = await fetch('/api/fetchHistory', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({
-  //           userID: userIDRef.current,
-  //           sessionID: sessionIDRef.current,
-  //         }),
-  //       });
-  //       const data = await response.json();
-  //       console.log(data, 'data from db');
+    async function fetchChatHistory() {
+      try {
+        const response = await fetch('/api/fetchHistory', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userID: userIDRef.current,
+            sessionID: sessionIDRef.current,
+          }),
+        });
+        const data = await response.json();
+        console.log(data, 'data from db');
   
-  //       if (data.error) {
-  //         console.error("Failed to fetch chat history:", data.error);
-  //       } else {
-  //         // Transform the retrieved data
-  //         const transformedMessages = data.messages.flatMap(msg => ([
-  //           {
-  //             type: 'userMessage',
-  //             message: msg.userQuestion,
-  //           },
-  //           {
-  //             type: 'apiMessage',
-  //             message: msg.answer,
-  //             sourceDocs: msg.sourceDocs || [],
-  //           }
-  //         ]));
-  //         transformedMessages.unshift({
-  //           type: 'apiMessage',
-  //           message: 'Hi, what would you like to learn today?'
-  //         });
-  //         setMessageState((state) => ({
-  //           ...state,
-  //           messages: transformedMessages,
-  //         }));
-  //         if (messageListRef.current) {
-  //           messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error('An error occurred while fetching the chat history:', error);
-  //     }
-  //   }
-  //   fetchChatHistory();
-  // }, []);
+        if (data.error) {
+          console.error("Failed to fetch chat history:", data.error);
+        } else {
+          // Transform the retrieved data
+          const transformedMessages = data.messages.flatMap(msg => ([
+            {
+              type: 'userMessage',
+              message: msg.userQuestion,
+            },
+            {
+              type: 'apiMessage',
+              message: msg.answer,
+              sourceDocs: msg.sourceDocs || [],
+            }
+          ]));
+          transformedMessages.unshift({
+            type: 'apiMessage',
+            message: 'Hi, what would you like to learn today?'
+          });
+          setMessageState((state) => ({
+            ...state,
+            messages: transformedMessages,
+          }));
+          if (messageListRef.current) {
+            messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
+          }
+        }
+      } catch (error) {
+        console.error('An error occurred while fetching the chat history:', error);
+      }
+    }
+    fetchChatHistory();
+  }, [currentSessionID]);
+  
+  const handleSessionChange = (newSessionID: string) => {
+    setCurrentSessionID(newSessionID);
+}
+
 
 //********************************************************************************************************* */
   async function handleSubmit(e: any) {
@@ -250,6 +260,11 @@ export default function Home() {
   return (
     <>
       <Layout>
+      <div className="appWrapper">
+      <aside> 
+      <Sidebar onSessionChange={handleSessionChange} /> 
+      </aside>
+      <div className="mainContent" key={refreshKey}>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             CornellGPT Beta
@@ -440,6 +455,8 @@ export default function Home() {
           <a href="Carl Huang and Mith Patel">
           </a>
         </footer>
+        </div>
+        </div>
       </Layout>
     </>
   );
