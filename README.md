@@ -1,3 +1,3 @@
 CornellGPT
 
-Using OpenAI, Langchain, Pinecone
+Using React, MongoDB, OpenAI, Langchain, Pinecone
