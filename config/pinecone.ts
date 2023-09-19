@@ -9,9 +9,9 @@ if (!process.env.PINECONE_INDEX_NAME) {
 const PINECONE_INDEX_NAME = 'mithgpt';
 
 const NAMESPACE_NUMB: { [key: string]: string[] } = {
-  '1': ['Networks'],
-  '2': ['Probability Cheatsheet v2.0'],
-  '3': ['Harvard Math 21a Review Sheet'],
+  'INFO_2040_Textbook': ['INFO 2040 Textbook'],
+  'Math_21a_Review_Sheet': ['Math 21a Review Sheet'],
+  'Probability_Cheatsheet_v2.0': ['Probability Cheatsheet v2.0'],
 
   'INFO2950_Koenecke_Syallbus' : ['INFO 2950 Koenecke Syllabus'],
   'INFO2950_Lec7_20230913' : ['INFO 2950 Lecture 7'],

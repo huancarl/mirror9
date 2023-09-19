@@ -29,7 +29,9 @@ async function run() {
     // Process user query
     const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?'
 
-    const availableTextbooks = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, INFO 2950 Syllabus, Introduction To Probability`;
+    const availableTextbooks = 
+    `INFO 2040 Textbook, Probability Cheatsheet v2.0 , Math 21a Review Sheet, Introduction To Probability, 
+    'INFO 2950 Koenecke Syallbus', 'INFO 2950 Lecture 7','INFO 2950 Handbook'`;
     
     const fewShotPrompt = `(
     
@@ -79,6 +81,9 @@ async function run() {
 
     - Query: "What is MGF's and Moments and where can I find it?"
       Response: "Searching Probability Cheatsheet v2.0..."
+
+    - Query: "What is info 2950 lecture 7 about?"
+      Response: "Searching INFO 2950 Lecture 7"
   
     - Query: "What is 1+1?"
       Response: "The answer is 2."

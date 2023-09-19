@@ -185,8 +185,8 @@ export class CustomQAChain {
         this.chatHistoryBuffer.addMessage(chat_history);
 
         const availableTitles = 
-        `Networks, Probability Cheatsheet v2.04 , Harvard: Math 21a Review Sheet, Introduction To Probability, 
-        'INFO 2950 Student Handbook', 'FA23_INFO2950_Koenecke_Syllabus', 'INFO2950_Lecture 7'`;
+        `INFO 2040 Textbook, Probability Cheatsheet v2.0 , Math 21a Review Sheet, Introduction To Probability, 
+        'INFO 2950 Koenecke Syallbus', 'INFO 2950 Lecture 7','INFO 2950 Handbook'`;
 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
