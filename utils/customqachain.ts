@@ -132,10 +132,10 @@ export class CustomQAChain {
         }
         let fetchedTexts: PineconeResultItem[] = [];
 
-        const maxNamespaces = 5;
+        const maxNamespaces = 20;
         const namespacesToSearch = this.namespaces.slice(0, maxNamespaces);
 
-        for (const namespace of namespacesToSearch) {
+        for (const namespace of namespacesToSearch) {                  ////specify what name spaces here for course catalog
             const queryResult = await this.retryRequest(async () => {
                 return await this.index.query({
                     queryRequest: {
@@ -184,7 +184,9 @@ export class CustomQAChain {
 
         this.chatHistoryBuffer.addMessage(chat_history);
 
-        const availableTitles = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, INFO 2950 Syllabus, Introduction To Probability`;
+        const availableTitles = 
+        `Networks, Probability Cheatsheet v2.04 , Harvard: Math 21a Review Sheet, Introduction To Probability, 
+        'INFO 2950 Student Handbook', 'FA23_INFO2950_Koenecke_Syllabus', 'INFO2950_Lecture 7'`;
 
         const sourceDocuments = relevantDocs.map(vector => {
             return {

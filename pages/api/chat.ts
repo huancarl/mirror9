@@ -31,7 +31,8 @@ function cleanSourceDocs(sourceDocs) {
 
 //Process user query
 const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?';
-const availableTextbooks = `Networks, Probability Cheatsheet v2.0, Harvard: Math 21a Review Sheet, INFO 2950 Syllabus, Introduction To Probability`;
+const availableTextbooks = `Networks, Probability Cheatsheet v2.0 , Harvard: Math 21a Review Sheet, Introduction To Probability, 
+'INFO 2950 Student Handbook', 'FA23_INFO2950_Koenecke_Syllabus', 'INFO2950_Lecture 7', 'INFO2950 Student Handbook`;
 
 const fewShotPrompt = `(
     

@@ -6,14 +6,18 @@ if (!process.env.PINECONE_INDEX_NAME) {
   throw new Error('Missing Pinecone index name in .env file');
 }
 
-const PINECONE_INDEX_NAME = 'cornellgpt';
+const PINECONE_INDEX_NAME = 'mithgpt';
 
-const NAMESPACE_NUMB: { [key: string]: string } = {
-  '1': 'Networks',
-  '2': 'Probability Cheatsheet v2.0',
-  '3': 'Harvard Math 21a Review Sheet',
-  'INFO_2950': 'INFO 2950 Syllabus',
-  'MATH_4710': "Introduction To Probability"
+const NAMESPACE_NUMB: { [key: string]: string[] } = {
+  '1': ['Networks'],
+  '2': ['Probability Cheatsheet v2.0'],
+  '3': ['Harvard Math 21a Review Sheet'],
+
+  'INFO2950_Koenecke_Syallbus' : ['INFO 2950 Koenecke Syllabus'],
+  'INFO2950_Lec7_20230913' : ['INFO 2950 Lecture 7'],
+  'INFO2950-Handbook' : ['INFO 2950 Handbook'],
+
+  'MATH_4710': ["Introduction To Probability"]
 };
 
 

@@ -37,7 +37,13 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
-    for (const folder of ['INFO_2950']) {
+    for (const folder of 
+      ['INFO2950_Koenecke_Syallbus',
+       'INFO2950_Lec7_20230913',
+       'INFO2950-Handbook'
+      ]
+    
+    ) {
       const docs = await loadDocumentsFromFolder(`${filePath}/${folder}`);
       
       const namespace = NAMESPACE_NUMB[folder]; // Assuming folder names map to namespaces
@@ -53,7 +59,7 @@ export const run = async () => {
           const chunk = splitDocs.slice(i, i + upsertChunkSize);
           await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
             pineconeIndex: index,
-            namespace: namespace,
+            // namespace: namespace, --- uncomment when 
             textKey: 'text',
           });
         }
