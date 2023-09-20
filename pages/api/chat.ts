@@ -153,7 +153,7 @@ export default async function handler(
     // Determine Pinecone namespaces based on extracted years
     const namespaces = extractedNumbs;
 
-    console.log(namespaces, 'namespace');
+    console.log(namespaces, 'namespace in chat.ts');
 
     //selects the index
     const index = pinecone.Index(PINECONE_INDEX_NAME);
