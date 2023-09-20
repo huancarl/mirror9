@@ -142,6 +142,7 @@ async function run() {
     const results = await qaChain.call({
         question: userQuery,
         chat_history: chatHistory,
+        namespaceToFilter: namespaces
     });
     
     console.log('results', results);
