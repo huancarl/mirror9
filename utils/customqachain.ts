@@ -123,7 +123,7 @@ export class CustomQAChain {
         }
     }
     
-    private async getRelevantDocs(question: string): Promise<PineconeResultItem[]> {
+    private async getRelevantDocs(question: string, filter: any): Promise<PineconeResultItem[]> {
         const embeddings = new OpenAIEmbeddings();
         const queryEmbedding = await embeddings.embedQuery(question);
 
@@ -133,7 +133,11 @@ export class CustomQAChain {
         let fetchedTexts: PineconeResultItem[] = [];
 
         const maxNamespaces = 20;
-        const namespacesToSearch = this.namespaces.slice(0, maxNamespaces);
+        // const namespacesToSearch = this.namespaces.slice(0, maxNamespaces);
+        console.log(filter, 'this is filter');
+        const namespacesToSearch = this.namespaces
+        .filter(namespace => namespace.includes(filter))
+        .slice(0, maxNamespaces);
 
         for (const namespace of namespacesToSearch) {                  ////specify what name spaces here for course catalog
             const queryResult = await this.retryRequest(async () => {
@@ -173,9 +177,9 @@ export class CustomQAChain {
          return fetchedTexts.slice(0, 5);  // return only top 5 documents
     }
 
-    public async call({ question, chat_history }: { question: string; chat_history: string }): Promise<CallResponse> {
+    public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: string, namespaceToFilter: any}, ): Promise<CallResponse> {
         
-        const relevantDocs = await this.getRelevantDocs(question);
+        const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
 
         const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
         // console.log(relevantDocs, 'this is relevantDocs');

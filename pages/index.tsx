@@ -134,6 +134,9 @@ export default function Home() {
 
 //********************************************************************************************************* */
   async function handleSubmit(e: any) {
+
+    const namespaceToSearch: string = 'INFO 2040';
+
     e.preventDefault();
 
     setError(null);
@@ -170,13 +173,14 @@ export default function Home() {
           question,
           history,
           userID: userIDRef.current,     
-          sessionID: sessionIDRef.current 
+          sessionID: sessionIDRef.current, 
+          namespace: namespaceToSearch
         }),
       });
       const data = await response.json();
 
-      console.log(messages, 'is messages');
-      console.log(data.sourceDocs, 'is sourceDocs');
+      // console.log(messages, 'is messages');
+      // console.log(data.sourceDocs, 'is sourceDocs');
       if (data.sourceDocs) {
         data.sourceDocs = data.sourceDocs.map(doc => {
           if (doc.text) {

@@ -102,8 +102,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const { question, history, userID, sessionID} = req.body;
+  const { question, history, userID, sessionID, namespace} = req.body;
   // const question = req.body.question;
+
   console.log('Received request body:', req.body);
   // console.log(question);
 
@@ -147,7 +148,7 @@ export default async function handler(
     });
 
     const extractedNumbs = await extractTitlesFromQuery(response.response);
-    const numbsArray: string[] | undefined = extractedNumbs as string[] | undefined;
+    // const numbsArray: string[] | undefined = extractedNumbs as string[] | undefined;
     
     // Determine Pinecone namespaces based on extracted years
     const namespaces = extractedNumbs;
@@ -170,6 +171,7 @@ export default async function handler(
     const results = await qaChain.call({
       question: sanitizedQuestion,
       chat_history: history,
+      namespaceToFilter: namespace
     });
 
     console.log('results', results);
