@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 interface TypewriterProps {
-  message: string | null; // use null instead of any for better type checking
+  message: any;
   speed?: number;
 }
 

@@ -89,7 +89,7 @@ export function MessageRenderer({ message }) {
                     const latexSegment = transformMessageWithLatex(segment);
                     return <MathComponent key={index} latex={latexSegment} />;
                 } else {
-                  return <Typewriter key={index} text={segment} />;
+                  return <Typewriter key={index} message={segment} />;
                 }
             })}
         </>

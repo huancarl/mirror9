@@ -66,7 +66,8 @@ function createPrompt(namespaceToSearch: string){
     6. Always search within ${classMapping[namespaceToSearch]}. Do not return a resource that is not within ${classMapping[namespaceToSearch]}.
     7. ALWAYS return an response no matter what. If the correct resource to return is unclear just return ${classMapping[namespaceToSearch]}.
 
-
+    Query = ${userQuery}
+    
   ----Enhanced Example Responses:
  
   - Query: "Can you summarize lecture 7"

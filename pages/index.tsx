@@ -249,7 +249,6 @@ export default function Home() {
     return (
       <div className={styles.codeBlock}>
         <pre className={styles.code}>
-        <Typewriter message={code} speed={10} />
         <code style={{ color: "#8B0000" }}>{code}</code>
         </pre>
         <button
@@ -320,14 +319,16 @@ export default function Home() {
     const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
 
     if (isCodeMessage) {
-        content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-    } else if (messageContainsMath(message.message)) {
-        content = <MessageRenderer key={index} message={message.message} />;
-    } else {
-        content = (
-          <Typewriter message={message.message} />
-        );
-    }
+      content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
+  } else if (messageContainsMath(message.message)) {
+      content = <MessageRenderer key={index} message={message.message} />;
+  } else {
+      if (message.type === 'apiMessage' && !isCodeMessage) {  
+          content = <Typewriter message={message.message} />;
+      } else {
+          content = <span>{message.message}</span>;
+      }
+  }
 
     return (
         <>
