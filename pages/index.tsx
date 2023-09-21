@@ -28,6 +28,8 @@ import {
   transformMessageWithCode
 } from './codeblock'
 import Sidebar from 'components/Sidebar';
+import { Typewriter } from './typewriter'; 
+
 
 declare global {
   interface Window {
@@ -247,6 +249,7 @@ export default function Home() {
     return (
       <div className={styles.codeBlock}>
         <pre className={styles.code}>
+        <Typewriter message={code} speed={10} />
         <code style={{ color: "#8B0000" }}>{code}</code>
         </pre>
         <button
@@ -322,9 +325,7 @@ export default function Home() {
         content = <MessageRenderer key={index} message={message.message} />;
     } else {
         content = (
-            <ReactMarkdown key={index} linkTarget="_blank">
-                {message.message}
-            </ReactMarkdown>
+          <Typewriter message={message.message} />
         );
     }
 
@@ -412,7 +413,7 @@ export default function Home() {
                     ref={textAreaRef}
                     autoFocus={false}
                     rows={1}
-                    maxLength={5000} // input size adjustment***
+                    maxLength={50000} // input size adjustment***
                     id="userInput"
                     name="userInput"
                     placeholder={

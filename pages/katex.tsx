@@ -3,6 +3,8 @@ import 'highlight.js/styles/github.css';
 import React from "react";
 import katex from "katex";
 import 'katex/dist/katex.min.css';
+import { Typewriter } from './typewriter';  
+
 
 
 export function messageContainsMath(message) {
@@ -87,7 +89,7 @@ export function MessageRenderer({ message }) {
                     const latexSegment = transformMessageWithLatex(segment);
                     return <MathComponent key={index} latex={latexSegment} />;
                 } else {
-                    return <span key={index}>{segment}</span>;
+                  return <Typewriter key={index} text={segment} />;
                 }
             })}
         </>
