@@ -67,6 +67,69 @@ export default function Home() {
   const [currentSessionID, setCurrentSessionID] = useState<string | null>(null);
   // Retrieves the chat history from the backend and formats it
   
+  const [sessions, setSessions] = useState<any[]>([]);
+ 
+  useEffect(() => {
+    async function fetchAllSessions() {
+      try {
+        const response = await fetch('/api/fetchAllSessions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userID: userIDRef.current,
+          }),
+        });
+        const data = await response.json();
+        if (data.error) {
+          console.error("Failed to fetch sessions:", data.error);
+        } else {
+          setSessions(data.sessions);
+        }
+      } catch (error) {
+        console.error('An error occurred while fetching the sessions:', error);
+      }
+    }
+    fetchAllSessions();
+  }, [userIDRef.current]);
+
+  const handleSessionChange = async (newSessionID: string) => {
+    setCurrentSessionID(newSessionID);
+  
+  
+    // Fetch chat history for newSessionID and update the messageState
+    const fetchedMessages = await fetchChatHistoryForSession(newSessionID);
+  
+  
+    // Assuming each fetched message has a format { message: '...', type: '...' }
+    setMessageState(prevState => ({
+        ...prevState,
+        messages: fetchedMessages
+    }));
+  };
+  
+  
+  const fetchChatHistoryForSession = async (sessionID: string) => {
+    try {
+        const response = await fetch('/api/fetchChatHistory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: localStorage.getItem('lapp'),
+                sessionID: sessionID
+            }),
+        });
+        const data = await response.json();
+        return data.messages || [];
+    } catch (error) {
+        console.error('Failed to fetch chat history:', error);
+        return [];
+    }
+  };  
+
   useEffect(() => {
     function getOrGenerateUUID(key: string): string {
       let value = localStorage.getItem(key) || '';
@@ -129,9 +192,9 @@ export default function Home() {
     fetchChatHistory();
   }, [currentSessionID]);
   
-  const handleSessionChange = (newSessionID: string) => {
-    setCurrentSessionID(newSessionID);
-}
+//   const handleSessionChange = (newSessionID: string) => {
+//     setCurrentSessionID(newSessionID);
+// }
 
 
 //********************************************************************************************************* */

@@ -3,6 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from '@/styles/Sidebar.module.css';
 
 
+
+
 type ChatSession = {
     _id: string;
     sessionID: string;
@@ -11,25 +13,26 @@ type ChatSession = {
 type SidebarProps = {
   className?: string;
   onSessionChange?: (sessionId: string) => void;  // Updated the type
+  sessions?: ChatSession[];
 };
 
 
-const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange }) => {
+
+
+const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions }) => {
   // Use ChatSession type for chatSessions state
-  const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
+  const [chatSessions, setChatSessions] = useState<ChatSession[]>(sessions || []);
   const [currentSessionID, setCurrentSessionID] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('sapp');
     }
     return null;
   });
-
-
-  console.log('runs');
+  console.log("Received sessions:", sessions);
   useEffect(() => {
     async function fetchChatSessions() {
       try {
-        const response = await fetch('/api/fetchChatSessions', {
+        const response = await fetch('/api/fetchAllSessions', { // Updated endpoint
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -44,10 +47,14 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange }) => {
         console.error('Failed to fetch chat sessions:', error);
       }
     }
-    if (currentSessionID) {
+ 
+    // Fetch sessions if no sessions prop is provided or if currentSessionID changes
+    if (!sessions || currentSessionID) {
       fetchChatSessions();
-      }
-  }, [currentSessionID]);
+    }
+  }, [currentSessionID, sessions]);
+
+
 
 
   const handleNewChat = async () => {
@@ -72,6 +79,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange }) => {
   }
 
 
+
+
   return (
     <div className={styles.side}>
       <button onClick={handleNewChat} className="session-button">New Chat</button>
@@ -92,9 +101,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange }) => {
 ))}
 
 
+
+
     </div>
   );
 }
+
+
 
 
 export default Sidebar;

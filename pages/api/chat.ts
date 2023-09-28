@@ -18,6 +18,8 @@ import * as fs from 'fs/promises'
 import connectToDb from '@/config/db';
 
 
+
+
 function cleanText(text) {
   // Removing lines containing only whitespace
   const cleaned = text.split('\n').filter(line => line.trim().length > 0).join(' ');
@@ -31,8 +33,12 @@ function cleanSourceDocs(sourceDocs) {
 }
 
 
+
+
 //Process user query
 const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?';
+
+
 
 
 const classMapping = {
@@ -40,6 +46,8 @@ const classMapping = {
   "INFO 2950": ['INFO 2950 Koenecke Syllabus', 'INFO 2950 Lecture 7', 'INFO 2950 Handbook'],
   "Other": "Probability Cheatsheet v2.0, Math 21a Review Sheet, Introduction To Probability"
 }
+
+
 
 
 function createPrompt(namespaceToSearch: string){
@@ -66,12 +74,17 @@ function createPrompt(namespaceToSearch: string){
     6. Always search within ${classMapping[namespaceToSearch]}. Do not return a resource that is not within ${classMapping[namespaceToSearch]}.
     7. ALWAYS return an response no matter what. If the correct resource to return is unclear just return ${classMapping[namespaceToSearch]}.
 
-    Query = ${userQuery}
-    
+
+
+
   ----Enhanced Example Responses:
  
   - Query: "Can you summarize lecture 7"
     Response: "Searching ${namespaceToSearch} lecture 7..."
+ 
+    But let's say that ${namespaceToSearch} lecture 7 is not in ${classMapping[namespaceToSearch]}
+    then:
+    Response: "Searching ${classMapping[namespaceToSearch]}..."
  
   - Query: "Tell me about -"
     Response: "Searching ${classMapping[namespaceToSearch]}..."
@@ -83,6 +96,8 @@ function createPrompt(namespaceToSearch: string){
     Response: "Searching ${namespaceToSearch} textbook..."
 
 
+
+
   - Query: "Summarize the course contents for this class"
     Response: "Searching ${classMapping[namespaceToSearch]}..."
    
@@ -91,15 +106,21 @@ function createPrompt(namespaceToSearch: string){
 }
 
 
+
+
 // const fewShotPrompt = `(
    
 //   You are CornellGPT, an advanced AI developed by two gifted Cornell students.
+
+
 
 
 //   Your mission is to furnish accurate, detailed, and educational answers by referring to specified educational material only when asked a question that is relevant.
 //   If the question is not relevant to ${availableTextbooks}, then simply do not search the namespaces, and provide a accurate, detailed, precise answer as such.
  
 //   Here are the refined guidelines for your operation:
+
+
 
 
 //   ---Available Information: [${availableTextbooks}].
@@ -113,6 +134,8 @@ function createPrompt(namespaceToSearch: string){
 //   6. Do not give false answers or makeup answers.
 
 
+
+
 //   7. If the the question has no relevance at all with ${availableTextbooks}, then you do not need to analyze the material.
 //      Instead answer with accuracy, precision and detail without analyzing the material.
  
@@ -120,53 +143,79 @@ function createPrompt(namespaceToSearch: string){
 // Query = ${userQuery}
 
 
+
+
 // - Query: "Can you elucidate on network structures and their importance?"
 //   Response: "Searching the Networks textbook..."
+
+
 
 
 // - Query: "I'd like to understand counting and thinking conditionally. Give me exact quotations to help my understanding."
 //   Response: "Searching Probability Cheatsheet v2.0..."
 
 
+
+
 // - Query: "Where can I find detailed discussions on vector functions?"
 //   Response: "Searching Harvard: Math 21a Review Sheet..."
+
+
 
 
 // - Query: "What is the grade breakdown for INFO 2950?"
 //   Response: "Searching INFO 2950 Syllabus..."
 
 
+
+
 // -Query: "Explain chapter 1 of the introduction to probability textbook"
 // Response: "Searching Introduction To Probability textbook..."
+
+
 
 
 // - Query: "Do you have content on Bayesian networks and how it relates to Making Markets?"
 //   Response: "Searching the Networks textbook..."
 
 
+
+
 // - Query: "Summarize the info 2950 koenecke syllabus?"
 //   Response: "Searching INFO 2950 Koenecke Syllabus"
+
+
 
 
 // - Query: "Summarize the info 2950 handbook?"
 //   Response: "Searching INFO 2950 Handbook"  
 
 
+
+
 // - Query: "Help me grasp the nuances of graph algorithms and stochastic processes."
 //   Response: "Searching Networks and Probability Cheatsheet v2.0..."
+
+
 
 
 // - Query: "What is MGF's and Moments and where can I find it?"
 //   Response: "Searching Probability Cheatsheet v2.0..."
 
 
+
+
 // - Query: "What is 1+1?"
 //   Response: "The answer is 2."
+
+
 
 
 // - Query: "Can you please tell me about Albert Einsteins Work?"
 //   Response: "Albert Einsteins work is centered around...."
 // )`  
+
+
 
 
 export default async function handler(
@@ -177,10 +226,16 @@ export default async function handler(
   // const question = req.body.question;
 
 
+
+
   console.log('Received request body:', req.body);
 
 
+
+
   // console.log(question);
+
+
 
 
   //only accept post requests
@@ -190,18 +245,26 @@ export default async function handler(
   }
 
 
+
+
   if (!question) {
     return res.status(400).json({ message: 'No question in the request' });
   }
+
+
 
 
   // OpenAI recommends replacing newlines with spaces for best results
   const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
 
 
+
+
   try {
     const db = await connectToDb();
     const chatHistoryCollection = db.collection("chatHistories");
+
+
 
 
     const model = new OpenAIChat({
@@ -211,7 +274,11 @@ export default async function handler(
     });
 
 
+
+
     const fewShotPrompt = createPrompt(namespace);
+
+
 
 
     const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
@@ -221,6 +288,8 @@ export default async function handler(
     ]);
 
 
+
+
     const chain = new ConversationChain({
       memory: new BufferMemory({ returnMessages: true, memoryKey: 'history' }),
       prompt: reportsPrompt,
@@ -228,12 +297,18 @@ export default async function handler(
     })
 
 
+
+
     const response = await chain.call({
       query:sanitizedQuestion,
     });
 
 
+
+
     console.log('response from chain.call in chat.ts', response.response);
+
+
 
 
     const extractedNumbs = await extractTitlesFromQuery(response.response);
@@ -243,11 +318,17 @@ export default async function handler(
     const namespaces = extractedNumbs;
 
 
+
+
     console.log(namespaces, 'namespace in chat.ts');
+
+
 
 
     //selects the index
     const index = pinecone.Index(PINECONE_INDEX_NAME);
+
+
 
 
     //init class
@@ -257,7 +338,15 @@ export default async function handler(
     });
 
 
+
+
     console.log('searching namespace for results...');
+
+
+
+
+
+
 
 
 
@@ -271,11 +360,17 @@ export default async function handler(
     });
 
 
+
+
     console.log('results', results);
+
+
 
 
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
+
+
 
 
     // console.log(sourceDocs, 'this is the chat.ts file');
@@ -289,7 +384,11 @@ export default async function handler(
     };
 
 
+
+
     await chatHistoryCollection.insertOne(saveToDB);
+
+
 
 
     const data = {
