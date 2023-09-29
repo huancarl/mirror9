@@ -1,0 +1,25 @@
+/* CourseBox.module.css */
+.courseBox {
+  width: 12em;  /* Fixed width */
+  height: 10em; /* Fixed height */
+  margin: 10px;
+  border: 2px solid #fd5c63;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  text-align: center;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden; /* Hide excess content */
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.courseBox:hover {
+  transform: scale(1.05); /* Slightly enlarge the box on hover */
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2); /* Increase shadow depth for a 'lifted' effect */
+}
+
