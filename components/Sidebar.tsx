@@ -16,9 +16,6 @@ type SidebarProps = {
   sessions?: ChatSession[];
 };
 
-
-
-
 const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions }) => {
   // Use ChatSession type for chatSessions state
   const [chatSessions, setChatSessions] = useState<ChatSession[]>(sessions || []);
@@ -54,9 +51,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions 
     }
   }, [currentSessionID, sessions]);
 
-
-
-
   const handleNewChat = async () => {
     const newSessionID = uuidv4();
     try {
@@ -78,33 +72,25 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions 
     }
   }
 
-
-
-
   return (
     <div className={styles.side}>
-      <button onClick={handleNewChat} className="session-button">New Chat</button>
+      <button onClick={handleNewChat} className={styles.newChatButton}>+  New Chat</button>
       {chatSessions.map(session => (
-  <button
-    key={session._id}
-    onClick={() => {
-      localStorage.setItem('sapp', session.sessionID);
-      setCurrentSessionID(session.sessionID); // This will trigger the useEffect to refetch the sessions
-      if (onSessionChange) {
-        onSessionChange(session.sessionID); // Updated to pass the session ID
-      }
-    }}
-    className="session-button"
-  >
+    <button
+      key={session._id}
+      onClick={() => {
+        localStorage.setItem('sapp', session.sessionID);
+        setCurrentSessionID(session.sessionID); 
+        if (onSessionChange) {
+          onSessionChange(session.sessionID); 
+        }
+      }}
+      className={styles.sessionButton}>
     {session.name}
   </button>
-))}
-
-
-
-
-    </div>
-  );
+    ))}
+  </div>
+);
 }
 
 

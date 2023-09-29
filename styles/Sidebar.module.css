@@ -8,3 +8,18 @@
     flex-direction: column;
     /* Add any other styles like width, background-color, etc. */
   }
+  .newChatButton {
+    border: 1px solid #000; 
+    font-size: 1em;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin-left: 20px; /* Add margin to the left */
+    margin-right: 20px; /* Add margin to the right */
+  }
+  
+
+/* .session-button {
+  
+} */

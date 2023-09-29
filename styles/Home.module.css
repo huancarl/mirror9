@@ -126,7 +126,12 @@
   animation-direction: alternate;
   animation-name: loading-gradient;
 }
-
+.selectedClassName {
+  font-size: 1em;
+  text-align: center;
+  color: #6b7280; /* You can adjust the color as desired */
+  margin-top: 1px; /* Adjust spacing as needed */
+}
 
 @keyframes loading-gradient {
   0% {
@@ -276,7 +281,7 @@
 
 .mainContent {
   flex: 1; /* This will make the main content take up the remaining space */
-  overflow-y: auto; /* You can use this if you want the main content to scroll independently as well */
+ 
 }
 
 

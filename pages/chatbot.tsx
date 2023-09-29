@@ -29,7 +29,7 @@ import {
 } from './codeblock'
 import Sidebar from 'components/Sidebar';
 import { Typewriter } from './typewriter'; 
-
+import { useRouter } from 'next/router';
 
 declare global {
   interface Window {
@@ -54,21 +54,18 @@ export default function Home() {
     ],
     history: [],
   });
-
   const { messages, history } = messageState;
-
   const [refreshKey, setRefreshKey] = useState(0);
-
   const messageListRef = useRef<HTMLDivElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
   const userIDRef = useRef<string | null>(null);
   const sessionIDRef = useRef<string | null>(null);
   const [currentSessionID, setCurrentSessionID] = useState<string | null>(null);
-  // Retrieves the chat history from the backend and formats it
-  
   const [sessions, setSessions] = useState<any[]>([]);
  
+  const router = useRouter();
+  const courseTitle = router.query.course;
+
   useEffect(() => {
     async function fetchAllSessions() {
       try {
@@ -200,7 +197,7 @@ export default function Home() {
 //********************************************************************************************************* */
   async function handleSubmit(e: any) {
 
-    const namespaceToSearch: string = 'INFO 2040';
+    const namespaceToSearch: any = courseTitle;
 
     e.preventDefault();
 
@@ -337,11 +334,10 @@ export default function Home() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             CornellGPT Beta
           </h1>
+          <h4 className={styles.selectedClassName}>Selected Class: {courseTitle}</h4> 
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
-
-
 
                 {messages.map((message, index) => {
     // Your message type handling logic 
