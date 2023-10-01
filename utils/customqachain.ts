@@ -214,7 +214,20 @@ export class CustomQAChain {
 
         const availableTitles =
         `INFO 2040 Textbook, Probability Cheatsheet v2.0 , Math 21a Review Sheet, Introduction To Probability,
-        'INFO 2950 Koenecke Syallbus', 'INFO 2950 Lecture 7','INFO 2950 Handbook'`;
+        'INFO 2950 Koenecke Syallbus', 'INFO 2950 Lecture 7','INFO 2950 Handbook',
+
+        'INFO 2950 Fall 2022 Midterm Solutions',
+        'INFO 2950 Fall 2022 Midterm Questions',
+        'INFO 2950 Lecture 1', 
+        'INFO 2950 Lecture 2',
+        'INFO 2950 Lecture 3', 
+        'INFO 2950 Lecture 4', 
+        'INFO 2950 Lecture 5', 
+        'INFO 2950 Lecture 6', 
+        'INFO 2950 Lecture 8', 
+        'INFO 2950 Lecture 9', 
+        'INFO 2950 Lecture 10', 
+        'INFO 2950 Midterm Fall 2023 Review Topics'`;
 
 
         const sourceDocuments = relevantDocs.map(vector => {

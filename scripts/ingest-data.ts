@@ -38,13 +38,18 @@ export const run = async () => {
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
     for (const folder of [
-      'INFO_2040_Textbook',
-      'Math_21a_Review_Sheet',
-      'Probability_Cheatsheet_v2.0'
-
-
-
-    ]) 
+      'INFO_2950_Fall_2022_Midterm_Solutions',
+      'INFO2950_FA22_MidtermQuestions',
+      'INFO2950_Lec1_20230821', 
+      'INFO2950_Lec2_20230823',
+      'INFO2950_Lec3_20230828', 
+      'INFO2950_Lec4_20230830', 
+      'INFO2950_Lec5_20230906', 
+      'INFO2950_Lec6_20230911', 
+      'INFO2950_Lec8_20230918', 
+      'INFO2950_Lec9_20230920', 
+      'INFO2950_Lec10_20230925', 
+      'INFO2950_Midterm_Fall_2023_Review Topics']) 
     
     {
       const docs = await loadDocumentsFromFolder(`${filePath}/${folder}`);

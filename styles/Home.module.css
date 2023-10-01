@@ -130,7 +130,7 @@
   font-size: 1em;
   text-align: center;
   color: #6b7280; /* You can adjust the color as desired */
-  margin-top: 1px; /* Adjust spacing as needed */
+  margin-top: -0.5em; /* Adjust spacing as needed */
 }
 
 @keyframes loading-gradient {
