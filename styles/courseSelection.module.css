@@ -24,3 +24,35 @@
   justify-content: center;
   width: 100%;
 }
+
+.searchInput {
+  padding: 10px 25px 10px 35px;    /* Adjusted padding to give space on the left for the icon */
+  font-size: 1em;                  /* Standard font size */
+  width: 55%;                      /* Slightly narrower search bar */
+  margin-bottom: 20px;             /* Adjusted margin for spacing */
+  border-radius: 20px;             /* Adjusted for an elongated oval shape */
+  border: 1px solid black;         /* Black outline */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Slightly reduced shadow for depth */
+  transition: box-shadow 0.3s, transform 0.3s; /* Transition for smooth effects */
+  background: white;
+
+  color: #333;                     /* Darker text color for better contrast against white */
+
+}
+
+
+.searchInput::placeholder {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.searchInput:focus {
+  outline: none;                 /* Remove default outline */
+  box-shadow: 0 5px 7px rgba(0, 0, 0, 0.1);  /* Slightly reduced shadow on focus */
+  transform: translateY(-1px);   /* Slight upward shift for a 'pop' effect */
+}
+
+
+
+
+
+

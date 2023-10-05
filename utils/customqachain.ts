@@ -58,8 +58,18 @@ class ChatHistoryBuffer {
         }
     }
 }
+
+interface Metadata {
+    text: string;
+    source: string;
+    pageNumber: number;
+    totalPages: number;
+    chapter?: number;   // Optional, if not all documents have chapters
+    book?: string;      // Optional, if not all documents are from books
+  }
+
 interface PineconeResultItem {
-    metadata: any;
+    metadata: Metadata;
     values: any;
     text: any;
     value: {
@@ -67,10 +77,11 @@ interface PineconeResultItem {
         source: string;
         pageNumber: number;
         totalPages: number;
-        chapter: number;
-        book: string;
+        chapter?: number;
+        book?: string;
     };
 }
+
 interface CallResponse {
     text: string;
     sourceDocuments: Array<{
@@ -146,7 +157,7 @@ export class CustomQAChain {
         let fetchedTexts: PineconeResultItem[] = [];
 
 
-        const maxNamespaces = 20;
+        const maxNamespaces = 10;
         // const namespacesToSearch = this.namespaces.slice(0, maxNamespaces);
         console.log(filter, 'this is filter');
         const namespacesToSearch = this.namespaces
@@ -160,7 +171,7 @@ export class CustomQAChain {
                 return await this.index.query({
                     queryRequest: {
                         vector: queryEmbedding,
-                        topK: 5,
+                        topK: 10,
                         namespace: namespace,
                         includeMetadata: true,
                     },
@@ -258,15 +269,14 @@ export class CustomQAChain {
         and that they must select a different class for the best response. If the relation to the class is unclear, assume the question to be in the
         context of ${namespaceToFilter}. Otherwise if the question is clearly related to the class assume the context to be ${namespaceToFilter}, follow
         the instructions below:
-
-
+        
         Questions that will be asked are: ${question}.
        
         --Contextual Understanding**:
         - You have access and deep knowledge about various specific content denoted as ${contextTexts}. The specific
           textbooks you have access to are ${availableTitles}. Never say you do not have access to ${availableTitles}
-
-
+        - When asked specifically about a certain ${availableTitles}, provide as much specific detail as possible and do not forget to mention anything
+        relevant to the question. For instance if told to summarize lecture 7, summarize in detail and do not forget anything.
         - The context contains educational information including textbooks. While chapters might offer a general overview, the true value lies in the specific details contained within.
         - When posed with a question, examine its relationship with the available context. Your primary objective is to detect and resonate with the explicit content from this context to furnish the most accurate and beneficial response.
         - If a question pertains to information not overtly provided in the immediate context, such as nuances about a certain chapter, use your vast knowledge bank and intuition to render a comprehensive answer.

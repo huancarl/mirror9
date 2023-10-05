@@ -334,7 +334,7 @@ export default function Home() {
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
             CornellGPT Beta
           </h1>
-          <h4 className={styles.selectedClassName}>Selected Class: {courseTitle}</h4> 
+          <h4 className={styles.selectedClassName}>{courseTitle}</h4> 
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
