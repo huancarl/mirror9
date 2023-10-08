@@ -6,7 +6,7 @@ import CourseBox from 'components/CourseBox';
 function CourseCatalog() {
   const courses = [
     { key: 'INFO 2950', title: 'INFO 2950', professor: 'Professor Koenecke' },
-    { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor David Easley' },
+    { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,11 +22,11 @@ function CourseCatalog() {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>CornellGPT Beta</h1>
+      <h1 className={styles.title}> CornellGPT </h1>
       <p className={styles.subtitle}>What class would you like help with?</p>
       <input
         type="text"
-        placeholder="Search for a course..."
+        placeholder="Search for a course :)"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className={styles.searchInput}

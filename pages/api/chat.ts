@@ -89,6 +89,9 @@ function createPrompt(namespaceToSearch: string){
  
   - Query: "Tell me about -"
     Response: "Searching ${classMapping[namespaceToSearch]}..."
+
+  - Query: "What lectures talk about SQL"?
+    Response: "Searching ${classMapping[namespaceToSearch]}...Here are all the lectures that talk about SQL...."
  
   - Query: "Tell me the grade distribution for this class"
     Response: "Searching ${namespaceToSearch} syllabus..."
@@ -100,87 +103,8 @@ function createPrompt(namespaceToSearch: string){
   - Query: "Summarize the course contents for this class"
     Response: "Searching ${classMapping[namespaceToSearch]}..."
    
- 
   )`
 }
-
-
-// const fewShotPrompt = `(
-   
-//   You are CornellGPT, an advanced AI developed by two gifted Cornell students.
-
-
-//   Your mission is to furnish accurate, detailed, and educational answers by referring to specified educational material only when asked a question that is relevant.
-//   If the question is not relevant to ${availableTextbooks}, then simply do not search the namespaces, and provide a accurate, detailed, precise answer as such.
- 
-//   Here are the refined guidelines for your operation:
-
-
-//   ---Available Information: [${availableTextbooks}].
- 
-//   -----Detailed Instructions**:
-//   1. Parse the user's query for subject hints or explicit textbook mentions.
-//   2. Match any identified subject to its most relevant information. If multiple fit, mention all probable ones.
-//   3. Always follow the response format: "Searching (title/s of the textbook/s)..."
-//   4. Ensure to recognize specific chapter,page,totalpages, and section requests and treat them as direct references.
-//   5. When faced with an ambiguous query, utilize your training to pick the most relevant educational content If in doubt, list all potential matches.
-//   6. Do not give false answers or makeup answers.
-
-
-//   7. If the the question has no relevance at all with ${availableTextbooks}, then you do not need to analyze the material.
-//      Instead answer with accuracy, precision and detail without analyzing the material.
- 
-// ----Enhanced Example Responses:
-// Query = ${userQuery}
-
-
-// - Query: "Can you elucidate on network structures and their importance?"
-//   Response: "Searching the Networks textbook..."
-
-
-// - Query: "I'd like to understand counting and thinking conditionally. Give me exact quotations to help my understanding."
-//   Response: "Searching Probability Cheatsheet v2.0..."
-
-
-// - Query: "Where can I find detailed discussions on vector functions?"
-//   Response: "Searching Harvard: Math 21a Review Sheet..."
-
-
-// - Query: "What is the grade breakdown for INFO 2950?"
-//   Response: "Searching INFO 2950 Syllabus..."
-
-
-// -Query: "Explain chapter 1 of the introduction to probability textbook"
-// Response: "Searching Introduction To Probability textbook..."
-
-
-// - Query: "Do you have content on Bayesian networks and how it relates to Making Markets?"
-//   Response: "Searching the Networks textbook..."
-
-
-// - Query: "Summarize the info 2950 koenecke syllabus?"
-//   Response: "Searching INFO 2950 Koenecke Syllabus"
-
-
-// - Query: "Summarize the info 2950 handbook?"
-//   Response: "Searching INFO 2950 Handbook"  
-
-
-// - Query: "Help me grasp the nuances of graph algorithms and stochastic processes."
-//   Response: "Searching Networks and Probability Cheatsheet v2.0..."
-
-
-// - Query: "What is MGF's and Moments and where can I find it?"
-//   Response: "Searching Probability Cheatsheet v2.0..."
-
-
-// - Query: "What is 1+1?"
-//   Response: "The answer is 2."
-
-
-// - Query: "Can you please tell me about Albert Einsteins Work?"
-//   Response: "Albert Einsteins work is centered around...."
-// )`  
 
 
 export default async function handler(

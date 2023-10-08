@@ -345,6 +345,6 @@
     text-align: center;
   }
   .paragraphIndentation p:not(:first-child) {
-    text-indent: 30px; /* You can adjust the value as needed */
+    text-indent: 50px; /* You can adjust the value as needed */
   }
 }

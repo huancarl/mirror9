@@ -31,6 +31,8 @@ import Sidebar from 'components/Sidebar';
 import { Typewriter } from './typewriter'; 
 import { useRouter } from 'next/router';
 
+
+
 declare global {
   interface Window {
     katex: any;
@@ -218,6 +220,10 @@ export default function Home() {
         {
           type: 'userMessage',
           message: question,
+        },
+        {
+          type: 'apiMessage',
+          message: `Searching ${namespaceToSearch}...`,
         },
       ],
     }));
