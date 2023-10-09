@@ -209,16 +209,14 @@ export class CustomQAChain {
     public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: string, namespaceToFilter: any}, ): Promise<CallResponse> {
        
         const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
-
-
-        const contextTexts = relevantDocs.map(doc => doc.metadata.text).join(" ");
-        // console.log(relevantDocs, 'this is relevantDocs');
+        const contextTexts = relevantDocs.map(doc => {
+            const filename = doc.metadata.source.split('/').pop();
+            const metadataText = doc.metadata.text.replace(/\s+/g, ' ').trim();
+            return `${metadataText} (Source: ${filename}, Page Number: ${doc.metadata['loc.pageNumber']})`;
+        }).join(" ");
         // console.log(relevantDocs.length, 'is the length of relevantDocs');
         // console.log(contextTexts, 'is context texts');
-
-
         this.chatHistoryBuffer.addMessage(chat_history);
-
 
         const availableTitles =
         `INFO 2040 Textbook, Probability Cheatsheet v2.0 , Math 21a Review Sheet, Introduction To Probability,
@@ -296,10 +294,9 @@ export class CustomQAChain {
         - Unrelated: Answer the question accurately, regardless of the context's relevance or lack thereof, but mention to the user that it is unrelated to the context.
        
        ------Reference Citing:
-        - With ${sourceDocuments} you are given the source of where your answer is coming from. Be conscious and aware 
-        of source documents as you develop your answers. Source documents is extremely important to the development and accuracy of your answer,
-        search extensively and deeply through the entirety of source documents when you formulate your answer. Always be mindful of sourcedocuments
-        and never forget it as you answer.
+        - You are given the source of where your answer is coming from. Be conscious and aware 
+        of the sources of the documents as you develop your answers. The source of where your answer is extremely important to the development and accuracy of your answer.
+        when you formulate your answer. Always be mindful of where the content is sourced from and never forget it as you answer.
        
         -----In Ambiguity:
         - When faced with a question where the context isn't clear-cut, lean towards the most probable context. Your vast training data should guide this decision.
@@ -337,6 +334,9 @@ export class CustomQAChain {
         Response:
        
         `;
+        
+    console.log(prompt);
+
           // Create multiple models with different parameters
     const models = [{
         temperature: 0.1,
