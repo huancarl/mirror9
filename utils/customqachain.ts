@@ -149,24 +149,20 @@ export class CustomQAChain {
     private async getRelevantDocs(question: string, filter: any): Promise<PineconeResultItem[]> {
         const embeddings = new OpenAIEmbeddings();
         const queryEmbedding = await embeddings.embedQuery(question);
-
-
+    
         if (!queryEmbedding) {
             throw new Error("Failed to generate embedding for the question.");
         }
+    
         let fetchedTexts: PineconeResultItem[] = [];
-
-
+        let remainingDocs = 50;
+    
         const maxNamespaces = 10;
-        // const namespacesToSearch = this.namespaces.slice(0, maxNamespaces);
-        console.log(filter, 'this is filter');
         const namespacesToSearch = this.namespaces
-        .filter(namespace => namespace.includes(filter))
-        .slice(0, maxNamespaces);
-        console.log('namespacestosearch', namespacesToSearch);
-
-
-        for (const namespace of namespacesToSearch) {                  ////specify what name spaces here for course catalog
+            .filter(namespace => namespace.includes(filter))
+            .slice(0, maxNamespaces);
+    
+        for (const namespace of namespacesToSearch) {
             const queryResult = await this.retryRequest(async () => {
                 return await this.index.query({
                     queryRequest: {
@@ -177,39 +173,37 @@ export class CustomQAChain {
                     },
                 });
             });
-
-
-
-
+    
             let ids: string[] = [];
             if (queryResult && Array.isArray(queryResult.matches)) {
                 ids = queryResult.matches.map((match: { id: string }) => match.id);
             } else {
                 console.error('No results found or unexpected result structure.');
             }
-
-//// This is what is causing low quality responses because we are capping sources to 5.
-///  If we increase this and cap displayed sources we solve our issue
-
-
-            if (ids.length > 0) {
+    
+            const numToFetch = Math.min(ids.length, remainingDocs);
+    
+            if (numToFetch > 0) {
                 const fetchResponse = await this.retryRequest(async () => {
                     return await this.index.fetch({
-                        ids: ids,
+                        ids: ids.slice(0, numToFetch),
                         namespace: namespace,
                     });
                 });
+    
                 const vectorsArray: PineconeResultItem[] = Object.values(fetchResponse.vectors) as PineconeResultItem[];
                 fetchedTexts.push(...vectorsArray);
-                if (fetchedTexts.length >= 50) {
-                    break;
-                }
+                remainingDocs -= vectorsArray.length;
+            }
+    
+            if (remainingDocs <= 0) {
+                break;
             }
         }
-
-
-         return fetchedTexts.slice(0, 50); 
+    
+        return fetchedTexts;  // No need to slice as we've controlled the size in the loop
     }
+    
 
 
     public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: string, namespaceToFilter: any}, ): Promise<CallResponse> {
@@ -303,8 +297,8 @@ export class CustomQAChain {
        
        ------Reference Citing:
         - With ${sourceDocuments} you are given the source of where your answer is coming from. Be conscious and aware 
-        of ${sourceDocuments} as you develop your answers. ${sourceDocuments} is extremely important to the development and accuracy of your answer,
-        search extensively and deeply through the entirety of ${sourceDocuments} when you formulate your answer. Always be mindful of ${sourceDocuments}
+        of source documents as you develop your answers. Source documents is extremely important to the development and accuracy of your answer,
+        search extensively and deeply through the entirety of source documents when you formulate your answer. Always be mindful of sourcedocuments
         and never forget it as you answer.
        
         -----In Ambiguity:

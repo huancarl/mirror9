@@ -326,6 +326,23 @@ export default function Home() {
         </button>
       </div>
     );
+
+////////////////////////////////////////////////////////////////////////////////////
+    function getUniqueSources(docs: any[]): any[] {
+      const seenSources: { [key: string]: boolean } = {};
+      const uniqueDocs: any[] = [];
+      
+      for (let doc of docs) {
+          const sourceName = doc.Source.split('/').pop();
+          if (!seenSources[sourceName]) {
+              seenSources[sourceName] = true;
+              uniqueDocs.push(doc);
+          }
+      }
+      
+      return uniqueDocs;
+  }
+  
   /////////////////////////////////////////////////////////////////////////////////
   }
   return (
@@ -350,6 +367,8 @@ export default function Home() {
     let icon;
     let className;
     let content;
+
+    // const uniqueSources = getUniqueSources(message.sourceDocs).slice(0, 5);
 
     if (message.type === 'apiMessage') {
         icon = (
@@ -428,7 +447,7 @@ export default function Home() {
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.map((doc: any, index) => (
+                            {message.sourceDocs.slice(0,5).map((doc: any, index) => (
                               <div key={`messageSourceDocs-${index}`}> 
                               {/* //look at this section */}
                                 <AccordionItem value={`item-${index}`}>
