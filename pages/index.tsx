@@ -1,43 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import styles from '@/styles/courseSelection.module.css';
-import CourseBox from 'components/CourseBox';
+import styles from '@/styles/HomePage.module.css';
 
-function CourseCatalog() {
-  const courses = [
-    { key: 'INFO 2950', title: 'INFO 2950', professor: 'Professor Koenecke' },
-    { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
-  ];
+const HomePage: React.FC = () => {
+    return (
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filteredCourses, setFilteredCourses] = useState(courses);
+        <div className={styles.container}>
+            <h1 className={styles.title}>
+            <span style={{ color: 'hsl(0, 100%, 30%)' }}>Cornell</span>
+                <span style={{ color: 'black' }}>GPT</span>
+            </h1>
+            
+            
+        <Link href="/coursePage" passHref>
+            <button className={styles.button}>
+                <span>➔</span>Access
+            </button>
+        </Link>
 
-  useEffect(() => {
-    const results = courses.filter(course => 
-      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.professor.toLowerCase().includes(searchTerm.toLowerCase())
+        <Link href="/loginEmail" passHref>
+            <button className={styles.loginButton}>
+                <span>➔</span>Log In
+            </button>
+        </Link>
+
+        </div>
     );
-    setFilteredCourses(results);
-  }, [searchTerm]);
-
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}> CornellGPT </h1>
-      <p className={styles.subtitle}>What class would you like help with?</p>
-      <input
-        type="text"
-        placeholder="Search for a course :)"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className={styles.searchInput}
-      />
-      <div className={styles.courseGrid}>
-        {filteredCourses.map(course => (
-          <CourseBox key={course.key} title={course.title} professor={course.professor} />
-        ))}
-      </div>
-    </div>
-  );
 }
 
-export default CourseCatalog;
+export default HomePage;
+
+
+
+
+
+
+

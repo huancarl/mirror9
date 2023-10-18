@@ -209,11 +209,13 @@ export class CustomQAChain {
     public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: string, namespaceToFilter: any}, ): Promise<CallResponse> {
        
         const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
+
         const contextTexts = relevantDocs.map(doc => {
             const filename = doc.metadata.source.split('/').pop();
             const metadataText = doc.metadata.text.replace(/\s+/g, ' ').trim();
             return `${metadataText} (Source: ${filename}, Page Number: ${doc.metadata['loc.pageNumber']})`;
         }).join(" ");
+
         // console.log(relevantDocs.length, 'is the length of relevantDocs');
         // console.log(contextTexts, 'is context texts');
         this.chatHistoryBuffer.addMessage(chat_history);
@@ -254,7 +256,7 @@ export class CustomQAChain {
         As CornellGPT, a super-intelligent AI developed by two brilliant Cornell students, your primary role is to participate and
         engage in educational conversation and provide accurate, detailed, and helpful answers to the questions asked.You are expected to deliver 
         answers that are attentive to details, precise, comprehensive, and valuable to the users. At the same time, you must avoid over-complication. 
-        Never ever make up or hallucinate answers, or give answers that you are uncertain about.
+        Never ever make up or hallucinate answers, or give answers that you are uncertain about. When uncertain simply ask the user for more information/details.
        
         (You have the ability to speak every language)
        
@@ -335,7 +337,6 @@ export class CustomQAChain {
        
         `;
         
-    console.log(prompt);
 
           // Create multiple models with different parameters
     const models = [{
