@@ -44,7 +44,7 @@
 .textarea:focus {
   outline: none;
   border-color: #6b7280;
-  box-shadow: 0 0 0 3px rgba(156, 163, 175, 0.5);
+  box-shadow: 0 0 0 3px rgba(212, 108, 108, 0.5);
 }
 
 
@@ -57,7 +57,7 @@
   position: absolute;
   top: 0.87rem;
   right: 1rem;
-  color: rgb(165, 162, 162);
+  color: rgb(146, 40, 40);
   background: none;
   padding: 0.3rem;
   border: none;
@@ -129,7 +129,7 @@
 .selectedClassName {
   font-size: 1em;
   text-align: center;
-  color: #6b7280; /* You can adjust the color as desired */
+  color: #8c1b1b; /* You can adjust the color as desired */
   margin-top: -0.5em; /* Adjust spacing as needed */
 }
 
@@ -147,7 +147,7 @@
   background: #f9fafb;
   padding: 1.5rem;
   color: #000;
-  animation: fadein 0.5s;
+  /* animation: fadein 0.5s; */
 }
 
 
@@ -185,7 +185,7 @@
 
 
 .markdownanswer code {
-  color: #15cb19;
+  color: #ab2525;
   font-weight: 500;
   white-space: pre-wrap !important;
 }

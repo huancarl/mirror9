@@ -1,7 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import 'highlight.js/styles/github.css';
 import React from "react";
-import katex from "katex";
 import 'katex/dist/katex.min.css';
 import { Typewriter } from './typewriter';  
 

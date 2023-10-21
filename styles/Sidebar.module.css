@@ -6,6 +6,7 @@
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  background-color: #FFCCCC;  /* Light red */
 }
 
   .newChatButton {

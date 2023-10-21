@@ -19,10 +19,14 @@ import Image from 'next/image';
 import katex from "katex";
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
+
 import { 
   messageContainsMath,
   MessageRenderer,
+  transformMessageWithLatex
+  
 } from './katex';
+
 import {
   messageContainsCode,
   transformMessageWithCode
@@ -221,10 +225,6 @@ export default function Home() {
           type: 'userMessage',
           message: question,
         },
-        {
-          type: 'apiMessage',
-          message: `Searching ${namespaceToSearch}...`,
-        },
       ],
     }));
 
@@ -355,7 +355,7 @@ export default function Home() {
       <div className="mainContent" key={refreshKey}>
         <div className="mx-auto flex flex-col gap-4">
           <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
-            CornellGPT Beta
+            CornellGPT
           </h1>
           <h4 className={styles.selectedClassName}>{courseTitle}</h4> 
           <main className={styles.main}>
@@ -402,17 +402,18 @@ export default function Home() {
 
     const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
 
-    if (isCodeMessage) {
-      content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  } else if (messageContainsMath(message.message)) {
+    if (messageContainsMath(message.message)) {
       content = <MessageRenderer key={index} message={message.message} />;
+  } else if (isCodeMessage) {
+      content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
   } else {
-      if (message.type === 'apiMessage' && !isCodeMessage) {  
+      if (message.type === 'apiMessage' && !isCodeMessage && !messageContainsMath) {  
           content = <Typewriter message={message.message} />;
       } else {
           content = <span>{message.message}</span>;
       }
   }
+  
 
     return (
         <>
