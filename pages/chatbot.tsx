@@ -72,6 +72,9 @@ export default function Home() {
   const router = useRouter();
   const courseTitle = router.query.course;
 
+
+  const [showMoreSources, setShowMoreSources] = useState(false); // Show More Sources
+
   useEffect(() => {
     async function fetchAllSessions() {
       try {
@@ -247,8 +250,8 @@ export default function Home() {
       });
       const data = await response.json();
 
-      // console.log(messages, 'is messages');
-      // console.log(data.sourceDocs, 'is sourceDocs');
+      console.log(messages, 'is messages');
+      console.log(data.sourceDocs, 'is sourceDocs');
       if (data.sourceDocs) {
         data.sourceDocs = data.sourceDocs.map(doc => {
           if (doc.text) {
@@ -328,20 +331,21 @@ export default function Home() {
     );
 
 ////////////////////////////////////////////////////////////////////////////////////
-    function getUniqueSources(docs: any[]): any[] {
-      const seenSources: { [key: string]: boolean } = {};
-      const uniqueDocs: any[] = [];
+  //   function getUniqueSources(docs: any[]): any[] {
+  //     const seenSources: { [key: string]: boolean } = {};
+  //     const uniqueDocs: any[] = [];
       
-      for (let doc of docs) {
-          const sourceName = doc.Source.split('/').pop();
-          if (!seenSources[sourceName]) {
-              seenSources[sourceName] = true;
-              uniqueDocs.push(doc);
-          }
-      }
+  //     for (let doc of docs) {
+  //         const sourceName = doc.Source.split('/').pop();
+  //         if (!seenSources[sourceName]) {
+  //             seenSources[sourceName] = true;
+  //             uniqueDocs.push(doc);
+  //         }
+  //     }
       
-      return uniqueDocs;
-  }
+  //     return uniqueDocs;
+  // }
+
   
   /////////////////////////////////////////////////////////////////////////////////
   }
@@ -407,7 +411,7 @@ export default function Home() {
   } else if (isCodeMessage) {
       content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
   } else {
-      if (message.type === 'apiMessage' && !isCodeMessage && !messageContainsMath) {  
+      if (message.type === 'apiMessage' && !isCodeMessage) {  
           content = <Typewriter message={message.message} />;
       } else {
           content = <span>{message.message}</span>;
@@ -448,7 +452,7 @@ export default function Home() {
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.slice(0,5).map((doc: any, index) => (
+                            {message.sourceDocs.slice(0, showMoreSources ? message.sourceDocs.length : 5).map((doc: any, index) => (
                               <div key={`messageSourceDocs-${index}`}> 
                               {/* //look at this section */}
                                 <AccordionItem value={`item-${index}`}>
@@ -482,6 +486,17 @@ export default function Home() {
                                 </AccordionItem>
                               </div>
                             ))}
+
+ {message.sourceDocs.length > 5 && !showMoreSources && (
+  <button className="p-2 text-sm text-blue-500" onClick={() => setShowMoreSources(true)}>
+    Show More
+  </button>
+)}
+{showMoreSources && (
+  <button className="p-2 text-sm text-blue-500" onClick={() => setShowMoreSources(false)}>
+    Show Less
+  </button>
+)}   
                           </Accordion>
                         </div>
                       )}

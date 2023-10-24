@@ -69,7 +69,7 @@ function createPrompt(namespaceToSearch: string){
 
     Here are the refined guidelines for your operation:
  
-    ---Available Information: [${classMapping[namespaceToSearch]}].
+    Available Information: [${classMapping[namespaceToSearch]}].
    
     -----Detailed Instructions**:
 
@@ -78,24 +78,20 @@ function createPrompt(namespaceToSearch: string){
 
     2. If multiple resources are relevant, mention all probable ones.
 
-    3. Always follow the response format: "Searching (title/s of the textbook/s)..." Do not deviate from this format.
-
-    4. When faced with an ambiguous query or a query that might not pertain to ${classMapping[namespaceToSearch]} or ${namespaceToSearch} 
+    3. When faced with an ambiguous query or a query that might not pertain to ${classMapping[namespaceToSearch]} or ${namespaceToSearch} 
        utilize your training to assess whether or not you should search. 
-       
        If the query relates to the educational content in ${classMapping[namespaceToSearch]}, make sure to extensively go through matches. 
-
        If the query is unrelated, provide a well-informed answer based on your training, clearly indicating that it does not reference ${classMapping[namespaceToSearch]} or ${namespaceToSearch}. 
 
-    5. Do not give false answers or makeup answers under any circumstances.
+    4. Do not give false answers or makeup answers under any circumstances.
 
-    6. When appropriate, search within ${classMapping[namespaceToSearch]}. 
+    5. When appropriate, search within ${classMapping[namespaceToSearch]}. 
     
-    7. If the question is not relevant to ${classMapping[namespaceToSearch]}, do not search anything.
+    6. If the question is not relevant to ${classMapping[namespaceToSearch]}, do not search anything.
 
-    7. If the question is relevant to: ${classMapping[namespaceToSearch]} then make sure to use: ${classMapping[namespaceToSearch]}
+    8. If the question is relevant to: ${classMapping[namespaceToSearch]} then make sure to use: ${classMapping[namespaceToSearch]}
 
-    8. When asked about a certain query like summarizing a ${classMapping[namespaceToSearch]}, do not forget any details. You must deliver an informative, precise, full and accurate response.
+    9. When asked about a certain query like summarizing a ${classMapping[namespaceToSearch]}, do not forget any details. You must deliver an informative, precise, full and accurate response.
 
 
     Query = ${userQuery}
@@ -103,27 +99,26 @@ function createPrompt(namespaceToSearch: string){
   ----Enhanced Example Responses:
  
   - Query: "Can you summarize lecture 7"
-    Response: "Searching ${classMapping[namespaceToSearch]}..."
+    "Searching ${classMapping[namespaceToSearch]}..."
 
-  - Query: "How far is the sun?"
-    (No need to search here)
-    Response: "This is unrelated to ${namespaceToSearch}...but the sun is..."
+  - Query: "What is the weather for today?"
+    "Searching..."
  
   - Query: "Explain lecture 10 and how it relates to the practice prelim in detail"
-    Response: "Searching ${classMapping[namespaceToSearch]}..."
+    "Searching ${classMapping[namespaceToSearch]}..."
 
   - Query: "What lectures talk about SQL"?
-    Response: "Searching ${classMapping[namespaceToSearch]}...Here are all the lectures that talk about SQL...."
+    "Searching all lectures that talk about SQL...${classMapping[namespaceToSearch]}..."
  
   - Query: "Tell me the grade distribution for this class"
-    Response: "Searching  ${classMapping[namespaceToSearch]} syllabus..."
+     "Searching  ${classMapping[namespaceToSearch]} syllabus..."
  
   - Query: "Summarize chapter 15 of the textbook"
-    Response: "Searching ${classMapping[namespaceToSearch]} textbook..."
+    "Searching ${classMapping[namespaceToSearch]} textbook..."
 
   - Query: "Summarize the course contents for this class"
-    Response: "Searching ${classMapping[namespaceToSearch]}..."
-   
+     "Searching ${classMapping[namespaceToSearch]}..."
+
   )`
 }
 
@@ -227,7 +222,7 @@ export default async function handler(
 
 
     console.log('results', results);
-
+    console.log('results.text', results.text);
 
     const message = results.text;
     const sourceDocs = results.sourceDocuments;

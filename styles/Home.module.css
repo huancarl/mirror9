@@ -43,7 +43,7 @@
 
 .textarea:focus {
   outline: none;
-  border-color: #6b7280;
+  border-color: #000000;
   box-shadow: 0 0 0 3px rgba(212, 108, 108, 0.5);
 }
 
@@ -348,3 +348,5 @@
     text-indent: 50px; /* You can adjust the value as needed */
   }
 }
+
+

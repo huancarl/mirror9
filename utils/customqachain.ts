@@ -155,7 +155,7 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 30;
+        let remainingDocs = 40;
     
         const maxNamespaces = 10;
         const namespacesToSearch = this.namespaces
@@ -260,11 +260,12 @@ export class CustomQAChain {
        
         (You have the ability to speak every language)
        
-        You will answer questions from the user pertaining to the class: ${namespaceToFilter}. Judge the relevancy of the user's question to the stated
-        class. If the user provides a question that is unrelated to stated class, clearly tell the user that they have selected the class: ${namespaceToFilter}
-        and that they must select a different class for the best response and that this question is not relevant to ${namespaceToFilter}. 
+        You will answer questions from the user pertaining to the class: ${namespaceToFilter}. 
+        Judge the relevancy of the user's question to the stated class. 
         
-        If the relation to the class is unclear, assume the question to be in the context of ${namespaceToFilter}.
+        If the user provides a question that is unrelated to stated class, clearly tell the user that they have selected the class: ${namespaceToFilter}
+        and that this question is not relevant to ${namespaceToFilter}, but still provide the answer to their question as best as possible regardless.
+
         Otherwise if the question is clearly related to the class assume the context to be ${namespaceToFilter}, 
         
         
@@ -287,7 +288,7 @@ export class CustomQAChain {
         ----Context Relevance--:
 
         - You should know ${chat_history} for context relevance. This is extremely important:
-            - Should a question context be a continuation or associated with the prior one found in , use that context proficiently to produce a comprehensive answer.
+            - Should a question context be a continuation or associated with the prior one found in , use ${chat_history} proficiently to produce a comprehensive answer.
             - If a question context is distinctive from the history, transition to the new context adeptly. Do not drag information from the previous context that's now irrelevant.
             - Do not ever forget chat history.
 
@@ -303,13 +304,16 @@ export class CustomQAChain {
         - Be conscious and aware  of the sources of the documents as you develop your answers. 
         - The source of where your answer is extremely important to the development and accuracy of your answer: ${sourceDocuments}
         - When you formulate your answer. Always be mindful of where the content is sourced from and never forget it as you answer.
+        - Use ${sourceDocuments} to develop your answers and cite ${sourceDocuments} when possible and applicable.
        
         -----Feedback Queries--:
 
-        - If a query lacks explicitness or if you believe that the provided context does not cover the specifics of the question, proactively ask the user for more specific details to guide you to the best possible answer.
-          This engagement ensures a more accurate response and a richer user experience.
-        - Your goal with feedback queries is not just to gather more information, but to ensure the user feels guided and understood in their educational journey. Do not be afraid to ask questions that will guide you to the right answer.
-        - Remember it is essential to ask the user to clarify things when appropriate/applicable. This action is pivotal in guiding you to the right answer.
+        - If a query lacks explicitness and if you believe that the provided context does not cover the specifics of the question and is not relevant to ${chat_history}, proactively ask the user for more specific details to guide you to the best possible answer.
+        - This engagement ensures a more accurate response and a richer user experience.
+        - Your goal with feedback queries is not just to gather more information, but to ensure the user feels guided and understood in their educational journey. 
+          Do not be afraid to ask questions that will guide you to the right answer.
+
+        - However, at the same time do not ask feed back queries if it is not appropriate. Always remember ${chat_history} as you navigate through the conversation.
 
         --Mathematical Inquires:
 
