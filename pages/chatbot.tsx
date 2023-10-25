@@ -5,7 +5,6 @@ import { Message } from '@/types/chat';
 import ReactMarkdown from 'react-markdown';
 import LoadingDots from '@/components/ui/LoadingDots';
 import { Document } from 'langchain/document';
-import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
 import {
 Accordion,
@@ -18,12 +17,10 @@ import { v4 as uuidv4 } from 'uuid';
 import Image from 'next/image';
 import katex from "katex";
 import 'katex/dist/katex.min.css';
-import { InlineMath, BlockMath } from 'react-katex';
 
 import { 
   messageContainsMath,
   MessageRenderer,
-  transformMessageWithLatex
   
 } from './katex';
 
@@ -34,6 +31,11 @@ import {
 import Sidebar from 'components/Sidebar';
 import { Typewriter } from './typewriter'; 
 import { useRouter } from 'next/router';
+
+import Prism from "prismjs";
+import "prismjs/themes/prism-tomorrow.css"; // You can choose different themes
+import { InlineMath, BlockMath } from 'react-katex';
+import hljs from 'highlight.js';
 
 
 
@@ -318,7 +320,7 @@ export default function Home() {
     return (
       <div className={styles.codeBlock}>
         <pre className={styles.code}>
-        <code style={{ color: "#8B0000" }}>{code}</code>
+        <code style={{ color: "dark red" }}>{code}</code>
         </pre>
         <button
           className={styles.copyButton}
@@ -406,17 +408,17 @@ export default function Home() {
 
     const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
 
-  if (messageContainsMath(message.message)) {
-      content = <MessageRenderer key={index} message={message.message} />;
-  } else if (isCodeMessage) {
-      content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  } else {
-      if (message.type === 'apiMessage' && !isCodeMessage && !messageContainsMath) {  
-          content = <Typewriter message={message.message} />;
-      } else {
-          content = <span>{message.message}</span>;
-      }
-  }
+  // if (messageContainsMath(message.message)) {
+  //     content = <MessageRenderer key={index} message={message.message} />;
+  // } else if (isCodeMessage) {
+  //     content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
+  // } else {
+  //     if (message.type === 'apiMessage' && !isCodeMessage && !messageContainsMath) {  
+  //         content = <Typewriter message={message.message} />; } 
+  //     else {
+  //         content = <span>{message.message}</span>;
+  //     }
+  // }
 
   // if (message.type === 'apiMessage' && !isCodeMessage) {
   //   const formattedMessage = message.message.replace(/\n/g, '<br/>');
@@ -429,8 +431,24 @@ export default function Home() {
   // } else {
   //   content = <span>{message.message}</span>;
   // }
-  
-  
+
+
+  if (messageContainsMath(message.message)) {
+  content = <MessageRenderer key={index} message={message.message} />;
+   }
+  else if (message.type === 'apiMessage' && !isCodeMessage) {
+    const lines = message.message.split('\n');
+    content = lines.map((line, idx) => (
+      <div key={idx} className="line">
+        <Typewriter message={line} />
+        {idx < lines.length - 1 && <br />}
+      </div>
+    ));
+  } else if (isCodeMessage) {
+    content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
+  } else {
+    content = <span>{message.message}</span>;
+  }
   
   
 

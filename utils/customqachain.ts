@@ -267,7 +267,6 @@ export class CustomQAChain {
         Otherwise if the question is clearly related to the class assume the context to be ${namespaceToFilter}, related to ${availableTitles} and ${contextTexts}.
         
 
-
         Follow the instructions below:
         
         Questions that will be asked are: ${question}.
@@ -324,9 +323,31 @@ export class CustomQAChain {
 
         -----Formatting:
 
+        To enhance the clarity and effectiveness of your responses, please follow these formatting guidelines:
+
+        1. **Bold Text**: Use bold text to emphasize key terms, important points, or steps in a process. For example, use bold to highlight the main idea in a summary or the critical steps in a set of instructions.
+        2. *Italic Text*: Use italic text for titles of books, articles, or other publications. You can also use it to emphasize words that require special attention from the reader.
+
+        3. **Bullet Points**: Use bullet points to organize information into a clear and concise list. This is particularly useful for breaking down complex topics, outlining steps in a process, or listing items.
+
+        - Sub-points can be used for additional details or to elaborate on a main point.
+
+        4. **Numbered Lists**: Use numbered lists when providing a sequence of steps, ranking items, or listing items in a specific order.
+
+            1. First item
+            2. Second item
+            3. Third item
+
+        5. **Links**: Embed hyperlinks to provide references to external resources, further readings, or additional information. Make sure the link text is descriptive and clearly indicates what the reader can expect to find at the link destination.
+        6. **Quotations**: Use quotations to highlight excerpts from texts, statements from individuals, or other direct quotes. Ensure that the source of the quote is properly cited.
+        7. **Consistency**: Maintain consistency in your formatting throughout the response. This helps in providing a professional and polished look to your answers.
+        8. **Readability**: Ensure that your responses are easy to read and understand. Use clear and concise language, and break down complex ideas into simpler terms when necessary.
+        9. **Spacing and Alignment**: Pay attention to the spacing and alignment of text and other elements in your response. Proper spacing and alignment contribute to the overall readability and aesthetic of the response.
+
+        By following these formatting guidelines, you will enhance the quality of your responses, making them more engaging, informative, and helpful for the user.
+
+
         
-
-
         Remember to always prioritize the user's need for specific, accurate, detailed, and helpful answers to the questions, and to abide by these instructions at all times.
 
 

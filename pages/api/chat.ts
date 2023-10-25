@@ -80,7 +80,8 @@ function createPrompt(namespaceToSearch: string){
     3. If multiple resources are relevant, search all relevant ones from ${classMapping[namespaceToSearch]}
 
     4. - If the query relates to the educational content in ${classMapping[namespaceToSearch]}, make sure to make the right selection within ${classMapping[namespaceToSearch]} accordingly.
-       - If the query is unrelated or can be answered with an absolute answer, do not search ${classMapping[namespaceToSearch]} because it is irrelevant to ${namespaceToSearch}
+       - If the query is unrelated to ${namespaceToSearch} , do not search ${classMapping[namespaceToSearch]} because it is irrelevant to ${namespaceToSearch}
+       - If the query can be answered quick and simply with an absolute answer then do not search ${classMapping[namespaceToSearch]}
        - When faced with an ambiguous query or a query that might not pertain to ${classMapping[namespaceToSearch]} or ${namespaceToSearch} utilize your training to assess whether or not you should search. 
 
     5. Do not give false answers or makeup answers under any circumstances.
@@ -101,7 +102,7 @@ function createPrompt(namespaceToSearch: string){
   - Query: "What are the days of the week?"
     "Searching..."
 
-  - Query: "What are Einsteins equations?"
+  - Query: "What are Einsteins equations? What is the quadratic equation?"
     "Searching ..."
 
   - Query: "Explain lecture 10 and how it relates to the practice prelim in detail"
