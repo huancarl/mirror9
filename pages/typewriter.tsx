@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Typewriter.module.css';
+import { 
+  messageContainsMath,
+  MessageRenderer,
+  transformMessageWithLatex
+  
+} from './katex';
 
 interface TypewriterProps {
   message: any;
   speed?: number;
 }
 
-export const Typewriter: React.FC<TypewriterProps> = ({ message = '', speed = 3.5 }) => {
+export const Typewriter: React.FC<TypewriterProps> = ({ message = '', speed = 3.0 }) => {
   const [currentText, setCurrentText] = useState<string>('');
   const [index, setIndex] = useState<number>(0);
 

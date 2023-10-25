@@ -406,17 +406,32 @@ export default function Home() {
 
     const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
 
-    if (messageContainsMath(message.message)) {
+  if (messageContainsMath(message.message)) {
       content = <MessageRenderer key={index} message={message.message} />;
   } else if (isCodeMessage) {
       content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
   } else {
-      if (message.type === 'apiMessage' && !isCodeMessage) {  
+      if (message.type === 'apiMessage' && !isCodeMessage && !messageContainsMath) {  
           content = <Typewriter message={message.message} />;
       } else {
           content = <span>{message.message}</span>;
       }
   }
+
+  // if (message.type === 'apiMessage' && !isCodeMessage) {
+  //   const formattedMessage = message.message.replace(/\n/g, '<br/>');
+  //   content = <div dangerouslySetInnerHTML={{ __html: formattedMessage }} />;}
+  //   } else {
+  //     content = <Typewriter message={message.message} />;
+  //   }
+  // } else if (isCodeMessage) {
+  //   content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
+  // } else {
+  //   content = <span>{message.message}</span>;
+  // }
+  
+  
+  
   
 
     return (
