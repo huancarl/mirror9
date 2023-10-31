@@ -1,7 +1,7 @@
 import connectToDb from '@/config/db';
 
 export default async (req, res) => {
-  const { userID } = req.body;
+  const { userID, course } = req.body;
 
   if (!userID) {
     return res.status(400).json({ error: 'userID is required' });
@@ -12,7 +12,8 @@ export default async (req, res) => {
     const sessionsCollection = db.collection('sessionIDs'); // Assuming your collection's name is "sessionIDs"
 
     // Fetch all sessions for the given userID
-    const sessions = await sessionsCollection.find({ userID }).toArray();
+
+    const sessions = await sessionsCollection.find({ userID, course }).toArray();
 
     if (!sessions || sessions.length === 0) {
       return res.status(200).json({ sessions: [] });

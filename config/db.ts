@@ -9,12 +9,9 @@ const client = new MongoClient(uri, {
       deprecationErrors: true,
     }
   });
-
-
 async function connectToDb(): Promise<Db> {
     try{
         await client.connect();
-        console.log('connection to mongodb successful');
         return client.db('cornellgptDB');
     }
     catch(e){

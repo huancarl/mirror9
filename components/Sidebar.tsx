@@ -2,16 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from '@/styles/Sidebar.module.css';
 
-
-
-
 type ChatSession = {
     _id: string;
     sessionID: string;
     name: string;
 };
 type SidebarProps = {
-  className?: string;
+  className?: any;
   onSessionChange?: (sessionId: string) => void;  // Updated the type
   sessions?: ChatSession[];
 };
@@ -25,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions 
     }
     return null;
   });
-  console.log("Received sessions:", sessions);
+  console.log("Received className in sidebar", className);
   useEffect(() => {
     async function fetchChatSessions() {
       try {
@@ -35,7 +32,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions 
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            userID: localStorage.getItem('lapp')
+            userID: localStorage.getItem('lapp'),
+            course: className,
           }),
         });
         const data = await response.json();
@@ -61,7 +59,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions 
         },
         body: JSON.stringify({
           userID: localStorage.getItem('lapp'),
-          sessionID: newSessionID
+          sessionID: newSessionID,
+          course: className,
         }),
       });
       localStorage.setItem('sapp', newSessionID);
@@ -92,8 +91,4 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions 
   </div>
 );
 }
-
-
-
-
 export default Sidebar;

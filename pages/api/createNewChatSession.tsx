@@ -1,8 +1,7 @@
-// createNewChatSession.js
 import connectToDb from '@/config/db';
 
 export default async (req, res) => {
-    const { userID, sessionID } = req.body;
+    const { userID, sessionID, course} = req.body;
   
     if (!userID || !sessionID) {
       return res.status(400).json({ error: 'userID and sessionID are required' });
@@ -16,7 +15,8 @@ export default async (req, res) => {
         userID,
         sessionID,
         name: "Default Name",  // You can allow user customization later
-        date: new Date()
+        date: new Date(),
+        course: course,
       });
   
       return res.status(200).json({ success: true });
@@ -26,7 +26,3 @@ export default async (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
-  
-  
-  

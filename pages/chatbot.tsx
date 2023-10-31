@@ -70,106 +70,119 @@ export default function Home() {
   const sessionIDRef = useRef<string | null>(null);
   const [currentSessionID, setCurrentSessionID] = useState<string | null>(null);
   const [sessions, setSessions] = useState<any[]>([]);
- 
+  const [courseTitle, setCourseTitle] = useState<string | string[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [courseHistoryRefreshKey, setCourseHistoryRefreshKey] = useState(0);
+
+
+
   const router = useRouter();
-  const courseTitle = router.query.course;
+  useEffect(() => {
+    if (router.query.course) {
+        setCourseTitle(router.query.course);
+        setIsLoading(false); // set loading to false when course is set
+    }
+}, [router.query.course]);
+
 
 
   const [showMoreSources, setShowMoreSources] = useState(false); // Show More Sources
 
-  useEffect(() => {
-    async function fetchAllSessions() {
-      try {
-        const response = await fetch('/api/fetchAllSessions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userID: userIDRef.current,
-          }),
-        });
-        const data = await response.json();
-        if (data.error) {
-          console.error("Failed to fetch sessions:", data.error);
-        } else {
-          setSessions(data.sessions);
-        }
-      } catch (error) {
-        console.error('An error occurred while fetching the sessions:', error);
-      }
-    }
-    fetchAllSessions();
-  }, [userIDRef.current]);
 
   const handleSessionChange = async (newSessionID: string) => {
     setCurrentSessionID(newSessionID);
-  
-  
     // Fetch chat history for newSessionID and update the messageState
-    const fetchedMessages = await fetchChatHistoryForSession(newSessionID);
+    if(courseTitle){
+      setMessageState(prevState => ({ ...prevState, messages: [] }));
+      await fetchChatHistory();
+    }
+    // Note: If you're directly updating the messages within fetchChatHistory, 
+    // you may not need additional logic here to update the message state.
+};
+
+  useEffect(() => {
+    if(courseTitle){
+      fetchChatHistory();
+    }
+
+  }, [courseTitle]);
+
+  function getOrGenerateUUID(key: string): string {
+    let value = localStorage.getItem(key) || '';
+    if (!value) {
+        value = uuidv4();
+        localStorage.setItem(key, value);
+    }
+    return value;
+  }
   
   
-    // Assuming each fetched message has a format { message: '...', type: '...' }
-    setMessageState(prevState => ({
-        ...prevState,
-        messages: fetchedMessages
-    }));
-  };
-  
-  
-  const fetchChatHistoryForSession = async (sessionID: string) => {
+  const fetchChatHistory = async () => {
+    
+    userIDRef.current = getOrGenerateUUID('lapp');
+    sessionIDRef.current = getOrGenerateUUID('sapp');
+
     try {
-        const response = await fetch('/api/fetchChatHistory', {
+
+        let response = await fetch('/api/getDocumentBySess', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                userID: localStorage.getItem('lapp'),
-                sessionID: sessionID
+                sapp: sessionIDRef.current,
+            }),
+        });
+        const docData = await response.json();
+
+        // 2. Compare 'course' field with currentTitle.
+        const currentTitle = courseTitle; 
+
+        console.log(currentTitle, "Checking currentTitle");
+
+        if (docData.course !== currentTitle) {
+            console.log('RUNNING');
+            response = await fetch('/api/getLatestSess', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  course: currentTitle,  // add this line
+              })
+          });
+
+            if(response.ok){
+              const latestChatData = await response.json();
+              console.log(latestChatData, 'runs latest chat data');
+              const newSappValue = latestChatData.sessionID;
+
+            // Update the 'sapp' in localStorage and sessionIDRef.
+              localStorage.setItem('sapp', newSappValue);
+              sessionIDRef.current = newSappValue;
+            }
+            else{
+              const errorText = await response.text();
+              console.error("Error:", errorText);
+            }
+          }
+        // Now fetch the chat history using the (possibly updated) sessionIDRef value.
+        response = await fetch('/api/fetchHistory', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userID: userIDRef.current,
+                sessionID: sessionIDRef.current,
             }),
         });
         const data = await response.json();
-        return data.messages || [];
-    } catch (error) {
-        console.error('Failed to fetch chat history:', error);
-        return [];
-    }
-  };  
-
-  useEffect(() => {
-    function getOrGenerateUUID(key: string): string {
-      let value = localStorage.getItem(key) || '';
-      if (!value) {
-          value = uuidv4();
-          localStorage.setItem(key, value);
-      }
-      return value;
-  }
-  
-    userIDRef.current = getOrGenerateUUID('lapp');
-    sessionIDRef.current = getOrGenerateUUID('sapp');
-
-    async function fetchChatHistory() {
-      try {
-        const response = await fetch('/api/fetchHistory', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userID: userIDRef.current,
-            sessionID: sessionIDRef.current,
-          }),
-        });
-        const data = await response.json();
         console.log(data, 'data from db');
-  
+
         if (data.error) {
-          console.error("Failed to fetch chat history:", data.error);
+            console.error("Failed to fetch chat history:", data.error);
         } else {
-          // Transform the retrieved data
           const transformedMessages = data.messages.flatMap(msg => ([
             {
               type: 'userMessage',
@@ -187,22 +200,17 @@ export default function Home() {
           });
           setMessageState((state) => ({
             ...state,
-            messages: transformedMessages,
+            messages: transformedMessages,  // Ensure old messages are replaced, not appended
           }));
           if (messageListRef.current) {
             messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
           }
         }
-      } catch (error) {
+    } catch (error) {
         console.error('An error occurred while fetching the chat history:', error);
-      }
     }
-    fetchChatHistory();
-  }, [currentSessionID]);
-  
-//   const handleSessionChange = (newSessionID: string) => {
-//     setCurrentSessionID(newSessionID);
-// }
+};
+
 
 
 //********************************************************************************************************* */
@@ -276,9 +284,6 @@ export default function Home() {
               type: 'apiMessage',
               message: data.message,
               sourceDocs: data.sourceDocs,
-              // sourceDocs: data.sourceDocs,
-              // message: data.text,
-              // sourceDocs: data.sourceDocuments,
             },
           ],
           history: [...state.history, [question, data.message ]],
@@ -356,7 +361,7 @@ export default function Home() {
       <Layout>
       <div className="appWrapper">
       <aside> 
-      <Sidebar onSessionChange={handleSessionChange} /> 
+      {courseTitle ? <Sidebar className={courseTitle} onSessionChange={handleSessionChange} /> : null}
       </aside>
       <div className="mainContent" key={refreshKey}>
         <div className="mx-auto flex flex-col gap-4">
@@ -450,8 +455,10 @@ export default function Home() {
     content = <span>{message.message}</span>;
   }
   
-  
 
+  if (isLoading) {
+    return <div>Loading...</div>; // or any loading placeholder
+  }
     return (
         <>
             <div key={`chatMessage-${index}`} className={className}>
