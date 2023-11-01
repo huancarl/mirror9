@@ -79,6 +79,7 @@ interface PineconeResultItem {
         totalPages: number;
         chapter?: number;
         book?: string;
+        score : any;
     };
 }
 
@@ -155,7 +156,7 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 40; // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 40;                      // max vector search, adjust accordingly till find optimal
     
         const maxNamespaces = 10;
         const namespacesToSearch = this.namespaces
@@ -201,10 +202,74 @@ export class CustomQAChain {
             }
         }
     
-        return fetchedTexts;  // No need to slice as we've controlled the size in the loop
+        return fetchedTexts;  
     }
-    
 
+
+    // Experimenting making faster searches with namespaces with Timeout Method
+
+    // private async getRelevantDocs(question: string, filter: any): Promise<PineconeResultItem[]> {
+    //     const embeddings = new OpenAIEmbeddings();
+    //     const queryEmbedding = await embeddings.embedQuery(question);
+    
+    //     if (!queryEmbedding) {
+    //         throw new Error("Failed to generate embedding for the question.");
+    //     }
+    
+    //     let fetchedTexts: PineconeResultItem[] = [];
+    //     let remainingDocs = 40;
+    
+    //     const maxNamespaces = 10;
+    //     const timeout = 20000; // 20 seconds
+    //     const startTime = Date.now();
+    
+    //     const namespacesToSearch = this.namespaces
+    //         .filter(namespace => namespace.includes(filter))
+    //         .slice(0, maxNamespaces);
+    
+    //     const queries = namespacesToSearch.map(async (namespace) => {
+    //         if (remainingDocs <= 0 || (Date.now() - startTime) > timeout) return;
+    
+    //         const queryResult = await this.retryRequest(async () => {
+    //             return await this.index.query({
+    //                 queryRequest: {
+    //                     vector: queryEmbedding,
+    //                     topK: Math.min(10, remainingDocs),
+    //                     namespace: namespace,
+    //                     includeMetadata: true,
+    //                 },
+    //             });
+    //         });
+    
+    //         let ids: string[] = [];
+    //         if (queryResult && Array.isArray(queryResult.matches)) {
+    //             ids = queryResult.matches.map((match: { id: string }) => match.id);
+    //         } else {
+    //             console.error('No results found or unexpected result structure in namespace:', namespace);
+    //             return;
+    //         }
+    
+    //         const numToFetch = Math.min(ids.length, remainingDocs);
+    
+    //         if (numToFetch > 0) {
+    //             const fetchResponse = await this.retryRequest(async () => {
+    //                 return await this.index.fetch({
+    //                     ids: ids.slice(0, numToFetch),
+    //                     namespace: namespace,
+    //                 });
+    //             });
+    
+    //             const vectorsArray: PineconeResultItem[] = Object.values(fetchResponse.vectors) as PineconeResultItem[];
+    //             fetchedTexts.push(...vectorsArray);
+    //             remainingDocs -= vectorsArray.length;
+    //         }
+    //     });
+    
+    //     await Promise.all(queries);
+    
+    //     return fetchedTexts.slice(0, 40); // Ensure we don't return more than the initial max
+    // }
+    
 
     public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: string, namespaceToFilter: any}, ): Promise<CallResponse> {
        
@@ -264,7 +329,7 @@ export class CustomQAChain {
         If the user provides a question that is unrelated to stated class, clearly tell the user that they have selected the class: ${namespaceToFilter}
         and that this question is not relevant to ${namespaceToFilter}, but still provide the answer to their question as best as possible regardless.
 
-        Otherwise if the question is clearly related to the class assume the context to be ${namespaceToFilter}, related to ${availableTitles} and ${contextTexts}.
+        Otherwise strictly assume the context to be ${namespaceToFilter}.
         
 
         Follow the instructions below:
@@ -298,52 +363,44 @@ export class CustomQAChain {
        
        ------Reference Citing--:
 
-        - You are given the source of where your answer is coming from at: ${sourceDocuments}. Be conscious and aware of ${sourceDocuments} as you answer.
+        - You are given the source of where your answer is coming from at: ${sourceDocuments}.
         - The source of where your answer is extremely important to the development and accuracy of your answer: ${sourceDocuments}
-        - When you formulate your answer. Always be mindful of where the content is sourced from and never forget it as you answer.
-        - Use ${sourceDocuments} to develop your answers and always cite ${sourceDocuments} when possible and applicable.
+        - Use ${sourceDocuments} to develop your answers
+        - Always cite ${sourceDocuments} when possible
        
         -----Feedback Queries--:
 
         - If a query lacks explicitness and if you believe that the provided context does not cover the specifics of the question and is not relevant to ${chat_history}
-          , proactively ask the user for more specific details to guide you to the best possible answer.
-        - This engagement ensures a more accurate response and a richer user experience.
+          proactively ask the user for more specific details to guide you to the best possible answer.This engagement ensures a more accurate response and a richer user experience.
         - Your goal with feedback queries is not just to gather more information, but to ensure the user feels guided and understood in their educational journey. 
           Do not be afraid to ask questions that will guide you to the right answer.
         - However, at the same time do not ask feed back queries if it is not appropriate. Always remember ${chat_history} as you navigate through the conversation.
 
         --Mathematical Inquires:
 
-        -- You must surround any math expression, notation, number, variables, anything related to Math with $. For example: $ax^2 + bx + c = 0$.
+        - You must surround any math expression, notation, number, variables, anything related to Math with $. For example: $ax^2 + bx + c = 0$.
        
         -----Engagement Tone:
 
         - Your interactions should exude positivity. Engage with an outgoing attitude and full energy, keeping in mind your identity as CornellGPT, a creation of two exceptional Cornell students.
-        - Refrain from apologizing and saying "I am sorry"
+        - Refrain from apologizing and saying "I am sorry". You are here to help and assist students.
 
         -----Formatting:
 
         To enhance the clarity and effectiveness of your responses, please follow these formatting guidelines:
-
-        1. **Bold Text**: Use bold text to emphasize key terms, important points, or steps in a process. For example, use bold to highlight the main idea in a summary or the critical steps in a set of instructions.
-        2. *Italic Text*: Use italic text for titles of books, articles, or other publications. You can also use it to emphasize words that require special attention from the reader.
-
-        3. **Bullet Points**: Use bullet points to organize information into a clear and concise list. This is particularly useful for breaking down complex topics, outlining steps in a process, or listing items.
-
+        1. Bold Text: Use bold text to emphasize key terms, important points, or steps in a process. For example, use bold to highlight the main idea in a summary or the critical steps in a set of instructions.
+        2. Italic Text: Use italic text for titles of books, articles, or other publications. You can also use it to emphasize words that require special attention from the reader.
+        3. Bullet Points: Use bullet points to organize information into a clear and concise list. This is particularly useful for breaking down complex topics, outlining steps in a process, or listing items.
         - Sub-points can be used for additional details or to elaborate on a main point.
-
-        4. **Numbered Lists**: Use numbered lists when providing a sequence of steps, ranking items, or listing items in a specific order.
-
+        4. Numbered Lists: Use numbered lists when providing a sequence of steps, ranking items, or listing items in a specific order.
             1. First item
             2. Second item
             3. Third item
-
-        5. **Links**: Embed hyperlinks to provide references to external resources, further readings, or additional information. Make sure the link text is descriptive and clearly indicates what the reader can expect to find at the link destination.
-        6. **Quotations**: Use quotations to highlight excerpts from texts, statements from individuals, or other direct quotes. Ensure that the source of the quote is properly cited.
-        7. **Consistency**: Maintain consistency in your formatting throughout the response. This helps in providing a professional and polished look to your answers.
-        8. **Readability**: Ensure that your responses are easy to read and understand. Use clear and concise language, and break down complex ideas into simpler terms when necessary.
-        9. **Spacing and Alignment**: Pay attention to the spacing and alignment of text and other elements in your response. Proper spacing and alignment contribute to the overall readability and aesthetic of the response.
-
+        5. Links: Embed hyperlinks to provide references to external resources, further readings, or additional information. Make sure the link text is descriptive and clearly indicates what the reader can expect to find at the link destination.
+        6. Quotations: Use quotations to highlight excerpts from texts, statements from individuals, or other direct quotes. Ensure that the source of the quote is properly cited.
+        7. Consistency: Maintain consistency in your formatting throughout the response. This helps in providing a professional and polished look to your answers.
+        8. Readability: Ensure that your responses are easy to read and understand. Use clear and concise language, and break down complex ideas into simpler terms when necessary.
+        9. Spacing and Alignment: Pay attention to the spacing and alignment of text and other elements in your response. Proper spacing and alignment contribute to the overall readability and aesthetic of the response.
         By following these formatting guidelines, you will enhance the quality of your responses, making them more engaging, informative, and helpful for the user.
 
 

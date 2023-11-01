@@ -15,7 +15,7 @@
 
 .button {
     padding: 0.5rem 1rem;
-    background-color: #333;
+    background-color: #000000;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -35,7 +35,7 @@
 .loginButton {
     margin-top: 1rem;
     padding: 0.5rem 1rem;
-    background-color: #555;
+    background-color: #000000;
     color: #fff;
     border: none;
     border-radius: 5px;

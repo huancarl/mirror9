@@ -77,7 +77,7 @@ function createPrompt(namespaceToSearch: string){
        list: ${classMapping[namespaceToSearch]}. Be attentive, selective, and cautious about what to select from the list: ${classMapping[namespaceToSearch]}. 
        Do not select the wrong things or select too many things if not necessary, or select anything at all if not necessary.
 
-    3. If multiple resources are relevant, search all relevant ones from ${classMapping[namespaceToSearch]}
+    3. If multiple resources are relevant and needed, search relevant ones from ${classMapping[namespaceToSearch]}
 
     4. - If the query relates to the educational content in ${classMapping[namespaceToSearch]}, make sure to make the right selection within ${classMapping[namespaceToSearch]} accordingly.
        - If the query is unrelated to ${namespaceToSearch} , do not search ${classMapping[namespaceToSearch]} because it is irrelevant to ${namespaceToSearch}
@@ -88,6 +88,10 @@ function createPrompt(namespaceToSearch: string){
 
     6. Be aware that not all questions will pertain to: ${classMapping[namespaceToSearch]} 
        If the question does not pertain to ${namespaceToSearch}, do not search ${classMapping[namespaceToSearch]}
+
+    7. 
+    - Should a question context be a continuation or associated with the prior one found in , use history proficiently to search consistently
+    - If a question context is distinctive from the history, search adeptly. 
 
     Query = ${userQuery}
 
@@ -194,8 +198,8 @@ export default async function handler(
     const extractedNumbs = await extractTitlesFromQuery(response.response);
     // const numbsArray: string[] | undefined = extractedNumbs as string[] | undefined;
    
-    // Determine Pinecone namespaces based on extracted years
-    const namespaces = extractedNumbs;
+
+    const namespaces = extractedNumbs;            // Create modifier state to import variable in qachain prompt
 
 
     console.log(namespaces, 'namespace in chat.ts');

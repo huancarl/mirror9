@@ -365,7 +365,7 @@ export default function Home() {
       </aside>
       <div className="mainContent" key={refreshKey}>
         <div className="mx-auto flex flex-col gap-4">
-          <h1 className="text-2xl font-bold leading-[1.1] tracking-tighter text-center">
+          <h1 className="text-3xl font-bold leading-[1.1] tracking-tighter text-center">
             CornellGPT
           </h1>
           <h4 className={styles.selectedClassName}>{courseTitle}</h4> 
@@ -442,8 +442,8 @@ export default function Home() {
   content = <MessageRenderer key={index} message={message.message} />;
    }
   else if (message.type === 'apiMessage' && !isCodeMessage) {
-    const lines = message.message.split('\n');
-    content = lines.map((line, idx) => (
+    const lines = message.message.split('\n');                // not valid to hard code spaces in, apiMessage already does it. 
+    content = lines.map((line, idx) => (                      // need to figure out where in our code we are interfering with formatting
       <div key={idx} className="line">
         <Typewriter message={line} />
         {idx < lines.length - 1 && <br />}
@@ -455,10 +455,9 @@ export default function Home() {
     content = <span>{message.message}</span>;
   }
   
-
-  if (isLoading) {
-    return <div>Loading...</div>; // or any loading placeholder
-  }
+    if (isLoading) {
+      return <>Loading...</>;
+    }   
     return (
         <>
             <div key={`chatMessage-${index}`} className={className}>
