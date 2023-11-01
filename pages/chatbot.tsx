@@ -441,9 +441,10 @@ export default function Home() {
   if (messageContainsMath(message.message)) {
   content = <MessageRenderer key={index} message={message.message} />;
    }
-  else if (message.type === 'apiMessage' && !isCodeMessage) {
-    const lines = message.message.split('\n');                // not valid to hard code spaces in, apiMessage already does it. 
-    content = lines.map((line, idx) => (                      // need to figure out where in our code we are interfering with formatting
+   else if (message.type === 'apiMessage' && !isCodeMessage) {
+    const normalizedMessage = message.message.replace(/\r\n/g, '\n');
+    const lines = normalizedMessage.split('\n');
+    content = lines.map((line, idx) => (
       <div key={idx} className="line">
         <Typewriter message={line} />
         {idx < lines.length - 1 && <br />}
