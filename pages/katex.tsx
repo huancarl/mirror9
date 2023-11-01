@@ -57,7 +57,7 @@ export function transformMessageWithLatex(message) {
   
 export function splitMessageIntoSegments(message) {
     const regex = /(\${1,2}.*?\${1,2})/g;
-    return message.split(regex);
+    return message.split(regex)
   }
   
 
@@ -78,19 +78,33 @@ export function MathComponent({ latex }) {
   
 
 
-export function MessageRenderer({ message }) {
+  export function MessageRenderer({ message }) {
     const segments = splitMessageIntoSegments(message);
   
     return (
-        <>
-            {segments.map((segment, index) => {
-                if (messageContainsMath(segment)) {
-                    const latexSegment = transformMessageWithLatex(segment);
-                    return <MathComponent key={index} latex={latexSegment} />;
-                } else {
-                  return <Typewriter key={index} message={segment} />;
-                }
-            })}
-        </>
+      <>
+        {segments.map((segment, index) => {
+          if (messageContainsMath(segment)) {
+            const latexSegment = transformMessageWithLatex(segment);
+            return <MathComponent key={index} latex={latexSegment} />;
+          } else {
+            const parsedBoldText = parseBoldText(segment);
+            return <Typewriter key={index} message={parsedBoldText} />;
+          }
+        })}
+      </>
     );
+  }
+  
+
+
+  // For Bold Text
+
+  export function parseBoldText(text) {
+    return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
+      if (part.startsWith('**') && part.endsWith('**')) {
+        return <strong key={index}>{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
   }

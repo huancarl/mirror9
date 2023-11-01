@@ -158,7 +158,7 @@ export class CustomQAChain {
         let fetchedTexts: PineconeResultItem[] = [];
         let remainingDocs = 40;                      // max vector search, adjust accordingly till find optimal
     
-        const maxNamespaces = 10;
+        const maxNamespaces = 5;
         const namespacesToSearch = this.namespaces
             .filter(namespace => namespace.includes(filter))
             .slice(0, maxNamespaces);
@@ -326,10 +326,11 @@ export class CustomQAChain {
         (You have the ability to speak every language)
        
         You will answer questions from the user pertaining to the class: ${namespaceToFilter}. Judge the relevancy of the user's question to the stated class. 
-        If the user provides a question that is unrelated to stated class, clearly tell the user that they have selected the class: ${namespaceToFilter}
-        and that this question is not relevant to ${namespaceToFilter}, but still provide the answer to their question as best as possible regardless.
+        If the user provides a prompt (question or sentence) that is unrelated to stated class, clearly tell the user that they have selected the class: ${namespaceToFilter}
+        and that this is not relevant to ${namespaceToFilter}, but, if applicable, still provide the answer to their question as best as possible regardless.
 
-        Otherwise strictly assume the context to be ${namespaceToFilter}.
+        Otherwise strictly assume the context to be ${namespaceToFilter}. Thus, always answer in the context of ${namespaceToFilter}, referencing 
+        ${namespaceToFilter} in every message.
         
 
         Follow the instructions below:

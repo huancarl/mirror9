@@ -1,33 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Typewriter.module.css';
-import { 
-  messageContainsMath,
-  MessageRenderer,
-  transformMessageWithLatex
-  
-} from './katex';
 
 interface TypewriterProps {
-  message: any;
-  speed?: number;
+  message: (string | React.ReactNode)[];
+  speed?: number; // Speed in milliseconds
 }
 
-export const Typewriter: React.FC<TypewriterProps> = ({ message = '', speed = 8.0 }) => {
-  const [currentText, setCurrentText] = useState<string>('');
+export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 8.0 }) => {
+  const [currentText, setCurrentText] = useState<React.ReactNode[]>([]);
   const [index, setIndex] = useState<number>(0);
+  const [charIndex, setCharIndex] = useState<number>(0);
 
   useEffect(() => {
-    if (message && index < message.length) { // checking if message is defined and not null
-      const timer = setTimeout(() => {
-        setCurrentText((prevText) => prevText + message.charAt(index));
-        setIndex((prevIndex) => prevIndex + 1);
-      }, speed);
-      return () => clearTimeout(timer);
+    const currentMessage = message[index];
+
+    if (typeof currentMessage === 'string') {
+      if (charIndex < currentMessage.length) {
+        const timer = setTimeout(() => {
+          setCurrentText((prevText) => [...prevText, currentMessage.charAt(charIndex)]);
+          setCharIndex(charIndex + 1);
+        }, speed);
+        return () => clearTimeout(timer);
+      } else if (index < message.length - 1) {
+        setIndex(index + 1);
+        setCharIndex(0);
+      }
+    } else if (index < message.length) {
+      setCurrentText((prevText) => [...prevText, currentMessage]);
+      setIndex(index + 1);
     }
-  }, [index, message, speed]);
+  }, [index, charIndex, message, speed]);
 
   return <>{currentText}</>;
 };
+
+
 
 
 

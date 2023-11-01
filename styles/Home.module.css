@@ -150,6 +150,20 @@
   /* animation: fadein 0.5s; */
 }
 
+.apimessage {
+  white-space: pre-wrap;
+}
+
+.markdownanswer strong {
+  font-weight: bold;
+}
+
+.markdownanswer em {
+  font-style: italic;
+}
+
+
+
 
 @keyframes fadein {
   from {

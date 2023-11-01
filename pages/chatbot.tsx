@@ -21,6 +21,7 @@ import 'katex/dist/katex.min.css';
 import { 
   messageContainsMath,
   MessageRenderer,
+  parseBoldText,
   
 } from './katex';
 
@@ -352,7 +353,6 @@ export default function Home() {
       
   //     return uniqueDocs;
   // }
-
   
   /////////////////////////////////////////////////////////////////////////////////
   }
@@ -425,6 +425,21 @@ export default function Home() {
   //     }
   // }
 
+
+  if (messageContainsMath(message.message)) {
+    content = <MessageRenderer key={index} message={message.message} />;
+  } else if (isCodeMessage) {
+    content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
+  } else if (message.type === 'apiMessage' && !isCodeMessage && !messageContainsMath) {
+    content = <Typewriter message={parseBoldText(message.message)} />;
+  } else {
+    content = <span>{parseBoldText(message.message)}</span>;
+  }
+  
+
+
+
+
   // if (message.type === 'apiMessage' && !isCodeMessage) {
   //   const formattedMessage = message.message.replace(/\n/g, '<br/>');
   //   content = <div dangerouslySetInnerHTML={{ __html: formattedMessage }} />;}
@@ -438,24 +453,24 @@ export default function Home() {
   // }
 
 
-  if (messageContainsMath(message.message)) {
-  content = <MessageRenderer key={index} message={message.message} />;
-   }
-   else if (message.type === 'apiMessage' && !isCodeMessage) {
-    const normalizedMessage = message.message.replace(/\r\n/g, '\n');
-    const lines = normalizedMessage.split('\n');
-    content = lines.map((line, idx) => (
-      <div key={idx} className="line">
-        <Typewriter message={line} />
-        {idx < lines.length - 1 && <br />}
-      </div>
-    ));
-  } else if (isCodeMessage) {
-    content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  } else {
-    content = <span>{message.message}</span>;
-  }
-  
+  // if (messageContainsMath(message.message)) {
+  // content = <MessageRenderer key={index} message={message.message} />;
+  //  }
+  //  else if (message.type === 'apiMessage' && !isCodeMessage) {
+  //   const normalizedMessage = message.message.replace(/\r\n/g, '\n');
+  //   const lines = normalizedMessage.split('\n');
+  //   content = lines.map((line, idx) => (
+  //     <div key={idx} className="line">
+  //       <Typewriter message={line} />
+  //       {idx < lines.length - 1 && <br />}
+  //     </div>
+  //   ));
+  // } else if (isCodeMessage) {
+  //   content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
+  // } else {
+  //   content = <span>{message.message}</span>;
+  // }
+
     if (isLoading) {
       return <>Loading...</>;
     }   

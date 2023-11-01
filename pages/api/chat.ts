@@ -89,11 +89,11 @@ function createPrompt(namespaceToSearch: string){
     6. Be aware that not all questions will pertain to: ${classMapping[namespaceToSearch]} 
        If the question does not pertain to ${namespaceToSearch}, do not search ${classMapping[namespaceToSearch]}
 
-    7. 
-    - Should a question context be a continuation or associated with the prior one found in , use history proficiently to search consistently
-    - If a question context is distinctive from the history, search adeptly. 
+    7. Should a question context be a continuation or associated with the prior one found in , use history proficiently to search consistently.
+       If a question context is distinctive from the history, search adeptly. 
 
-    Query = ${userQuery}
+
+  Query = ${userQuery}
 
   ----Enhanced Example Responses:
  
