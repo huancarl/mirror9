@@ -156,7 +156,7 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 40;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 5;                      // max vector search, adjust accordingly till find optimal
     
         const maxNamespaces = 5;
         const namespacesToSearch = this.namespaces
@@ -281,8 +281,6 @@ export class CustomQAChain {
             return `${metadataText} (Source: ${filename}, Page Number: ${doc.metadata['loc.pageNumber']})`;
         }).join(" ");
 
-        // console.log(relevantDocs.length, 'is the length of relevantDocs');
-        // console.log(contextTexts, 'is context texts');
         this.chatHistoryBuffer.addMessage(chat_history);
 
         const availableTitles =
@@ -302,6 +300,7 @@ export class CustomQAChain {
         'INFO 2950 Lecture 10', 
         'INFO 2950 Midterm Fall 2023 Review Topics'`;
 
+        console.log(this.namespaces, 'this is the namespaces found in custom');
 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
@@ -325,12 +324,13 @@ export class CustomQAChain {
        
         (You have the ability to speak every language)
        
-        You will answer questions from the user pertaining to the class: ${namespaceToFilter}. Judge the relevancy of the user's question to the stated class. 
-        If the user provides a prompt (question or sentence) that is unrelated to stated class, clearly tell the user that they have selected the class: ${namespaceToFilter}
-        and that this is not relevant to ${namespaceToFilter}, but, if applicable, still provide the answer to their question as best as possible regardless.
+        You will answer questions from the user pertaining to the class: ${this.namespaces}. Judge the relevancy of the user's question to the stated class. 
+        If the user provides a prompt (question or sentence) that is unrelated to stated class, clearly tell the user that they have selected the class: ${this.namespaces}
+        and that this is not relevant to ${this.namespaces}, but, if applicable, still provide the answer to their question as best as possible regardless. You only have
+        access to the materials of ${namespaceToFilter}.
 
-        Otherwise strictly assume the context to be ${namespaceToFilter}. Thus, always answer in the context of ${namespaceToFilter}, referencing 
-        ${namespaceToFilter} in every message.
+        Otherwise strictly assume the context to be ${this.namespaces}. Thus, always answer in the context of ${this.namespaces}, referencing 
+        ${this.namespaces} in every message.
         
 
         Follow the instructions below:
@@ -340,8 +340,8 @@ export class CustomQAChain {
         --Contextual Understanding--:
 
         - You have access and deep knowledge about various specific content denoted as ${contextTexts}. The specific
-          materials you have access to are ${availableTitles}. Never say you do not have access to ${availableTitles}, because you do.
-        - When asked specifically about a certain ${availableTitles}, provide as much specific detail as possible and do not forget to mention details
+          materials you have access to are ${this.namespaces}. Never say you do not have access to ${this.namespaces}, because you do.
+        - When asked specifically about a certain ${this.namespaces}, provide as much specific detail as possible and do not forget to mention details
         relevant to the question. Answer the question to the best of your capability and in full. The true value lies in the specific details contained within.
        
         ----Response Dynamics---:
@@ -358,9 +358,9 @@ export class CustomQAChain {
 
         -----Handling Various Question-Context Relationships--:
 
-        - Directly related: Use ${namespaceToFilter} and ${availableTitles} to respond accurately,precisely, and explicitly.
-        - Somewhat related: If the context isn't an exact match/ambigious, provide the most informed response using ${namespaceToFilter} and ${availableTitles} when possible.
-        - Unrelated: Mention to the user that it is unrelated ${namespaceToFilter}, but proceed to answer the question accurately, regardless of the context's relevance or lack thereof
+        - Directly related: Use ${this.namespaces} and ${this.namespaces} to respond accurately,precisely, and explicitly.
+        - Somewhat related: If the context isn't an exact match/ambigious, provide the most informed response using ${this.namespaces} and ${this.namespaces} when possible.
+        - Unrelated: Mention to the user that it is unrelated ${this.namespaces}, but proceed to answer the question accurately, regardless of the context's relevance or lack thereof
        
        ------Reference Citing--:
 
@@ -426,6 +426,7 @@ export class CustomQAChain {
     // Add more models with different parameters here if you want to create an ensemble
   ];
        
+  console.log(prompt, 'custom prompt');
 
 
 let response = await this.retryRequest(async () => {
