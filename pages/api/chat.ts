@@ -183,9 +183,15 @@ export default async function handler(
     //selects the index
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
+    const modelForResponse = new OpenAIChat({
+      temperature: 0.1,
+      modelName: "gpt-3.5-turbo-16k",
+      cache: true,
+    });
+
 
     //init class
-    const qaChain = CustomQAChain.fromLLM(model, index, namespaces, {
+    const qaChain = CustomQAChain.fromLLM(modelForResponse, index, namespaces, {
       returnSourceDocuments: true,
       bufferMaxSize: 4000,
     });
