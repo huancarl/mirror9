@@ -123,6 +123,10 @@ export default function Home() {
     userIDRef.current = getOrGenerateUUID('lapp');
     sessionIDRef.current = getOrGenerateUUID('sapp');
 
+
+
+
+
     try {
 
         let response = await fetch('/api/getDocumentBySess', {
@@ -214,6 +218,9 @@ export default function Home() {
 
 
 //********************************************************************************************************* */
+
+
+
   async function handleSubmit(e: any) {
 
     const namespaceToSearch: any = courseTitle;
@@ -223,7 +230,7 @@ export default function Home() {
     setError(null);
 
     if (!query) {
-      alert('Please input a question');
+      alert('Enter a question lol');
       return;
     }
     
@@ -289,7 +296,6 @@ export default function Home() {
           history: [...state.history, [question, data.message ]],
         }));
       }
-      console.log('messageState', messageState);
 
       setLoading(false);
 
@@ -298,9 +304,13 @@ export default function Home() {
     } catch (error) {
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
-      console.log('error', error);
     }
   }
+
+
+
+
+
 //*************************************************************************************************************** */
   //prevent empty submissions
 

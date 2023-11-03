@@ -23,123 +23,98 @@ function cleanText(text) {
   const cleaned = text.split('\n').filter(line => line.trim().length > 0).join(' ');
   return cleaned.replaceAll('  ', ' ').trim(); // Replace double spaces with single space
 }
-function cleanSourceDocs(sourceDocs) {
-  // Assuming sourceDocs is an array of strings:
-  return sourceDocs.map(doc => cleanText(doc));
-  // If sourceDocs is an array of objects with a "text" field:
-  // return sourceDocs.map(doc => ({ ...doc, text: cleanText(doc.text) }));
-}
-
-
-//Process user query
-const userQuery = 'Can you explain the Median Voter Theorem and where I can find it?';
-
-
-export const classMapping = {
-  "INFO 2040": "INFO 2040 Textbook",
-  "INFO 2950": ['INFO 2950 Koenecke Syllabus', 'INFO 2950 Lecture 7', 'INFO 2950 Handbook',
-
-  'INFO 2950 Fall 2022 Midterm Solutions',
-  'INFO 2950 Fall 2022 Midterm Questions',
-  'INFO 2950 Lecture 1',
-  'INFO 2950 Lecture 2',
-  'INFO 2950 Lecture 3',
-  'INFO 2950 Lecture 4',
-  'INFO 2950 Lecture 5',
-  'INFO 2950 Lecture 6',
-  'INFO 2950 Lecture 8',
-  'INFO 2950 Lecture 9',
-  'INFO 2950 Lecture 10',
-  'INFO 2950 Midterm Fall 2023 Review Topics'
-  ],
-  "Other": "Probability Cheatsheet v2.0, Math 21a Review Sheet, Introduction To Probability"
-}
-
-function createPrompt(namespaceToSearch: string){
-  return `(
-   
-    You are CornellGPT, an advanced AI developed by two gifted Cornell students.
- 
-    Your mission is to furnish accurate, detailed, and educational answers by searching through specified educational material when appropriate.
-    Questions you receive will usually be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
-    It consists of textbooks, lecture slides, syallbi, and other academic and educational resources. 
-    Your goal is figuring out the most relevant resource based on the user query and search accordingly.
-    
-    Here are the refined guidelines for your operation:
- 
-    Available Information: [${classMapping[namespaceToSearch]}].
-   
-    ------------Detailed Instructions--------:
-
-    1. ALWAYS follow the response format: "Searching (title/s of the textbook/s)..." NEVER deviate from this format.
-
-    2. Parse the user's query for hints, explicit mentions, or any relation to ${classMapping[namespaceToSearch]}. According to the query, select the most relevant resource from the 
-       list: ${classMapping[namespaceToSearch]}. Be attentive, selective, and cautious about what to select from the list: ${classMapping[namespaceToSearch]}. 
-       Do not select the wrong things or select too many things if not necessary, or select anything at all if not necessary.
-
-    3. If multiple resources are relevant and needed, search relevant ones from ${classMapping[namespaceToSearch]}
-
-    4. - If the query relates to the educational content in ${classMapping[namespaceToSearch]}, make sure to make the right selection within ${classMapping[namespaceToSearch]} accordingly.
-       - If the query is unrelated to ${namespaceToSearch} , do not search ${classMapping[namespaceToSearch]} because it is irrelevant to ${namespaceToSearch}
-       - If the query can be answered quick and simply with an absolute answer then do not search ${classMapping[namespaceToSearch]}
-       - When faced with an ambiguous query or a query that might not pertain to ${classMapping[namespaceToSearch]} or ${namespaceToSearch} utilize your training to assess whether or not you should search. 
-
-    5. Do not give false answers or makeup answers under any circumstances.
-
-    6. Be aware that not all questions will pertain to: ${classMapping[namespaceToSearch]} 
-       If the question does not pertain to ${namespaceToSearch}, do not search ${classMapping[namespaceToSearch]}
-
-    7. Should a question context be a continuation or associated with the prior one found in , use history proficiently to search consistently.
-       If a question context is distinctive from the history, search adeptly. 
-
-
-  Query = ${userQuery}
-
-  ----Enhanced Example Responses:
- 
-  - Query: "Can you summarize lecture 7"
-    "Searching ${classMapping[namespaceToSearch]}..."
-
-  - Query: "What is the weather for today?"
-    "Searching..."
-
-  - Query: "What are the days of the week?"
-    "Searching..."
-
-  - Query: "What are Einsteins equations? What is the quadratic equation?"
-    "Searching ..."
-
-  - Query: "Explain lecture 10 and how it relates to the practice prelim in detail"
-    "Searching ${classMapping[namespaceToSearch]}..."
-
-  - Query: "What lectures talk about SQL"?
-    "Searching ${classMapping[namespaceToSearch]}..."
- 
-  - Query: "Tell me the grade distribution for this class"
-     "Searching ${classMapping[namespaceToSearch]}..."
- 
-  - Query: "Summarize chapter 15 of the textbook"
-    "Searching ${classMapping[namespaceToSearch]}..."
-
-  - Query: "Summarize the course contents for this class"
-     "Searching ${classMapping[namespaceToSearch]}..."
-
-  )`
-}
+// function cleanSourceDocs(sourceDocs) {
+//   // Assuming sourceDocs is an array of strings:
+//   return sourceDocs.map(doc => cleanText(doc));
+//   // If sourceDocs is an array of objects with a "text" field:
+//   // return sourceDocs.map(doc => ({ ...doc, text: cleanText(doc.text) }));
+// }
 
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
+
   const { question, history, userID, sessionID, namespace} = req.body;
   // const question = req.body.question;
-
-
   console.log('Received request body:', req.body);
 
 
   // console.log(question);
+
+
+   const classMapping = {
+    "INFO 2040": "INFO 2040 Textbook",
+    "INFO 2950": ['INFO 2950 Koenecke Syllabus', 'INFO 2950 Lecture 7', 'INFO 2950 Handbook',
+  
+    'INFO 2950 Fall 2022 Midterm Solutions',
+    'INFO 2950 Fall 2022 Midterm Questions',
+    'INFO 2950 Lecture 1',
+    'INFO 2950 Lecture 2',
+    'INFO 2950 Lecture 3',
+    'INFO 2950 Lecture 4',
+    'INFO 2950 Lecture 5',
+    'INFO 2950 Lecture 6',
+    'INFO 2950 Lecture 8',
+    'INFO 2950 Lecture 9',
+    'INFO 2950 Lecture 10',
+    'INFO 2950 Midterm Fall 2023 Review Topics'
+    ],
+    "Other": "Probability Cheatsheet v2.0, Math 21a Review Sheet, Introduction To Probability"
+  }
+
+
+  function createPrompt(namespaceToSearch: string){
+    return `(
+     
+      Your mission is to determine when and what to search based on the user query.
+      Queries you receive will usually be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
+      
+      Available Search Documents = ${classMapping[namespaceToSearch]}
+      Chat History = ${history}
+      Query = ${question}
+  
+      - Always follow response format: "Searching(' ')..." or "Searching ..." Never deviate from this format.
+  
+      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search accordingly from the available search documents.
+      - Be attentive, selective, and cautious about what to select. Do not select the wrong things.
+  
+      - If the query relates to certain search documents, make sure to make the right selection.
+      - If the query is unrelated to the search documents, then do not search.
+      - If the query can be answered quick and simply with an absolute answer like "What is 2+2", then do not search. 
+      - When faced with an ambiguous query, assess whether or not you should search. 
+  
+      - If multiple search documents are relevant and absolutely needed, then search accordingly.
+  
+      - Should a question context be a continuation or associated with the prior one found in history, use history proficiently to search consistently.
+        If a question context is distinctive from the history, search adeptly. 
+  
+  
+    Example Responses:
+   
+    - Query: "Summarize lecture 7 in detail"
+     "Searching ${classMapping[namespaceToSearch]}..."
+  
+    - Query: "Explain lecture 10 and how it relates to the practice prelim"
+     "Searching ${classMapping[namespaceToSearch]}..."
+  
+    - Query: "What is the weather for today?"
+      "Searching..."
+  
+    - Query: "What are Einsteins equations? What is the quadratic equation?"
+      "Searching ..."
+  
+    - Query: "What lectures talk about SQL"?
+      "Searching ${classMapping[namespaceToSearch]}..."
+   
+    - Query: "Give me an overview of the grade distribution"
+       "Searching ${classMapping[namespaceToSearch]}..."
+   
+    - Query: "Summarize chapter 15 of the textbook"
+      "Searching ${classMapping[namespaceToSearch]}..."
+    )`
+  }
 
 
   //only accept post requests
@@ -199,7 +174,7 @@ export default async function handler(
     // const numbsArray: string[] | undefined = extractedNumbs as string[] | undefined;
    
 
-    const namespaces = extractedNumbs;            // Create modifier state to import variable in qachain prompt
+    const namespaces = extractedNumbs;            
 
 
     console.log(namespaces, 'namespace in chat.ts');
@@ -238,6 +213,7 @@ export default async function handler(
       timestamp : new Date()
     };
     await chatHistoryCollection.insertOne(saveToDB);
+
 
     const currSession = await chatSessionCollection.findOne({sessionID, userID });
     if (currSession && currSession.isEmpty === true){
