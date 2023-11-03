@@ -9,14 +9,13 @@ export default async (req, res) => {
 
   try {
     const db = await connectToDb();
-    const sessionsCollection = db.collection('sessionIDs'); // Assuming your collection's name is "sessionIDs"
+    const sessionsCollection = db.collection('sessionIDs'); 
 
-    // Fetch all sessions for the given userID
-
-    const sessions = await sessionsCollection.find({ userID, course }).toArray();
+    // Sort the results in descending order based on the date field
+    const sessions = await sessionsCollection.find({ userID, course }).sort({ date: -1 }).toArray();
 
     if (!sessions || sessions.length === 0) {
-      return res.status(200).json({ sessions: [] });
+      return res.status(200).json({ sessions: false});
     }
 
     return res.status(200).json({ sessions });

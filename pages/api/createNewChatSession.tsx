@@ -1,7 +1,7 @@
 import connectToDb from '@/config/db';
 
 export default async (req, res) => {
-    const { userID, sessionID, course} = req.body;
+    const { userID, sessionID, course, name} = req.body;
   
     if (!userID || !sessionID) {
       return res.status(400).json({ error: 'userID and sessionID are required' });
@@ -14,9 +14,10 @@ export default async (req, res) => {
       await sessionCollection.insertOne({
         userID,
         sessionID,
-        name: "Default Name",  // You can allow user customization later
+        name: name || "New chat",
         date: new Date(),
         course: course,
+        isEmpty: true,
       });
   
       return res.status(200).json({ success: true });

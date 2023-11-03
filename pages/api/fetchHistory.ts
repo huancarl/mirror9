@@ -3,7 +3,6 @@ import connectToDb from '@/config/db';
 export default async (req, res) => {
   const { userID, sessionID } = req.body;
 
-  console.log(req.body);
 
   if (!userID || !sessionID) {
     return res.status(400).json({ error: 'userID and sessionID are required' });

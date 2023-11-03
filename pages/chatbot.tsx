@@ -142,7 +142,7 @@ export default function Home() {
         console.log(currentTitle, "Checking currentTitle");
 
         if (docData.course !== currentTitle) {
-            console.log('RUNNING');
+
             response = await fetch('/api/getLatestSess', {
               method: 'POST',
               headers: {
@@ -179,7 +179,6 @@ export default function Home() {
             }),
         });
         const data = await response.json();
-        console.log(data, 'data from db');
 
         if (data.error) {
             console.error("Failed to fetch chat history:", data.error);
@@ -361,7 +360,7 @@ export default function Home() {
       <Layout>
       <div className="appWrapper">
       <aside> 
-      {courseTitle ? <Sidebar className={courseTitle} onSessionChange={handleSessionChange} /> : null}
+      {courseTitle ? <Sidebar className={courseTitle} onSessionChange={handleSessionChange} onNewChat={handleSessionChange} /> : null}
       </aside>
       <div className="mainContent" key={refreshKey}>
         <div className="mx-auto flex flex-col gap-4">

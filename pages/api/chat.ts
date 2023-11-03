@@ -161,7 +161,7 @@ export default async function handler(
   try {
     const db = await connectToDb();
     const chatHistoryCollection = db.collection("chatHistories");
-
+    const chatSessionCollection = db.collection('sessionIDs');
 
     const model = new OpenAIChat({
       temperature: 0.1,
@@ -226,14 +226,9 @@ export default async function handler(
     });
 
 
-    console.log('results', results);
-    console.log('results.text', results.text);
-
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
 
-
-    // console.log(sourceDocs, 'this is the chat.ts file');
     const saveToDB = {
       userID,
       sessionID,
@@ -242,10 +237,13 @@ export default async function handler(
       sourceDocs,
       timestamp : new Date()
     };
-
-
     await chatHistoryCollection.insertOne(saveToDB);
 
+    const currSession = await chatSessionCollection.findOne({sessionID, userID });
+    if (currSession && currSession.isEmpty === true){
+      //update the document's .isEmpty field in mongodb
+      await chatSessionCollection.updateOne({ sessionID }, { $set: { isEmpty: false } });
+    }
 
     const data = {
       message,

@@ -7,7 +7,6 @@ export default async (req, res) => {
     }
 
     const { sapp } = req.body; // Assuming you're sending the sessionID under the name "sapp"
-    console.log(sapp, 'sappy');
 
     if (!sapp) {
         res.status(400).send('Missing sessionID');
