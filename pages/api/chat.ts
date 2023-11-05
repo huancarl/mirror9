@@ -45,7 +45,7 @@ export default async function handler(
 
 
    const classMapping = {
-    "INFO 2040": "INFO 2040 Textbook",
+    "INFO 2040": ["INFO 2040 Textbook"],
     "INFO 2950": ['INFO 2950 Koenecke Syllabus', 'INFO 2950 Lecture 7', 'INFO 2950 Handbook',
   
     'INFO 2950 Fall 2022 Midterm Solutions',
