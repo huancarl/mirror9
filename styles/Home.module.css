@@ -154,11 +154,11 @@
   white-space: pre-wrap;
 }
 
-.markdownanswer strong {
+.apimessage strong {
   font-weight: bold;
 }
 
-.markdownanswer em {
+.apimessage em {
   font-style: italic;
 }
 

@@ -75,20 +75,21 @@ export default async function handler(
       Chat History = ${history}
       Query = ${question}
   
-      - Always follow response format: "Searching(' ')..." or "Searching ..." Never deviate from this format.
+      - Always respond like: "Searching(' ')..." or "Searching ..." Never deviate from this format.
   
       - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search accordingly from the available search documents.
       - Be attentive, selective, and cautious about what to select. Do not select the wrong things.
   
       - If the query relates to certain search documents, make sure to make the right selection.
-      - If the query is unrelated to the search documents, then do not search.
-      - If the query can be answered quick and simply with an absolute answer like "What is 2+2", then do not search. 
+      - If the query is unrelated to the search documents, then do not search, by returning "Searching..."
+      - If the query can be answered quick and simply with an absolute answer like "What is 2+2", then do not search by returning "Searching..."
       - When faced with an ambiguous query, assess whether or not you should search. 
   
-      - If multiple search documents are relevant and absolutely needed, then search accordingly.
+      - If multiple search documents are relevant and absolutely needed, then search accordingly. 
   
       - Should a question context be a continuation or associated with the prior one found in history, use history proficiently to search consistently.
         If a question context is distinctive from the history, search adeptly. 
+
   
   
     Example Responses:

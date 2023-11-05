@@ -439,7 +439,7 @@ export default function Home() {
     content = <MessageRenderer key={index} message={message.message} />;
   } else if (isCodeMessage) {
     content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  } else if (message.type === 'apiMessage' && !isCodeMessage && !messageContainsMath) {
+  } else if (message.type === 'apiMessage') {   //&& !isCodeMessage && !messageContainsMath
     content = <Typewriter message={parseBoldText(message.message)} />;
   } else {
     content = <span>{parseBoldText(message.message)}</span>;

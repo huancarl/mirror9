@@ -1,6 +1,6 @@
 export function messageContainsCode(message:any, userMessage:any) {
     const codeKeywords = [
-      'Python', 'python', 'PYTHON',
+      // 'Python', 'python', 'PYTHON',
       'Java', 'java', 'JAVA',
       'JavaScript', 'javascript', 'JAVASCRIPT',
       'TypeScript', 'typescript', 'TYPESCRIPT',
