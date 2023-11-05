@@ -71,7 +71,7 @@ export default async function handler(
       Your mission is to determine when and what to search based on the user query.
       Queries you receive will usually be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
       
-      Available Search Documents = ${classMapping[namespaceToSearch]}
+      Available Search Documents = ${classMapping[namespaceToSearch]}, ${namespaceToSearch}
       Chat History = ${history}
       Query = ${question}
   
@@ -102,7 +102,7 @@ export default async function handler(
   
     - Query: "What is the weather for today?"
       "Searching..."
-  
+
     - Query: "What are Einsteins equations? What is the quadratic equation?"
       "Searching ..."
   

@@ -5,7 +5,7 @@ interface TypewriterProps {
   speed?: number; // Speed in milliseconds
 }
 
-export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 5.0 }) => {
+export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 3.0 }) => {
   const [currentText, setCurrentText] = useState<React.ReactNode[]>([]);
   const [index, setIndex] = useState<number>(0);
   const [charIndex, setCharIndex] = useState<number>(0);
