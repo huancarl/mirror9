@@ -1,7 +1,7 @@
 import connectToDb from '@/config/db';
 
 export default async (req, res) => {
-  const { userID, sessionID } = req.body;
+  const { userID, sessionID, course } = req.body;
 
   if (!userID || !sessionID) {
     return res.status(400).json({ error: 'userID and sessionID are required' });
@@ -14,6 +14,7 @@ export default async (req, res) => {
     const session = await sessionCollection.findOne({
       userID,
       isEmpty: true,
+      course,
     });
 
     console.log(session, 'session in checkfornews');

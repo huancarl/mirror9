@@ -64,9 +64,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
             }
         }
 
-        if (!sessions || currentSessionID === null) {
-            fetchChatSessions();
-        }
+        fetchChatSessions();
+        
     }, [currentSessionID, sessions, className, onSessionChange]);
 
     const initNewChat = async () => {
@@ -104,7 +103,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userID, sessionID: currentSessionID }),
+        body: JSON.stringify({ userID, sessionID: currentSessionID, course: className }),
       });
       const newSession = await response.json();
 

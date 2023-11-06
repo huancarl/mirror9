@@ -221,10 +221,11 @@ export default async function handler(
     };
     await chatHistoryCollection.insertOne(saveToDB);
 
-
     const currSession = await chatSessionCollection.findOne({sessionID, userID });
+    console.log(currSession,'currSession/chat.ts');
     if (currSession && currSession.isEmpty === true){
       //update the document's .isEmpty field in mongodb
+      console.log('currSession in chat.ts runs');
       await chatSessionCollection.updateOne({ sessionID }, { $set: { isEmpty: false } });
     }
 
