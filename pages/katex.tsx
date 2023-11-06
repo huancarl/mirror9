@@ -7,23 +7,26 @@ import { Typewriter } from './typewriter';
 
 
 export function messageContainsMath(message) {
+  const latexPatterns = [
+    /\$\$[\s\S]+?\$\$/,   // Extended display math
+    /(?<!\\)\$.+?\$(?!\\)/, // Improved inline math
+    /\\begin\{.+?\}[\s\S]*?\\end\{.+?\}/, // LaTeX environments
+    /\\[a-zA-Z]+\[.*?\]\{.*?\}/, // Commands with optional arguments
+    /\\[a-zA-Z]+(_\{.*?\}|\^\{.*?\})*/, // Commands with subscripts/superscripts
+    /\\[a-zA-Z]+/,  // General LaTeX commands
+    /\\[a-zA-Z]+\{([^{}]*\{.*?\})*.*?\}/, // Nested expressions
+    /%.*?\$.*?\$/, // Detecting math in comments
+    /\\[^a-zA-Z0-9]/ // Escaped characters
+  ];
 
-    const latexPatterns = [
-
-      /\$\$.+?\$\$/,   // Checks for display math (between $$ and $$)
-      /(?<![a-zA-Z])\$.+?\$(?![a-zA-Z])/, // Checks for inline math (between $ and $) that's not part of a word
-      /\\[a-z]+\{.+?\}/, // Checks for common LaTeX commands like \frac{1}{2}
-      /\\[a-z]+/,  // Checks for common LaTeX commands without braces like \int or \sin
-  
-    ];
-
-    for (let pattern of latexPatterns) {
-      if (pattern.test(message)) {
-        return true;
-      }
+  for (let pattern of latexPatterns) {
+    if (pattern.test(message)) {
+      return true;
     }
-    return false;  // Added to ensure all code paths return a value.
   }
+  return false;  // Ensures all code paths return a value.
+}
+
   
 
 
