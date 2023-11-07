@@ -3,14 +3,21 @@ import React, { useEffect, useState } from 'react';
 interface TypewriterProps {
   message: (string | React.ReactNode)[];
   speed?: number; // Speed in milliseconds
+  animate: boolean; // New prop to control animation
 }
 
-export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 3.0 }) => {
+export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 3.0, animate }) => {
   const [currentText, setCurrentText] = useState<React.ReactNode[]>([]);
   const [index, setIndex] = useState<number>(0);
   const [charIndex, setCharIndex] = useState<number>(0);
 
   useEffect(() => {
+    if (!animate) {
+      // If animation is not required, just set the full message
+      setCurrentText(message);
+      return;
+    }
+
     const currentMessage = message[index];
 
     if (typeof currentMessage === 'string') {
@@ -28,10 +35,11 @@ export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 3.
       setCurrentText((prevText) => [...prevText, currentMessage]);
       setIndex(index + 1);
     }
-  }, [index, charIndex, message, speed]);
+  }, [index, charIndex, message, speed, animate]);
 
   return <>{currentText}</>;
 };
+
 
 
 

@@ -387,6 +387,8 @@ export default function Home() {
   // }
 
   
+
+  
   
   /////////////////////////////////////////////////////////////////////////////////
   }
@@ -445,7 +447,6 @@ export default function Home() {
             : styles.usermessage;
     }
 
-    const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
 
   // if (messageContainsMath(message.message)) {
   //     content = <MessageRenderer key={index} message={message.message} />;
@@ -459,8 +460,10 @@ export default function Home() {
   //     }
   // }
 
-
   
+
+  const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
+  const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
   
 //&& !isCodeMessage && !messageContainsMath
   if (messageContainsMath(message.message)) {
@@ -468,7 +471,7 @@ export default function Home() {
   } else if (isCodeMessage) {
     content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
   } else if (message.type === 'apiMessage' ) {                        
-    content = <Typewriter message={parseBoldText(message.message)} />;
+    content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
   } else {
     content = <span>{parseBoldText(message.message)}</span>;
   }
