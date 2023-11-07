@@ -127,7 +127,7 @@ export default function Home() {
 
 
     try {
-
+        //handling the edge case where you switch between course
         let response = await fetch('/api/getDocumentBySess', {
             method: 'POST',
             headers: {
@@ -142,8 +142,6 @@ export default function Home() {
         // 2. Compare 'course' field with currentTitle.
         const currentTitle = courseTitle; 
 
-        console.log(currentTitle, "Checking currentTitle");
-
         if (docData.course !== currentTitle) {
 
             response = await fetch('/api/getLatestSess', {
@@ -153,6 +151,7 @@ export default function Home() {
               },
               body: JSON.stringify({
                   course: currentTitle,  // add this line
+                  userID: userIDRef.current,
               })
           });
 

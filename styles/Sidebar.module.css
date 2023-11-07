@@ -10,6 +10,7 @@
 }
 
   .newChatButton {
+    margin-top:1em;
     border: 1px solid #000; 
     font-size: 1em;
     padding-left: 1px;
@@ -37,9 +38,34 @@
     width: 100%; /* This ensures the buttons stretch to the full width of their parent */
     margin-bottom: 5px; /* This adds a little space between the buttons */
     /* ... other styles ... */
+    flex-grow: 1;
   }
   .sessionButton:after {
     content: "";
     display: table;
     clear: both;
+  }
+
+  .sessionContainer {
+    display: flex;
+    justify-content: space-between; /* Aligns session button to the left and delete button to the right */
+    align-items: center; /* Vertically centers the buttons */
+  }
+
+  .deleteSessionButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px; /* Add padding as needed */
+    margin-left: 5px; /* Space between session button and delete button */
+  }
+
+  .sessionName {
+    /* Ensure the session name takes the most space */
+    flex-grow: 1;
+  }
+
+  .trashCan {
+    cursor: pointer;
+    margin-left: 1em;
   }

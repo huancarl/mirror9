@@ -32,13 +32,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 
     const sessionsByDate = chatSessions.reduce((acc, session) => {
         const dateStr = new Date(session.date).toLocaleDateString();
-
-        console.log(chatSessions, 'this is sessions');
         if (!acc[dateStr]) {
           acc[dateStr] = [];
         }
         acc[dateStr].push(session);
-        console.log(acc, 'this is acc');
         return acc;
       }, {} as Record<string, ChatSession[]>);
     
@@ -85,6 +82,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         
     }, [currentSessionID, sessions, className, onSessionChange]);
 
+    //initializes the UI with a session instantly
+
     const initNewChat = async () => {
       const newSessionID = uuidv4();
       const sessionName = getSessionName(); 
@@ -114,7 +113,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     }
 
     const handleNewChat = async () => {
-
       const userID = localStorage.getItem('lapp');
       const response = await fetch('/api/checkForNewSessions', {
         method: 'POST',
@@ -164,31 +162,95 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         
     }
 
+    const handleDeleteSession = async (sessionId: string | null) => {
+        // Use window.confirm to display the confirmation dialog
+
+        if (chatSessions.length <= 1) {
+            alert("You cannot delete a chat session if you only have one");
+            return;
+        }
+
+        const isConfirmed = window.confirm('Are you sure you want to delete this chat session?');
+      
+        // If the user clicks 'OK', proceed with the deletion
+        if (isConfirmed && sessionId) {
+          console.log(`Delete session with ID: ${sessionId}`);
+          const response = await fetch('/api/deleteSession', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ sessionID: sessionId, className }), // Make sure you pass the correct sessionID to delete
+          });
+          if (response.ok) {
+            // If the delete operation was successful, update the state to remove the session
+            setChatSessions(prevSessions => prevSessions.filter(session => session.sessionID !== sessionId));
+            const latestSessionResponse = await fetch('/api/getLatestSess', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    course: className, // Assuming 'className' holds the course title
+                    userID: localStorage.getItem('lapp'), // Pass the current user's ID
+                }),
+            });
+            if (latestSessionResponse.ok) {
+                const latestSessionData = await latestSessionResponse.json();
+                localStorage.setItem('sapp', latestSessionData.sessionID);
+                setCurrentSessionID(latestSessionData.sessionID);
+                if (onNewChat) {
+                    onNewChat(latestSessionData);
+                  }
+            } else {
+                console.error('Failed to fetch the latest session.');
+            }
+          } else {
+            // If there was an error, you can handle it here
+            console.error('Failed to delete the session.');
+          }
+        } else {
+          // If the user clicks 'Cancel', do nothing
+          console.log('Deletion cancelled.');
+        }
+      };
+
     return (
+        <div>
         <div className={styles.side}>
-          <button onClick={handleNewChat} className={styles.newChatButton}>+ New Chat</button>
-          {sortedDates.map(date => (
-            <div key={date}>
-              <h3 className={styles.dateHeading}>{date}</h3>
-              {sessionsByDate[date].map(session => (
-                <button
-                  key={session._id}
-                  onClick={() => {
-                    localStorage.setItem('sapp', session.sessionID);
-                    setCurrentSessionID(session.sessionID);
-                    if (onSessionChange) {
-                      onSessionChange(session.sessionID);
-                    }
-                  }}
-                  className={`${styles.sessionButton} ${session.sessionID === currentSessionID ? styles.activeSessionButton : ''}`}
-                >
-                  {session.name}
-                </button>
-              ))}
-            </div>
-          ))}
+            <button onClick={handleNewChat} className={styles.newChatButton}>+ New Chat</button>
+            {sortedDates.map(date => (
+                <div key={date}>
+                    <h3 className={styles.dateHeading}>{date}</h3>
+                    {sessionsByDate[date].map(session => (
+                        <div key={session._id} className={styles.sessionContainer}>
+                            <button
+                                onClick={() => {
+                                    localStorage.setItem('sapp', session.sessionID);
+                                    setCurrentSessionID(session.sessionID);
+                                    if (onSessionChange) {
+                                        onSessionChange(session.sessionID);
+                                    }
+                                }}
+                                className={`${styles.sessionButton} ${session.sessionID === currentSessionID ? styles.activeSessionButton : ''}`}
+                            >
+                                <span className={styles.sessionName}>{session.name}</span>
+                                <span 
+                                    onClick={(e) => {
+                                        e.stopPropagation(); // Prevent the session button's click event
+                                        handleDeleteSession(session.sessionID);
+                                    }}
+                                    className={styles.trashCan}>
+                                    🗑️
+                                </span>
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            ))}
         </div>
-      );
+        </div>
+    );
 }
 
 export default Sidebar;

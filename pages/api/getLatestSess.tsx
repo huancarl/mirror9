@@ -6,8 +6,7 @@ export default async (req, res) => {
         return;
     }
 
-    const { course } = req.body;
-    console.log(course, 'courseTitle received in getlatest');
+    const { course, userID} = req.body;
 
     if (!course) {
         res.status(400).send('Missing course title');
@@ -22,7 +21,7 @@ export default async (req, res) => {
 
         // Assuming there's a 'createdAt' or 'updatedAt' field in your documents
         const document = await sessionIDs.findOne(
-            { course }, 
+            { course, userID }, 
             { sort: { date: -1 } }
         );
 
