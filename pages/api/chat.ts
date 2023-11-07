@@ -77,8 +77,8 @@ export default async function handler(
   
       - Always respond like: "Searching(' ')..." or "Searching ..." Never deviate from this format.
   
-      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search accordingly from the available search documents.
-      - Be attentive, selective, and cautious about what to select. Do not select the wrong things.
+      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly and accordingly from the available search documents.
+      - Be attentive, selective, and cautious about what to select. Do not select the wrong things. You must select the right things.
   
       - If the query relates to certain search documents, make sure to make the right selection.
       - If the query is unrelated to the search documents, then do not search, by returning "Searching..."

@@ -245,10 +245,7 @@ export default function Home() {
           type: 'userMessage',
           message: question,
         },
-        {
-          type: 'apiMessage',
-          message: `Searching ${namespaceToSearch}...`,
-        },
+
       ],
     }));
 
@@ -372,6 +369,7 @@ export default function Home() {
       </div>
     );
 
+
 ////////////////////////////////////////////////////////////////////////////////////
   //   function getUniqueSources(docs: any[]): any[] {
   //     const seenSources: { [key: string]: boolean } = {};
@@ -387,6 +385,8 @@ export default function Home() {
       
   //     return uniqueDocs;
   // }
+
+  
   
   /////////////////////////////////////////////////////////////////////////////////
   }
@@ -460,15 +460,19 @@ export default function Home() {
   // }
 
 
+  
+  
+//&& !isCodeMessage && !messageContainsMath
   if (messageContainsMath(message.message)) {
     content = <MessageRenderer key={index} message={message.message} />;
   } else if (isCodeMessage) {
     content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  } else if (message.type === 'apiMessage') {   //&& !isCodeMessage && !messageContainsMath
+  } else if (message.type === 'apiMessage' ) {                        
     content = <Typewriter message={parseBoldText(message.message)} />;
   } else {
     content = <span>{parseBoldText(message.message)}</span>;
   }
+
   
 
 
@@ -603,7 +607,7 @@ export default function Home() {
                     ref={textAreaRef}
                     autoFocus={false}
                     rows={1}
-                    maxLength={50000} // input size adjustment***
+                    maxLength={100000} // input size adjustment***
                     id="userInput"
                     name="userInput"
                     placeholder={

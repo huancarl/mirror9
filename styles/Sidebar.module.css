@@ -27,11 +27,13 @@
 
   .dateHeading {
     text-align: center; /* This will center the text within the heading */
-    color: #b0b0b0; /* This is a light gray color; you can adjust the shade as needed */
+    color: #000000; /* This is a light gray color; you can adjust the shade as needed */
     /* You can also add some padding for better spacing if needed */
     padding: 10px 0;
-    font-size: 0.9em; 
+    font-size: 0.9em;
+    font-weight: bold; /* This will make the text bold */
   }
+  
 
   .sessionButton {
     display: block; /* This will make each button take up the full width of the container */
