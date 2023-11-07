@@ -229,6 +229,35 @@ export default async function handler(
       await chatSessionCollection.updateOne({ sessionID }, { $set: { isEmpty: false } });
     }
 
+    //check the date of the access
+    const getSessionName = () => {
+      const now = new Date();
+      return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    };
+    
+    // Check the date of the access
+    if (currSession) {
+      const sessionDate = new Date(currSession.date);
+      const currentDate = new Date();
+    
+      // Compare only the year, month, and day (ignoring the time)
+      if(sessionDate.getUTCFullYear() !== currentDate.getUTCFullYear() ||
+         sessionDate.getUTCMonth() !== currentDate.getUTCMonth() ||
+         sessionDate.getUTCDate() !== currentDate.getUTCDate()) {
+        // The days are different, update the name and date fields
+        const newName = getSessionName();
+        await chatSessionCollection.updateOne(
+          { sessionID, userID },
+          {
+            $set: {
+              name: newName,
+              date: currentDate
+            }
+          }
+        );
+      }
+    }
+    
     const data = {
       message,
       sourceDocs,

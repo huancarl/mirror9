@@ -23,3 +23,23 @@
   .activeSessionButton {
     background-color: #e0f7fa; /* or any color you prefer */
   }
+
+  .dateHeading {
+    text-align: center; /* This will center the text within the heading */
+    color: #b0b0b0; /* This is a light gray color; you can adjust the shade as needed */
+    /* You can also add some padding for better spacing if needed */
+    padding: 10px 0;
+    font-size: 0.9em; 
+  }
+
+  .sessionButton {
+    display: block; /* This will make each button take up the full width of the container */
+    width: 100%; /* This ensures the buttons stretch to the full width of their parent */
+    margin-bottom: 5px; /* This adds a little space between the buttons */
+    /* ... other styles ... */
+  }
+  .sessionButton:after {
+    content: "";
+    display: table;
+    clear: both;
+  }

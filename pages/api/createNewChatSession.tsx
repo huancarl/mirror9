@@ -11,16 +11,18 @@ export default async (req, res) => {
       const db = await connectToDb();
       const sessionCollection = db.collection('sessionIDs');
   
+      const day = new Date();
+
       await sessionCollection.insertOne({
         userID,
         sessionID,
         name: name || "New chat",
-        date: new Date(),
+        date: day,
         course: course,
         isEmpty: true,
       });
   
-      return res.status(200).json({ success: true });
+      return res.status(200).json({ success: true, date: day});
   
     } catch (error) {
       console.error('Failed to create new chat session:', error);

@@ -6,6 +6,7 @@ type ChatSession = {
     _id: string;
     sessionID: string;
     name: string;
+    date: string;
 };
 
 type SidebarProps = {
@@ -28,6 +29,22 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
       const now = new Date();
       return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
     };
+
+    const sessionsByDate = chatSessions.reduce((acc, session) => {
+        const dateStr = new Date(session.date).toLocaleDateString();
+
+        console.log(chatSessions, 'this is sessions');
+        if (!acc[dateStr]) {
+          acc[dateStr] = [];
+        }
+        acc[dateStr].push(session);
+        console.log(acc, 'this is acc');
+        return acc;
+      }, {} as Record<string, ChatSession[]>);
+    
+      // Sort dates
+      const sortedDates = Object.keys(sessionsByDate).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+    
 
     useEffect(() => {
         async function fetchChatSessions() {
@@ -72,7 +89,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
       const newSessionID = uuidv4();
       const sessionName = getSessionName(); 
         try {
-            await fetch('/api/createNewChatSession', {
+            const response = await fetch('/api/createNewChatSession', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -84,9 +101,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
                     name: sessionName,
                 }),
             });
+            const sessionDate = await response.json();
             localStorage.setItem('sapp', newSessionID);
             setCurrentSessionID(newSessionID);
-            setChatSessions(prevSessions => [...prevSessions, { _id: newSessionID, sessionID: newSessionID, name: "Default Name" }]);
+            setChatSessions(prevSessions => [...prevSessions, { _id: newSessionID, sessionID: newSessionID, name: "Default Name", date: sessionDate.date}]);
             if (onNewChat) {
                 onNewChat(newSessionID);
             }
@@ -112,7 +130,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         const sessionName = getSessionName(); // Get the session name based on current time
     
         try {
-          await fetch('/api/createNewChatSession', {
+          const response = await fetch('/api/createNewChatSession', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -124,9 +142,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
               name: sessionName, // Send the session name to the server
             }),
           });
+          const sessionDate = await response.json();
           localStorage.setItem('sapp', newSessionID);
           setCurrentSessionID(newSessionID);
-          setChatSessions(prevSessions => [...prevSessions, { _id: newSessionID, sessionID: newSessionID, name: sessionName }]);
+          setChatSessions(prevSessions => [...prevSessions, { _id: newSessionID, sessionID: newSessionID, name: sessionName, date: sessionDate.date }]);
           if (onNewChat) {
             onNewChat(newSessionID);
           }
@@ -147,24 +166,29 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 
     return (
         <div className={styles.side}>
-            <button onClick={handleNewChat} className={styles.newChatButton}>+  New Chat</button>
-            {chatSessions.map(session => (
+          <button onClick={handleNewChat} className={styles.newChatButton}>+ New Chat</button>
+          {sortedDates.map(date => (
+            <div key={date}>
+              <h3 className={styles.dateHeading}>{date}</h3>
+              {sessionsByDate[date].map(session => (
                 <button
-                    key={session._id}
-                    onClick={() => {
-                        localStorage.setItem('sapp', session.sessionID);
-                        setCurrentSessionID(session.sessionID);
-                        if (onSessionChange) {
-                            onSessionChange(session.sessionID);
-                        }
-                    }}
-                    className={`${styles.sessionButton} ${session.sessionID === currentSessionID ? styles.activeSessionButton : ''}`}
+                  key={session._id}
+                  onClick={() => {
+                    localStorage.setItem('sapp', session.sessionID);
+                    setCurrentSessionID(session.sessionID);
+                    if (onSessionChange) {
+                      onSessionChange(session.sessionID);
+                    }
+                  }}
+                  className={`${styles.sessionButton} ${session.sessionID === currentSessionID ? styles.activeSessionButton : ''}`}
                 >
-                    {session.name}
+                  {session.name}
                 </button>
-            ))}
+              ))}
+            </div>
+          ))}
         </div>
-    );
+      );
 }
 
 export default Sidebar;
