@@ -126,7 +126,6 @@ export default function Home() {
 
 
 
-
     try {
 
         let response = await fetch('/api/getDocumentBySess', {
@@ -237,17 +236,25 @@ export default function Home() {
     const question = query.trim();
     console.log('Sending question:', question);
 
-    setMessageState((state) => ({
-      ...state,
+
+
+    setMessageState(prevState => ({
+      ...prevState,
       messages: [
-        ...state.messages,
+        ...prevState.messages,
         {
           type: 'userMessage',
           message: question,
         },
+        {
+          type: 'apiMessage',
+          message: `Searching ${namespaceToSearch}...`,
+        },
       ],
     }));
 
+
+    
     setLoading(true);
     setQuery('');
 
@@ -269,6 +276,7 @@ export default function Home() {
 
       console.log(messages, 'is messages');
       console.log(data.sourceDocs, 'is sourceDocs');
+      
       if (data.sourceDocs) {
         data.sourceDocs = data.sourceDocs.map(doc => {
           if (doc.text) {
@@ -283,19 +291,37 @@ export default function Home() {
         setError(data.error);
       } else {
 
-        setMessageState((state) => ({
-          ...state,
-          messages: [
-            ...state.messages,
-            {
-              type: 'apiMessage',
-              message: data.message,
-              sourceDocs: data.sourceDocs,
-            },
-          ],
-          history: [...state.history, [question, data.message ]],
-        }));
-      }
+      //   setMessageState((state) => ({
+      //     ...state,
+      //     messages: [
+      //       ...state.messages,
+      //       {
+      //         type: 'apiMessage',
+      //         message: data.message,
+      //         sourceDocs: data.sourceDocs,
+      //       },
+      //     ],
+      //     history: [...state.history, [question, data.message ]],
+      //   }));
+      // }
+
+
+    if (!data.error) {
+      // Update the state to replace the last message with the actual API response
+      setMessageState(prevState => {
+        const newMessages = [ ...prevState.messages];
+        newMessages[newMessages.length] = {
+          type: 'apiMessage',
+          message: data.message,
+          sourceDocs: data.sourceDocs,
+        };
+        return {
+          ...prevState,
+          messages: newMessages,
+          history: [...prevState.history,   [question, data.message]],
+        };
+      });
+    }}
 
       setLoading(false);
 

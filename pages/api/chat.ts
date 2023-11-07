@@ -141,7 +141,7 @@ export default async function handler(
 
     const model = new OpenAIChat({
       temperature: 0.1,
-      modelName: "gpt-4",
+      modelName: "gpt-4-1106-preview",
       cache: true,
     });
 
@@ -186,7 +186,7 @@ export default async function handler(
 
     const modelForResponse = new OpenAIChat({
       temperature: 0.1,
-      modelName: "gpt-3.5-turbo-16k",
+      modelName: "gpt-4-1106-preview",
       cache: true,
     });
 
