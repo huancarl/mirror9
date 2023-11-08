@@ -7,21 +7,34 @@ function AccessPage() {
   const [isValid, setIsValid] = useState(null);
 
   // This function simulates an API call
-  const verifyLink = (link) => {
+  const verifyLink = async (link) => {
+
     // Placeholder for actual verification logic
+
+    let response = await fetch('/api/verifyLink', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          link,
+      }),
+    });
+
+    const data = await response.json();
+
     if(link.length!==0){
-      return link.startsWith('http');
+      return data.isValid;
     }
+
   };
 
   const handleInputChange = async (event) => {
     const value = event.target.value;
     setInputValue(value);
 
-    // Debounce the API call or validity check here if necessary
-
-    // Call your verification function/API call
-    const valid = verifyLink(value);
+    // Since verifyLink is an async function, you need to await its result
+    const valid = await verifyLink(value); // Add await here
     setIsValid(valid);
   };
 

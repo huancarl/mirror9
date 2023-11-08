@@ -6,31 +6,25 @@ export default async (req, res) => {
         return;
     }
 
-    const { course, userID} = req.body;
-
-    if (!course) {
-        res.status(400).send('Missing course title');
-        return;
-    }
-
-    let db;
+    const { link } = req.body;
 
     try {
-        db = await connectToDb();
-        const sessionIDs = db.collection('sessionIDs');
+        const db = await connectToDb();
+        const referrals = db.collection('referrals');
 
-        // Assuming there's a 'createdAt' or 'updatedAt' field in your documents
-        const document = await sessionIDs.findOne(
-            { course, userID }, 
-            { sort: { date: -1 } }
+        const document = await referrals.findOne(
+            { 
+                code: link,
+                valid: true
+            }
         );
 
         if (!document) {
-            res.status(404).send('No document found for the provided course title');
+            res.status(200).json({isValid: false});
             return;
         }
+        res.status(200).json({ isValid: true });
 
-        res.status(200).json({ sessionID: document.sessionID });
     } catch (error) {
         console.error('Error in API route:', error);
         res.status(500).send('Internal Server Error');
