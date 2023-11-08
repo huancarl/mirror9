@@ -52,7 +52,26 @@
 }
 
 
+.referralText {
+  position: absolute; /* Position it absolutely within its relative container */
+  top: 10px; /* Adjust as needed */
+  left: 10px; /* Adjust as needed */
+  font-size: 0.7em; /* Match your design */
+  background: #f8f8f8; /* A light background to stand out or match your design */
+  padding: 5px 10px; /* Some padding */
+  border-radius: 5px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
 
+/* Styling the link within the referral text */
+.referralText a {
+  color: rgb(224, 105, 105); /* Example link color, choose what fits your design */
+  text-decoration: none; /* No underline */
+}
+
+.referralText a:hover {
+  text-decoration: underline; /* Underline on hover for interactivity */
+}
 
 
 
