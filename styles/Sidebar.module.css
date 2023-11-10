@@ -1,73 +1,212 @@
+/* Sidebar.module.css */
 .side {
   position: fixed;
-  top: 100;
-  left: 100;
+  top: 0;
+  left: 0;
+  width: 190px; /* Adjust width as needed */
   height: 100%;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  background-color: #FFCCCC;  /* Light red */
+  background-color: #ffffff; /* Dark background color 18191b */
+  color: #000000;
+  font-family: 'Arial', sans-serif; /* Modern font */
+  padding: 20px;
+  border: 1px solid #000000;
 }
 
-  .newChatButton {
-    margin-top:1em;
-    border: 1px solid #000; 
-    font-size: 1em;
-    padding-left: 1px;
-    padding-right: 7px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    margin-left: 20px; /* Add margin to the left */
-    margin-right: 20px; /* Add margin to the right */
-  }
+.newChatButton {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Aligns items to the start of the container */
+  background-color:#ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: background-color 0;
+  font-size: 14px;
+  width: 165px;
+  margin-left: -5px; 
+}
+
+
+.newChatButton:hover {
+  background-color: #ffc3c3;; /* Slight highlight on hover */
   
-  .activeSessionButton {
-    background-color: #e0f7fa; /* or any color you prefer */
-  }
+}
 
-  .dateHeading {
-    text-align: center; /* This will center the text within the heading */
-    color: #000000; /* This is a light gray color; you can adjust the shade as needed */
-    /* You can also add some padding for better spacing if needed */
-    padding: 10px 0;
-    font-size: 0.9em;
-    font-weight: bold; /* This will make the text bold */
-  }
+
+
+.dateHeading {
+  border-bottom: 1px solid #8d2121; /* Separator */
+  padding-bottom: 7px;
+  margin-bottom: 2px;
   
+}
 
-  .sessionButton {
-    display: block; /* This will make each button take up the full width of the container */
-    width: 100%; /* This ensures the buttons stretch to the full width of their parent */
-    margin-bottom: 5px; /* This adds a little space between the buttons */
-    /* ... other styles ... */
-    flex-grow: 1;
-  }
-  .sessionButton:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+.sessionButton {
+  background:  #ffffff; /* Dark grey background */
+  border-radius: 6px;
+  color: #000000; /* Bright gray color for text */
+  font-family: 'Inter', sans-serif; /* Modern font */
+  font-weight: 500;
+  font-size: 13.5px;
+  line-height: 27px; /* Increased line-height for vertical alignment */
+  padding: 10px 20px; /* Adjusted padding for better spacing */
+  margin: 8px 0; /* Spacing between buttons */
+  display: flex;
+  align-items: center; /* Align items vertically */
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth background color transition on hover */
+  margin-bottom: 2;
+  width: 165px;
+  height: 30px;
+  margin-left: -5px; 
+}
 
-  .sessionContainer {
-    display: flex;
-    justify-content: space-between; /* Aligns session button to the left and delete button to the right */
-    align-items: center; /* Vertically centers the buttons */
-  }
+.sessionButton:hover {
+  background-color:  #ffc3c3; /* Slight highlight on hover */
+}
 
-  .deleteSessionButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px; /* Add padding as needed */
-    margin-left: 5px; /* Space between session button and delete button */
-  }
+.sessionButton img {
+  margin-right: 10px; /* Space between icon and text */
+}
 
-  .sessionName {
-    /* Ensure the session name takes the most space */
-    flex-grow: 1;
-  }
+.sessionContainer {
+  margin-bottom: 5px; /* Reduce space between session containers */
+}
 
-  .trashCan {
-    cursor: pointer;
-    margin-left: 1em;
-  }
+.activeSessionButton {
+  /* font-weight: bold; */
+  background-color:  #ffc3c3; /* Slight highlight on hover */
+}
+
+.trashCan {
+  margin-left: auto; /* Pushes the trash can icon to the right */
+  cursor: pointer;
+  visibility: hidden; /* Hide the trash can icon */
+}
+
+.sessionContainer:hover .trashCan {
+  display: inline;
+  visibility: visible;
+}
+
+.bottomSection {
+  position: fixed; /* Fixed to the bottom */
+  bottom: 0; /* At the bottom of the viewport */
+  left: 0; /* Align with the left edge of the viewport */
+  width: 190px; /* Match the width of the sidebar */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the buttons */
+  background-color: #ffffff; /* Match the sidebar background color */
+  padding: 10px; /* Match the sidebar padding */
+  box-sizing: border-box; /* Include padding and border in the width */
+  z-index: 10; /* Ensure it's above other content but below modal dialogs, etc. */
+  border: 1px solid #000000;
+}
+
+.bottomButton {
+  width: 100%; /* Full width of the bottom section */
+  background-color: #ffffff; /* Dark button background color */
+  color: #ffffff; /* White text color */
+  border: none; /* No borders */
+  border-radius: 4px; /* Rounded corners like in the screenshot */
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+
+  font-size: 12px; /* Smaller font size */
+  color: #000000;
+  padding: 5px 15px; /* Reduced padding to make buttons smaller */
+  margin-bottom: 5px; /* Reduced space between buttons */
+
+  text-align: left; /* Align text to the left */
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the start (left) */
+  padding-left: 5px; /* Space from the left edge */
+  white-space: nowrap; /* Prevents the text from wrapping */
+
+  position: relative;
+}
+
+
+.bottomButton:hover {
+  background-color: #ffc3c3; /* Slight highlight on hover */
+}
+
+.bottomButton:last-child {
+  margin-bottom: 0; /* No margin for the last button to avoid extra space */
+}
+
+.discordIcon {
+  /* Adjust the size of the icon as needed */
+  width: auto; /* Maintain the aspect ratio */
+  height: 12px; /* Example height, adjust as needed */
+  margin-right: 5px; /* Space between the icon and the text */
+}
+.logoutIcon {
+  height: 12px; /* Adjust size as needed */
+  margin-right: 12px; /* Space between the icon and the text */
+  padding-left: 4px; /* Extra space to the left of the icon */
+  flex-shrink: 0; /* Prevents the icon from shrinking */
+}
+.logoutText {
+  margin-left: -3.5px; /* Adjust value as needed to move text to the left */
+}
+
+.chatIcon {
+  height: 15px; /* Adjust the size as needed */
+  margin-left: 55px; /* Space between the text and the icon */
+  flex-shrink: 0; /* Prevents the icon from shrinking */
+}
+
+
+
+.referButton {
+  background-color: #ffffff; /* A bright color for the button */
+  color: #000000; /* White text color for contrast */
+  font-size: 14px; /* Slightly smaller font size */
+  font-weight: bold;
+  padding: 8px 16px; /* Smaller padding for a smaller button */
+  border: none;
+  border-radius: 0; /* Makes the button rectangular */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  border: 1px solid #cf4848;
+  justify-content: flex-start; /* Align items to the start (left) */
+  padding-left: 29px; /* Same as .sessionButton padding for alignment */
+  position: relative;
+  
+}
+
+
+
+
+.newTag {
+  background-color: #ffd700; /* NEW tag background color */
+  color: #000000; /* NEW tag text color */
+  font-size: 9.5px;
+
+  padding: 2px 4px;
+  border-radius: 4px; /* Slightly rounded corners for the NEW tag */
+  position: absolute; /* Position absolutely within the button */
+  top: 50%;
+  right: 10px; /* Position the NEW tag to the right inside the button */
+  transform: translateY(-50%); /* Center the tag vertically */
+  /* Remove margin-left and right properties if previously set */
+}
+
+.referIcon {
+  height: 12px;
+  width: auto; /* Keep the aspect ratio of the icon */
+  position: absolute; /* Position the icon absolutely within the button */
+  left: 8px; /* Adjust this value to set the icon's distance from the left edge */
+  top: 50%; /* Center the icon vertically */
+  transform: translateY(-50%); /* Shift the icon up by half its height for vertical centering */
+  flex-shrink: 0;
+}
+

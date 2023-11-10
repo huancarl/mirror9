@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from 'react';
-import Layout from '@/components/layout';
 import styles from '@/styles/Home.module.css';
 import { Message } from '@/types/chat';
 import ReactMarkdown from 'react-markdown';
@@ -390,7 +389,7 @@ export default function Home() {
   }
   return (
     <>
-      <Layout>
+      
       <div className="appWrapper">
       <aside> 
       {courseTitle ? <Sidebar className={courseTitle} onSessionChange={handleSessionChange} onNewChat={handleSessionChange} /> : null}
@@ -579,13 +578,15 @@ export default function Home() {
                               </div>
                             ))}
 
+
+
  {message.sourceDocs.length > 5 && !showMoreSources && (
-  <button className="p-2 text-sm text-blue-500" onClick={() => setShowMoreSources(true)}>
+  <button className="p-2 text-sm text-red-500" onClick={() => setShowMoreSources(true)}>
     Show More
   </button>
 )}
 {showMoreSources && (
-  <button className="p-2 text-sm text-blue-500" onClick={() => setShowMoreSources(false)}>
+  <button className="p-2 text-sm text-red-500" onClick={() => setShowMoreSources(false)}>
     Show Less
   </button>
 )}   
@@ -654,7 +655,6 @@ export default function Home() {
         </footer>
         </div>
         </div>
-      </Layout>
     </>
   );
 }

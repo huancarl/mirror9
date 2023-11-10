@@ -4,6 +4,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
+  margin-left: 120px; /* Or any other value */
 }
 
 
@@ -338,6 +339,7 @@
 .cloudform {
   position: relative;
   width: calc(100vw - 300px); /* Subtracting the width of the sidebar */
+  
 }
 
 

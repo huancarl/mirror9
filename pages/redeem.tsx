@@ -52,7 +52,7 @@ function AccessPage() {
       <div className={styles.refForm}> 
       <input
         type="text"
-        placeholder="Enter the link here"
+        placeholder="https://"
         value={inputValue}
         onChange={handleInputChange}
         className={`${styles.inputField} ${isValid ? styles.valid : isValid === false ? styles.invalid : ''}`}

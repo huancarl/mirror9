@@ -170,7 +170,7 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 70;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 100;                      // max vector search, adjust accordingly till find optimal
     
         const maxNamespaces = 20;
         const namespacesToSearch = this.namespaces
@@ -391,7 +391,7 @@ export class CustomQAChain {
         You are a expert on the courses: ${this.namespaces} and ${namespaceToFilter} and have access to course content as such. You will always answer questions from the user pertaining to the class: ${this.namespaces} and ${namespaceToFilter}. You must judge the relevancy of every user's question to the stated class. 
         Always assume that the context is: ${this.namespaces} and ${namespaceToFilter}. Thus, always answer in the context of ${this.namespaces} and ${namespaceToFilter}. Always assess if the question is relevant to ${this.namespaces} and or ${namespaceToFilter} before answering.
         If the question is irrelevant to the class, then assert to the user that this question not relevant to ${namespaceToFilter}, do not continue and make up answers or fabricate what it might have.
-        If you are asked a question about a specific thing you do not have access to but may be relevant to ${namespaceToFilter}, then simply say you do not have access to that one specific thing for ${namespaceToFilter}, and to tell the user that you do not have it. Remember you are an expert on the course and have access but are limited to what you have specific access to.
+        If you are asked a question about a specific thing you do not have access to but may be relevant to ${namespaceToFilter}, then simply say you do not have access to what was requested yet for ${namespaceToFilter}. Remember you are an expert on the course and have access to the course but are limited to what you have specific access to about the course.
         You must do this every time an irrelevant question is asked in the beginning of your response.
 
         Never ever make up answers, or give answers that you are uncertain about. 

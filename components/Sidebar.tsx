@@ -218,7 +218,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     return (
         <div>
         <div className={styles.side}>
-            <button onClick={handleNewChat} className={styles.newChatButton}>+ New Chat</button>
+        <button onClick={handleNewChat} className={styles.newChatButton}>
+  CornellGPT
+  <img src="/chat.png" alt="Chat" className={styles.chatIcon} />
+</button>
             {sortedDates.map(date => (
                 <div key={date}>
                     <h3 className={styles.dateHeading}>{date}</h3>
@@ -241,16 +244,33 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
                                         handleDeleteSession(session.sessionID);
                                     }}
                                     className={styles.trashCan}>
-                                    🗑️
+                                    𝘅
                                 </span>
                             </button>
                         </div>
                     ))}
                 </div>
             ))}
+            {/* Add the new section here */}
+            <div className={styles.bottomSection}>
+
+<button className={`${styles.bottomButton} ${styles.referButton}`}>
+  <img src="/refericon.png" alt="Refer" className={styles.referIcon} /> {/* Replace with the actual path to your refer icon */}
+  REFER
+  <span className={styles.newTag}>FREE</span>
+</button>
+                <button className={styles.bottomButton}>
+                    <img src="/discord.png" alt="Discord" className={styles.discordIcon} /> {/* Make sure the path is correct */}
+                    CornellGPT Discord
+                </button>
+                <button className={styles.bottomButton}>
+                  <img src="/logout.png" alt="Log Out" className={styles.logoutIcon} />
+                  <span className={styles.logoutText}>Log Out</span>
+                </button>
+            </div>
         </div>
-        </div>
-    );
-}
+    </div>
+); 
+                                  }
 
 export default Sidebar;
