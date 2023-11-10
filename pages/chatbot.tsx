@@ -119,13 +119,8 @@ export default function Home() {
   
   
   const fetchChatHistory = async () => {
-    
     userIDRef.current = getOrGenerateUUID('lapp');
     sessionIDRef.current = getOrGenerateUUID('sapp');
-
-
-
-
     try {
         //handling the edge case where you switch between course
         let response = await fetch('/api/getDocumentBySess', {
@@ -200,6 +195,7 @@ export default function Home() {
             type: 'apiMessage',
             message: 'Hi, what would you like to learn today?'
           });
+
           setMessageState((state) => ({
             ...state,
             messages: transformedMessages,  // Ensure old messages are replaced, not appended
@@ -262,7 +258,7 @@ export default function Home() {
         },
         body: JSON.stringify({
           question,
-          history,
+          messages,
           userID: userIDRef.current,     
           sessionID: sessionIDRef.current, 
           namespace: namespaceToSearch

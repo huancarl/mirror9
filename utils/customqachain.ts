@@ -347,12 +347,6 @@ export class CustomQAChain {
        
         const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
 
-        const contextTexts = relevantDocs.map(doc => {
-            const filename = doc.metadata.source.split('/').pop();
-            const metadataText = doc.metadata.text.replace(/\s+/g, ' ').trim();
-            return `${metadataText} (Source: ${filename}, Page Number: ${doc.metadata['loc.pageNumber']})`;
-        }).join(" ");
-
         this.chatHistoryBuffer.addMessage(chat_history);
 
         // const availableTitles =
@@ -417,7 +411,7 @@ export class CustomQAChain {
         - Never make up contexts, answers, or details that do not exist.
 
         Chat History:
-        - You have access to the entire conversations with user. Do not forget prior messages. Chat History: ${chat_history}. 
+        - You have access to the entire conversations with user. Do not forget prior messages. Chat History (from oldest to most recent messages): ${chat_history}. 
         - You must assess whether a question be a continuation of the conversation or entirely new. 
             - If the question is continuation of the conversation, then assume the context to be continued as you develop your answers.
             - Do not repeat your answers
@@ -478,7 +472,7 @@ if (typeof response === 'undefined') {
     throw new Error("Failed to get a response from the model.");
 }
 
-
+console.log(prompt, 'the prompt');
 response = this.sanitizeResponse(response);
 
 

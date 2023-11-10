@@ -36,13 +36,9 @@ export default async function handler(
   res: NextApiResponse,
 ) {
 
-  const { question, history, userID, sessionID, namespace} = req.body;
+  const { question, messages, userID, sessionID, namespace} = req.body;
   // const question = req.body.question;
   console.log('Received request body:', req.body);
-
-
-  // console.log(question);
-
 
    const classMapping = {
     "INFO 2040": ["INFO 2040 Textbook"],
@@ -64,15 +60,14 @@ export default async function handler(
     "Other": "Probability Cheatsheet v2.0, Math 21a Review Sheet, Introduction To Probability"
   }
 
-
-  function createPrompt(namespaceToSearch: string){
+  function createPrompt(namespaceToSearch: string, chat_history: any){
     return `(
      
       Your mission is to determine when and what to search based on the user query.
       Queries you receive will usually be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
       
       Available Search Documents = ${classMapping[namespaceToSearch]}, ${namespaceToSearch}
-      Chat History = ${history}
+      Chat History = ${chat_history}
       Query = ${question}
   
       - Always respond like: "Searching(' ')..." or "Searching ..." Never deviate from this format.
@@ -145,19 +140,19 @@ export default async function handler(
       cache: true,
     });
 
+    const processedMessages = messages.map((messageObject: { message: any; }) => messageObject.message);
 
-    const fewShotPrompt = createPrompt(namespace);
-
+    const fewShotPrompt = createPrompt(namespace, processedMessages);
 
     const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
       SystemMessagePromptTemplate.fromTemplate(fewShotPrompt),
-      new MessagesPlaceholder('history'),
+      new MessagesPlaceholder('chat_history'),
       HumanMessagePromptTemplate.fromTemplate('{query}'),
     ]);
 
 
     const chain = new ConversationChain({
-      memory: new BufferMemory({ returnMessages: true, memoryKey: 'history' }),
+      memory: new BufferMemory({ returnMessages: true, memoryKey: 'chat_history' }),
       prompt: reportsPrompt,
       llm: model,
     })
@@ -199,11 +194,10 @@ export default async function handler(
 
 
     console.log('searching namespace for results...');
-
-
+  
     const results = await qaChain.call({
       question: sanitizedQuestion,
-      chat_history: history,
+      chat_history: processedMessages,
       namespaceToFilter: namespace
     });
 
