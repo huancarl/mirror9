@@ -454,6 +454,26 @@ export default function Home() {
   //     return uniqueDocs;
   // }
 
+
+  function renderHeader() {
+    if (!hasUserMessages) {
+      // If no user messages, return the centered title
+      return (
+        <div className="centeredTitle">
+          <h1>CornellGPT: {courseTitle}</h1>
+        </div>
+      );
+    } else {
+      // If there are user messages, return the header section
+      return (
+        <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>
+          <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
+            CornellGPT: <span className={styles.selectedClassName}>{courseTitle}</span>
+          </h1>
+        </div>
+      );
+    }
+  }
   
 
   
@@ -462,7 +482,27 @@ export default function Home() {
   /////////////////////////////////////////////////////////////////////////////////
   
   }
-  const hasUserMessages = messages.some(message => message.type === 'userMessage');
+  // const hasUserMessages = messages.some(message => message.type === 'userMessage');
+
+  // function renderHeader() {
+  //   if (!hasUserMessages) {
+  //     // If no user messages, return the centered title
+  //     return (
+  //       <div className="centeredTitle">
+  //         <h1>CornellGPT: {courseTitle}</h1>
+  //       </div>
+  //     );
+  //   } else {
+  //     // If there are user messages, return the header section
+  //     return (
+  //       <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>
+  //         <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
+  //           CornellGPT: <span className={styles.selectedClassName}>{courseTitle}</span>
+  //         </h1>
+  //       </div>
+  //     );
+  //   }
+  // }
   return (
     <>
     <div className="appWrapper">
@@ -475,7 +515,7 @@ export default function Home() {
     <div className="mx-auto flex flex-col gap-4">
     <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>  
         <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
-          CornellGPT: <span className={styles.selectedClassName}>{courseTitle}</span>
+          <span className={styles.selectedClassName}>{courseTitle}</span>
         </h1>
       </div>
           <main className={styles.main}>
@@ -735,3 +775,13 @@ export default function Home() {
     </>
   );
 }
+
+
+
+
+
+
+
+
+
+

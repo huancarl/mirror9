@@ -1,12 +1,15 @@
 .main {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: flex-start; /* Align items to the start of the main axis */
+  align-items: flex-start; /* Align items to the start of the cross axis */
   padding: 1rem;
-  margin-left: 127px; /* Or any other value */
-  width: 95vw;
+  margin-left: 370px; /* Adjust this value so that the content aligns with the left blue line */
+  width: calc(100vw - 500px); /* Increase the subtracted value to make the width smaller */
 }
+
+
+
 
 
 .header {
@@ -22,7 +25,7 @@
 .cloudform {
   position: fixed;
   bottom: 0;
-  left: 10%; /* Anchor to the left side */
+  left: 12vw; /* Anchor to the left side */
   right: 0%; /* Adjust right spacing - this effectively sets the width */
   z-index: 900;
   display: flex;
@@ -33,6 +36,8 @@
   box-sizing: border-box;
   width: 100vw;
   /* Removed the max-width as it was incorrectly set to 1250vw which is likely a typo */
+
+  
 }
 
 .message-container {
@@ -78,16 +83,18 @@
 
 
 .generatebutton {
-  position: absolute; /* Positioning relative to .cloudform */
-  bottom: 1rem; /* Position at the bottom of the cloudform */
-  right: 1rem; /* Position to the right inside the cloudform */
+  position: absolute; /* Keep positioning relative to .cloudform */
+  top: 49%; /* Position the top edge of the button in the middle of .cloudform */
+  left: 70%; /* Position the left edge of the button in the middle of .cloudform */
+  transform: translate(-50%, -50%); /* Shift the button back by half its width and height to center it */
   color: rgb(146, 40, 40);
-  background: #f2f2f2; /* Background color for the button */
+  background: #ffffff; /* Background color for the button */
   padding: 0.5rem 1rem; /* Padding for the button */
-  border: 1px solid #d9d9e3; /* Border for the button */
+  border: 1px solid #ffffff; /* Border for the button */
   border-radius: 0.5rem; /* Rounded corners for the button */
-  z-index: 90; /* Ensure it's above other elements but below the .side panel */
+  z-index: 1200; /* Ensure it's above other elements */
 }
+
 
 
 .headerSection h1 {
@@ -123,7 +130,7 @@
 .loadingwheel {
   position: absolute;
   bottom: 1.0rem; /* Adjust as needed based on your layout */
-  right: 25rem; /* Position to the right inside the textarea-container or cloudform */
+  right: 30rem; /* Position to the right inside the textarea-container or cloudform */
   z-index: 1010; /* Ensure it's above other elements */
   /* Add any additional styling as needed */
 }
