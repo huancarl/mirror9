@@ -34,9 +34,10 @@ function CourseCatalog() {
         }),
       });
       const data = await response.json();
-  
-      link = link + data.code + '}';
-      setReferralLink(link);
+      if(data){
+        link = link + data.code + '}';
+        setReferralLink(link);
+      }
     }
     fetchOrCreateRef();
   }, []);

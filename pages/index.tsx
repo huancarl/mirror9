@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
                 <span style={{ color: 'black' }}>GPT</span>
             </h1>
             
-        <Link href="/redeem" passHref>
+        <Link href="/sign-up" passHref>
             <button className={styles.button}>
                 <span>➔</span>Sign Up
             </button>
