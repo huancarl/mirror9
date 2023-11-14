@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import styles from '@/styles/Login.module.css';
 
 declare global {
     interface Window {
@@ -77,7 +78,7 @@ const LoginWithEmail: React.FC = () => {
 
     return(
         <div>
-        <div id="signInDiv"></div> {/* This div will be replaced with the Google button */}
+        <div id="signInDiv" className={styles.signDiv}></div> {/* This div will be replaced with the Google button */}
         {showErrorMessage && <div>Please sign up before logging in.</div>}
         </div>
     )
