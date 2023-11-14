@@ -408,7 +408,7 @@ export class CustomQAChain {
         - When asked specifically about a certain ${this.namespaces}, provide as much specific detail as possible and do not forget to mention details
           relevant to the question. You must answer the question to the highest accuracy using ${this.namespaces} and find the best possible answer to the question.
         - When responding to questions about where a user wants to find which ${this.namespaces} contains specific information, ensure to answer and list with precision all ${this.namespaces} that contains that specific information.
-        - Never make up contexts, answers, or details that do not exist.
+        - Never make up contexts, answers, or details that do not exist. If it is not explictly mentioned in the context do no mention it or make up answers.
 
         Chat History:
         - You have access to the entire conversations with user. Do not forget prior messages. Chat History (from oldest to most recent messages): ${chat_history}. 

@@ -4,7 +4,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  margin-left: 120px; /* Or any other value */
+  margin-left: 127px; /* Or any other value */
+  width: 95vw;
 }
 
 
@@ -19,22 +20,87 @@
 
 
 .cloudform {
-  position: relative;
+  position: fixed;
+  bottom: 0;
+  left: 10%; /* Anchor to the left side */
+  right: 0%; /* Adjust right spacing - this effectively sets the width */
+  z-index: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem; /* Reduced padding to decrease the height */
+  background: #ffffff; /* Presuming you want to keep the red background */
+  box-sizing: border-box;
+  width: 100vw;
+  /* Removed the max-width as it was incorrectly set to 1250vw which is likely a typo */
 }
 
+.message-container {
+  padding-bottom: 100px; /* You may adjust this value */
+  overflow-y: auto;
+  height: calc(100vh - 100px); /* Adjust the height calculation to ensure it does not overlap */
+  width: calc(100% - 120px); /* Adjust width to prevent overlap with .textarea-container */
+  margin-left: 120px; /* Ensure this matches the left property of .textarea-container */
+}
+
+.textarea-container {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0; /* This ensures it stretches across the bottom */
+  z-index: 1000; /* High enough to stay on top */
+  display: flex;
+  justify-content: center; /* Center children horizontally */
+  align-items: center; /* Center children vertically */
+  padding: 1rem; /* Space inside the container */
+  box-sizing: border-box; /* Include padding in width calculation */
+  background: #ffffff; /* Background color for visibility */
+}
 
 .textarea {
-  position: relative;
-  resize: none;
+  resize: vertical; /* Allows vertical resizing */
+  overflow: auto; /* Change overflow to make resize work */
   font-size: 1.1rem;
-  padding: 1rem 2rem 1rem 2rem;
-  width: 75vw;
+  padding: 1rem;
   border-radius: 0.5rem;
   border: 1px solid #d9d9e3;
-  background: #ffffff;
   color: #000;
   outline: none;
+  flex-grow: 1; /* Allow textarea to fill the space */
+  margin-right: 12rem; /* Adjusted to create space for the button inside the textarea */
+  width: 50rem;
+  max-height: 200px; /* Maximum expandable height */
+  min-height: 60px;
+
+  
 }
+
+
+
+.generatebutton {
+  position: absolute; /* Positioning relative to .cloudform */
+  bottom: 1rem; /* Position at the bottom of the cloudform */
+  right: 1rem; /* Position to the right inside the cloudform */
+  color: rgb(146, 40, 40);
+  background: #f2f2f2; /* Background color for the button */
+  padding: 0.5rem 1rem; /* Padding for the button */
+  border: 1px solid #d9d9e3; /* Border for the button */
+  border-radius: 0.5rem; /* Rounded corners for the button */
+  z-index: 90; /* Ensure it's above other elements but below the .side panel */
+}
+
+
+.headerSection h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.headerSection h1 .courseTitle {
+  display: inline; /* Ensures the course title is in the same line as CornellGPT */
+}
+
+
 
 
 .textarea:disabled {
@@ -45,7 +111,7 @@
 .textarea:focus {
   outline: none;
   border-color: #000000;
-  box-shadow: 0 0 0 3px rgba(212, 108, 108, 0.5);
+  box-shadow: 0 0 0 3px #a32121;
 }
 
 
@@ -54,23 +120,17 @@
 }
 
 
-.generatebutton {
-  position: absolute;
-  top: 0.87rem;
-  right: 1rem;
-  color: rgb(146, 40, 40);
-  background: none;
-  padding: 0.3rem;
-  border: none;
-  display: flex;
-}
-
-
 .loadingwheel {
   position: absolute;
-  top: 0.2rem;
-  right: 0.25rem;
+  bottom: 1.0rem; /* Adjust as needed based on your layout */
+  right: 25rem; /* Position to the right inside the textarea-container or cloudform */
+  z-index: 1010; /* Ensure it's above other elements */
+  /* Add any additional styling as needed */
 }
+
+
+
+
 
 
 .svgicon {
@@ -107,6 +167,7 @@
   width: 100%;
   justify-content: center;
   margin-top: 1rem;
+  
 }
 
 
@@ -120,7 +181,7 @@
 .usermessagewaiting {
   padding: 1.5rem;
   color: #000;
-  background: linear-gradient(to left, #07080938, #1a1c2024, #07080936);
+  background: linear-gradient(to right, #07080938, #1a1c2024, #07080936);
   background-size: 200% 200%;
   background-position: -100% 0;
   animation: loading-gradient 2s ease-in-out infinite;
@@ -128,11 +189,12 @@
   animation-name: loading-gradient;
 }
 .selectedClassName {
-  font-size: 1em;
+  font-size: 0.9em;
   text-align: center;
   color: #8c1b1b; /* You can adjust the color as desired */
-  margin-top: -0.5em; /* Adjust spacing as needed */
+  margin-top: 1em; /* Adjust spacing as needed */
 }
+
 
 @keyframes loading-gradient {
   0% {
@@ -145,7 +207,7 @@
 
 
 .apimessage {
-  background: #fbf9f9;
+  background: #fffafa;
   padding: 1.5rem;
   color: #000000;
   /* animation: fadein 0.5s; */
@@ -183,6 +245,34 @@
 }
 
 
+
+
+
+
+.disclaimer {
+  display: block; /* Ensures it appears on a new line below the textarea */
+  width: 100%; /* Match the width of the textarea container */
+  text-align: center; /* Center the text */
+  font-size: 0.1rem; /* Set the font size to something smaller */
+  color: #3d5ea1; /* A lighter color for the disclaimer text */
+  margin-top: 0.5rem; /* Add some space between the textarea and the disclaimer text */
+}
+
+
+.centeredTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full height of the viewport */
+  text-align: center;
+}
+
+.centeredContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; 
+}
 
 
 
@@ -308,6 +398,9 @@
 }
 
 
+
+
+
 .sidebar {
   flex: 0 0 300px;  /* Adjust width as needed */
   height: 100vh;
@@ -323,23 +416,21 @@
 }
 
 
-/* You might want to adjust the .cloud and .cloudform styles, given the presence of a sidebar. Here's an example: */
 .cloud {
-  width: calc(100vw - 300px); /* Subtracting the width of the sidebar */
-  height: 65vh;
+  width: 90%; /* Full width */
+  height: calc(100% - 50px); /* Remaining height minus the height of the input area */
   background: #ffffff;
-  border-radius: 0.5rem;
-  border: 1px solid #d9d9e3;
+  border: none; /* Removing the border */
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column; /* Stack messages vertically */
+  justify-content: flex-end; /* Align messages to the bottom */
+  overflow-y: auto; /* Enable scrolling for overflow content */
 }
 
-
+/* Style the input area */
 .cloudform {
-  position: relative;
-  width: calc(100vw - 300px); /* Subtracting the width of the sidebar */
-  
+  width: 100%; /* Full width */
+  padding-left: 2rem; 
 }
 
 

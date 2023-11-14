@@ -39,6 +39,7 @@ import hljs from 'highlight.js';
 
 
 
+
 declare global {
   interface Window {
     katex: any;
@@ -73,6 +74,11 @@ export default function Home() {
   const [courseTitle, setCourseTitle] = useState<string | string[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [courseHistoryRefreshKey, setCourseHistoryRefreshKey] = useState(0);
+
+
+
+  const [firstMessageSent, setFirstMessageSent] = useState(false);
+
 
 
 
@@ -210,6 +216,10 @@ export default function Home() {
 
 
 
+
+
+
+
 //********************************************************************************************************* */
 
 
@@ -225,6 +235,10 @@ export default function Home() {
     if (!query) {
       alert('Enter a question lol');
       return;
+    }
+
+    if (!firstMessageSent) {
+      setFirstMessageSent(true);
     }
     
     const question = query.trim();
@@ -331,14 +345,71 @@ export default function Home() {
 //*************************************************************************************************************** */
   //prevent empty submissions
 
-  const handleEnter = (e: any) => {
-    if (e.key === 'Enter' && query) {
-      handleSubmit(e);
-    } else if (e.key == 'Enter') {
-      e.preventDefault();
+  const handleEnter = (e) => {
+    if (e.key === 'Enter') {
+      if (e.shiftKey) {
+        e.preventDefault(); // Prevent the default action (newline)
+  
+        if (textAreaRef.current) {
+          const start = textAreaRef.current.selectionStart;
+          const end = textAreaRef.current.selectionEnd;
+          const value = textAreaRef.current.value;
+          
+          // Create the updated text with indentation
+          const indent = "                                                                                                                                                                              "; // Two spaces for indentation
+          const before = value.substring(0, start);
+          const after = value.substring(end);
+          const newValue = before + indent + after;
+          
+          setQuery(newValue); // Update the state
+  
+          // Move the cursor after the indentation
+          setTimeout(() => {
+            if (textAreaRef.current) { // Check again for TypeScript
+              textAreaRef.current.selectionStart = start + indent.length;
+              textAreaRef.current.selectionEnd = start + indent.length;
+              textAreaRef.current.focus();
+            }
+          }, 0);
+        }
+      } else if (!e.shiftKey && query.trim()) {
+        handleSubmit(e);
+      }
     }
-
   };
+  
+
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   var isResizing = false;
+  //   var lastDownY = 0;
+  
+  //   const handle = document.querySelector('.resize-handle') as HTMLElement; // Assert as HTMLElement
+  //   const textarea = document.querySelector('.textarea') as HTMLTextAreaElement; // Assert as HTMLTextAreaElement
+  
+  //   if (handle && textarea) { // Check if elements are not null
+  //     handle.addEventListener('mousedown', function(e: MouseEvent) { // Assert event type
+  //       isResizing = true;
+  //       lastDownY = e.clientY;
+  //     });
+  
+  //     document.addEventListener('mousemove', function(e: MouseEvent) {
+  //       if (!isResizing) {
+  //         return;
+  //       }
+  //       var offsetBottom = document.body.offsetHeight - (textarea.offsetTop + textarea.offsetHeight);
+  //       var newHeight = offsetBottom + (lastDownY - e.clientY);
+  //       textarea.style.height = `${newHeight}px`;
+  //       lastDownY = e.clientY;
+  //     });
+  
+  //     document.addEventListener('mouseup', function() {
+  //       isResizing = false;
+  //     });
+  //   }
+  // });
+  
+  
+  
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   function CodeBlock({ code }: { code: string }) {
     const [copied, setCopied] = useState(false);
@@ -364,6 +435,8 @@ export default function Home() {
       </div>
     );
 
+    
+
 
 ////////////////////////////////////////////////////////////////////////////////////
   //   function getUniqueSources(docs: any[]): any[] {
@@ -385,21 +458,26 @@ export default function Home() {
 
   
   
+  
   /////////////////////////////////////////////////////////////////////////////////
+  
   }
+  const hasUserMessages = messages.some(message => message.type === 'userMessage');
   return (
     <>
-      
-      <div className="appWrapper">
-      <aside> 
-      {courseTitle ? <Sidebar className={courseTitle} onSessionChange={handleSessionChange} onNewChat={handleSessionChange} /> : null}
-      </aside>
-      <div className="mainContent" key={refreshKey}>
-        <div className="mx-auto flex flex-col gap-4">
-          <h1 className="text-3xl font-bold leading-[1.1] tracking-tighter text-center">
-            CornellGPT
-          </h1>
-          <h4 className={styles.selectedClassName}>{courseTitle}</h4> 
+    <div className="appWrapper">
+  <aside> 
+    {courseTitle ? 
+      <Sidebar className={courseTitle} onSessionChange={handleSessionChange} onNewChat={handleSessionChange} /> 
+      : null}
+  </aside>
+  <div className="mainContent" key={refreshKey}>
+    <div className="mx-auto flex flex-col gap-4">
+    <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>  
+        <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
+          CornellGPT: <span className={styles.selectedClassName}>{courseTitle}</span>
+        </h1>
+      </div>
           <main className={styles.main}>
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
@@ -416,10 +494,10 @@ export default function Home() {
         icon = (
             <Image
                 key={index}
-                src="/big-red-bear.jpeg"
+                src="/bigblackbear.png"
                 alt="AI"
                 width="50"
-                height="50"
+                height="90"
                 className={styles.boticon}
                 priority
             />
@@ -432,7 +510,7 @@ export default function Home() {
                 src="/usericon.png"
                 alt="Me"
                 width="45"
-                height="45"
+                height="35"
                 className={styles.usericon}
                 priority
             />
@@ -459,6 +537,7 @@ export default function Home() {
 
   const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
   const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
+  
   
 //&& !isCodeMessage && !messageContainsMath
   if (messageContainsMath(message.message)) {
@@ -613,7 +692,7 @@ export default function Home() {
                     placeholder={
                       loading
                         ? 'Retrieving...'
-                        : 'Send a message :)'
+                        : 'Message CornellGPT...'
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -626,7 +705,7 @@ export default function Home() {
                   >
                     {loading ? (
                       <div className={styles.loadingwheel}>
-                        <LoadingDots color="#000" />
+                        <LoadingDots color="rgb(146, 40, 40)" />
                       </div>
                     ) : (
                       // Send icon SVG in input field
@@ -650,8 +729,6 @@ export default function Home() {
           </main>
         </div>
         <footer className="m-auto p-4">
-          <a href="Carl Huang and Mith Patel">
-          </a>
         </footer>
         </div>
         </div>

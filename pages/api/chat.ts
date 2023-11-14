@@ -138,7 +138,7 @@ export default async function handler(
       temperature: 0.1,
       modelName: "gpt-4-1106-preview",
       cache: true,
-    });
+  });
 
     const processedMessages = messages.map((messageObject: { message: any; }) => messageObject.message);
 

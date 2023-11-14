@@ -11,6 +11,9 @@
   font-family: 'Arial', sans-serif; /* Modern font */
   padding: 20px;
   border: 1px solid #000000;
+  padding-bottom: 100px; /* Adjust this value to match the total height of the .bottomSection */
+  transition: all 0.3s ease; /* Smooth transition for opening/closing */
+  z-index: 1000;
 }
 
 .newChatButton {
@@ -209,4 +212,36 @@
   transform: translateY(-50%); /* Shift the icon up by half its height for vertical centering */
   flex-shrink: 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+.toggleButton {
+  position: fixed;
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Align button vertically */
+  background-color: #333; /* Dark background for better visibility */
+  color: #fff; /* White color for the icon/text */
+  border: none; /* No border for a cleaner look */
+  padding: 10px 15px; /* Slight increase in horizontal padding */
+  cursor: pointer;
+  z-index: 20; /* Above other content */
+  border-radius: 0 5px 5px 0; /* Rounded corners on the right side */
+  right: -50px; /* Start off-screen */
+  transition: right 0.3s; /* Smooth transition for the sidebar movement */
+}
+
+/* Additional class to move button to the left when sidebar is closed */
+.toggleButton-closed {
+  right: 0; /* Align with the right edge of the viewport */
+}
+
+
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from '@/styles/Sidebar.module.css';
 
@@ -24,6 +24,34 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         }
         return null;
     });
+
+    const [bottomSectionHeight, setBottomSectionHeight] = useState(0); // State for the height of the bottom section
+    const bottomSectionRef = useRef(null); // Ref for the bottom section
+
+  //   useEffect(() => {
+  //     // ... (existing useEffect logic)
+  //     // Additional logic to calculate bottom section height
+  //     if (bottomSectionRef.current) {
+  //         setBottomSectionHeight(bottomSectionRef.current.offsetHeight);
+  //     }
+  // }, [bottomSectionRef, isSidebarOpen]); 
+
+
+
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+    // Function to toggle sidebar
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
+
+
+
+
+
+
 
     const getSessionName = () => {
       const now = new Date();
@@ -213,7 +241,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
           // If the user clicks 'Cancel', do nothing
           console.log('Deletion cancelled.');
         }
+
+        
+        
       };
+      
+      
 
     return (
         <div>
