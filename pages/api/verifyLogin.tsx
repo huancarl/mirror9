@@ -1,7 +1,7 @@
 import connectToDb from '@/config/db';
 import { OAuth2Client } from 'google-auth-library';
 
-const client = new OAuth2Client("681102915387-hs5ku9f7r3gocb1kqb01kpqi6j960ej4.apps.googleusercontent.com");
+const client = new OAuth2Client("143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com");
 
 export default async (req, res) => {
     if (req.method !== 'POST') {
@@ -12,7 +12,7 @@ export default async (req, res) => {
         const { token } = req.body;
         const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: "681102915387-hs5ku9f7r3gocb1kqb01kpqi6j960ej4.apps.googleusercontent.com",
+        audience: "143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com",
         });
         const payload = ticket.getPayload();
 
