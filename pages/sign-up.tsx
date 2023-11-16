@@ -1,15 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '@/styles/Redeem.module.css';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 function AccessPage() {
+  const router = useRouter();
   const [inputValue, setInputValue] = useState('');
   const [isValid, setIsValid] = useState(null);
+  const [showSignInModal, setShowSignInModal] = useState(false);
+  const [buttonRendered, setButtonRendered] = useState(false);
 
-  // This function simulates an API call
+  const handleCredentialResponse = async (response) => {
+    const result = await fetch('/api/addNewUser', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ token: response.credential, link: inputValue}),
+    });
+    const data = await result.json();
+    if(data.created){
+      router.replace('/coursePage');
+    }
+    else{
+      alert(data.message);
+    }
+  };
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://accounts.google.com/gsi/client';
+    script.onload = () => {
+      window.google.accounts.id.initialize({
+        client_id: '143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com',
+        callback: handleCredentialResponse,
+      });
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const verifyLink = async (link) => {
-
-    // Placeholder for actual verification logic
 
     let response = await fetch('/api/verifyLink', {
       method: 'POST',
@@ -29,18 +63,48 @@ function AccessPage() {
 
   };
 
+  useEffect(() => {
+    if (showSignInModal && !buttonRendered && window.google && window.google.accounts && window.google.accounts.id) {
+      setButtonRendered(true);
+      const signInDiv = document.getElementById("signInDiv");
+      if (signInDiv) {
+        window.google.accounts.id.renderButton(
+          signInDiv,
+          { theme: "outline", size: "large" } // Customize button appearance
+        );
+      }
+    }
+  }, [showSignInModal]); 
+
+
   const handleInputChange = async (event) => {
     const value = event.target.value;
     setInputValue(value);
-
-    // Since verifyLink is an async function, you need to await its result
-    const valid = await verifyLink(value); // Add await here
+  
+    const valid = await verifyLink(value);
     setIsValid(valid);
+  
+    // Only proceed if the link is valid and the button hasn't been rendered yet
+    if (valid && !buttonRendered) {
+      setShowSignInModal(true);
+      if (window.google && window.google.accounts && window.google.accounts.id) {
+      } else {
+        console.error("Google Identity services script not loaded.");
+      }
+    } else {
+      setShowSignInModal(false);
+      setButtonRendered(false);
+    }
   };
 
   return (
     <div className={styles.container}>
-      
+      {showSignInModal && (
+      <div className={styles.signInModal}>
+        <p>Please sign with Google so that we can set up your account.</p>
+        <div id="signInDiv" className={styles.googleButton}></div>
+      </div>)}
+
       <Link href="/coursePage" passHref>
             <button className={styles.button}>
                 <span></span>S

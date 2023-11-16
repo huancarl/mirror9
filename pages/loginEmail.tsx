@@ -9,6 +9,7 @@ declare global {
           id: {
             initialize: (config: { client_id: string; callback: (response: any) => void; }) => void;
             renderButton: (element: HTMLElement, options: { theme: string; size: string; }) => void;
+            prompt: (notification?: (notification: any) => void) => void; // Add this line
           }
         }
       }
