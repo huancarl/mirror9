@@ -10,7 +10,7 @@ export default async (req, res) => {
     }
 
     try{
-        const { token, referral } = req.body;
+        const { token, link } = req.body;
         const ticket = await client.verifyIdToken({
         idToken: token,
         audience: "143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com",
@@ -38,9 +38,9 @@ export default async (req, res) => {
 
                 //make referral obsolete 
                 await referrals.updateOne(
-                    {code: referral},
+                    {code: link},
                     {$set: {valid: false}}
-                )
+                );
 
                 return res.status(200).json({ created: true, message: 'Success'});
             }

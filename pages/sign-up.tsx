@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from '@/styles/Redeem.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -10,13 +10,16 @@ function AccessPage() {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [buttonRendered, setButtonRendered] = useState(false);
 
+  const inputValueRef = useRef('');
+
   const handleCredentialResponse = async (response) => {
+
     const result = await fetch('/api/addNewUser', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ token: response.credential, link: inputValue}),
+      body: JSON.stringify({ token: response.credential, link: inputValueRef.current}),
     });
     const data = await result.json();
     if(data.created){
@@ -80,13 +83,14 @@ function AccessPage() {
   const handleInputChange = async (event) => {
     const value = event.target.value;
     setInputValue(value);
-  
+
     const valid = await verifyLink(value);
     setIsValid(valid);
   
     // Only proceed if the link is valid and the button hasn't been rendered yet
     if (valid && !buttonRendered) {
       setShowSignInModal(true);
+      inputValueRef.current = value;
       if (window.google && window.google.accounts && window.google.accounts.id) {
       } else {
         console.error("Google Identity services script not loaded.");
