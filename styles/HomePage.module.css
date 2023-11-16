@@ -89,10 +89,10 @@
   .footer {
     text-align: right; /* Align text to the right */
     width: auto; /* Set width to auto or specify a width less than 100% */
-    padding: 10px 0; /* Adjust padding as needed */
+    padding: 0.625em 0; /* Adjust padding as needed */
     position: absolute;
     bottom: 0;
-    right: 170px; /* Position the footer 40 pixels from the right edge */
+    right: 13.9em; /* Further to the left */
     left: auto; /* Reset left property */
     font-size: small;
     color: darkred;
@@ -102,7 +102,7 @@
   .footerLink {
     color: darkred; /* Dark red color for the link text */
     text-decoration: none; /* Optional: removes the underline from links */
-    padding: 5px; /* Optional: adds some padding around the links for easier clicking */
+    padding: 0.3125em; /* Optional: adds some padding around the links for easier clicking */
   }
   
   .footerLink:hover {

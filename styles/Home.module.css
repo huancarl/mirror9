@@ -4,8 +4,8 @@
   justify-content: flex-start; /* Align items to the start of the main axis */
   align-items: flex-start; /* Align items to the start of the cross axis */
   padding: 1rem;
-  margin-left: 325px; /* Adjust this value so that the content aligns with the left blue line */
-  width: calc(100vw - 400px); /* Increase the subtracted value to make the width smaller */
+  margin-left: 20.3125em; /* Adjust this value so that the content aligns with the left blue line */
+  width: calc(100vw - 25em); /* Increase the subtracted value to make the width smaller */
 }
 
 
@@ -41,11 +41,11 @@
 }
 
 .message-container {
-  padding-bottom: 100px; /* You may adjust this value */
+  padding-bottom: 6.25em; /* You may adjust this value */
   overflow-y: auto;
-  height: calc(100vh - 100px); /* Adjust the height calculation to ensure it does not overlap */
-  width: calc(100% - 120px); /* Adjust width to prevent overlap with .textarea-container */
-  margin-left: 120px; /* Ensure this matches the left property of .textarea-container */
+  height: calc(100vh - 6.25em); /* Adjust the height calculation to ensure it does not overlap */
+  width: calc(100% -7.5em); /* Adjust width to prevent overlap with .textarea-container */
+  margin-left: 7.5em; /* Ensure this matches the left property of .textarea-container */
 }
 
 .textarea-container {
@@ -60,6 +60,7 @@
   padding: 1rem; /* Space inside the container */
   box-sizing: border-box; /* Include padding in width calculation */
   background: #ffffff; /* Background color for visibility */
+  
 }
 
 .textarea {
@@ -68,14 +69,14 @@
   font-size: 1.1rem;
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 1px solid #d9d9e3;
+  border: 0.0625em solid #d9d9e3;
   color: #000;
   outline: none;
   flex-grow: 1; /* Allow textarea to fill the space */
   margin-right: 12rem; /* Adjusted to create space for the button inside the textarea */
   width: 50rem;
-  max-height: 200px; /* Maximum expandable height */
-  min-height: 60px;
+  max-height: 12.5em; /* Maximum expandable height */
+  min-height: 3.75em;
 
   
 }
@@ -90,7 +91,7 @@
   color: rgb(146, 40, 40);
   background: #ffffff; /* Background color for the button */
   padding: 0.5rem 1rem; /* Padding for the button */
-  border: 1px solid #ffffff; /* Border for the button */
+  border: 0.0625em solid #ffffff; /* Border for the button */
   border-radius: 0.5rem; /* Rounded corners for the button */
   z-index: 1200; /* Ensure it's above other elements */
 }
@@ -118,7 +119,7 @@
 .textarea:focus {
   outline: none;
   border-color: #000000;
-  box-shadow: 0 0 0 3px #a32121;
+  box-shadow: 0 0 0 0.1875em #a32121;
 }
 
 
@@ -134,6 +135,7 @@
   z-index: 1010; /* Ensure it's above other elements */
   /* Add any additional styling as needed */
 }
+
 
 
 
@@ -244,11 +246,11 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  font-size: 15px;
+  font-size: 0.9375em;
   font-family: Arial, sans-serif;
   color: #8B0000;
-  margin-bottom: 10px; /* Adjust the spacing from the bottom */
-  margin-right: 10px; /* Shifts the watermark slightly to the left */
+  margin-bottom: 0.625em; /* Adjust the spacing from the bottom */
+  margin-right: 0.625em; /* Shifts the watermark slightly to the left */
 }
 
 
@@ -362,7 +364,7 @@
   height: 65vh;
   background: #ffffff;
   border-radius: 0.5rem;
-  border: 1px solid #d9d9e3;
+  border: 0.0625em solid #d9d9e3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -406,17 +408,6 @@
 
 
 
-
-
-.sidebar {
-  flex: 0 0 300px;  /* Adjust width as needed */
-  height: 100vh;
-  overflow-y: auto;  /* Allows for vertical scrolling if the content overflows */
-  border-right: 1px solid #d9d9e3;
-  padding: 1rem;
-}
-
-
 .mainContent {
   flex: 1; /* This will make the main content take up the remaining space */
  
@@ -425,7 +416,7 @@
 
 .cloud {
   width: 90%; /* Full width */
-  height: calc(100% - 50px); /* Remaining height minus the height of the input area */
+  height: calc(100% - 3.125em); /* Remaining height minus the height of the input area */
   background: #ffffff;
   border: none; /* Removing the border */
   display: flex;
@@ -444,7 +435,7 @@
 
 
 /* Mobile optimization */
-@media (max-width: 600px) {
+@media (max-width: 37.5em) {
   .main {
     padding: 1rem;
     max-height: 90vh;
@@ -459,7 +450,7 @@
     width: 22rem;
   }
   .topnav {
-    border: 1px solid black;
+    border: 0.0625em solid black;
     align-items: center;
     padding: 0.85rem 0.75rem 0.85rem 0.75rem;
   }
@@ -482,7 +473,7 @@
     text-align: center;
   }
   .paragraphIndentation p:not(:first-child) {
-    text-indent: 50px; /* You can adjust the value as needed */
+    text-indent: 3.125em; /* You can adjust the value as needed */
   }
 
 /* .preformatted-text {

@@ -77,8 +77,7 @@ export default async function handler(
       - Be attentive, selective, and cautious about what to select. Do not select the wrong things. You must select the right things.
   
       - If the query relates to certain search documents, make sure to make the right selection.
-      - If the query is unrelated to the search documents and you are certain it is not related, then do not search, by returning "Searching..."
-      - If the query can be answered quick and simply with an absolute answer like "What is 2+2", then do not search by returning "Searching..."
+
       - If you are uncertain with the query or faced with an ambiguous query, then search everything available and choose which one it might be carefully and with accuracy.
   
       - If multiple search documents are relevant and needed, then search accordingly. 
