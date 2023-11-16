@@ -22,14 +22,14 @@ export default async (req, res) => {
             const db = await connectToDb();
             const allUsers = db.collection('verifiedUsers');
 
-            const currUser = await allUsers.findOne({ email: userEmail });
+            const currUser = await allUsers.findOne({ userEmail: userEmail });
 
             if (currUser) {
                 // User has a valid subscription
-                res.status(200).json({ success: true, message: "User is valid and has subscription." });
+                res.status(200).json({ success: true, message: "User is valid." });
             } else {
                 // User does not have a valid subscription
-                res.status(403).json({ success: false, message: "User does not have a valid subscription." });
+                res.status(403).json({ success: false, message: "User is not valid." });
             } 
         }
         else{
