@@ -393,6 +393,7 @@ export class CustomQAChain {
         Always assume that the context is: ${namespaceToFilter}. Thus, always answer in the context of ${namespaceToFilter} using ${this.namespaces} extensively. Always assess if the question is relevant to ${this.namespaces} and or ${namespaceToFilter} as you answer.
         Remember you are an expert on the course and have access to ${this.namespaces} when it is not blank, & ${namespaceToFilter} but are limited to what you have specific access to about the course.
     
+        
         You must do this every time an irrelevant question is asked in the beginning of your response.
 
         Never ever make up answers, or give answers that you are uncertain about. 
