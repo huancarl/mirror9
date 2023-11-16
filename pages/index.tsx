@@ -13,7 +13,7 @@ const HomePage: React.FC = () => {
     "When is the next prelim?",
     "What classes should I take for distributions?",
     "Generate practice prelim problems",
-    "PSYCH 1101:; summarize lecture 9 in detail",
+    "PSYCH 1101: summarize lecture 9 in detail",
     "Explain the main concepts from HW2",
     "What is the grade breakdown?",
   ];

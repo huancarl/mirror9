@@ -11,8 +11,10 @@
 }
 
 .centerWrapper {
-    margin-top: 0; /* Adjust based on design preference */
+    margin-top: -9; /* Adjust based on design preference */
     width: 50%; /* Increased width for better spacing */
+
+    
 }
 
 .header h1 {
@@ -25,10 +27,11 @@
 
 .refForm {
     display: flex;
-    max-width: 500px; /* Adjusted max-width */
+    max-width: 500px;
     width: 100%;
     margin: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-top: -30px; /* Adjust this value as needed to move the input box closer */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .inputField {
@@ -54,8 +57,8 @@
 .iconCheck,
 .iconClose {
     position: absolute;
-    right: 2em;
-    top: 50%;
+    right: 29em;
+    top: 57.5%;
     transform: translateY(-50%);
     font-size: 1rem;
 }

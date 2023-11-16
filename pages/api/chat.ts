@@ -63,24 +63,25 @@ export default async function handler(
   function createPrompt(namespaceToSearch: string, chat_history: any){
     return `(
      
-      Your mission is to determine when and what to search based on the user query.
+      Your mission is to determine when and what to search based on the user query of the class.
       Queries you receive will usually be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
       
-      Available Search Documents = ${classMapping[namespaceToSearch]}, ${namespaceToSearch}
+      Available Search Documents = ${classMapping[namespaceToSearch]}
+      Context of the class = ${namespaceToSearch}
       Chat History = ${chat_history}
       Query = ${question}
   
       - Always respond like: "Searching(' ')..." or "Searching ..." Never deviate from this format.
   
-      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly and accordingly from the available search documents.
+      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly and accordingly from the available search documents. 
       - Be attentive, selective, and cautious about what to select. Do not select the wrong things. You must select the right things.
   
       - If the query relates to certain search documents, make sure to make the right selection.
-      - If the query is unrelated to the search documents, then do not search, by returning "Searching..."
+      - If the query is unrelated to the search documents and you are certain it is not related, then do not search, by returning "Searching..."
       - If the query can be answered quick and simply with an absolute answer like "What is 2+2", then do not search by returning "Searching..."
-      - When faced with an ambiguous query, assess whether or not you should search. 
+      - If you are uncertain with the query or faced with an ambiguous query, then search everything available and choose which one it might be carefully and with accuracy.
   
-      - If multiple search documents are relevant and absolutely needed, then search accordingly. 
+      - If multiple search documents are relevant and needed, then search accordingly. 
   
       - Should a question context be a continuation or associated with the prior one found in history, use history proficiently to search consistently.
         If a question context is distinctive from the history, search adeptly. 
