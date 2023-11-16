@@ -40,14 +40,15 @@ function AccessPage() {
 
   return (
     <div className={styles.container}>
+      
       <Link href="/coursePage" passHref>
             <button className={styles.button}>
-                <span>➔</span>Sign Up
+                <span></span>S
             </button>
         </Link>
     <div className={styles.centerWrapper}> {/* New wrapper for vertical centering */}
     <header className={styles.header}>
-      <h1>Enter Your Referral Link :)</h1>
+      <h1>Enter Your Referral Link</h1>
     </header>
       <div className={styles.refForm}> 
       <input

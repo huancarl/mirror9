@@ -4,8 +4,8 @@
   justify-content: flex-start; /* Align items to the start of the main axis */
   align-items: flex-start; /* Align items to the start of the cross axis */
   padding: 1rem;
-  margin-left: 370px; /* Adjust this value so that the content aligns with the left blue line */
-  width: calc(100vw - 500px); /* Increase the subtracted value to make the width smaller */
+  margin-left: 325px; /* Adjust this value so that the content aligns with the left blue line */
+  width: calc(100vw - 400px); /* Increase the subtracted value to make the width smaller */
 }
 
 
@@ -129,8 +129,8 @@
 
 .loadingwheel {
   position: absolute;
-  bottom: 1.0rem; /* Adjust as needed based on your layout */
-  right: 30rem; /* Position to the right inside the textarea-container or cloudform */
+  bottom: 0.2rem; /* Adjust as needed based on your layout */
+  right: 0rem; /* Position to the right inside the textarea-container or cloudform */
   z-index: 1010; /* Ensure it's above other elements */
   /* Add any additional styling as needed */
 }

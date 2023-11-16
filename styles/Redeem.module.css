@@ -1,66 +1,62 @@
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Aligns items to the start of the container */
+    justify-content: center;
     align-items: center;
     height: 100vh;
     width: 100vw;
-    background: #dc6b6b;;
-  }
-  .centerWrapper {
-    margin-top: 17em;
-  }
-  
-  .header h1 {
-    margin-top: 0em; /* Adjust the value to push the header down */
-    color: #FFFFFF;
+    background: linear-gradient(115deg,  #711e1e, #ffd2d2); /* Soft gradient background */
+    color: #000000; /* White text color */
+    font-family: 'Arial', sans-serif; /* Modern font */
+}
+
+.centerWrapper {
+    margin-top: 0; /* Adjust based on design preference */
+    width: 50%; /* Increased width for better spacing */
+}
+
+.header h1 {
+    margin: 0;
     padding-bottom: 1em;
-    font-size: 2em;
-  }
+    font-size: 2.5em; /* Larger font size */
+    text-align: center; /* Center align the header */
+    color: #ffffff; /* White text color */
+}
 
-    .refForm {
-        position: relative;
-        display: flex; /* Ensure the wrapper is flex to respect the child flex-grow */
-        max-width: 400px; /* Adjust if necessary */
-        width: 100%; /* This makes sure the wrapper takes the full width */
-        margin: auto; /* Centers the wrapper if the parent is flex */
+.refForm {
+    display: flex;
+    max-width: 500px; /* Adjusted max-width */
+    width: 100%;
+    margin: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
 
-    }
-    
-    .inputField {
-        padding: 1rem;
-        padding-right: 2rem; /* Make room for icon */
-        border: 2px solid #ccc; /* Default border color, adjust as needed */
-        border-radius: 0.5rem;
-        flex-grow: 1; /* Ensure the input takes all available space */
-        width: calc(100% - 2rem); /* Adjust the width to account for padding */
-    }
-    
-    .valid {
-        border: 2px solid green; /* Adjust as needed */
-    }
-    
-    .invalid {
-        border: 2px solid red; /* Adjust as needed */
-    }
-    
-    .iconCheck,
-    .iconClose {
-        position: absolute;
-        right: 2em; /* Adjust to match padding and border of inputField */
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 1rem; /* Adjust size as needed */
-    }
-    
-    .iconCheck {
-        color: green;
-    }
-    
-    .iconClose {
-        color: red;
-    }
+.inputField {
+    padding: 1rem;
+    border: 2px solid #ff0000;
+    border-radius: 8px; /* Rounded corners */
+    flex-grow: 1;
+    transition: border-color 0.3s; /* Smooth transition for border color */
+}
 
-    .button {
-        color: red;
-    }
+.inputField:focus {
+    border-color: #ff0000; /* Change color on focus */
+}
+
+.valid {
+    border: 2px solid rgb(204, 42, 42);
+}
+
+.invalid {
+    border: 2px solid red;
+}
+
+.iconCheck,
+.iconClose {
+    position: absolute;
+    right: 2em;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1rem;
+}
+

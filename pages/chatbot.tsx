@@ -17,6 +17,7 @@ import Image from 'next/image';
 import katex from "katex";
 import 'katex/dist/katex.min.css';
 
+
 import { 
   messageContainsMath,
   MessageRenderer,

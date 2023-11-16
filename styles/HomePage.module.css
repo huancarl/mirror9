@@ -1,57 +1,112 @@
 .container {
     display: flex;
+    height: 100vh;
+    background: linear-gradient(to right, #942e2e 60%, #ffffff 40%);
+    position: relative; /* Ensure that the container is positioned relatively */
+}
+  
+  .typewriterContainer {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #942e2e; /* Darker color on the left side */
+  }
+  
+  .typewriter {
+    font-size: 2.5rem; /* Bigger font size for typewriter */
+    color: #fff;
+    border-right: 2px solid #fff;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  
+  .buttonContainer {
+    flex: 1;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background: linear-gradient(90deg, #ffcccc 50%, #ffffff 50%); 
-}
-
-.title {
-    font-size: 3rem;   /* Increase font size */
-    font-weight: bold; /* Make it bolder */
+  }
+  
+  .title {
+    font-size: 3rem;
+    font-weight: bold;
     margin-bottom: 2rem;
-}
+    color: #fff; /* Adjust title color */
+    margin-left: 110px; /* Adjust as needed to move the title to the right */
+  }
 
-.button {
+  
+  
+  .button, .loginButton {
     padding: 0.5rem 1rem;
     background-color: #000000;
     color: #fff;
-    border: none;
+    border: 2px solid transparent; /* Add border to transition on hover */
     border-radius: 5px;
     font-size: 1.2rem;
     cursor: pointer;
     text-decoration: none;
-    width: 125px; 
+    width: 145px;
     display: flex;
     align-items: center;
-}
-
-.button + .button {
+    justify-content: center; /* Center the content */
     margin-top: 1rem;
-}
-
-
-.loginButton {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #000000;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    text-decoration: none;
-    width: 125px; 
-    display: flex;
-    align-items: center;
-}
-
-.loginButton span {
+    transition: all 0.3s ease; /* Transition for smooth effect on hover */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* subtle shadow to lift the button off the page */
+    margin-left: 110px; /* Adjust as needed to move the title to the right */
+  }
+  
+  .button:hover, .loginButton:hover {
+    background-color: #ffffff; /* Change background color on hover */
+    color: #000000; /* Change text color on hover */
+    border-color: #000000; /* Add a border color on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Increase shadow size for "lifting" effect */
+    transform: translateY(-2px); /* Slight move up (button press effect) */
+  }
+  
+  .button:active, .loginButton:active {
+    transform: translateY(1px); /* Move down to simulate button press */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Decrease shadow size as if the button is pressed */
+  }
+  
+  .button span, .loginButton span {
     margin-right: 0.5rem;
-}
+    transition: transform 0.3s ease; /* Transition for the arrow */
+  }
+  
+  .button span:hover, .loginButton span:hover {
+    transform: translateX(5px); /* Move the arrow to the right on hover */
+  }
+  
+
+  
 
 
-.button span {
-    margin-right: 0.5rem;
-}
+
+  .footer {
+    text-align: right; /* Align text to the right */
+    width: auto; /* Set width to auto or specify a width less than 100% */
+    padding: 10px 0; /* Adjust padding as needed */
+    position: absolute;
+    bottom: 0;
+    right: 170px; /* Position the footer 40 pixels from the right edge */
+    left: auto; /* Reset left property */
+    font-size: small;
+    color: darkred;
+  }
+  
+  
+  .footerLink {
+    color: darkred; /* Dark red color for the link text */
+    text-decoration: none; /* Optional: removes the underline from links */
+    padding: 5px; /* Optional: adds some padding around the links for easier clicking */
+  }
+  
+  .footerLink:hover {
+    text-decoration: underline; /* Re-adds underline on hover for better user interaction */
+  }
+  
+  

@@ -1,4 +1,118 @@
+
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Align items to the start of the container */
+  text-align: center;
+  gap: 10px;
+  height: 100vh;
+  width: 100%; /* Use 100% of the width constraint set by max-width */
+  max-width: 400px; /* Adjust this value to match the width of the blue lines */
+  padding-top: 10vh; /* Add padding at the top to push everything down a bit */
+  margin-left: auto; /* Center the container in the viewport */
+  margin-right: auto; /* Center the container in the viewport */
+}
+
+
+
+
 .signDiv {
-    width: 12em; /* or whatever size you expect the button to be */
-    height: 50px; /* or whatever size you expect the button to be */
-  }
+  width: 35em; /* Increased size */
+  height: 90px; /* Increased size */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto; /* Centers the button in the flex container if it has a definitive width */
+  font-size: 1.2em; /* Increase the font size if needed */
+  /* Add any additional styles for the Google button here */
+}
+
+.cornellGPT {
+  font-size: 3em; /* Adjust the size as needed */
+  color: darkred;
+  font-weight: bold;
+}
+
+.logIn {
+  font-size: 1.5em; /* Adjust the size as needed */
+  color: black;
+  font-weight: bold;
+}
+
+/* Existing styles */
+
+.noteText {
+  font-size: 0.3em; /* Smaller font size for the note */
+  color: #333; /* Dark grey color for better readability */
+  text-align: center; /* Center the text */
+  margin-top: 10px; /* Space between the CornellGPT sign and the note */
+  width: 80%; /* You can adjust this to control the width of the note text */
+  margin-left: auto; /* These two margin properties will ensure */
+  margin-right: auto; /* the noteText is centered within its container */
+  max-width: 600px; /* Optional: sets a max-width for wider screens */
+}
+
+
+.emailLink {
+  color: #0066cc; /* Style the email link color as desired */
+  text-decoration: none; /* Remove the underline from the link if desired */
+  text-align: center;
+}
+
+.emailLink:hover {
+  text-decoration: underline; /* Add underline on hover for better user interaction */
+}
+
+.footer {
+  text-align: center;
+  width: 100%;
+  padding: 10px 0; /* Adjust padding as needed */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: small;
+  /* Optional: Add background or other styling as needed */
+  color: darkred; /* This will set the default color of the text inside the footer */
+}
+
+.footerLink {
+  color: darkred; /* Dark red color for the link text */
+  text-decoration: none; /* Optional: removes the underline from links */
+  padding: 5px; /* Optional: adds some padding around the links for easier clicking */
+
+}
+
+.footerLink:hover {
+  text-decoration: underline; /* Re-adds underline on hover for better user interaction */
+}
+
+.backButton {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: darkred;
+  /* Additional styling as needed */
+}
+
+.errorMessage {
+  color: red; /* Red text for error */
+  background-color: #ffe0e0; /* Light red background for contrast */
+  border: 1px solid red; /* Red border for emphasis */
+  padding: 10px; /* Some padding for spacing */
+  margin-top: 20px; /* Margin to separate it from other elements */
+  border-radius: 5px; /* Rounded corners for a smoother look */
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  font-weight: bold; /* Make the text bold */
+}
+
+
+
+
