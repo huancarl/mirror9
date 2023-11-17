@@ -24,6 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         }
         return null;
     });
+    const [userID, setUserID] = useState(null);
 
     const [bottomSectionHeight, setBottomSectionHeight] = useState(0); // State for the height of the bottom section
     const bottomSectionRef = useRef(null); // Ref for the bottom section
@@ -35,9 +36,29 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
   //         setBottomSectionHeight(bottomSectionRef.current.offsetHeight);
   //     }
   // }, [bottomSectionRef, isSidebarOpen]); 
+  const fetchUserInfo = async () => {
+    try {
+        const response = await fetch('/api/userInfo');
+        const data = await response.json();
+        if (data.email) {
+            return data.email;
+        } else {
+            console.error('User info not found');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error fetching user info:', error);
+        return null;
+    }
+  };
 
-
-
+  useEffect(() => {
+    const getUserInfo = async () => {
+        const userEmail = await fetchUserInfo();
+        setUserID(userEmail); // Set the userID state with the fetched email on mount
+    };
+    getUserInfo();
+  }, []);
 
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -45,13 +66,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-
-
-
-
-
-
-
 
     const getSessionName = () => {
       const now = new Date();
@@ -70,51 +84,61 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
       // Sort dates
       const sortedDates = Object.keys(sessionsByDate).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
     
-
-    useEffect(() => {
-        async function fetchChatSessions() {
-            try {
-                const response = await fetch('/api/fetchAllSessions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        userID: localStorage.getItem('lapp'),
-                        course: className,
-                    }),
-                });
-                const data = await response.json();
-
-                if (data.sessions === false) {
-                    console.log('No sessions found, creating a new one...');
-                    initNewChat();
-                } else {
-                    setChatSessions(data.sessions || []);
-                    // Ensure that the current session is valid
-                    if (!data.sessions.find(session => session.sessionID === currentSessionID)) {
-                        const newCurrentSessionID = data.sessions[0]?.sessionID || null;
-                        localStorage.setItem('sapp', newCurrentSessionID);
-                        setCurrentSessionID(newCurrentSessionID);
-                        if (onSessionChange && newCurrentSessionID) {
-                            onSessionChange(newCurrentSessionID);
-                        }
-                    }
+      //function for fetching chat sessions using the user's email and course
+      async function fetchChatSessions(userID) {
+          try {
+              const response = await fetch('/api/fetchAllSessions', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                      userID: userID,
+                      course: className,
+                  }),
+              });
+              const data = await response.json();
+              if (data.sessions === false) {
+                  console.log('No sessions found, creating a new one...');
+                  initNewChat();
+              } else {
+                  setChatSessions(data.sessions || []);
+                  // Ensure that the current session is valid
+                  if (!data.sessions.find(session => session.sessionID === currentSessionID)) {
+                      const newCurrentSessionID = data.sessions[0]?.sessionID || null;
+                      localStorage.setItem('sapp', newCurrentSessionID);
+                      setCurrentSessionID(newCurrentSessionID);
+                      if (onSessionChange && newCurrentSessionID) {
+                          onSessionChange(newCurrentSessionID);
+                      }
+                  }
+              }
+          } catch (error) {
+              console.error('Failed to fetch chat sessions:', error);
+          }
+      }
+      //when userID or other dependencies are updated this function the fetch sessions function
+      useEffect(() => {
+        async function getUserInfoAndFetchSessions() {
+            if (!userID) {
+                const userEmail = await fetchUserInfo();
+                if (userEmail) {
+                    setUserID(userEmail);
+                    fetchChatSessions(userEmail);
                 }
-            } catch (error) {
-                console.error('Failed to fetch chat sessions:', error);
+            } else {
+                fetchChatSessions(userID);
             }
         }
-
-        fetchChatSessions();
-        
-    }, [currentSessionID, sessions, className, onSessionChange]);
+        getUserInfoAndFetchSessions();
+    }, [currentSessionID, sessions, className, onSessionChange, userID]);
 
     //initializes the UI with a session instantly
 
     const initNewChat = async () => {
       const newSessionID = uuidv4();
       const sessionName = getSessionName(); 
+      
         try {
             const response = await fetch('/api/createNewChatSession', {
                 method: 'POST',
@@ -122,7 +146,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    userID: localStorage.getItem('lapp'),
+                    userID: userID,
                     sessionID: newSessionID,
                     course: className,
                     name: sessionName,
@@ -141,7 +165,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     }
 
     const handleNewChat = async () => {
-      const userID = localStorage.getItem('lapp');
       const response = await fetch('/api/checkForNewSessions', {
         method: 'POST',
         headers: {
@@ -162,7 +185,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
               'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-              userID: localStorage.getItem('lapp'),
+              userID: userID,
               sessionID: newSessionID,
               course: className,
               name: sessionName, // Send the session name to the server
@@ -220,7 +243,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
                 },
                 body: JSON.stringify({
                     course: className, // Assuming 'className' holds the course title
-                    userID: localStorage.getItem('lapp'), // Pass the current user's ID
+                    userID: userID, // Pass the current user's ID
                 }),
             });
             if (latestSessionResponse.ok) {

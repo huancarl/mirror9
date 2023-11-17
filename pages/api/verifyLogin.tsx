@@ -1,46 +1,47 @@
 import connectToDb from '@/config/db';
 import { OAuth2Client } from 'google-auth-library';
+import { withSession } from 'utils/session'; // Adjust the import path as needed
 
 const client = new OAuth2Client("143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com");
 
-export default async (req, res) => {
+async function loginHandler(req, res) {
     if (req.method !== 'POST') {
         res.status(405).send('Method not allowed');
         return;
     }
-    try{
+
+    try {
         const { token } = req.body;
+
         const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: "143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com",
+            idToken: token,
+            audience: "143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com",
         });
         const payload = ticket.getPayload();
 
-        if(payload){
+        if (payload) {
             const userEmail = payload.email;
-            // const userSub = payload.sub; user unique identifier
             const db = await connectToDb();
             const allUsers = db.collection('verifiedUsers');
 
-            const currUser = await allUsers.findOne({ userEmail: userEmail });
+            const currUser = await allUsers.findOne({ userEmail });
 
             if (currUser) {
-                // User has a valid subscription
-                res.status(200).json({ success: true, message: "User is valid." });
+                // User is valid, set user email in session
+                req.session.set('user', { email: userEmail });
+                await req.session.save();
+
+                res.status(200).json({ success: true, message: "User is valid.", email: userEmail });
             } else {
                 // User does not have a valid subscription
-                res.status(403).json({ success: false, message: "User is not valid." });
-            } 
+                res.status(403).json({ success: false, message: "User is not valid.", email: '' });
+            }
+        } else {
+            res.status(500).json({ success: false, error: 'User payload was empty', email: '' });
         }
-        else{
-            res.status(500).json({success: false, error: 'User payload was empty'});
-        }        
+    } catch (error) {
+        res.status(500).json({ success: false, error: "Verification failed", email: '' });
     }
-    catch(error){
-        res.status(500).json({ success: false, error: "Verification failed" });
-    }
-
-
-    
-
 }
+
+export default withSession(loginHandler);

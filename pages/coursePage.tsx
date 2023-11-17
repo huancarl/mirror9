@@ -20,24 +20,32 @@ function CourseCatalog() {
   useEffect(() => {
     const fetchOrCreateRef = async() => {
 
-      const userID = getOrGenerateUUID('lapp');
+      const sessionRes = await fetch('/api/userInfo');
+        const sessionData = await sessionRes.json();
+        if (sessionRes.ok) {
+            // Set userID to the user's email from the session
+            const userID = sessionData.email;
+            let link = "https://localhost.com/?ref={";
   
-      let link = "https://localhost.com/?ref={";
-  
-      let response = await fetch('/api/fetchOrCreateReferral', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            userID,
-        }),
-      });
-      const data = await response.json();
-      if(data){
-        link = link + data.code + '}';
-        setReferralLink(link);
-      }
+            let response = await fetch('/api/fetchOrCreateReferral', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                  userID,
+              }),
+            });
+            const data = await response.json();
+            if(data){
+              link = link + data.code + '}';
+              setReferralLink(link);
+            }
+        } else {
+            // Handle the case where the session is not available
+            console.error('Session not found:', sessionData.error);
+            return;
+        }
     }
     fetchOrCreateRef();
   }, []);

@@ -125,7 +125,16 @@ export default function Home() {
   
   
   const fetchChatHistory = async () => {
-    userIDRef.current = getOrGenerateUUID('lapp');
+    const sessionRes = await fetch('/api/userInfo');
+        const sessionData = await sessionRes.json();
+        if (sessionRes.ok) {
+            // Set userID to the user's email from the session
+            userIDRef.current = sessionData.email;
+        } else {
+            // Handle the case where the session is not available
+            console.error('Session not found:', sessionData.error);
+            return;
+        }
     sessionIDRef.current = getOrGenerateUUID('sapp');
     try {
         //handling the edge case where you switch between course
@@ -158,7 +167,6 @@ export default function Home() {
 
             if(response.ok){
               const latestChatData = await response.json();
-              console.log(latestChatData, 'runs latest chat data');
               const newSappValue = latestChatData.sessionID;
 
             // Update the 'sapp' in localStorage and sessionIDRef.

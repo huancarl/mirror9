@@ -1,9 +1,10 @@
 import connectToDb from '@/config/db';
 import { OAuth2Client } from 'google-auth-library';
+import { withSession } from 'utils/session'; // Adjust the import path as needed
 
 const client = new OAuth2Client("143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com");
 
-export default async (req, res) => {
+async function addNewUserHandler(req, res) {
     if (req.method !== 'POST') {
         res.status(405).send('Method not allowed');
         return;
@@ -25,7 +26,7 @@ export default async (req, res) => {
             const referrals = db.collection('referrals');
             const userCollection = db.collection('verifiedUsers');
 
-            const checkIfUserExistsAlready = await referrals.findOne({ userEmail});
+            const checkIfUserExistsAlready = await userCollection.findOne({ userEmail});
 
             if(!checkIfUserExistsAlready){
                 //if user is not 
@@ -41,6 +42,8 @@ export default async (req, res) => {
                     {code: link},
                     {$set: {valid: false}}
                 );
+                req.session.set('user', { email: userEmail });
+                await req.session.save();
 
                 return res.status(200).json({ created: true, message: 'Success'});
             }
@@ -55,3 +58,5 @@ export default async (req, res) => {
         return res.status(500).json({ error: 'Failed to create an account' });
     }
 }
+
+export default withSession(addNewUserHandler);

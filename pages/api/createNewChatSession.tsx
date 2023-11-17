@@ -8,6 +8,7 @@ export default async (req, res) => {
     }
   
     try {
+      console.log('body for create new sess', req.body);
       const db = await connectToDb();
       const sessionCollection = db.collection('sessionIDs');
   

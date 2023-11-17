@@ -22,12 +22,12 @@ export default async (req, res) => {
         const document = await sessionIDs.findOne({ sessionID: sapp }); // Assuming the field in the database is named "sessionID"
 
         if (!document) {
-            res.status(404).send('No document found for the provided sessionID');
+            res.status(200).json({ course: 'No session found' });
             return;
         }
 
         if (document.course === undefined) {
-            res.status(404).send('No course field found for the provided sessionID');
+            res.status(200).json({ course: 'No session found' });
             return;
         }
 

@@ -17,8 +17,6 @@ export default async (req, res) => {
       course,
     });
 
-    console.log(session, 'session in checkfornews');
-
     if (session) {
       // If a session with isEmpty: true exists, return its sessionID
       return res.status(200).json({ exists: true, sessionID: session.sessionID });
