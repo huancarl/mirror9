@@ -33,7 +33,7 @@ const LoginWithEmail: React.FC = () => {
 
         window.google.accounts.id.renderButton(
           signInDiv, // This should be an HTMLElement reference where the button will be placed.
-          { theme: "filled_black", size: "icon" } // Changed theme and size.
+          { theme: "filled_blue", size: "large" } // Changed theme and size.
         );
         setIsGapiReady(true);
       } else {
@@ -80,16 +80,15 @@ const LoginWithEmail: React.FC = () => {
     router.back(); // This will take the user to the previous page
   };
 
-
   return (
 <div className={styles.container}>
-    <button onClick={handleBack} className={styles.backButton}>←</button>
+<button onClick={handleBack} className={styles.backButton}>←</button>
     <div className={styles.LogIn}>
         Welcome Back
         
         <div className={styles.noteText}>
-            You must signup with a referral link before logging in. 
-            If help is needed please send us an email at
+            You must sign up with a referral link before logging in.
+            If faced with an unexpected error please contact us at:
             <a href="mailto:cornellgpt@gmail.com" className={styles.emailLink}> cornellgpt@gmail.com</a>
         </div>
     </div>

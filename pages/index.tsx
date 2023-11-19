@@ -11,7 +11,7 @@ const HomePage: React.FC = () => {
     "What is the grade breakdown?",
     "CS 2110: explain lecture 3",
     "When is the next prelim?",
-    "CHEM 2090: explain the organic compounds from lecture 4",
+    "CHEM 2090: explain the HW policy",
     "What classes should I take for distributions?",
     "Generate practice prelim problems",
     "PSYCH 1101: summarize lecture 9 in detail",

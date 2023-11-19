@@ -35,16 +35,17 @@
 
 .noteText {
   font-size: 0.30em;
-  color: #333;
+  color: #040404;
   text-align: center;
   margin-top: 15px;
   width: 80%;
   margin: 0 auto;
   max-width: 900px;
+  font-style: italic;
 }
 
 .emailLink {
-  color: #0066cc;
+  color:rgb(0, 76, 255);
   text-decoration: none;
   font-size: 0.9em;
 }
@@ -76,10 +77,10 @@
 }
 
 .backButton {
-  font-size: 1.5em;
+  font-size: 1.4em;
   position: absolute;
   top: 15px;
-  left: 45px;
+  left: 35px;
   background: none;
   border: none;
   cursor: pointer;

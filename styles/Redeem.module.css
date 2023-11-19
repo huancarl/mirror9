@@ -29,20 +29,22 @@
 }
 
 .refForm {
+    position: relative; /* Set .refForm to be the reference for absolute children */
     display: flex;
+    align-items: center; /* Align children vertically in the center */
     max-width: 500px;
     width: 100%;
     margin: auto;
-    margin-top: -30px; /* Adjust this value as needed to move the input box closer */
+    margin-top: -30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .inputField {
     padding: 1rem;
     border: 2px solid #ff0000;
-    border-radius: 8px; /* Rounded corners */
+    border-radius: 8px;
     flex-grow: 1;
-    transition: border-color 0.3s; /* Smooth transition for border color */
+    transition: border-color 0.3s;
 }
 
 .inputField:focus {
@@ -60,14 +62,14 @@
 .iconCheck,
 .iconClose {
     position: absolute;
-    right: 27em;
-    top: 57.5%;
+    right: 10px; /* Set to 10px or whatever looks best in the UI */
+    top: 50%;
     transform: translateY(-50%);
     font-size: 1rem;
 }
 
 .signInModal {
-    position: fixed;
+
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -81,7 +83,19 @@
     text-align: center;
     z-index: 1000;
     height: 20em; /* Set your desired height */
+    color: darkred;
+
+    position: fixed; /* Changed from fixed to relative */
+    padding-bottom: 3em; /* Add padding to accommodate the footer inside the modal */
   }
+
+  .signInModal p {
+    font-size: 1.5em; /* Adjust the size as needed */
+    font-weight: bold; /* Make the text bold */
+    margin-bottom: 1em; /* Add some space below the text if needed */
+    /* Add other styles if needed to fit the design */
+}
+
   
 
   .googleButton {
@@ -115,9 +129,55 @@
     color: rgb(255, 255, 255);
     /* Additional styling as needed */
   }
+
   
   /* Ensure the button is visible over other elements */
   .backButton:focus {
     outline: none;
   }
+
+  @keyframes loadingAnimation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .loadingIcon {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 3px solid #942e2e; /* Color of loading circle */
+    border-radius: 50%;
+    width: 1.3rem;
+    height: 1.3rem;
+    animation: loadingAnimation 2s linear infinite; /* Animation uses the keyframes defined above */
+
+    position: absolute;
+    right: 10px; /* Set to 10px or whatever looks best in the UI */
+    top: 35%;
+
+  }
+
+  .footer {
+    text-align: center;
+    width: 100%;
+    padding: 15px 0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 0.9em;
+    color: darkred;
+    background: white; /* Optional: add a background if it should stand out */
+  }
+  
+  .footerLink {
+    color: darkred;
+    text-decoration: none;
+    padding: 7.5px;
+    font-size: 0.9em;
+  }
+  
+  .footerLink:hover {
+    text-decoration: underline;
+  }
+
+  
+  
   

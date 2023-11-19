@@ -93,7 +93,7 @@ export function MathComponent({ latex }) {
           } else {
             const parsedBoldText = parseBoldText(segment);
             // Using Typewriter without animation
-            return <Typewriter key={index} message={parsedBoldText} animate={false} />;
+            return <Typewriter key={index} message={parsedBoldText} animate={true} />;
           }
         })}
       </>

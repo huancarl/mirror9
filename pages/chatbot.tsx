@@ -593,7 +593,7 @@ export default function Home() {
     content = <MessageRenderer key={index} message={message.message} />;
   } else if (isCodeMessage) {
     content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  } else if (message.type === 'apiMessage' ) {                        
+  } else if (message.type === 'apiMessage') {                        
     content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
   } else {
     content = <span>{parseBoldText(message.message)}</span>;

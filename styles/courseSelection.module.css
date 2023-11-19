@@ -61,7 +61,7 @@
   left: 10px;
   font-size: 1em; /* Increased font size */
   font-weight: bold; /* Bold text */
-  background-color: rgb(255, 0, 0); /* Yellow background */
+  background-color: darkred; /* Yellow background */
   color: rgb(255, 253, 253); /* Black text */
   padding: 10px 20px; /* Increased padding */
   border-radius: 5px;
@@ -82,12 +82,52 @@
 }
 
 .referralText:hover {
-  width: 770px; /* Adjusted expanded width */
+  width: 400px; /* Adjusted expanded width */
 }
 
 .referralText:hover a {
   opacity: 1;
   margin-left: 5px; /* Adjust as needed for appearance */
+}
+
+
+
+
+.classInquiryContainer {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Changed to center for both text and button */
+  width: auto; /* Adjusted width to fit content */
+}
+
+.classInquiryText {
+  font-size: 1.5em;
+  color: #000000;
+  margin-bottom: 10px; /* Space between the text and the button */
+  font-weight: bold; /* Corrected property from font-style to font-weight */
+}
+
+.classInquiryButton {
+  padding: 10px 20px; /* Increased padding for a bigger button */
+  background-color: #6a00ff; /* Use a color that fits with your theme */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1em; /* Increased font size for better visibility */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: auto; /* Adjusted width to fit content */
+  max-width: 200px; /* Maximum width for the button */
+}
+
+.classInquiryButton:hover {
+  background-color: hsl(263, 75%, 70%); /* Slightly lighter or darker for hover effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 

@@ -30,6 +30,8 @@ function AccessPage() {
     }
   };
 
+  let timerId;
+
   useEffect(() => {
     const script = document.createElement('script');
     script.src = 'https://accounts.google.com/gsi/client';
@@ -44,6 +46,12 @@ function AccessPage() {
     return () => {
       document.body.removeChild(script);
     };
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+    timerId = setTimeout(() => {
+      setShowSignInModal(true);
+    }, 2000);
   }, []);
 
   const verifyLink = async (link) => {
@@ -73,7 +81,7 @@ function AccessPage() {
       if (signInDiv) {
         window.google.accounts.id.renderButton(
           signInDiv,
-          { theme: "outline", size: "large" } // Customize button appearance
+          { theme: "filled_blue", size: "large" } // Customize button appearance
         );
       }
     }
@@ -86,54 +94,80 @@ function AccessPage() {
 
     const valid = await verifyLink(value);
     setIsValid(valid);
-  
-    // Only proceed if the link is valid and the button hasn't been rendered yet
-    if (valid && !buttonRendered) {
-      setShowSignInModal(true);
-      inputValueRef.current = value;
-      if (window.google && window.google.accounts && window.google.accounts.id) {
-      } else {
-        console.error("Google Identity services script not loaded.");
-      }
+
+    if (valid) {
+      // Delay showing the sign-in modal
+      setTimeout(() => {
+        if (!buttonRendered) {
+          setShowSignInModal(true);
+          inputValueRef.current = value;
+        }
+      }, 600); // 2000ms delay
     } else {
       setShowSignInModal(false);
       setButtonRendered(false);
     }
   };
+    
+  
+    // Only proceed if the link is valid and the button hasn't been rendered yet
+    // if (valid && !buttonRendered) {
+    //   setShowSignInModal(true);
+    //   inputValueRef.current = value;
+    //   if (window.google && window.google.accounts && window.google.accounts.id) {
+    //   } else {
+    //     console.error("Google Identity services script not loaded.");
+    //   }
+    // } else {
+    //   setShowSignInModal(false);
+    //   setButtonRendered(false);
+    // }
+    
+  const handleBack = () => {
+    router.back(); // This will take the user to the previous page
+  };
 
   return (
     <div className={styles.container}>
-            <button className={styles.backButton} onClick={() => router.back()}>
-        
-        &#8592; 
-      </button>
-      {showSignInModal && (
-      <div className={styles.signInModal}>
-        <p>Sign Up. </p>
-        <span className={styles.closeButton} onClick={() => setShowSignInModal(false)}>&times;</span>
-        <div id="signInDiv" className={styles.googleButton}></div>
-      </div>)}
-
+<button onClick={handleBack} className={styles.backButton}>←</button>
+{showSignInModal && (
+  <div className={styles.signInModal}>
+    <p style={{ fontSize: '1.5em', fontWeight: 'bold', marginBottom: '1em' }}>Sign Up With Google</p>
+    <span className={styles.closeButton} onClick={() => setShowSignInModal(false)}>&times;</span>
+    <div id="signInDiv" className={styles.googleButton}></div>
+    <footer className={styles.footer}>
+      <a href="/terms-of-use" className={styles.footerLink}>Terms of Use</a> | 
+      <a href="/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+    </footer>
+  </div>
+  )}
       <Link href="/coursePage" passHref>
             <button className={styles.button}>
                 <span></span>S
             </button>
         </Link>
+
     <div className={styles.centerWrapper}> {/* New wrapper for vertical centering */}
     <header className={styles.header}>
       <h1>Enter Your Referral Link</h1>
     </header>
-      <div className={styles.refForm}> 
-      <input
-        type="text"
-        placeholder="https://"
-        value={inputValue}
-        onChange={handleInputChange}
-        className={`${styles.inputField} ${isValid ? styles.valid : isValid === false ? styles.invalid : ''}`}
-      />
-      {isValid && <span className={styles.iconCheck}>✅</span>}
-        {isValid === false && <span className={styles.iconClose}>❌</span>}
-      </div>
+    
+    <div className={styles.refForm}> 
+  <input
+    type="text"
+    placeholder="https://"
+    value={inputValue}
+    onChange={handleInputChange}
+    className={`${styles.inputField} ${isValid ? styles.valid : isValid === false ? styles.invalid : ''}`}
+  />
+  {inputValue.length === 0 ? (
+    <div className={styles.loadingIcon}></div>
+  ) : isValid ? (
+    <span className={styles.iconCheck}>✔</span>
+  ) : (
+    <span className={styles.iconClose}>❌</span>
+  )}
+</div>
     </div>
   </div>
   );
