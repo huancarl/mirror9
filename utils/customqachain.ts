@@ -170,9 +170,9 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 100;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 50;                      // max vector search, adjust accordingly till find optimal
     
-        const maxNamespaces = 20;
+        const maxNamespaces = 15;
         const namespacesToSearch = this.namespaces
             .filter(namespace => namespace.includes(filter))
             .slice(0, maxNamespaces);
@@ -182,7 +182,7 @@ export class CustomQAChain {
                 return await this.index.query({
                     queryRequest: {
                         vector: queryEmbedding,
-                        topK: 20,
+                        topK: 15,
                         namespace: namespace,
                         includeMetadata: true,
                     },
@@ -393,8 +393,12 @@ export class CustomQAChain {
         You must judge the relevancy of every user's question to ${namespaceToFilter} and ${this.namespaces}
 
         If the question is not relevant or you do not have access to the specific thing being asked for by the user, 
-            then assert to the user: "This question may not be relevant to ${namespaceToFilter} 
-            and or I do not have access to the specific thing being requested", do not continue and make up answers or fabricate what it might have.
+            then assert to the user: "I may not have access to the specific information being requested at this time 
+            and or this question may not be relevant to ${namespaceToFilter}. 
+            If this question is related to ${namespaceToFilter}, 
+            please allow the handsome founders to upload the content being requested 
+            so I have access to the specific information you are asking about in relation to ${namespaceToFilter}"
+            , do not continue and make up answers or fabricate what it might have.
 
         If the question is general or a simple question like "What is 2+2", then answer accordingly, but assert to the user that this is not relevant to ${namespaceToFilter}
 
@@ -438,7 +442,7 @@ export class CustomQAChain {
         Reference Citing:
         - The source materials that you are given access to are as follows: ${formattedSourceDocuments}. 
         - You will select the most relevant, accurate, detailed parts of the course materials to fully develop your accurate answer. 
-        - You must always cite the source pdf (not the path or directory) and page numbers when possible in parenthesis throughout the response. Place multiple citations with source and page number throughout the response where you used them. Never put them at the end of your response. 
+        - You must always cite the source itself (not the path or directory) and page numbers when possible in parenthesis throughout the response. Place multiple citations with source and page number throughout the response where you used them. Never put them at the end of your response. 
         - Never make up information beyond or deviate from the explicit, exact information found in the source materials or incorrectly source answers. 
         - If the user asks something about the class you do not have access to, then state that you do not have access to that specifically yet.
         - If information is not elaborated upon in the course materials simply state the information as is, never make assumptions from the course materials.

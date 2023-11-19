@@ -3,8 +3,7 @@
   width: 12em;  /* Fixed width */
   height: 10em; /* Fixed height */
   margin: 10px;
-  border: 2px solid #fd5c63;
-  padding: 20px;
+  border: 2px solid  rgb(189, 5, 5);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   text-align: center;
@@ -16,6 +15,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  padding: 15px; /* Adjust padding for better spacing */
+  font-family: 'Arial', sans-serif; /* Clean, readable font */
+  color: #000000; /* Darker text for better contrast */
 }
 
 .courseBox:hover {

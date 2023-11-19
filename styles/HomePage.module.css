@@ -92,7 +92,7 @@
     padding: 0.625em 0; /* Adjust padding as needed */
     position: absolute;
     bottom: 0;
-    right: 13.9em; /* Further to the left */
+    right: 13em; /* Further to the left */
     left: auto; /* Reset left property */
     font-size: small;
     color: darkred;

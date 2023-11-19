@@ -103,9 +103,14 @@ function AccessPage() {
 
   return (
     <div className={styles.container}>
+            <button className={styles.backButton} onClick={() => router.back()}>
+        
+        &#8592; 
+      </button>
       {showSignInModal && (
       <div className={styles.signInModal}>
-        <p>Please sign with Google so that we can set up your account.</p>
+        <p>Sign Up. </p>
+        <span className={styles.closeButton} onClick={() => setShowSignInModal(false)}>&times;</span>
         <div id="signInDiv" className={styles.googleButton}></div>
       </div>)}
 
@@ -126,8 +131,8 @@ function AccessPage() {
         onChange={handleInputChange}
         className={`${styles.inputField} ${isValid ? styles.valid : isValid === false ? styles.invalid : ''}`}
       />
-      {isValid && <span className={styles.iconCheck}>✓</span>}
-        {isValid === false && <span className={styles.iconClose}>✕</span>}
+      {isValid && <span className={styles.iconCheck}>✅</span>}
+        {isValid === false && <span className={styles.iconClose}>❌</span>}
       </div>
     </div>
   </div>

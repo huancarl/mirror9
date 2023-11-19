@@ -84,8 +84,9 @@ const LoginWithEmail: React.FC = () => {
   return (
     <div className={styles.container}>
         <button onClick={handleBack} className={styles.backButton}>←</button>
-      <div className={styles.cornellGPT}>
-        CornellGPT
+      <div className={styles.LogIn}>
+        Welcome Back!
+        
         <div className={styles.noteText}>
           You must signup with a referral link before logging in. 
           If help is needed please send us an email at 

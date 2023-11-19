@@ -242,7 +242,7 @@ export default function Home() {
     setError(null);
 
     if (!query) {
-      alert('Enter a question lol');
+      alert('Its blank! Enter a question lol');
       return;
     }
 

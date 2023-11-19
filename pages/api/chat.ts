@@ -37,6 +37,7 @@ export default async function handler(
 ) {
 
   const { question, messages, userID, sessionID, namespace} = req.body;
+  const image = req.body.image;
   // const question = req.body.question;
   console.log('Received request body:', req.body);
 

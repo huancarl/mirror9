@@ -217,11 +217,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         // Use window.confirm to display the confirmation dialog
 
         if (chatSessions.length <= 1) {
-            alert("You cannot delete a chat session if you only have one");
+            alert("You must have at least one conversation!");
             return;
         }
 
-        const isConfirmed = window.confirm('Are you sure you want to delete this chat session?');
+        const isConfirmed = window.confirm('This conversation will be deleted');
       
         // If the user clicks 'OK', proceed with the deletion
         if (isConfirmed && sessionId) {

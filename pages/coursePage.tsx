@@ -69,12 +69,12 @@ function CourseCatalog() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.referralText}>Refer a friend! <a> {referralLink} </a></div>
+      <div className={styles.referralText}>REFER YOUR FRIEND:<a> {referralLink} </a></div>
       <h1 className={styles.title}> CornellGPT </h1>
       <p className={styles.subtitle}>What class would you like help with?</p>
       <input
         type="text"
-        placeholder="Search for a course :)"
+        placeholder="Search for a course.."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className={styles.searchInput}

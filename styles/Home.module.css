@@ -249,7 +249,7 @@
   font-size: 0.9375em;
   font-family: Arial, sans-serif;
   color: #8B0000;
-  margin-bottom: 0.625em; /* Adjust the spacing from the bottom */
+  margin-bottom: 0.06em; /* Adjust the spacing from the bottom */
   margin-right: 0.625em; /* Shifts the watermark slightly to the left */
 }
 
