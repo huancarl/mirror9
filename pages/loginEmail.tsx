@@ -32,8 +32,8 @@ const LoginWithEmail: React.FC = () => {
       if (signInDiv) {
 
         window.google.accounts.id.renderButton(
-          signInDiv, // Now it's guaranteed to be an HTMLElement, not null
-          { theme: "outline", size: "large" } // Customize button appearance
+          signInDiv, // This should be an HTMLElement reference where the button will be placed.
+          { theme: "filled_black", size: "icon" } // Changed theme and size.
         );
         setIsGapiReady(true);
       } else {
@@ -82,29 +82,30 @@ const LoginWithEmail: React.FC = () => {
 
 
   return (
-    <div className={styles.container}>
-        <button onClick={handleBack} className={styles.backButton}>←</button>
-      <div className={styles.LogIn}>
-        Welcome Back!
+<div className={styles.container}>
+    <button onClick={handleBack} className={styles.backButton}>←</button>
+    <div className={styles.LogIn}>
+        Welcome Back
         
         <div className={styles.noteText}>
-          You must signup with a referral link before logging in. 
-          If help is needed please send us an email at 
-          <a href="mailto:cornellgpt@gmail.com" className={styles.emailLink}> cornellgpt@gmail.com</a>
+            You must signup with a referral link before logging in. 
+            If help is needed please send us an email at
+            <a href="mailto:cornellgpt@gmail.com" className={styles.emailLink}> cornellgpt@gmail.com</a>
         </div>
-      </div>
-      <div className={styles.logIn}></div>
-      <div id="signInDiv" className={styles.signDiv}></div> {/* This div will be replaced with the Google button */}
-      {showErrorMessage && 
+    </div>
+    <div id="signInDiv" className={styles.signDiv}></div> {/* This div will be replaced with the Google button */}
+    {showErrorMessage && 
         <div className={styles.errorMessage}>
-        <span>⚠️</span> {/* Caution symbol */}
-        <span>Error! You must sign up first.</span>
-      </div>}
-      <footer className={styles.footer}>
+            <span>⚠️</span> {/* Caution symbol */}
+            <span>Error! You must sign up first.</span>
+        </div>
+    }
+    <footer className={styles.footer}>
         <a href="/terms-of-use" className={styles.footerLink}>Terms of Use</a> | 
         <a href="/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
-        </footer>
-    </div>
+    </footer>
+</div>
+
   );
 };
 export default LoginWithEmail;

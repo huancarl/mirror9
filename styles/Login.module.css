@@ -1,123 +1,101 @@
-
-
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Align items to the start of the container */
+  justify-content: flex-start;
+  align-items: center;
   text-align: center;
-  gap: 10px;
+  gap: 15px;
   height: 100vh;
-  width: 100%; /* Use 100% of the width constraint set by max-width */
-  max-width: 400px; /* Adjust this value to match the width of the blue lines */
-  padding-top: 10vh; /* Add padding at the top to push everything down a bit */
-  margin-left: 21em; /* Center the container in the viewport */
-  margin-right: auto; /* Center the container in the viewport */
-
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start; /* Align items to the start, not center */
+  width: 100%;
+  max-width: 600px;
+  padding-top: 15vh;
+  margin: auto;
 }
 
-
-
-
-
 .signDiv {
-  width: 35em; /* Increased size */
-  height: 90px; /* Increased size */
+  height: 135px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto; /* Centers the button in the flex container if it has a definitive width */
-  font-size: 1.2em; /* Increase the font size if needed */
-  /* Add any additional styles for the Google button here */
+  font-size: 1.8em;
+  background-color: #ffffff; /* Temporary background color to check alignment */
+
+  width: 100%; /* Take the full width of its parent container */
+  max-width: 500px; /* You can adjust this to the maximum width you want */
+  margin: 0 auto;
 }
 
 .LogIn {
-  font-size: 2.7em;
+  font-size: 3.2em;
   color: darkred;
   font-weight: bold;
-  width: fit-content; /* This will make the width as wide as its content */
-  margin-left: 4.3em; /* These two lines will center the element */
-  margin-right: auto;
+  width: fit-content;
+  margin: 0 auto;
 }
-
-
-
-/* Existing styles */
 
 .noteText {
-  font-size: 0.3em; /* Smaller font size for the note */
-  color: #333; /* Dark grey color for better readability */
-  text-align: center; /* Center the text */
-  margin-top: 10px; /* Space between the CornellGPT sign and the note */
-  width: 80%; /* You can adjust this to control the width of the note text */
-  margin-left: 13em; /* These two margin properties will ensure */
-  margin-right: auto; /* the noteText is centered within its container */
-  max-width: 600px; /* Optional: sets a max-width for wider screens */
+  font-size: 0.30em;
+  color: #333;
+  text-align: center;
+  margin-top: 15px;
+  width: 80%;
+  margin: 0 auto;
+  max-width: 900px;
 }
 
-
 .emailLink {
-  color: #0066cc; /* Style the email link color as desired */
-  text-decoration: none; /* Remove the underline from the link if desired */
-  text-align: center;
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 0.9em;
 }
 
 .emailLink:hover {
-  text-decoration: underline; /* Add underline on hover for better user interaction */
+  text-decoration: underline;
 }
 
 .footer {
   text-align: center;
   width: 100%;
-  padding: 10px 0; /* Adjust padding as needed */
+  padding: 15px 0;
   position: absolute;
   bottom: 0;
   left: 0;
-  font-size: small;
-  /* Optional: Add background or other styling as needed */
-  color: darkred; /* This will set the default color of the text inside the footer */
+  font-size: 0.9em;
+  color: darkred;
 }
 
 .footerLink {
-  color: darkred; /* Dark red color for the link text */
-  text-decoration: none; /* Optional: removes the underline from links */
-  padding: 5px; /* Optional: adds some padding around the links for easier clicking */
-
+  color: darkred;
+  text-decoration: none;
+  padding: 7.5px;
+  font-size: 0.9em;
 }
 
 .footerLink:hover {
-  text-decoration: underline; /* Re-adds underline on hover for better user interaction */
+  text-decoration: underline;
 }
 
 .backButton {
+  font-size: 1.5em;
   position: absolute;
-  top: 10px;
-  left: 30px;
+  top: 15px;
+  left: 45px;
   background: none;
   border: none;
-  font-size: 1.5em;
   cursor: pointer;
   color: darkred;
-  /* Additional styling as needed */
 }
 
 .errorMessage {
-  color: red; /* Red text for error */
-  background-color: #ffe0e0; /* Light red background for contrast */
-  border: 1px solid red; /* Red border for emphasis */
-  padding: 10px; /* Some padding for spacing */
-  margin-top: 20px; /* Margin to separate it from other elements */
-  border-radius: 5px; /* Rounded corners for a smoother look */
+  color: red;
+  background-color: #ffe0e0;
+  border: 1.5px solid red;
+  padding: 15px;
+  margin-top: 30px;
+  border-radius: 7.5px;
   display: flex;
   align-items: center;
-  gap: 10px; /* Space between icon and text */
-  font-weight: bold; /* Make the text bold */
+  gap: 15px;
+  font-size: 0.9em;
+  font-weight: bold;
 }
-
-
-
-
-
-

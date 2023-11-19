@@ -180,7 +180,7 @@
   border-radius: 0; /* Makes the button rectangular */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   transition: all 0.3s ease; /* Smooth transition for hover effects */
-  border: 1px solid #cf4848;
+  border: 1px solid #ff0000;
   justify-content: flex-start; /* Align items to the start (left) */
   padding-left: 29px; /* Same as .sessionButton padding for alignment */
   position: relative;
