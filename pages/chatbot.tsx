@@ -37,7 +37,7 @@ import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css"; // You can choose different themes
 import { InlineMath, BlockMath } from 'react-katex';
 import hljs from 'highlight.js';
-
+import MessageLimitModal from 'components/MessageLimitModal'; 
 
 
 
@@ -75,7 +75,7 @@ export default function Home() {
   const [courseTitle, setCourseTitle] = useState<string | string[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [courseHistoryRefreshKey, setCourseHistoryRefreshKey] = useState(0);
-
+  const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
 
 
   const [firstMessageSent, setFirstMessageSent] = useState(false);
@@ -232,6 +232,11 @@ export default function Home() {
 //********************************************************************************************************* */
 
 
+  const handleCloseModal = () => {
+    setShowLimitReachedModal(false);
+    setLoading(false); // Ensure loading is also set to false if needed
+    // Any other state resets if necessary
+  };
 
   async function handleSubmit(e: any) {
 
@@ -273,6 +278,7 @@ export default function Home() {
     setQuery('');
 
     try {
+      console.log(userIDRef.current, 'current userID in chatbot');
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
@@ -288,59 +294,47 @@ export default function Home() {
       });
       const data = await response.json();
 
-      console.log(messages, 'is messages');
-      console.log(data.sourceDocs, 'is sourceDocs');
-      
-      if (data.sourceDocs) {
-        data.sourceDocs = data.sourceDocs.map(doc => {
-          if (doc.text) {
-            // Replace sequences of spaces with a single space
-            doc.text = doc.text.replace(/\s+/g, ' ').trim();
-          }
-          return doc;
-        });
+      //check if backend says the user still has messages left
+      if(data.message === 'User has exceeded their limit for messages'){
+        //update state
+        setShowLimitReachedModal(true);
+        setQuery('');
+        setLoading(false);
       }
-
-      if (data.error) {
-        setError(data.error);
-      } else {
-
-      //   setMessageState((state) => ({
-      //     ...state,
-      //     messages: [
-      //       ...state.messages,
-      //       {
-      //         type: 'apiMessage',
-      //         message: data.message,
-      //         sourceDocs: data.sourceDocs,
-      //       },
-      //     ],
-      //     history: [...state.history, [question, data.message ]],
-      //   }));
-      // }
-
-
-    if (!data.error) {
-      // Update the state to replace the last message with the actual API response
-      setMessageState(prevState => {
-        const newMessages = [ ...prevState.messages];
-        newMessages[newMessages.length] = {
-          type: 'apiMessage',
-          message: data.message,
-          sourceDocs: data.sourceDocs,
-        };
-        return {
-          ...prevState,
-          messages: newMessages,
-          history: [...prevState.history,   [question, data.message]],
-        };
-      });
-    }}
-
-      setLoading(false);
-
-      //scroll to bottom
-      messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
+      else{
+        if (data.sourceDocs) {
+          data.sourceDocs = data.sourceDocs.map(doc => {
+            if (doc.text) {
+              // Replace sequences of spaces with a single space
+              doc.text = doc.text.replace(/\s+/g, ' ').trim();
+            }
+            return doc;
+          });
+        }
+  
+        if (data.error) {
+          setError(data.error);
+        } else {
+          if (!data.error) {
+            // Update the state to replace the last message with the actual API response
+            setMessageState(prevState => {
+              const newMessages = [ ...prevState.messages];
+              newMessages[newMessages.length] = {
+                type: 'apiMessage',
+                message: data.message,
+                sourceDocs: data.sourceDocs,
+              };
+              return {
+                ...prevState,
+                messages: newMessages,
+                history: [...prevState.history,   [question, data.message]],
+              };
+            });
+          }}
+          setLoading(false);
+          //scroll to bottom
+          messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
+      }
     } catch (error) {
       setLoading(false);
       setError('An error occurred while fetching the data. Please try again.');
@@ -514,6 +508,8 @@ export default function Home() {
   // }
   return (
     <>
+    {showLimitReachedModal && 
+            <MessageLimitModal setShowLimitReachedModal={handleCloseModal} />}
     <div className="appWrapper">
   <aside> 
     {courseTitle ? 

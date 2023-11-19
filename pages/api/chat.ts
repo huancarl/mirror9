@@ -39,7 +39,6 @@ export default async function handler(
   const { question, messages, userID, sessionID, namespace} = req.body;
   const image = req.body.image;
   // const question = req.body.question;
-  console.log('Received request body:', req.body);
 
    const classMapping = {
     "INFO 2040": ["INFO 2040 Textbook"],
@@ -132,6 +131,27 @@ export default async function handler(
 
   try {
     const db = await connectToDb();
+    const userLimitCollection = db.collection('verifiedUsers');
+
+    //Get the current user and update their messagesLeft field. Detect if exceeded
+    const currUser = await userLimitCollection.findOne({userEmail: userID});
+    if (currUser) {
+      if(currUser.paid === false){
+        if(currUser.messagesLeft <= 0){
+          const limitMessage = {
+            message: 'User has exceeded their limit for messages',
+            sourceDocs: null,
+          };
+          return res.status(200).json(limitMessage);
+        }
+        else{
+          console.log(currUser.messagesLeft, 'YAHUEHFOWHEPIFHWEIHFPIWE');
+          await userLimitCollection.updateOne(
+            { userEmail: userID }, 
+            { $inc: { messagesLeft: -1 } });
+        }
+      }
+    } 
     const chatHistoryCollection = db.collection("chatHistories");
     const chatSessionCollection = db.collection('sessionIDs');
 
@@ -206,6 +226,7 @@ export default async function handler(
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
 
+    //save message to the database before displaying it
     const saveToDB = {
       userID,
       sessionID,
@@ -215,9 +236,8 @@ export default async function handler(
       timestamp : new Date()
     };
     await chatHistoryCollection.insertOne(saveToDB);
-
     const currSession = await chatSessionCollection.findOne({sessionID, userID });
-    console.log(currSession,'currSession/chat.ts');
+
     if (currSession && currSession.isEmpty === true){
       //update the document's .isEmpty field in mongodb
       await chatSessionCollection.updateOne({ sessionID }, { $set: { isEmpty: false } });
@@ -238,7 +258,7 @@ export default async function handler(
       if(sessionDate.getUTCFullYear() !== currentDate.getUTCFullYear() ||
          sessionDate.getUTCMonth() !== currentDate.getUTCMonth() ||
          sessionDate.getUTCDate() !== currentDate.getUTCDate()) {
-        // The days are different, update the name and date fields
+        // Update the last access field of the session if chatted on a different day from its date field
         const newName = getSessionName();
         await chatSessionCollection.updateOne(
           { sessionID, userID },
