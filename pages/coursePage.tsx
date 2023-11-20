@@ -67,32 +67,32 @@ function CourseCatalog() {
     setFilteredCourses(results);
   }, [searchTerm]);
 
-return (
-  <div className={styles.container}>
-    <div className={styles.referralText}>FREE REFERRAL:<a> {referralLink} </a></div>
-    <div className={styles.classInquiryContainer}>
-      <button
-  className={styles.classInquiryButton}
-  onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
->
-  ADD YOUR CLASS NOW!
-</button>
+  return (
+    <div className={styles.container}>
+      <div className={styles.referralText}>FREE REFERRAL:<a> {referralLink} </a></div>
+      <div className={styles.classInquiryContainer}>
+        <button
+    className={styles.classInquiryButton}
+    onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
+  >
+    DON'T SEE YOUR CLASS?
+  </button>
+      </div>
+      <h1 className={styles.title}>CornellGPT (FALL 23)</h1>
+      <input
+        type="text"
+        placeholder="What class would you like help with?..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className={styles.searchInput}
+      />
+      <div className={styles.courseGrid}>
+        {filteredCourses.map(course => (
+          <CourseBox key={course.key} title={course.title} professor={course.professor} />
+        ))}
+      </div>
     </div>
-    <h1 className={styles.title}>CornellGPT</h1>
-    <input
-      type="text"
-      placeholder="What class would you like help with?..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      className={styles.searchInput}
-    />
-    <div className={styles.courseGrid}>
-      {filteredCourses.map(course => (
-        <CourseBox key={course.key} title={course.title} professor={course.professor} />
-      ))}
-    </div>
-  </div>
-);
+  );
       }
 
-export default CourseCatalog;
+export default CourseCatalog;''
