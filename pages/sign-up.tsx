@@ -132,7 +132,7 @@ function AccessPage() {
 <button onClick={handleBack} className={styles.backButton}>←</button>
 {showSignInModal && (
   <div className={styles.signInModal}>
-    <p style={{ fontSize: '1.5em', fontWeight: 'bold', marginBottom: '1em' }}>Sign Up With Google</p>
+    <p style={{ fontSize: '1.5em', fontWeight: 'bold', marginBottom: '1em' }}>Continue With Google</p>
     <span className={styles.closeButton} onClick={() => setShowSignInModal(false)}>&times;</span>
     <div id="signInDiv" className={styles.googleButton}></div>
     <footer className={styles.footer}>

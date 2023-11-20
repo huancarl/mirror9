@@ -147,10 +147,10 @@
     border-radius: 50%;
     width: 1.3rem;
     height: 1.3rem;
-    animation: loadingAnimation 2s linear infinite; /* Animation uses the keyframes defined above */
+    animation: loadingAnimation 1.5s linear infinite; /* Animation uses the keyframes defined above */
 
     position: absolute;
-    right: 10px; /* Set to 10px or whatever looks best in the UI */
+    right: 15px; /* Set to 10px or whatever looks best in the UI */
     top: 35%;
 
   }

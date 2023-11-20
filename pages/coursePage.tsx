@@ -69,21 +69,19 @@ function CourseCatalog() {
 
 return (
   <div className={styles.container}>
-    <div className={styles.referralText}>REFER YOUR FRIEND:<a> {referralLink} </a></div>
+    <div className={styles.referralText}>FREE REFERRAL:<a> {referralLink} </a></div>
     <div className={styles.classInquiryContainer}>
-      <span className={styles.classInquiryText}>Don't see your class?</span>
       <button
   className={styles.classInquiryButton}
   onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
 >
-  Tell us!
+  ADD YOUR CLASS NOW!
 </button>
     </div>
     <h1 className={styles.title}>CornellGPT</h1>
-    <p className={styles.subtitle}>What class would you like help with?</p>
     <input
       type="text"
-      placeholder="Search for a course.."
+      placeholder="What class would you like help with?..."
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
       className={styles.searchInput}
