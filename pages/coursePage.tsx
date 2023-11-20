@@ -25,7 +25,7 @@ function CourseCatalog() {
         if (sessionRes.ok) {
             // Set userID to the user's email from the session
             const userID = sessionData.email;
-            let link = "https://localhost.com/?ref={";
+            let link = "https://cornellgpt.com/";
   
             let response = await fetch('/api/fetchOrCreateReferral', {
               method: 'POST',
