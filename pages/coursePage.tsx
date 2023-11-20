@@ -38,7 +38,7 @@ function CourseCatalog() {
             });
             const data = await response.json();
             if(data){
-              link = link + data.code + '}';
+              link = link + data.code;
               setReferralLink(link);
             }
         } else {
