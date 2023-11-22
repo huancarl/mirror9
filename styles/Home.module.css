@@ -480,4 +480,41 @@
 }
 
 
+.noMessages {
+  position: fixed; /* Changed from absolute to fixed to position relative to the viewport */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centers the element both horizontally and vertically */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Full width of the viewport */
+  z-index: 1500; /* Ensure it's above other elements, adjust as needed */
+}
+
+.typewriter {
+  position: fixed; /* Added fixed positioning */
+  top: 40%; /* Center vertically */
+  left: 50%; /* Center horizontally */
+  transform: translate(-50%, -50%); /* Adjust position to truly center the element */
+  font-size: 7.0rem; /* Bigger font size for typewriter */
+  color: darkred; /* Color of the text */
+  border-right: 0.2px solid #000000; /* Cursor */
+  white-space: nowrap;
+  overflow: hidden;
+  padding: 1rem;
+  z-index: 1500; /* Ensure it's above other elements, adjust as needed */
+  width: auto; /* Adjust width as necessary */
+}
+
+/* Ensure that this styling doesn't break the layout on smaller screens */
+@media (max-width: 768px) {
+  .typewriter {
+    font-size: 4rem; /* Smaller font size for mobile devices */
+  }
+}
+
+
+
+
 

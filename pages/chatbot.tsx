@@ -37,9 +37,9 @@ import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css"; // You can choose different themes
 import { InlineMath, BlockMath } from 'react-katex';
 import hljs from 'highlight.js';
-import MessageLimitModal from 'components/MessageLimitModal'; 
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+import useTypewriter from 'react-typewriter-hook'; // You need to install this package
+
+
 
 
 declare global {
@@ -51,20 +51,16 @@ export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [messageState, setMessageState] = useState<{
+const [messageState, setMessageState] = useState<{
     messages: Message[];
     pending?: string;
     history: [string, string][];
     pendingSourceDocs?: any;
-  }>({
-    messages: [
-      {
-        message: 'Hi, what would you like to learn today?',
-        type: 'apiMessage',
-      },
-    ],
+}>({
+    messages: [],
     history: [],
-  });
+});
+
   const { messages, history } = messageState;
   const [refreshKey, setRefreshKey] = useState(0);
   const messageListRef = useRef<HTMLDivElement>(null);
@@ -78,20 +74,19 @@ export default function Home() {
   const [courseHistoryRefreshKey, setCourseHistoryRefreshKey] = useState(0);
   const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
 
-  //Stripe set up
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-  const [clientSecret, setClientSecret] = useState("");
-  // const appearance = {
-  //   theme: 'stripe',
-  // };
-  const options = {
-    clientSecret,
-  };
-
 
   const [firstMessageSent, setFirstMessageSent] = useState(false);
 
 
+
+
+
+
+
+
+
+
+  
 
 
   const router = useRouter();
@@ -101,6 +96,11 @@ export default function Home() {
         setIsLoading(false); // set loading to false when course is set
     }
 }, [router.query.course]);
+
+const handleBackClick = (e) => {
+  e.preventDefault();
+  router.back();
+};
 
 
 
@@ -216,10 +216,10 @@ export default function Home() {
               sourceDocs: msg.sourceDocs || [],
             }
           ]));
-          transformedMessages.unshift({
-            type: 'apiMessage',
-            message: 'Hi, what would you like to learn today?'
-          });
+          // transformedMessages.unshift({
+          //   type: 'apiMessage',
+          //   message: 'Hi, what would you like to learn today?'
+          // });
 
           setMessageState((state) => ({
             ...state,
@@ -243,129 +243,126 @@ export default function Home() {
 //********************************************************************************************************* */
 
 
-  const handleCloseModal = () => {
-    setShowLimitReachedModal(false);
-    setLoading(false); // Ensure loading is also set to false if needed
-    // Any other state resets if necessary
-  };
 
-  useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userID: [{ id: userIDRef.current}] }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, []);
+async function handleSubmit(e: any) {
+  const namespaceToSearch: any = courseTitle;
 
+  e.preventDefault();
+  setError(null);
 
-//********************************************************************************************************* */
-
-  async function handleSubmit(e: any) {
-
-    const namespaceToSearch: any = courseTitle;
-
-    e.preventDefault();
-
-    setError(null);
-
-    if (!query) {
-      alert('Its blank! Enter a question lol');
-      return;
-    }
-
-    if (!firstMessageSent) {
-      setFirstMessageSent(true);
-    }
-    
-    const question = query.trim();
-    console.log('Sending question:', question);
-
-
-
-    setMessageState(prevState => ({
-      ...prevState,
-      messages: [
-        ...prevState.messages,
-        {
-          type: 'userMessage',
-          message: question,
-        },
-
-      ],
-    }));
-
-
-    
-    setLoading(true);
-    setQuery('');
-
-    try {
-      console.log(userIDRef.current, 'current userID in chatbot');
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          question,
-          messages,
-          userID: userIDRef.current,     
-          sessionID: sessionIDRef.current, 
-          namespace: namespaceToSearch
-        }),
-      });
-      const data = await response.json();
-
-      //check if backend says the user still has messages left
-      if(data.message === 'User has exceeded their limit for messages'){
-        //update state
-        setShowLimitReachedModal(true);
-        setQuery('');
-        setLoading(false);
-      }
-      else{
-        if (data.sourceDocs) {
-          data.sourceDocs = data.sourceDocs.map(doc => {
-            if (doc.text) {
-              // Replace sequences of spaces with a single space
-              doc.text = doc.text.replace(/\s+/g, ' ').trim();
-            }
-            return doc;
-          });
-        }
-  
-        if (data.error) {
-          setError(data.error);
-        } else {
-          if (!data.error) {
-            // Update the state to replace the last message with the actual API response
-            setMessageState(prevState => {
-              const newMessages = [ ...prevState.messages];
-              newMessages[newMessages.length] = {
-                type: 'apiMessage',
-                message: data.message,
-                sourceDocs: data.sourceDocs,
-              };
-              return {
-                ...prevState,
-                messages: newMessages,
-                history: [...prevState.history,   [question, data.message]],
-              };
-            });
-          }}
-          setLoading(false);
-          //scroll to bottom
-          messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
-      }
-    } catch (error) {
-      setLoading(false);
-      setError('An error occurred while fetching the data. Please try again.');
-    }
+  if (!query) {
+    alert('Its blank! Enter a question lol');
+    return;
   }
 
+  const isFirstMessage = messages.length === 0;
+  if (isFirstMessage) {
+    // Handle the first user message differently if needed
+    // For example, set a welcome message or trigger a specific API call
+    // If no special handling is required, you can leave this block empty
+  }
+
+  const question = query.trim();
+  console.log('Sending question:', question);
+
+  setMessageState(prevState => ({
+    ...prevState,
+    messages: [
+      ...prevState.messages,
+      {
+        type: 'userMessage',
+        message: question,
+      },
+    ],
+  }));
+
+  setLoading(true);
+  setQuery('');
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        question,
+        messages,
+        userID: userIDRef.current,
+        sessionID: sessionIDRef.current,
+        namespace: namespaceToSearch
+      }),
+    });
+    const data = await response.json();
+
+    console.log(messages, 'is messages');
+    console.log(data.sourceDocs, 'is sourceDocs');
+
+    if (data.sourceDocs) {
+      data.sourceDocs = data.sourceDocs.map(doc => {
+        if (doc.text) {
+          doc.text = doc.text.replace(/\s+/g, ' ').trim();
+        }
+        return doc;
+      });
+    }
+
+    if (data.error) {
+      setError(data.error);
+    } else {
+      if (!data.error) {
+        setMessageState(prevState => {
+          const newMessages = [...prevState.messages];
+          newMessages[newMessages.length] = {
+            type: 'apiMessage',
+            message: data.message,
+            sourceDocs: data.sourceDocs,
+          };
+          return {
+            ...prevState,
+            messages: newMessages,
+            history: [...prevState.history, [question, data.message]],
+          };
+        });
+      }
+    }
+
+    setLoading(false);
+    messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
+  } catch (error) {
+    setLoading(false);
+    setError('An error occurred while fetching the data. Please try again.');
+  }
+}
+
+
+const [magicName, setMagicName] = useState("CornellGPT");
+const [typewriterPrompts, setTypewriterPrompts] = useState<string[]>(["CornellGPT"]);
+const index = useRef(0);
+
+let typewriter = useTypewriter(magicName);
+
+// Update typewriterPrompts when courseTitle changes
+useEffect(() => {
+  // Handle both string and array types for courseTitle
+  const newTitles = Array.isArray(courseTitle) ? courseTitle : [courseTitle];
+  setTypewriterPrompts(prevPrompts => {
+    // Merge newTitles with prevPrompts, filtering out any duplicates and null values
+    const updatedPrompts = [...prevPrompts, ...newTitles].filter((title): title is string => title !== null);
+    return [...new Set(updatedPrompts)];
+  });
+}, [courseTitle]);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    index.current = index.current >= typewriterPrompts.length - 1 ? 0 : index.current + 1;
+    setMagicName(typewriterPrompts[index.current]);
+  }, 3000); // Rotate message every 5 seconds
+
+  return () => clearInterval(interval);
+}, [typewriterPrompts]);
+
+// ... rest of your component
 
 
 
@@ -483,25 +480,7 @@ export default function Home() {
   // }
 
 
-  function renderHeader() {
-    if (!hasUserMessages) {
-      // If no user messages, return the centered title
-      return (
-        <div className="centeredTitle">
-          <h1>CornellGPT: {courseTitle}</h1>
-        </div>
-      );
-    } else {
-      // If there are user messages, return the header section
-      return (
-        <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>
-          <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
-            CornellGPT: <span className={styles.selectedClassName}>{courseTitle}</span>
-          </h1>
-        </div>
-      );
-    }
-  }
+
   
 
   
@@ -533,11 +512,6 @@ export default function Home() {
   // }
   return (
     <>
-    {clientSecret && showLimitReachedModal && (
-        <Elements options={options} stripe={stripePromise}>
-          <MessageLimitModal setShowLimitReachedModal={handleCloseModal} clientS={clientSecret}/>
-        </Elements>
-      )}
     <div className="appWrapper">
   <aside> 
     {courseTitle ? 
@@ -548,10 +522,19 @@ export default function Home() {
     <div className="mx-auto flex flex-col gap-4">
     <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>  
         <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
-          <span className={styles.selectedClassName}>{courseTitle}</span>
+        {messages.length > 0 && (
+                <span className={styles.selectedClassName}>{courseTitle}</span>
+              )}
         </h1>
       </div>
           <main className={styles.main}>
+          {messages.length === 0 && (
+                <div className={styles.typewriterContainer}>
+                  <div className={styles.typewriter}>
+                    {typewriter}
+                  </div>
+                </div>
+              )}
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
 

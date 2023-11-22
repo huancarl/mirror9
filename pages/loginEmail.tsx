@@ -84,8 +84,7 @@ const LoginWithEmail: React.FC = () => {
         
         <div className={styles.noteText}>
             You must sign up with a referral link before logging in.
-            If faced with an unexpected error please contact us at:
-            <a href="mailto:cornellgpt@gmail.com" className={styles.emailLink}> cornellgpt@gmail.com</a>
+
         </div>
     </div>
     <div id="signInDiv" className={styles.signDiv}></div> {/* This div will be replaced with the Google button */}

@@ -78,7 +78,7 @@ function CourseCatalog() {
     DON'T SEE YOUR CLASS?
   </button>
       </div>
-      <h1 className={styles.title}>CornellGPT (FALL 23)</h1>
+      <h1 className={styles.title}>CornellGPT FA23</h1>
       <input
         type="text"
         placeholder="What class would you like help with?..."

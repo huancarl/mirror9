@@ -155,7 +155,7 @@ function AccessPage() {
     <div className={styles.refForm}> 
   <input
     type="text"
-    placeholder="https://"
+    placeholder="c9f746ae-b248-4850-8614-7cbbdf3faegc"
     value={inputValue}
     onChange={handleInputChange}
     className={`${styles.inputField} ${isValid ? styles.valid : isValid === false ? styles.invalid : ''}`}
