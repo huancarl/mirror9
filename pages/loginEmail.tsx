@@ -69,10 +69,6 @@ const LoginWithEmail: React.FC = () => {
       router.replace('/coursePage');
     } else {
       setShowErrorMessage(true);
-      setTimeout(() => {
-        setShowErrorMessage(false);
-        router.push('/');
-      }, 4000);
     }
   };
 

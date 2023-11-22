@@ -38,7 +38,8 @@ import "prismjs/themes/prism-tomorrow.css"; // You can choose different themes
 import { InlineMath, BlockMath } from 'react-katex';
 import hljs from 'highlight.js';
 import MessageLimitModal from 'components/MessageLimitModal'; 
-
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 
 declare global {
@@ -76,6 +77,16 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
   const [courseHistoryRefreshKey, setCourseHistoryRefreshKey] = useState(0);
   const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
+
+  //Stripe set up
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+  const [clientSecret, setClientSecret] = useState("");
+  // const appearance = {
+  //   theme: 'stripe',
+  // };
+  const options = {
+    clientSecret,
+  };
 
 
   const [firstMessageSent, setFirstMessageSent] = useState(false);
@@ -237,6 +248,20 @@ export default function Home() {
     setLoading(false); // Ensure loading is also set to false if needed
     // Any other state resets if necessary
   };
+
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userID: [{ id: userIDRef.current}] }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, []);
+
+
+//********************************************************************************************************* */
 
   async function handleSubmit(e: any) {
 
@@ -508,8 +533,11 @@ export default function Home() {
   // }
   return (
     <>
-    {showLimitReachedModal && 
-            <MessageLimitModal setShowLimitReachedModal={handleCloseModal} />}
+    {clientSecret && showLimitReachedModal && (
+        <Elements options={options} stripe={stripePromise}>
+          <MessageLimitModal setShowLimitReachedModal={handleCloseModal} clientS={clientSecret}/>
+        </Elements>
+      )}
     <div className="appWrapper">
   <aside> 
     {courseTitle ? 

@@ -34,7 +34,7 @@ async function loginHandler(req, res) {
                 res.status(200).json({ success: true, message: "User is valid.", email: userEmail });
             } else {
                 // User does not have a valid subscription
-                res.status(403).json({ success: false, message: "User is not valid.", email: '' });
+                res.status(200).json({ success: false, message: "User is not valid.", email: '' });
             }
         } else {
             res.status(500).json({ success: false, error: 'User payload was empty', email: '' });

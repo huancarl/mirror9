@@ -1,120 +1,125 @@
-.modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1000;
-    width: 90%;
-    max-width: 35rem; /* Set a max-width to maintain form proportions */
-    background: #fff;
-    padding: 2rem;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-  }
-  
-  .modal-body {
-    display: flex;
-    flex-direction: column; /* Stack vertically on small screens */
-  }
-
-  /* Styles for the content inside the modal */
-  .modalContent {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Semi-transparent backdrop to cover the rest of the content */
-  .modalBackdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-  }
-  
-  /* Stripe element styles */
-  .StripeElement {
-    margin-bottom: 1.25rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 0.25rem;
-    background-color: white;
-  }
-  
-  /* Styles for form labels and input fields to match the template */
-  .formLabel {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #333;
-    font-size: 1rem;
-  }
-  
-  .inputField {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    margin-bottom: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  }
-  
-  /* Button styling */
-  .button {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    margin-top: 1rem;
-    border: none;
-    border-radius: 0.25rem;
-    background-color: #22ab66; /* Example primary color */
-    color: white;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #1d9a58; /* Darken the button on hover */
-  }
-  
-  .close-button {
-    color: #aaa;
-    margin-left: auto; /* Align to the right */
-    font-size: 1.75rem; /* 28px equivalent */
-    font-weight: bold;
-  }
-  
-  .close-button:hover,
-  .close-button:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  .modal-message,
-    .modal-payment {
-    flex: 1; /* Each take up half the width of the modal-body */
-    padding: 0.625rem; /* 10px equivalent */
+  .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+      width: 90%;
+      max-width: 35rem; /* Set a max-width to maintain form proportions */
+      background: #fff;
+      padding: 2rem;
+      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+      border-radius: 0.5rem;
+      display: flex;
+      flex-direction: row; /* Align children side by side */
+      justify-content: center;
+      align-items: stretch;
+    }
+    
+    .modal-body {
+      width: 100%; /* Fill the modal */
+      display: flex;
+      flex-direction: row; /* Stack children side by side */
     }
 
-.modal-payment {
-  border-left: 0.0625rem solid #ccc; /* 1px equivalent */
-}
+    /* Styles for the content inside the modal */
+    .modalContent {
+      display: flex;
+      flex-direction: row; /* Align children side by side */
+      justify-content: space-between; /* Add space between the children */
+      align-items: start; /* Align children to the start of the cross axis */
+      padding: 1em; /* Add padding around the content */
+    }
+    
+    /* Semi-transparent backdrop to cover the rest of the content */
+    .modalBackdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+    
+    /* Stripe element styles */
+    .StripeElement {
+      margin-bottom: 1.25rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 0.25rem;
+      background-color: white;
+    }
+    
+    /* Styles for form labels and input fields to match the template */
+    .formLabel {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #333;
+      font-size: 1rem;
+    }
+    
+    .inputField {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 0.25rem;
+      font-size: 1rem;
+      box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    }
+    
+    /* Button styling */
+    .button {
+      display: block;
+      width: 50%;
+      padding: 1rem;
+      margin-top: 1rem;
+      border: none;
+      border-radius: 0.25rem;
+      background-color: #22ab66; /* Example primary color */
+      color: white;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    
+    .button:hover {
+      background-color: #1d9a58; /* Darken the button on hover */
+    }
+    
+    .close-button {
+      color: #aaa;
+      margin-left: auto; /* Align to the right */
+      font-size: 1.75rem; /* 28px equivalent */
+      font-weight: bold;
+    }
+    
+    .close-button:hover,
+    .close-button:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
 
-  /* Responsive design breakpoints */
-  @media (min-width: 768px) {
-    .modal {
-      width: 50%; /* Larger width for larger screens */
+    .modalMessage,
+      .modalPayment {
+          flex: 1; /* Give both sides equal width */
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin: 0.5em; /* Add some space around each child */
+      }
+
+    /* Responsive design breakpoints */
+    @media (min-width: 768px) {
+      .modal {
+        width: 50%; /* Larger width for larger screens */
+      }
     }
-  }
-  
-  @media (min-width: 1024px) {
-    .modal {
-      width: 40%; /* Larger width for larger screens */
+    
+    @media (min-width: 1024px) {
+      .modal {
+        width: 40%; /* Larger width for larger screens */
+      }
     }
-  }
