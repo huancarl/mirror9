@@ -39,7 +39,9 @@ import { InlineMath, BlockMath } from 'react-katex';
 import hljs from 'highlight.js';
 import useTypewriter from 'react-typewriter-hook'; // You need to install this package
 
-
+import MessageLimitModal from 'components/MessageLimitModal'; 
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 
 declare global {
@@ -74,20 +76,17 @@ const [messageState, setMessageState] = useState<{
   const [courseHistoryRefreshKey, setCourseHistoryRefreshKey] = useState(0);
   const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
 
-
   const [firstMessageSent, setFirstMessageSent] = useState(false);
 
-
-
-
-
-
-
-
-
-
-  
-
+  //Stripe set up
+  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+  const [clientSecret, setClientSecret] = useState("");
+  // const appearance = {
+  //   theme: 'stripe',
+  // };
+  const options = {
+    clientSecret,
+  };
 
   const router = useRouter();
   useEffect(() => {
@@ -242,7 +241,23 @@ const handleBackClick = (e) => {
 
 //********************************************************************************************************* */
 
+const handleCloseModal = () => {
+  setShowLimitReachedModal(false);
+  setLoading(false); // Ensure loading is also set to false if needed
+  // Any other state resets if necessary
+};
 
+useEffect(() => {
+  fetch("/api/create-setup-intent", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userID: [{ id: userIDRef.current }] }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      setClientSecret(data.clientSecret);
+    });
+}, []);
 
 async function handleSubmit(e: any) {
   const namespaceToSearch: any = courseTitle;
@@ -295,40 +310,46 @@ async function handleSubmit(e: any) {
     });
     const data = await response.json();
 
-    console.log(messages, 'is messages');
-    console.log(data.sourceDocs, 'is sourceDocs');
-
-    if (data.sourceDocs) {
-      data.sourceDocs = data.sourceDocs.map(doc => {
-        if (doc.text) {
-          doc.text = doc.text.replace(/\s+/g, ' ').trim();
-        }
-        return doc;
-      });
+    if(data.message === 'User has exceeded their limit for messages'){
+      //update state
+      setShowLimitReachedModal(true);
+      setQuery('');
+      setLoading(false);
     }
-
-    if (data.error) {
-      setError(data.error);
-    } else {
-      if (!data.error) {
-        setMessageState(prevState => {
-          const newMessages = [...prevState.messages];
-          newMessages[newMessages.length] = {
-            type: 'apiMessage',
-            message: data.message,
-            sourceDocs: data.sourceDocs,
-          };
-          return {
-            ...prevState,
-            messages: newMessages,
-            history: [...prevState.history, [question, data.message]],
-          };
+    else{
+      if (data.sourceDocs) {
+        data.sourceDocs = data.sourceDocs.map(doc => {
+          if (doc.text) {
+            // Replace sequences of spaces with a single space
+            doc.text = doc.text.replace(/\s+/g, ' ').trim();
+          }
+          return doc;
         });
       }
-    }
 
-    setLoading(false);
-    messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
+      if (data.error) {
+        setError(data.error);
+      } else {
+        if (!data.error) {
+          // Update the state to replace the last message with the actual API response
+          setMessageState(prevState => {
+            const newMessages = [ ...prevState.messages];
+            newMessages[newMessages.length] = {
+              type: 'apiMessage',
+              message: data.message,
+              sourceDocs: data.sourceDocs,
+            };
+            return {
+              ...prevState,
+              messages: newMessages,
+              history: [...prevState.history,   [question, data.message]],
+            };
+          });
+        }}
+        setLoading(false);
+        //scroll to bottom
+        messageListRef.current?.scrollTo(0, messageListRef.current.scrollHeight);
+    }
   } catch (error) {
     setLoading(false);
     setError('An error occurred while fetching the data. Please try again.');
@@ -512,6 +533,11 @@ useEffect(() => {
   // }
   return (
     <>
+    {clientSecret && showLimitReachedModal && (
+        <Elements stripe={stripePromise} options={ options }>
+          <MessageLimitModal setShowLimitReachedModal={handleCloseModal} clientS={clientSecret}/>
+        </Elements>
+      )}
     <div className="appWrapper">
   <aside> 
     {courseTitle ? 

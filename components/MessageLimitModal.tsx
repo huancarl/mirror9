@@ -6,115 +6,75 @@ import {
   } from "@stripe/react-stripe-js";
 import styles from '@/styles/MessageLimitModal.module.css';
 
-const MessageLimitModal = ({ setShowLimitReachedModal, clientS }) => {
+const MessageLimitModal = ({ setShowLimitReachedModal, clientS}) => {
     
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const [clientSecret, setClientSecret] = useState("");
   const [userID, setUserID] = useState(null);
-  const fetchUserInfo = async () => {
-    try {
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
         const response = await fetch('/api/userInfo');
         const data = await response.json();
         if (data.email) {
-            return data.email;
+          setUserID(data.email);
         } else {
-            console.error('User info not found');
-            return null;
+          console.error('User info not found');
         }
-    } catch (error) {
+      } catch (error) {
         console.error('Error fetching user info:', error);
-        return null;
-    }
-  };
-  useEffect(() => {
-    const getUserInfo = async () => {
-        const userEmail = await fetchUserInfo();
-        setUserID(userEmail); // Set the userID state with the fetched email on mount
+      }
     };
-    getUserInfo();
+    fetchUserInfo();
   }, []);
 
-  const updateUserInfo = async (paymentDetails) => {
-    try {
-      const response = await fetch('/api/updateUserSubStatus', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userID: userID, // Replace with actual user ID
-          paymentDetails, // This should include any relevant payment details
-        }),
-      });
-      const data = await response.json();
-      console.log(data.message); // 'User updated successfully'
-    } catch (error) {
-      console.error('Failed to update user:', error);
-    }
-  };
-
-
-useEffect(() => {
-    if (!stripe) {
-      return;
-    }
-
-    const clientSecret = clientS;
-
-    if (!clientSecret) {
-      return;
-    }
-
-    stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-        if (paymentIntent) {
-            switch (paymentIntent.status) {
-                case "succeeded":
-                  setMessage("Payment succeeded!");
-                  break;
-                case "processing":
-                  setMessage("Your payment is processing.");
-                  break;
-              }
-        }
-    });
-  }, [stripe]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true);
+  
     if (!stripe || !elements) {
-      // Stripe.js hasn't yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
+      console.log("Stripe.js has not loaded yet.");
+      setIsLoading(false);
       return;
     }
-
-    setIsLoading(true);
-
-    const { error } = await stripe.confirmPayment({
+  
+    const { error } = await stripe.confirmSetup({
       elements,
       confirmParams: {
-        // Make sure to change this to your payment completion page
         return_url: "http://localhost:3000/chatbot",
       },
     });
-
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
+  
     if (error) {
-        setMessage(error.message || "An error occurred.");
-    } 
-    setIsLoading(false);
-
-    };
-
-  const paymentElementOptions = {
-    layout: "tabs",
+      setMessage(error.message || "An error occurred.");
+      setIsLoading(false);
+    } else {
+      // Call API to create subscription here
+      try {
+        const response = await fetch('/api/create-subscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: userID }),
+        });
+  
+        const subscriptionData = await response.json();
+        if (response.ok) {
+          setMessage("Subscription successful!");
+          // Additional success handling
+        } else {
+          throw new Error(subscriptionData.message || "Subscription failed.");
+        }
+      } catch (err) {
+        setMessage("Error");
+        console.error('Subscription error:', err);
+      }
+      setIsLoading(false);
+    }
   };
       
       return (
@@ -125,15 +85,17 @@ useEffect(() => {
               {/* Stripe UI on the left */}
                 <div className={styles.modalPayment}>
                 <h2> For only $9.99 a month get unlimited messages for CornellGPT</h2>
-                <form id="payment-form" onSubmit={handleSubmit}>
+
+                  <form id="payment-form" onSubmit={handleSubmit}>
                     <PaymentElement id="payment-element" />
                     <button disabled={isLoading || !stripe || !elements} id="submit">
-                    <span id="button-text">
+                      <span id="button-text">
                         {isLoading ? <div className="spinner" id="spinner"></div> : "Subscribe"}
-                    </span>
+                      </span>
                     </button>
                     {message && <div id="payment-message">{message}</div>}
-                </form>
+                  </form>
+
                 </div>
 
                 {/* Message on the right */}
