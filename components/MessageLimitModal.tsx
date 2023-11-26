@@ -77,39 +77,46 @@ const MessageLimitModal = ({ setShowLimitReachedModal, clientS}) => {
     }
   };
       
-      return (
-        <>
-        <div className={styles.modalBackdrop} onClick={() => setShowLimitReachedModal(false)} />
-          <div className={styles.modal}>
-            <div className={styles.modalContent}>
-              {/* Stripe UI on the left */}
-                <div className={styles.modalPayment}>
-                <h2> For only $9.99 a month get unlimited messages for CornellGPT</h2>
+  return (
+<>
+  <div className={styles.modalBackdrop} onClick={() => setShowLimitReachedModal(false)} />
+  <div className={styles.modal}>
+    <div className={styles.modalLeft}>
+      <div className={styles.modalPayment}>
+        <h2 className={styles.priceHeader}>$9.99/month UNLIMITED messages</h2>
+        <form id="payment-form" onSubmit={handleSubmit}>
+          <PaymentElement id="payment-element" />
+          <button
+            disabled={isLoading || !stripe || !elements}
+            id="submit"
+            className={isLoading ? styles.spinner : styles.subscribeButton}
+          >
+            {isLoading ? <div className={styles.spinner}></div> : "Subscribe"}
+          </button>
+          {message && <div id="payment-message">{message}</div>}
+        </form>
+      </div>
+    </div>
+    <div className={styles.divider}></div>
+    <div className={styles.modalRight}>
+      <h1 className={styles.freeHeader}>FREE</h1>
+      <div className={styles.modalMessage}>
+        <h2>Upload your materials to CornellGPT</h2>
+        <p>We will verify it and grant you additional messages for FREE.</p>
+        <button
+          className={styles.purpleButton}
+          onClick={() => {
+            window.open('https://docs.google.com/forms/d/e/1FAIpQLSezI8BOql8DGhvICuH2Rzyp9PYf4MO0vN6pgbCpx3B0S8NzxA/viewform?usp=sf_link', '_blank', 'noopener,noreferrer');
+          }}
+        >
+          Upload
+        </button>
+      </div>
+    </div>
+  </div>
+</>
 
-                  <form id="payment-form" onSubmit={handleSubmit}>
-                    <PaymentElement id="payment-element" />
-                    <button disabled={isLoading || !stripe || !elements} id="submit">
-                      <span id="button-text">
-                        {isLoading ? <div className="spinner" id="spinner"></div> : "Subscribe"}
-                      </span>
-                    </button>
-                    {message && <div id="payment-message">{message}</div>}
-                  </form>
-
-                </div>
-
-                {/* Message on the right */}
-                <div className={styles.modalMessage}>
-                <h2>Message Limit Reached.</h2>
-                <h2>Upload Your Materials to CornellGPT</h2>
-                <p>We will verify it and grant you unlimited acess for FREE.</p>
-                <button className={styles.button} onClick={() => setShowLimitReachedModal(false)}>Close</button>
-                </div>
-            </div>
-          </div>
-
-        </>
-    );
+  );
 };
 
 export default MessageLimitModal;

@@ -321,7 +321,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
                 </button>
                 <button className={styles.bottomButton}>
                   <img src="/logout.png" alt="Log Out" className={styles.logoutIcon} />
-                  <span className={styles.logoutText}>Log Out</span>
+                  <span className={styles.logoutText}>Profile</span>
                 </button>
             </div>
         </div>

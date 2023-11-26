@@ -69,7 +69,7 @@
   font-size: 1.1rem;
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 0.0625em solid #d9d9e3;
+  border: 0.0625em solid #ffd4d4;
   color: #000;
   outline: none;
   flex-grow: 1; /* Allow textarea to fill the space */
@@ -495,7 +495,7 @@
 .typewriter {
   position: fixed; /* Added fixed positioning */
   top: 40%; /* Center vertically */
-  left: 50%; /* Center horizontally */
+  left: 55%; /* Center horizontally */
   transform: translate(-50%, -50%); /* Adjust position to truly center the element */
   font-size: 7.0rem; /* Bigger font size for typewriter */
   color: darkred; /* Color of the text */

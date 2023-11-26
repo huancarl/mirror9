@@ -6,6 +6,7 @@ import { Typewriter } from './typewriter';
 
 
 
+
 export function messageContainsMath(message) {
   const latexPatterns = [
     /\$\$[\s\S]+?\$\$/,   // Extended display math
@@ -66,18 +67,27 @@ export function splitMessageIntoSegments(message) {
 
 
   
-export function MathComponent({ latex }) {
+  export function MathComponent({ latex }) {
     const mathRef = useRef(null);
   
     useEffect(() => {
-      if (window.katex && mathRef.current) {
-        console.log("Rendering LaTeX: ", latex);
-        window.katex.render(latex, mathRef.current);
+      try {
+        if (window.katex && mathRef.current) {
+          console.log("Rendering LaTeX: ", latex);
+          window.katex.render(latex, mathRef.current, {
+            throwOnError: false // This will render the raw string on error instead of throwing an exception
+          });
+        } else {
+          console.warn("KaTeX not loaded or ref not available");
+        }
+      } catch (error) {
+        console.error("Error rendering LaTeX: ", error);
       }
     }, [latex]);
   
     return <span ref={mathRef} />;
   }
+  
   
 
 

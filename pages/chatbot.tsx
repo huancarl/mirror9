@@ -270,6 +270,8 @@ async function handleSubmit(e: any) {
     return;
   }
 
+  
+
   const isFirstMessage = messages.length === 0;
   if (isFirstMessage) {
     // Handle the first user message differently if needed

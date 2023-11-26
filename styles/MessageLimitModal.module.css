@@ -1,125 +1,124 @@
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  width: 90%;
+  max-width: 800px;
+  background: #fff;
+  padding: 2rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  align-items: center;
+}
+
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.StripeElement {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  background-color: white;
+}
+
+.modalLeft {
+  padding-right: 1em;
+}
+
+.modalRight {
+  padding-left: 1em;
+}
+
+.freeHeader {
+  text-align: center;
+  font-size: 3rem; /* Adjust the size as needed */
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.divider {
+  background-color: black; /* Changed from #ccc to black */
+  width: 1px; /* Changed from 10px to make it a thin line */
+  height: 100%; /* Make sure it stretches */
+}
+
+.modalPayment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.modalMessage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.purpleButton {
+  background-color: #800080; /* Purple color */
+  border: none;
+  border-radius: 0.25rem;
+  color: white;
+  padding: 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.purpleButton:hover {
+  background-color: #6a005a;
+}
+
+.priceHeader {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.subscribeButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  margin: 1rem auto; /* Center button */
+  display: block;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  padding: 0.75rem 5rem; /* Increased horizontal padding */
+  width: auto; /* You can set a specific width if needed */
+}
+
+.subscribeButton:hover {
+  background-color: #0069d9;
+}
+
+/* Responsive design breakpoints */
+@media (min-width: 768px) {
   .modal {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1000;
-      width: 90%;
-      max-width: 35rem; /* Set a max-width to maintain form proportions */
-      background: #fff;
-      padding: 2rem;
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-      border-radius: 0.5rem;
-      display: flex;
-      flex-direction: row; /* Align children side by side */
-      justify-content: center;
-      align-items: stretch;
-    }
-    
-    .modal-body {
-      width: 100%; /* Fill the modal */
-      display: flex;
-      flex-direction: row; /* Stack children side by side */
-    }
+      width: 70%;
+  }
+}
 
-    /* Styles for the content inside the modal */
-    .modalContent {
-      display: flex;
-      flex-direction: row; /* Align children side by side */
-      justify-content: space-between; /* Add space between the children */
-      align-items: start; /* Align children to the start of the cross axis */
-      padding: 1em; /* Add padding around the content */
-    }
-    
-    /* Semi-transparent backdrop to cover the rest of the content */
-    .modalBackdrop {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-    }
-    
-    /* Stripe element styles */
-    .StripeElement {
-      margin-bottom: 1.25rem;
-      padding: 0.75rem 1rem;
-      border: 1px solid #ccc;
-      border-radius: 0.25rem;
-      background-color: white;
-    }
-    
-    /* Styles for form labels and input fields to match the template */
-    .formLabel {
-      display: block;
-      margin-bottom: 0.5rem;
-      color: #333;
-      font-size: 1rem;
-    }
-    
-    .inputField {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ddd;
-      border-radius: 0.25rem;
-      font-size: 1rem;
-      box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    }
-    
-    /* Button styling */
-    .button {
-      display: block;
+@media (min-width: 1024px) {
+  .modal {
       width: 50%;
-      padding: 1rem;
-      margin-top: 1rem;
-      border: none;
-      border-radius: 0.25rem;
-      background-color: #22ab66; /* Example primary color */
-      color: white;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    
-    .button:hover {
-      background-color: #1d9a58; /* Darken the button on hover */
-    }
-    
-    .close-button {
-      color: #aaa;
-      margin-left: auto; /* Align to the right */
-      font-size: 1.75rem; /* 28px equivalent */
-      font-weight: bold;
-    }
-    
-    .close-button:hover,
-    .close-button:focus {
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .modalMessage,
-      .modalPayment {
-          flex: 1; /* Give both sides equal width */
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          margin: 0.5em; /* Add some space around each child */
-      }
-
-    /* Responsive design breakpoints */
-    @media (min-width: 768px) {
-      .modal {
-        width: 50%; /* Larger width for larger screens */
-      }
-    }
-    
-    @media (min-width: 1024px) {
-      .modal {
-        width: 40%; /* Larger width for larger screens */
-      }
-    }
+  }
+}
