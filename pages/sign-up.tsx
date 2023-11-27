@@ -14,6 +14,16 @@ function AccessPage() {
 
   const handleCredentialResponse = async (response) => {
 
+
+    const decodedToken = JSON.parse(atob(response.credential.split('.')[1]));
+    const email = decodedToken.email;
+  
+    // Check if the email contains the '@cornell.edu' domain
+    if (!email.endsWith('@cornell.edu')) {
+      alert('Please sign in with your Cornell email.');
+      return;
+    }
+
     const result = await fetch('/api/addNewUser', {
       method: 'POST',
       headers: {
@@ -133,6 +143,7 @@ function AccessPage() {
 {showSignInModal && (
   <div className={styles.signInModal}>
     <p style={{ fontSize: '1.5em', fontWeight: 'bold', marginBottom: '1em' }}>Continue With Google</p>
+    <p style={{ fontSize: '1em', marginBottom: '1em', color:"black" }}>**You must use your Cornell email**</p>
     <span className={styles.closeButton} onClick={() => setShowSignInModal(false)}>&times;</span>
     <div id="signInDiv" className={styles.googleButton}></div>
     <footer className={styles.footer}>

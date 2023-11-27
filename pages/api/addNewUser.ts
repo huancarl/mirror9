@@ -10,26 +10,30 @@ async function addNewUserHandler(req, res) {
         return;
     }
 
-    try{
+    try {
         const { token, link } = req.body;
         const ticket = await client.verifyIdToken({
-        idToken: token,
-        audience: "143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com",
+            idToken: token,
+            audience: "143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com",
         });
         const payload = ticket.getPayload();
 
-        if(payload){
-            const db = await connectToDb();
+        if (payload && payload.email) {
             const userEmail = payload.email;
 
-            //check if user is already valid
-            const referrals = db.collection('referrals');
+            // Check if the email is a Cornell email
+            if (!userEmail.endsWith('@cornell.edu')) {
+                return res.status(400).json({ created: false, message: 'You must use your Cornell email (@cornell.edu)' });
+            }
+
+            const db = await connectToDb();
+
+            // Check if user is already registered
             const userCollection = db.collection('verifiedUsers');
+            const checkIfUserExistsAlready = await userCollection.findOne({ userEmail });
 
-            const checkIfUserExistsAlready = await userCollection.findOne({ userEmail});
-
-            if(!checkIfUserExistsAlready){
-                //if user is not 
+            if (!checkIfUserExistsAlready) {
+                // If user is not registered, insert a new document
                 await userCollection.insertOne({
                     userEmail: userEmail,
                     messagesLeft: 10,
@@ -37,25 +41,28 @@ async function addNewUserHandler(req, res) {
                     dateCreated: new Date(),
                 });
 
-                //make referral obsolete 
+                // Make the referral link obsolete
+                const referrals = db.collection('referrals');
                 await referrals.updateOne(
-                    {code: link},
-                    {$set: {valid: false}}
+                    { code: link },
+                    { $set: { valid: false } }
                 );
+
                 req.session.set('user', { email: userEmail });
                 await req.session.save();
 
-                return res.status(200).json({ created: true, message: 'Success'});
+                return res.status(200).json({ created: true, message: 'Success' });
+            } else {
+                // User is already registered
+                return res.status(200).json({ created: false, message: 'Email already in use' });
             }
-            else{
-                return res.status(200).json({ created: false, message:'Email already in use'});
-            }
+        } else {
+            // Token payload is not retrieved
+            return res.status(200).json({ created: false, message: 'Invalid token' });
         }
-        else{
-            return res.status(200).json({ created: false, message:'Error with email'});
-        }
-    } catch(e) {
-        return res.status(500).json({ error: 'Failed to create an account' });
+    } catch (e) {
+        console.error(e); // Always good to log the error
+        return res.status(500).json({ error: 'Failed to create an account', details: onmessage });
     }
 }
 
