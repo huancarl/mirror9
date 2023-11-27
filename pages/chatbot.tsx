@@ -281,6 +281,7 @@ async function handleSubmit(e: any) {
 
   const question = query.trim();
   console.log('Sending question:', question);
+  console.log(messageState.messages, 'message state');
 
   setMessageState(prevState => ({
     ...prevState,
@@ -304,10 +305,10 @@ async function handleSubmit(e: any) {
       },
       body: JSON.stringify({
         question,
-        messages,
+        messages: messageState.messages,
         userID: userIDRef.current,
         sessionID: sessionIDRef.current,
-        namespace: namespaceToSearch
+        namespace: namespaceToSearch,
       }),
     });
     const data = await response.json();

@@ -1,5 +1,13 @@
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { OpenAIChat } from "langchain/llms/openai";
+import {
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+    ChatPromptTemplate,
+    MessagesPlaceholder
+} from 'langchain/prompts'
+import { BufferMemory, ChatMessageHistory,} from "langchain/memory";
+import { ConversationChain } from "langchain/chains";
 
 class RateLimiter {
     private static requestCount = 0;
@@ -413,8 +421,6 @@ export class CustomQAChain {
         Always give long, full, accurate, specific, detailed, and helpful answers to the questions.
         Always understand in detail and clarity what the question is asking you.
         (You have the ability to speak every language)
-
-        The user's question/query is as follows: ${question}.
        
         Contextual Understanding:
         - The class contents that you have access which are all apart of the class ${namespaceToFilter} are as follows: ${this.namespaces}.
@@ -432,8 +438,8 @@ export class CustomQAChain {
         - If the user asks something about the class you do not have access to, then state that you do not have access to that specifically yet.
         - If information is not elaborated upon in the course materials simply state the information as is, never make assumptions from the course materials.
 
-        Chat History:
-        - You have access to the entire conversations with user. Do not forget prior messages. Chat History (from oldest to most recent messages): ${chat_history}. 
+        {chat_history}:
+        - You have access to the entire conversations with user. Do not forget prior messages. Chat History (from oldest to most recent messages). 
         - You must understand that chat history is broken up by the user's messages and your very own answers. Understand this as you interpret chat history.
         - You must assess whether a question be a continuation of the conversation or entirely new. 
             - If the question is continuation of the conversation, then assume the context to be continued as you develop your answers.
@@ -476,22 +482,49 @@ export class CustomQAChain {
         9. You must put citations in parenthesis throughout the response. Do not put them at the end.
         `;
 
-       
+        const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
+            SystemMessagePromptTemplate.fromTemplate(prompt),
+            new MessagesPlaceholder('chat_history'),
+            HumanMessagePromptTemplate.fromTemplate('{query}'),
+          ]);
+        
+        const history = new BufferMemory({ returnMessages: true, memoryKey: 'chat_history' });
+        for (let i = 0; i < chat_history.length; i += 2) {
+            console.log(chat_history[i], 'checking');
+            console.log(chat_history[i+1]);
+            history.saveContext([chat_history[i]], [chat_history[i+1]]);
+        }
+        
+        const chain = new ConversationChain({
+            memory: history,
+            prompt: reportsPrompt,
+            llm: this.model,
+            verbose: true,
+        });
 
-let response = await this.retryRequest(async () => {
-    return await this.model.predict(prompt);
-});
-if (typeof response === 'undefined') {
-    throw new Error("Failed to get a response from the model.");
-}
+          const prediction = await chain.call({
+            query:question,
+          });
 
-response = this.sanitizeResponse(response);
+        let response = await this.retryRequest(async () => {
+            return await this.model.predict(prompt);
+        });
+        if (typeof response === 'undefined') {
+            throw new Error("Failed to get a response from the model.");
+        }
+
+        response = this.sanitizeResponse(response);
+
+        if (typeof prediction.response === 'string') {
+            response = prediction.response;
+        } else {
+            throw new Error("Response Error.");
+        }
+
+        this.chatHistoryBuffer.addMessage(`Question: ${question}`);
 
 
-this.chatHistoryBuffer.addMessage(`Question: ${question}`);
-
-
-console.log(prompt.length, 'length of prompt');
+        console.log(prompt.length, 'length of prompt');
 
 
 // remove the following line because `response` is already sanitized and added to the chat history

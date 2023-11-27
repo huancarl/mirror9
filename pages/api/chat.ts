@@ -38,7 +38,8 @@ export default async function handler(
 
   const { question, messages, userID, sessionID, namespace} = req.body;
   const image = req.body.image;
-  // const question = req.body.question;
+  
+  console.log(messages, 'history received on chat.ts');
 
    const classMapping = {
     "INFO 2040": ["INFO 2040 Textbook"],
@@ -68,8 +69,6 @@ export default async function handler(
       
       Available Search Documents = ${classMapping[namespaceToSearch]}
       Context of the class = ${namespaceToSearch}
-      Chat History = ${chat_history}
-      Query = ${question}
   
       - Always respond like: "Searching(' ')..." or "Searching ..." Never deviate from this format.
   
@@ -161,9 +160,9 @@ export default async function handler(
       cache: true,
   });
 
-    const processedMessages = messages.map((messageObject: { message: any; }) => messageObject.message);
+    // const processedMessages = messages.map((messageObject: { message: any; }) => messageObject.message);
 
-    const fewShotPrompt = createPrompt(namespace, processedMessages);
+    const fewShotPrompt = createPrompt(namespace, messages);
 
     const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
       SystemMessagePromptTemplate.fromTemplate(fewShotPrompt),
@@ -218,7 +217,7 @@ export default async function handler(
   
     const results = await qaChain.call({
       question: sanitizedQuestion,
-      chat_history: processedMessages,
+      chat_history: messages,
       namespaceToFilter: namespace
     });
 
