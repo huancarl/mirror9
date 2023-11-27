@@ -490,8 +490,6 @@ export class CustomQAChain {
         
         const history = new BufferMemory({ returnMessages: true, memoryKey: 'chat_history' });
         for (let i = 0; i < chat_history.length; i += 2) {
-            console.log(chat_history[i], 'checking');
-            console.log(chat_history[i+1]);
             history.saveContext([chat_history[i]], [chat_history[i+1]]);
         }
         

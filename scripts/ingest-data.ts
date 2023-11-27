@@ -28,13 +28,6 @@ export const run = async () => {
       chunkOverlap: 200,
     });
 
-    // for (const folder of ['INFO_2950']) {
-    //   console.log(folder);
-    //   // const docs = await loadDocumentsFromFolder(`${filePath}/${folder}`);
-    //   // console.log(docs);
-      
-    // }
-
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
     for (const folder of [
