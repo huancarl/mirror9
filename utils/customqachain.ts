@@ -181,9 +181,11 @@ export class CustomQAChain {
         let remainingDocs = 100;                      // max vector search, adjust accordingly till find optimal
     
         const maxNamespaces = 30;
-        const namespacesToSearch = this.namespaces
-            .filter(namespace => namespace.includes(filter))
-            .slice(0, maxNamespaces);
+        // const namespacesToSearch = this.namespaces
+        //     .filter(namespace => namespace.includes(filter))
+        //     .slice(0, maxNamespaces);
+        const namespacesToSearch = this.namespaces;
+
     
         for (const namespace of namespacesToSearch) {
             const queryResult = await this.retryRequest(async () => {
@@ -356,6 +358,7 @@ export class CustomQAChain {
         const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
 
         this.chatHistoryBuffer.addMessage(chat_history);
+        console.log(this.namespaces, 'name of namespaces');
 
         // const availableTitles =
         // `INFO 2040 Textbook, Probability Cheatsheet v2.0 , Math 21a Review Sheet, Introduction To Probability,
@@ -497,7 +500,6 @@ export class CustomQAChain {
             memory: history,
             prompt: reportsPrompt,
             llm: this.model,
-            verbose: true,
         });
 
           const prediction = await chain.call({
@@ -522,7 +524,7 @@ export class CustomQAChain {
         this.chatHistoryBuffer.addMessage(`Question: ${question}`);
 
 
-        console.log(prompt.length, 'length of prompt');
+        console.log(prompt, 'prompt');
 
 
 // remove the following line because `response` is already sanitized and added to the chat history

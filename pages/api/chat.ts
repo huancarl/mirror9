@@ -38,8 +38,6 @@ export default async function handler(
 
   const { question, messages, userID, sessionID, namespace} = req.body;
   const image = req.body.image;
-  
-  console.log(messages, 'history received on chat.ts');
 
    const classMapping = {
     "INFO 2040": ["INFO 2040 Textbook"],
@@ -58,7 +56,33 @@ export default async function handler(
     'INFO 2950 Lecture 10',
     'INFO 2950 Midterm Fall 2023 Review Topics'
     ],
-    "Other": "Probability Cheatsheet v2.0, Math 21a Review Sheet, Introduction To Probability"
+    "Other": "Probability Cheatsheet v2.0, Math 21a Review Sheet, Introduction To Probability",
+    "BIOEE 1540": [
+      "BIOEE Lecture 1 Course Logistics Fall 2023",
+      "BIOEE Lecture 2 Overview",
+      "BIOEE Lecture 3 Origin of Earth Ocean",
+      "BIOEE Lecture 4 History of Life in the Oceans 2023",
+      "BIOEE Lecture 5 6 Marine Geology",
+      "BIOEE Lecture 7 8 9 Waves Tides",
+      "BIOEE Lecture 10 11 12 Ocean Circulation",
+      "BIOEE Lecture 13 El Nino Other Oscillations",
+      "BIOEE Lecture 15 16 Primary Production",
+      "BIOEE Lecture 17 Pelagic FoodWebs",
+      "BIOEE Lecture 18 Guest Lecture 2023 COMPLETE",
+      "BIOEE Lecture 19 Microbial Processes",
+      "BIOEE Lecture 20 21 Rocky Intertidal Coral Reefs Whales",
+      "BIOEE Lecture 22 23 Marine Chemistry",
+      "BIOEE Lecture 25 26 Climate Change Science I and II",
+      "BIOEE Lecture 27 Howarth methane Oct 30 2023",
+      "BIOEE Lecture 28 Climate Change and Extreme Weather",
+      "BIOEE Lecture 30 Howarth Climate Solutions Nov 6 2023",
+      "BIOEE Lecture 31 Cornell 2035 Climate Action Plan",
+      "BIOEE Lecture 32 Marine Pollution",
+      "BIOEE Lecture 33 Fishing Impacts",
+      "BIOEE Lecture 34 Loss of Global Biodiversity",
+      "BIOEE Lecture 35 6th Extinction in the Oceans 2023"
+  ]
+
   }
 
   function createPrompt(namespaceToSearch: string, chat_history: any){
@@ -144,7 +168,6 @@ export default async function handler(
           return res.status(200).json(limitMessage);
         }
         else{
-          console.log(currUser.messagesLeft, 'YAHUEHFOWHEPIFHWEIHFPIWE');
           await userLimitCollection.updateOne(
             { userEmail: userID }, 
             { $inc: { messagesLeft: -1 } });

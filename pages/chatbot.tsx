@@ -79,14 +79,14 @@ const [messageState, setMessageState] = useState<{
   const [firstMessageSent, setFirstMessageSent] = useState(false);
 
   //Stripe set up
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
-  const [clientSecret, setClientSecret] = useState("");
-  // const appearance = {
-  //   theme: 'stripe',
+  // const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+  // const [clientSecret, setClientSecret] = useState("");
+  // // const appearance = {
+  // //   theme: 'stripe',
+  // // };
+  // const options = {
+  //   clientSecret,
   // };
-  const options = {
-    clientSecret,
-  };
 
   const router = useRouter();
   useEffect(() => {
@@ -247,17 +247,17 @@ const handleCloseModal = () => {
   // Any other state resets if necessary
 };
 
-useEffect(() => {
-  fetch("/api/create-setup-intent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userID: [{ id: userIDRef.current }] }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      setClientSecret(data.clientSecret);
-    });
-}, []);
+// useEffect(() => {
+//   fetch("/api/create-setup-intent", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ userID: [{ id: userIDRef.current }] }),
+//   })
+//     .then((res) => res.json())
+//     .then((data) => {
+//       setClientSecret(data.clientSecret);
+//     });
+// }, []);
 
 async function handleSubmit(e: any) {
   const namespaceToSearch: any = courseTitle;
@@ -536,11 +536,11 @@ useEffect(() => {
   // }
   return (
     <>
-    {clientSecret && showLimitReachedModal && (
+    {/* {clientSecret && showLimitReachedModal && (
         <Elements stripe={stripePromise} options={ options }>
           <MessageLimitModal setShowLimitReachedModal={handleCloseModal} clientS={clientSecret}/>
         </Elements>
-      )}
+      )} */}
     <div className="appWrapper">
   <aside> 
     {courseTitle ? 

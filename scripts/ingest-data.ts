@@ -1,4 +1,5 @@
 import fs from 'fs';
+import path from 'path';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
 import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
@@ -21,6 +22,23 @@ async function loadDocumentsFromFolder(folderPath: string): Promise<PdfDocument[
   return loader.load();
 }
 
+async function getPDFFilesNames(directory) {
+  const files = await fs.promises.readdir(directory);
+  return files.filter(file => file.endsWith('.pdf'));
+}
+
+
+async function getPDFFile(directory: string, fileName: string): Promise<PdfDocument[]> {
+  const loader = new DirectoryLoader(directory, {
+    '.pdf': (path) => new PDFLoader(path),
+  });
+  // Assuming loadedDocument is an array of Document, and you need the first one
+  const firstDocument = loader.load();
+  return firstDocument;
+
+}
+
+
 export const run = async () => {
   try {
     const textSplitter = new RecursiveCharacterTextSplitter({
@@ -28,33 +46,37 @@ export const run = async () => {
       chunkOverlap: 200,
     });
 
+    const pdfFiles = await getPDFFilesNames(`${filePath}/BIOEE_1540`);
+
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
-    for (const folder of [
-    
-    ]) 
-    
-    {
-      const docs = await loadDocumentsFromFolder(`${filePath}/${folder}`);
-      
-      const namespace = NAMESPACE_NUMB[folder][0]; // Assuming folder names map to namespaces
+    const classFolders = ['BIOEE_1540',]; // List all class folder names
 
-      for (const doc of docs) {
-        const splitDocs = await textSplitter.splitDocuments([doc]);
+    for (const pdf of pdfFiles) {
+      //const docs = await loadDocumentsFromFolder(`docs/${folder}`);
 
-        const json = JSON.stringify(splitDocs);
-        await fs.promises.writeFile(`${namespace}-split.json`, json);
+      const namespace = NAMESPACE_NUMB[pdf][0]; // Adjust this if the mapping of folder to namespace changes
 
-        const upsertChunkSize = 50;
-        for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
-          const chunk = splitDocs.slice(i, i + upsertChunkSize);
-          await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
-            pineconeIndex: index,
-            namespace: namespace,
-            textKey: 'text',
-          });
-        }
+      // for (const doc of docs) {
+
+      const pdfFile = await getPDFFile(filePath,pdf);
+
+      const splitDocs = await textSplitter.splitDocuments(pdfFile);
+      console.log(splitDocs);
+
+      const json = JSON.stringify(splitDocs);
+      await fs.promises.writeFile(`${namespace}-split.json`, json);
+
+      const upsertChunkSize = 50;
+      for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
+        const chunk = splitDocs.slice(i, i + upsertChunkSize);
+        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
+          pineconeIndex: index,
+          namespace: namespace,
+          textKey: 'text',
+        });
       }
+      // }
     }
 
     console.log('ingestion complete');
@@ -62,6 +84,7 @@ export const run = async () => {
     console.error('Failed to ingest your data', error);
   }
 };
+
 
 (async () => {
   await run();
