@@ -6,7 +6,7 @@ if (!process.env.PINECONE_INDEX_NAME) {
   throw new Error('Missing Pinecone index name in .env file');
 }
 
-const PINECONE_INDEX_NAME = 'finalgpt';
+const PINECONE_INDEX_NAME = 'cornellgpt';
 
 const NAMESPACE_NUMB: { [key: string]: string[] } = {
   'INFO_2040_Textbook': ['INFO 2040 Textbook'],
