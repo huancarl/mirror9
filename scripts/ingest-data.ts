@@ -43,13 +43,13 @@ async function getAllPDFFiles(directory: string): Promise<any> {
 export const run = async () => {
   try {
     const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 200,
+      chunkSize: 2000,
+      chunkOverlap: 100,
     });
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
-    const pdfFiles = await getAllPDFFiles(`${filePath}/BIOEE_1540`);
+    const pdfFiles = await getAllPDFFiles(`${filePath}/INFO_2950`);
 
     for (const pdf of pdfFiles) {
 
@@ -60,7 +60,7 @@ export const run = async () => {
       const json = JSON.stringify(splitDocs);
       await fs.writeFile(`${namespace}-split.json`, json);
 
-      const upsertChunkSize = 50;
+      const upsertChunkSize = 25;
       for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
         const chunk = splitDocs.slice(i, i + upsertChunkSize);
         await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
@@ -69,7 +69,6 @@ export const run = async () => {
           textKey: 'text',
         });
       }
-      // }
     }
 
     console.log('ingestion complete');
@@ -77,7 +76,6 @@ export const run = async () => {
     console.error('Failed to ingest your data', error);
   }
 };
-
 
 (async () => {
   await run();

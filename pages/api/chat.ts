@@ -93,6 +93,7 @@ export default async function handler(
       
       Available Search Documents = ${classMapping[namespaceToSearch]}
       Context of the class = ${namespaceToSearch}
+      Chat History (conversation): ${chat_history}
   
       - Always respond like: "Searching(' ')..." or "Searching ..." Never deviate from this format.
   
@@ -104,6 +105,8 @@ export default async function handler(
       - If you are uncertain with the query or faced with an ambiguous query, then search everything available and choose which one it might be carefully and with accuracy.
   
       - If multiple search documents are relevant and needed, then search accordingly. 
+
+      - Be aware of ${chat_history} as you search. If the current query is a continuation of the last, then search accordingly, and vice versa.
   
       - Should a question context be a continuation or associated with the prior one found in history, use history proficiently to search consistently.
         If a question context is distinctive from the history, search adeptly. 
