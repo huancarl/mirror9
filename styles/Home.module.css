@@ -79,14 +79,15 @@
   min-height: 3.75em;
 
   
+  padding-right: 4rem; /* Adjust this value based on the size of your button */
+  position: relative; /* This allows absolute positioning for child elements */
 }
 
 
 
 .generatebutton {
-  position: absolute; /* Keep positioning relative to .cloudform */
-  top: 49%; /* Position the top edge of the button in the middle of .cloudform */
-  left: 70%; /* Position the left edge of the button in the middle of .cloudform */
+
+  left: 74%; /* Position the left edge of the button in the middle of .cloudform */
   transform: translate(-50%, -50%); /* Shift the button back by half its width and height to center it */
   color: rgb(146, 40, 40);
   background: #ffffff; /* Background color for the button */
@@ -94,6 +95,12 @@
   border: 0.0625em solid #ffffff; /* Border for the button */
   border-radius: 0.5rem; /* Rounded corners for the button */
   z-index: 1200; /* Ensure it's above other elements */
+
+
+  position: absolute;
+  top: 50%;
+
+  transform: translateY(-50%); /* This centers the button vertically */
 }
 
 
@@ -306,28 +313,30 @@
   line-height: 1.75;
 }
 
-
 .markdownanswer a:hover {
   opacity: 0.8;
 }
 
-
 .markdownanswer a {
-  color: #b13a3a;
+  color: #ffffff;
   font-weight: 500;
 }
 
-
 .markdownanswer code {
-  color: #ab2525;
+  color: #000000;
   font-weight: 500;
   white-space: pre-wrap !important;
 }
 
-
 .markdownanswer ol,
 .markdownanswer ul {
   margin: 1rem;
+}
+
+.cloudform form {
+  display: flex;
+  align-items: center;
+  position: relative; /* Allows absolute positioning for children */
 }
 
 
@@ -337,7 +346,6 @@
   border-radius: 0.1rem;
   height: 100%;
 }
-
 
 .markdownanswer h1,
 .markdownanswer h2,

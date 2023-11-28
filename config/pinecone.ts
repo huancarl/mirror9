@@ -6,7 +6,7 @@ if (!process.env.PINECONE_INDEX_NAME) {
   throw new Error('Missing Pinecone index name in .env file');
 }
 
-const PINECONE_INDEX_NAME = 'cornellgpt';
+const PINECONE_INDEX_NAME = 'finalgpt';
 
 const NAMESPACE_NUMB: { [key: string]: string[] } = {
   'INFO_2040_Textbook': ['INFO 2040 Textbook'],
@@ -19,6 +19,7 @@ const NAMESPACE_NUMB: { [key: string]: string[] } = {
 
   'MATH_4710': ["Introduction To Probability"],
 
+  
   'INFO_2950_Fall_2022_Midterm_Solutions': ['INFO 2950 Fall 2022 Midterm Solutions'],
   'INFO2950_FA22_MidtermQuestions': ['INFO 2950 Fall 2022 Midterm Questions'],
   'INFO2950_Lec1_20230821': ['INFO 2950 Lecture 1'],

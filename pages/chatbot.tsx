@@ -17,7 +17,6 @@ import Image from 'next/image';
 import katex from "katex";
 import 'katex/dist/katex.min.css';
 
-
 import { 
   messageContainsMath,
   MessageRenderer,
@@ -32,16 +31,20 @@ import {
 import Sidebar from 'components/Sidebar';
 import { Typewriter } from './typewriter'; 
 import { useRouter } from 'next/router';
-
-import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css"; // You can choose different themes
-import { InlineMath, BlockMath } from 'react-katex';
-import hljs from 'highlight.js';
 import useTypewriter from 'react-typewriter-hook'; // You need to install this package
 
 import MessageLimitModal from 'components/MessageLimitModal'; 
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
+
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github.css'; // Import the style you want to use
+import python from 'highlight.js/lib/languages/python';
+
+import '@/styles/CodeBlock.module.css'; // Adjust the path as necessary
+
+
 
 
 declare global {
@@ -460,29 +463,32 @@ useEffect(() => {
   
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  function CodeBlock({ code }: { code: string }) {
-    const [copied, setCopied] = useState(false);
-  
-    const handleCopy = () => {
-      navigator.clipboard.writeText(code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    };
-  
-    return (
-      <div className={styles.codeBlock}>
-        <pre className={styles.code}>
-        <code style={{ color: "dark red" }}>{code}</code>
-        </pre>
-        <button
-          className={styles.copyButton}
-          onClick={handleCopy}
-          disabled={copied}
-        >
-          {copied ? 'Copied🐻' : 'Copy'}
-        </button>
-      </div>
-    );
+
+
+function CodeBlock({ code }: { code: string }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="codeBlock">
+      <pre>
+        <code>{code}</code>
+      </pre>
+      <button
+        className={styles.copyButton}
+        onClick={handleCopy}
+        disabled={copied}
+      >
+        {copied ? 'Copied🐻' : 'Copy'}
+      </button>
+    </div>
+  );
+    
 
     
 
@@ -620,9 +626,36 @@ useEffect(() => {
 
   
 
-  const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
-  const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
-  
+// Assuming this code is inside your message rendering function
+
+// Helper function to split the message into code and non-code segments
+function splitMessageIntoSegments(message) {
+  const segments = message.split(/(```[\s\S]+?```)/); 
+  return segments.filter(segment => segment.length > 0);
+}
+
+const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
+const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
+
+if (messageContainsMath(message.message)) {
+  content = <MessageRenderer key={index} message={message.message} />;
+} else if (isCodeMessage) {
+  const messageSegments = splitMessageIntoSegments(message.message);
+  content = messageSegments.map((segment, idx) => {
+    if (segment.startsWith('```') && segment.endsWith('```')) {
+      const code = segment.replace(/^```|```$/g, '');
+      return <CodeBlock key={`code-${idx}`} code={code} />;
+    } else {
+      return <span key={index}>{parseBoldText(message.message)}</span>;
+    }
+  });
+} else if (message.type === 'apiMessage') {
+  content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
+} else {
+  content = <span key={index}>{parseBoldText(message.message)}</span>;
+}
+
+
   
 //&& !isCodeMessage && !messageContainsMath
   if (messageContainsMath(message.message)) {

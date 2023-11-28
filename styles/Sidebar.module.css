@@ -22,6 +22,13 @@
 }
 
 
+
+
+
+
+
+
+
 .newChatButton {
   display: flex;
   align-items: center;
@@ -41,7 +48,7 @@
 
 
 .newChatButton:hover {
-  background-color: #ff6c6c;  /* Slight highlight on hover */
+  background-color:#f3f3f3;  /* Slight highlight on hover */
   
 }
 
@@ -75,7 +82,7 @@
 }
 
 .sessionButton:hover {
-  background-color: #ff6c6c; /* Slight highlight on hover */
+  background-color:#f3f3f3; /* Slight highlight on hover */
 }
 
 .sessionButton img {
@@ -88,7 +95,7 @@
 
 .activeSessionButton {
   /* font-weight: bold; */
-  background-color:  #ff6c6c; /* Slight highlight on hover */
+  background-color: rgb(194, 15, 15); /* Slight highlight on hover */
 }
 
 .trashCan {
@@ -146,7 +153,7 @@
 
 
 .bottomButton:hover {
-  background-color: #ff6c6c; /* Slight highlight on hover */
+  background-color: #f3f3f3; /* Slight highlight on hover */
 }
 
 .bottomButton:last-child {
@@ -241,6 +248,11 @@
 .toggleButton-closed {
   right: 190px; 
 }
+
+
+
+
+
 
 
 

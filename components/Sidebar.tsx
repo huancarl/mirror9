@@ -315,10 +315,16 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
   REFER
   <span className={styles.newTag}>FREE</span>
 </button>
-                <button className={styles.bottomButton}>
-                    <img src="/discord.png" alt="Discord" className={styles.discordIcon} /> {/* Make sure the path is correct */}
-                    CornellGPT Discord
-                </button>
+<button
+    className={styles.bottomButton}
+    onClick={() => window.open('https://discord.gg/yDcGnQCT', '_blank')}
+>
+    <img src="/discord.png" alt="Discord" className={styles.discordIcon} />
+    CornellGPT Discord
+</button>
+
+
+                
                 <button className={styles.bottomButton}>
                   <img src="/logout.png" alt="Log Out" className={styles.logoutIcon} />
                   <span className={styles.logoutText}>Profile</span>
