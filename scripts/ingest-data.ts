@@ -6,7 +6,6 @@ import { pinecone } from '@/utils/pinecone-client';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { PINECONE_INDEX_NAME, NAMESPACE_NUMB } from '@/config/pinecone';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
-
 import { promises as fs } from 'fs';
 
 const filePath = 'docs';
