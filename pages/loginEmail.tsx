@@ -33,7 +33,7 @@ const LoginWithEmail: React.FC = () => {
 
         window.google.accounts.id.renderButton(
           signInDiv, // This should be an HTMLElement reference where the button will be placed.
-          { theme: "filled_blue", size: "large" } // Changed theme and size.
+          { theme: "filled_white", size: "large" } // Changed theme and size.
         );
         setIsGapiReady(true);
       } else {
@@ -83,7 +83,7 @@ const LoginWithEmail: React.FC = () => {
         Welcome Back
         
         <div className={styles.noteText}>
-            You must sign up with a referral link before logging in.
+            Use your @cornell.edu email
 
         </div>
     </div>

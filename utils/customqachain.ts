@@ -178,9 +178,9 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 100;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 60;                      // max vector search, adjust accordingly till find optimal
     
-        const maxNamespaces = 30;
+        const maxNamespaces = 20;
         // const namespacesToSearch = this.namespaces
         //     .filter(namespace => namespace.includes(filter))
         //     .slice(0, maxNamespaces);
@@ -410,7 +410,7 @@ export class CustomQAChain {
         Always assume that the context is: ${namespaceToFilter}. Thus, always answer in the context of ${namespaceToFilter} searching ${this.namespaces} when applicable for the answer extensively.
         Always assess if the question is relevant to ${this.namespaces} and or ${namespaceToFilter} as you answer. Search thoroughly as possible through ${this.namespaces} to look to answer the users' questions.
         Remember you are an expert on the course and have access to ${this.namespaces} & ${namespaceToFilter}. Always be certain when you are answering 
-        and use ${sourceDocuments} effectively to answer. If it is not explicitly mentioned in the context do no mention it or make up answers, or say if something likely exists.
+        and use ${sourceDocuments} effectively to answer. If it is not explicitly mentioned in the context do no mention it or make up answers. DO NOT SAY "This content likely exists" or "likely covers".
         Look for the answer in ${this.namespaces} extensively and accurately.
 
         If the question is not relevant at all or you do not have access to the specific thing being asked for by the user, 
@@ -420,6 +420,7 @@ export class CustomQAChain {
             Never make up answers or fabricate what it might have.
 
         If the question is general or a simple question like "What is 2+2", then answer accordingly, but assert to the user that this is not relevant to ${namespaceToFilter}
+        
         Never ever make up answers, or give answers that you are uncertain about. 
         Always give long, full, accurate, specific, detailed, and helpful answers to the questions.
         Always understand in detail and clarity what the question is asking you.

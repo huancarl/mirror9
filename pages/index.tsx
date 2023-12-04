@@ -8,15 +8,14 @@ const HomePage: React.FC = () => {
   const typewriter = useTypewriter(magicName);
   const index = useRef(0);
   const prompts = [
-    "What is the grade breakdown?",
+    "How much weight is the prelim?",
     "CS 2110: explain lecture 3",
     "When is the next prelim?",
-    "CHEM 2090: explain the HW policy",
+    "CHEM 2090: explain the second lab",
     "What classes should I take for distributions?",
     "Generate practice prelim problems",
-    "PSYCH 1101: summarize lecture 9 in detail",
-    "Explain the main concepts from HW2",
-    "What is the grade breakdown?",
+    "INFO 2950: explain SQL code from lecture",
+    "Explain how to do problem 1 from HW2",
   ];
 
   useEffect(() => {

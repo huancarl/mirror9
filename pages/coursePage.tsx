@@ -17,6 +17,14 @@ function CourseCatalog() {
     return value;
   }
 
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const handleReferralClick = () => {
+    setIsPopupVisible(true);
+
+  };
+
+
   useEffect(() => {
     const fetchOrCreateRef = async() => {
 
@@ -60,6 +68,47 @@ function CourseCatalog() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCourses, setFilteredCourses] = useState(courses);
 
+
+
+  const [referralCount, setReferralCount] = useState(4); // ****** Modify the use state depending on how many referral links are used and verified *****
+
+  const ProgressBar = ({ count }) => {
+    const maxReferrals = 10; // Maximum number of referrals
+    const progress = (count / maxReferrals) * 100; // Calculate progress percentage
+    
+    const indicators = Array.from({ length: maxReferrals }, (_, i) => i + 1);
+  
+    return (
+      <div className={styles.referralTrackerWrapper}>
+        <h2 className={styles.referralHeader}>Referral Tracker</h2>
+        <div className={styles.progressBarWrapper}>
+          <div className={styles.progressBarContainer}>
+            <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
+          </div>
+          <div className={styles.progressNumbers}>
+            {indicators.map((number) => (
+              <div 
+                key={number} 
+                className={`${styles.progressNumber} ${number <= count ? styles.activeNumber : ''}`}
+              >
+                {number}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  };
+  
+  
+  
+  
+  
+  
+  
+  
+
+
   useEffect(() => {
     const results = courses.filter(course => 
       course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -68,15 +117,57 @@ function CourseCatalog() {
     setFilteredCourses(results);
   }, [searchTerm]);
 
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(referralLink).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500); // Checkmark will disappear after 1.5 seconds
+    });
+  };
+
+
+  const Popup = () => (
+    <div className={styles.popupOverlay}>
+      <div className={styles.popup}>
+        <div className={styles.popupHeader}>
+          <h2>🎅 FREE MESSAGES! 🎁</h2>
+          <button onClick={() => setIsPopupVisible(false)}>X</button>
+        </div>
+        <div className={styles.popupContent}>
+        <p>If your referral link is successfully used, both you and the person you refer will receive rewards!</p>
+
+          <div className={styles.referralRewards}>
+            <p>1 referral = 20 messages</p>
+            <p>2 referrals = 40 messages</p>
+            <p>5 referrals = 1 MONTH UNLIMITED</p>
+            <p>10 referrals = UNLIMITED🔥</p>
+          </div>
+          <div className={styles.referralLinkBox}>
+            <input type="text" value={referralLink} readOnly />
+            <button onClick={handleCopy}>
+              {copied ? "✓" : "Copy"}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+  
+
   return (
     <div className={styles.container}>
-      <div className={styles.referralText}>FREE REFERRAL:<a> {referralLink} </a></div>
+          <ProgressBar count={referralCount} />
+          {isPopupVisible && <Popup />}
+<button className={styles.referralText} onClick={handleReferralClick}>
+ GET FREE MESSAGES! 🎁
+</button>
       <div className={styles.classInquiryContainer}>
         <button
     className={styles.classInquiryButton}
     onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
   >
-    DON'T SEE YOUR CLASS?
+    DONT SEE YOUR CLASS?
   </button>
       </div>
       <h1 className={styles.title}>CornellGPT FA23</h1>

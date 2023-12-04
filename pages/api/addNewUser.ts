@@ -23,7 +23,7 @@ async function addNewUserHandler(req, res) {
 
             // Check if the email is a Cornell email
             if (!userEmail.endsWith('@cornell.edu')) {
-                return res.status(400).json({ created: false, message: 'You must use your Cornell email (@cornell.edu)' });
+                return res.status(400).json({ created: false, message: 'Cornell emails only (@cornell.edu)' });
             }
 
             const db = await connectToDb();
@@ -54,7 +54,7 @@ async function addNewUserHandler(req, res) {
                 return res.status(200).json({ created: true, message: 'Success' });
             } else {
                 // User is already registered
-                return res.status(200).json({ created: false, message: 'Email already in use' });
+                return res.status(200).json({ created: false, message: 'Email already in use. Go to Log In.' });
             }
         } else {
             // Token payload is not retrieved

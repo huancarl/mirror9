@@ -1,186 +1,81 @@
 .container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(115deg,   #942e2e,   #942e2e); /* Soft gradient background */
-    color: #000000; /* White text color */
-    font-family: 'Arial', sans-serif; /* Modern font */
-    width: 100vw; /* Scales the width according to the viewport width */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Aligns items vertically center */
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+  width: 100%;
+  padding-top: 10vh; /* Adjusted to match the welcome page padding */
+  background: #ffffff; /* White background */
+  background:  #942e2e 
 }
 
-  
-
-
-.centerWrapper {
-    margin-top: -9; /* Adjust based on design preference */
-    width: 50%; /* Increased width for better spacing */
-
-    
+.signDiv {
+  height: 135px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 500px; /* Match the size of the Google button container */
+  margin: 20px auto; /* Provide some margin to the top and bottom */
 }
 
-.header h1 {
-    margin: 0;
-    padding-bottom: 1em;
-    font-size: 2.5em; /* Larger font size */
-    text-align: center; /* Center align the header */
-    color: #ffffff; /* White text color */
+.LogIn {
+  font-size: 3.2em;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  width: fit-content;
+  margin: 0 auto;
+  margin-bottom: 10px; /* Adjust the bottom margin to bring .noteText closer */
 }
 
-.refForm {
-    position: relative; /* Set .refForm to be the reference for absolute children */
-    display: flex;
-    align-items: center; /* Align children vertically in the center */
-    max-width: 500px;
-    width: 100%;
-    margin: auto;
-    margin-top: -30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.noteText {
+  font-size: 0.30em;
+  color: #ffffff;
+  text-align: center;
+  margin-top: 15px;
+  width: 80%;
+  margin: 0 auto;
+  max-width: 900px;
+  font-style: italic;
+  margin-bottom: 20px; /* Adjust the bottom margin to space away from the Google button */
 }
 
-.inputField {
-    padding: 1rem;
-    border: 2px solid #ff0000;
-    border-radius: 8px;
-    flex-grow: 1;
-    transition: border-color 0.3s;
+.backButton {
+  font-size: 1.5em;
+  position: absolute;
+  top: 20px; /* Adjust to align with the page layout */
+  left: 30px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
 }
 
-.inputField:focus {
-    border-color: #ff0000; /* Change color on focus */
+.footer {
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 20px 0;
+  font-size: 0.9em;
+  color: rgb(255, 255, 255);
+  background: none; /* Clear background */
 }
 
-.valid {
-    border: 2px solid rgb(204, 42, 42);
+.footerLink {
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+  padding: 7.5px;
+  font-size: 0.9em;
 }
 
-.invalid {
-    border: 2px solid red;
+.footerLink:hover {
+  text-decoration: underline;
 }
 
-
-
-
-.iconCheck,
-.iconClose {
-    position: absolute;
-    right: 10px; /* Set to 10px or whatever looks best in the UI */
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1rem;
-    
-}
-
-.signInModal {
-
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 30em;
-    max-width: 31.25em;
-    padding: 2.5em;
-    background: white; /* Mainly white background */
-    border: 0.1em solid darkred; /* Dark red border */
-    border-radius: 0.625em;
-    box-shadow: 0 0.25em 1.25em rgba(0, 0, 0, 0.2);
-    text-align: center;
-    z-index: 1000;
-    height: 20em; /* Set your desired height */
-    color: darkred;
-
-    position: fixed; /* Changed from fixed to relative */
-    padding-bottom: 3em; /* Add padding to accommodate the footer inside the modal */
-  }
-
-  .signInModal p {
-    font-size: 1.5em; /* Adjust the size as needed */
-    font-weight: bold; /* Make the text bold */
-    margin-bottom: 1em; /* Add some space below the text if needed */
-    /* Add other styles if needed to fit the design */
-}
-
-  
-
-  .googleButton {
-    width: 12em;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 1em;
-  }
-  
-
-
-  .closeButton {
-    position: absolute;
-    top: 1em;
-    right: 1em;
-    font-size: 1.5em; /* Large 'X' symbol */
-    cursor: pointer; /* Change cursor to indicate it's clickable */
-    color: darkred;
-  }
-  
-  
-
-  .backButton {
-    position: absolute;
-    top: 10px;
-    left: 30px;
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: rgb(255, 255, 255);
-    /* Additional styling as needed */
-  }
-
-  
-  /* Ensure the button is visible over other elements */
-  .backButton:focus {
-    outline: none;
-  }
-
-  @keyframes loadingAnimation {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
-  .loadingIcon {
-    border: 4px solid rgba(0, 0, 0, 0.1);
-    border-top: 3px solid #942e2e; /* Color of loading circle */
-    border-radius: 50%;
-    width: 1.3rem;
-    height: 1.3rem;
-    animation: loadingAnimation 1.5s linear infinite; /* Animation uses the keyframes defined above */
-
-    position: absolute;
-    right: 15px; /* Set to 10px or whatever looks best in the UI */
-    top: 35%;
-
-  }
-
-  .footer {
-    text-align: center;
-    width: 100%;
-    padding: 15px 0;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    font-size: 0.9em;
-    color: darkred;
-    background: white; /* Optional: add a background if it should stand out */
-  }
-  
-  .footerLink {
-    color: darkred;
-    text-decoration: none;
-    padding: 7.5px;
-    font-size: 0.9em;
-  }
-  
-  .footerLink:hover {
-    text-decoration: underline;
-  }
 
   
   

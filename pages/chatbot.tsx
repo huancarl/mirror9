@@ -585,7 +585,7 @@ function CodeBlock({ code }: { code: string }) {
         icon = (
             <Image
                 key={index}
-                src="/bigblackbear.png"
+                src="/bigbear.png"
                 alt="AI"
                 width="50"
                 height="90"
@@ -600,8 +600,8 @@ function CodeBlock({ code }: { code: string }) {
                 key={index}
                 src="/usericon.png"
                 alt="Me"
-                width="45"
-                height="35"
+                width="35"
+                height="25"
                 className={styles.usericon}
                 priority
             />
@@ -637,23 +637,23 @@ function splitMessageIntoSegments(message) {
 const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
 const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
 
-if (messageContainsMath(message.message)) {
-  content = <MessageRenderer key={index} message={message.message} />;
-} else if (isCodeMessage) {
-  const messageSegments = splitMessageIntoSegments(message.message);
-  content = messageSegments.map((segment, idx) => {
-    if (segment.startsWith('```') && segment.endsWith('```')) {
-      const code = segment.replace(/^```|```$/g, '');
-      return <CodeBlock key={`code-${idx}`} code={code} />;
-    } else {
-      return <span key={index}>{parseBoldText(message.message)}</span>;
-    }
-  });
-} else if (message.type === 'apiMessage') {
-  content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
-} else {
-  content = <span key={index}>{parseBoldText(message.message)}</span>;
-}
+// if (messageContainsMath(message.message)) {
+//   content = <MessageRenderer key={index} message={message.message} />;
+// } else if (isCodeMessage) {
+//   const messageSegments = splitMessageIntoSegments(message.message);
+//   content = messageSegments.map((segment, idx) => {
+//     if (segment.startsWith('```') && segment.endsWith('```')) {
+//       const code = segment.replace(/^```|```$/g, '');
+//       return <CodeBlock key={`code-${idx}`} code={code} />;
+//     } else {
+//       return <span key={index}>{parseBoldText(message.message)}</span>;
+//     }
+//   });
+// } else if (message.type === 'apiMessage') {
+//   content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
+// } else {
+//   content = <span key={index}>{parseBoldText(message.message)}</span>;
+// }
 
 
   

@@ -7,10 +7,9 @@
   gap: 15px;
   height: 100vh;
   width: 100%;
-  max-width: 600px;
-  padding-top: 15vh;
+  max-width: 1000px;
+  padding-top: 10vh; /* Reduced from 15vh to 10vh */
   margin: auto;
-  
 }
 
 .signDiv {
@@ -27,7 +26,7 @@
 }
 
 .LogIn {
-  font-size: 3.2em;
+  font-size: 3.5em;
   color: darkred;
   font-weight: bold;
   width: fit-content;
