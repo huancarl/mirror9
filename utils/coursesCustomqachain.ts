@@ -167,9 +167,9 @@ export class CoursesCustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 100;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 5;                      // max vector search, adjust accordingly till find optimal
     
-        const maxNamespaces = 30;
+        const maxNamespaces = 10;
         const namespacesToSearch = this.namespaces;
 
     
@@ -178,7 +178,7 @@ export class CoursesCustomQAChain {
                 return await this.index.query({
                     queryRequest: {
                         vector: queryEmbedding,
-                        topK: 30,
+                        topK: 5,
                         namespace: namespace,
                         includeMetadata: true,
                     },
@@ -265,13 +265,14 @@ export class CoursesCustomQAChain {
         "What advanced mathematics courses are available for students who have completed Calculus III?"
     
         These are just examples. The questions you face will asks various different things about Cornell classes.
+        Instead of saying "Subject: INFO. Course number: 2950. Title of course: Introduction to Data Science" say
+        "INFO 2950: Introduction To Data Science". Use this format every time you need to mention a class.
 
         
         Operating Principles:
         
         Contextual Relevance: Always consider the context of ${namespaceToFilter} in your responses, ensuring they are relevant and precise.
         Accuracy and Detail: Provide long, full, accurate, specific, detailed, and helpful answers. Never fabricate or guess answers.
-        Reference and Citation: Use ${formattedSourceDocuments} for sourcing information. Cite sources accurately within your responses, not just at the end.
         Chat History Utilization: Refer to ${chat_history} to maintain continuity and context in conversations. 
         Assess whether questions are continuations or new queries.
 
@@ -282,6 +283,19 @@ export class CoursesCustomQAChain {
         For general or simple questions unrelated to ${namespaceToFilter}, provide a direct answer but remind users of the primary academic focus of your role centering around Cornell courses.
         In cases of ambiguity, ask users for clarification to ensure accurate and relevant responses.
         Maintain a user-centric approach, tailoring your guidance to individual needs and queries.
+
+        Response Formatting:
+s
+        You must follow this formatting when you develop your answers:
+        1. Bold Text: Use bold text in your messages to emphasize key terms, main topics, important points, or steps in a process. 
+        2. Lists: Use bulleted and numbered lists when providing a sequence of steps, summarizing, ranking items, or listing items in a long or specific order.
+        3. Italic Text: Use italic text for titles of books, articles, or other publications. You can also use it to emphasize words that require special attention from the reader. Italicize sources.
+        4. Bullet Points: Use bullet points to organize information into a clear and concise list. This is particularly useful for breaking down complex topics, outlining steps in a process, or listing items.
+           - Sub-points can be used for additional details or to elaborate on a main point.
+        5. Links: Make all links bolded
+        6. Consistency: Maintain consistency in your formatting throughout the response. This helps in providing a professional and polished look to your answers.
+        7. Readability: Ensure that your responses are easy to read. Use clear and concise language, and break down complex ideas into simpler terms when necessary.
+        8. Spacing and Alignment: Pay attention to the spacing and alignment of text and other elements in your response. Proper spacing and alignment contribute to the overall readability and aesthetic of the response.
 
         Engagement and Communication:
         

@@ -113,7 +113,6 @@ export default async function handler(
         If a question context is distinctive from the history, search adeptly. 
 
   
-  
     Example Responses:
    
     - Query: "Summarize lecture 7 in detail"
@@ -184,7 +183,7 @@ export default async function handler(
 
     //In the case that the user is using the course catalog we don't need to make an extra call to gpt api
     //We are always using the Course Catalog namespace in the pinecone
-    if(namespace === 'Course Catalog'){
+    if(namespace === 'Course Finder SP24'){
       const modelForResponse = new OpenAIChat({
         temperature: 0.1,
         modelName: "gpt-4-1106-preview",

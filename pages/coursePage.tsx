@@ -60,10 +60,10 @@ function CourseCatalog() {
 
 
   const courses = [
+    { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
     { key: 'INFO 2950', title: 'INFO 2950', professor: 'Professor Koenecke' },
     { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
     { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
-    { key: 'Course Catalog', title: 'Course Catalog', professor: 'CornellGPT' },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -71,35 +71,35 @@ function CourseCatalog() {
 
 
 
-  const [referralCount, setReferralCount] = useState(4); // ****** Modify the use state depending on how many referral links are used and verified *****
+  const [referralCount, setReferralCount] = useState(6); // ****** Modify the use state depending on how many referral links are used and verified *****
 
-  const ProgressBar = ({ count }) => {
-    const maxReferrals = 10; // Maximum number of referrals
-    const progress = (count / maxReferrals) * 100; // Calculate progress percentage
+  // const ProgressBar = ({ count }) => {
+  //   const maxReferrals = 10; // Maximum number of referrals
+  //   const progress = (count / maxReferrals) * 100; // Calculate progress percentage
     
-    const indicators = Array.from({ length: maxReferrals }, (_, i) => i + 1);
+  //   const indicators = Array.from({ length: maxReferrals }, (_, i) => i + 1);
   
-    return (
-      <div className={styles.referralTrackerWrapper}>
-        <h2 className={styles.referralHeader}>Referral Tracker</h2>
-        <div className={styles.progressBarWrapper}>
-          <div className={styles.progressBarContainer}>
-            <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
-          </div>
-          <div className={styles.progressNumbers}>
-            {indicators.map((number) => (
-              <div 
-                key={number} 
-                className={`${styles.progressNumber} ${number <= count ? styles.activeNumber : ''}`}
-              >
-                {number}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  };
+  //   return (
+  //     <div className={styles.referralTrackerWrapper}>
+  //       <h2 className={styles.referralHeader}>Referral Tracker</h2>
+  //       <div className={styles.progressBarWrapper}>
+  //         <div className={styles.progressBarContainer}>
+  //           <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
+  //         </div>
+  //         <div className={styles.progressNumbers}>
+  //           {indicators.map((number) => (
+  //             <div 
+  //               key={number} 
+  //               className={`${styles.progressNumber} ${number <= count ? styles.activeNumber : ''}`}
+  //             >
+  //               {number}
+  //             </div>
+  //           ))}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // };
   
   
   
@@ -132,11 +132,11 @@ function CourseCatalog() {
     <div className={styles.popupOverlay}>
       <div className={styles.popup}>
         <div className={styles.popupHeader}>
-          <h2>🎅 FREE MESSAGES! 🎁</h2>
+          <h2>🎅 REFER FOR FREE MESSAGES! 🎁</h2>
           <button onClick={() => setIsPopupVisible(false)}>X</button>
         </div>
         <div className={styles.popupContent}>
-        <p>If your referral link is successfully used, both you and the person you refer will receive rewards!</p>
+        <p>Refer other Cornellians with your link, both you and the person you refer will receive rewards!</p>
 
           <div className={styles.referralRewards}>
             <p>1 referral = 20 messages</p>
@@ -158,7 +158,7 @@ function CourseCatalog() {
 
   return (
     <div className={styles.container}>
-          <ProgressBar count={referralCount} />
+          {/* <ProgressBar count={referralCount} /> */}
           {isPopupVisible && <Popup />}
 <button className={styles.referralText} onClick={handleReferralClick}>
  GET FREE MESSAGES! 🎁
