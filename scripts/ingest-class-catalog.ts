@@ -7,6 +7,7 @@ import { pinecone } from '@/utils/pinecone-client';
 import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { PINECONE_INDEX_NAME, NAMESPACE_NUMB } from '@/config/pinecone';
 import { OpenAIApi, Configuration } from "openai";
+import { AnyARecord } from 'dns';
 
 const courseMapping: { [code: string]: string } = {
   "D-AG": "College of Agriculture and Life Sciences: Human Diversity",
@@ -49,7 +50,7 @@ const courseMapping: { [code: string]: string } = {
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY, // Ensure your API key is set in environment variables
 });
-const openai = new OpenAIApi(configuration);
+//const openai = new OpenAIApi(configuration);
 
 const fetchSubjects = async (roster: string,) => {
   //fetches list of all subjects given a semester
@@ -77,25 +78,42 @@ function convertStringToList(str: string): string[] {
   return list;
 }
 
-async function getEmbedding(text: string, model: string = "text-embedding-ada-002"): Promise<number[]> {
-  try {
-    const response = await openai.createEmbedding({
-      model: model,
-      input: [text],
-    });
-    console.log(response.data.data[0].embedding, 'response');
-    return response.data.data[0].embedding;
-  } catch (error) {
-    console.error('Error creating embedding:', error);
-    throw error;
-  }
+
+function countTokens(text: string): number {
+  // Simple word count as a proxy for tokens. This is an approximation.
+  return text.split(/\s+/).length;
 }
+
+function splitIntoChunks(text: string, maxTokens: number): string[] {
+  const words = text.split(/\s+/);
+  let currentChunk: string[] = []; // Explicitly declare as string array
+  let chunks: string[] = []; // Explicitly declare as array of strings
+  let currentCount = 0;
+
+  for (let word of words) {
+      if (currentCount + word.length > maxTokens) {
+          chunks.push(currentChunk.join(' '));
+          currentChunk = [];
+          currentCount = 0;
+      }
+      currentChunk.push(word);
+      currentCount += word.length;
+  }
+
+  if (currentChunk.length > 0) {
+      chunks.push(currentChunk.join(' '));
+  }
+
+  return chunks;
+}
+
+const TOKEN_LIMIT = 6000; // Set your OpenAI token limit
+const indexToIngest = pinecone.Index(PINECONE_INDEX_NAME);
+const namespaceToIngest = 'Course Catalog';
 
 const ingestClassesForSubject = async (roster: string, subject: string,) => {
     //Gets a response from the Cornell API containing all classes for a subject. Then we parse the data and
     //create vectors on pinecone
-    const index = pinecone.Index(PINECONE_INDEX_NAME);
-
     try {
       const response = await axios.get(`https://classes.cornell.edu/api/2.0/search/classes.json?`, {
         params: {
@@ -111,7 +129,6 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
       //For each class format the information to prepare for ingestion
       for(let i = 0; i < classes.length; i++){
 
-        const namespace = classes[i].subject;
         const classInfoStr = await formatInfoForClass(classes[i]);
         console.log(classInfoStr);
 
@@ -119,26 +136,37 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
         await fs.appendFile('classes-split.json', json + '\n');
         allClassInfo.push(classInfoStr);  
 
-        const embeddings = new OpenAIEmbeddings(/* configuration if needed */);
-        const dbConfig = {
-            pineconeIndex: index,
-            namespace: namespace, // Using the subject as the namespace
+        let chunks;
+        if (countTokens(classInfoStr) > TOKEN_LIMIT) {
+          chunks = splitIntoChunks(classInfoStr, TOKEN_LIMIT); // Implement this function
+        } else {
+          chunks = [classInfoStr]; // Keep as a single chunk
+        }
+
+        let prevVectorId: string | null = null;
+
+        for (const [index, chunk] of chunks.entries()) {
+          const vectorId = `${classes[i].crseId}_${index}`;
+          const embeddings = new OpenAIEmbeddings(/* configuration */);
+          const dbConfig = {
+            pineconeIndex: indexToIngest,
+            namespace: namespaceToIngest,
             textKey: 'text'
-        };
+          };
 
-        const texts = [classInfoStr];
+          let metadata = {
+            courseId: classes[i].crseId,
+            title: classes[i].titleLong,
+            subject: classes[i].subject,
+            part: index,
+            prevVector: prevVectorId,
+            nextVector: index < chunks.length - 1 ? `${classes[i].crseId}_${index + 1}` : null
+          };
 
-        let metadatas = {
-          courseId: classes[i].crseId,
-          title: classes[i].titleLong,
-          subject: classes[i].subject,
-          // Add other relevant fields from classInfo
-      };
-
-        await PineconeStore.fromTexts(texts, metadatas, embeddings, dbConfig);
-
-      }
-
+          prevVectorId = vectorId;
+          await PineconeStore.fromTexts([chunk], metadata, embeddings, dbConfig);
+        }
+        }
     } catch (error) {
       console.error('Error ingesting class data:', error);
     }
@@ -250,6 +278,9 @@ export const run = async () => {
   try {
     const semesterYear = 'SP24';
     const subjectList = await fetchSubjects(semesterYear);
+
+    //Use this to get all of the subjects for a roster year
+    //console.log(subjectList); 
 
     for(let i = 0; i < subjectList.length; i++){
       await ingestClassesForSubject(semesterYear, subjectList[i].value)
