@@ -16,6 +16,7 @@ import {
 import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
 import connectToDb from '@/config/db';
+import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
 
 
 function cleanText(text) {
@@ -179,6 +180,83 @@ export default async function handler(
     } 
     const chatHistoryCollection = db.collection("chatHistories");
     const chatSessionCollection = db.collection('sessionIDs');
+    const index = pinecone.Index(PINECONE_INDEX_NAME);
+
+    //In the case that the user is using the course catalog we don't need to make an extra call to gpt api
+    //We are always using the Course Catalog namespace in the pinecone
+    if(namespace === 'Course Catalog'){
+      const modelForResponse = new OpenAIChat({
+        temperature: 0.1,
+        modelName: "gpt-4-1106-preview",
+        cache: true,
+      });
+      //init class
+      const qaChain = CoursesCustomQAChain.fromLLM(modelForResponse, index, ['Course Catalog'], {
+        returnSourceDocuments: true,
+        bufferMaxSize: 4000,
+      });
+
+      const results = await qaChain.call({
+        question: sanitizedQuestion,
+        chat_history: messages,
+        namespaceToFilter: namespace
+      });
+      
+      const message = results.text;
+      const sourceDocs = null;
+
+      //save message to the database before displaying it
+      const saveToDB = {
+        userID,
+        sessionID,
+        userQuestion: question,
+        answer: message,
+        sourceDocs,
+        timestamp : new Date()
+      };
+      await chatHistoryCollection.insertOne(saveToDB);
+      const currSession = await chatSessionCollection.findOne({sessionID, userID });
+
+      if (currSession && currSession.isEmpty === true){
+        //update the document's .isEmpty field in mongodb
+        await chatSessionCollection.updateOne({ sessionID }, { $set: { isEmpty: false } });
+      }
+
+      //check the date of the access
+      const getSessionName = () => {
+        const now = new Date();
+        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      };
+      
+      // Check the date of the access
+      if (currSession) {
+        const sessionDate = new Date(currSession.date);
+        const currentDate = new Date();
+      
+        // Compare only the year, month, and day (ignoring the time)
+        if(sessionDate.getUTCFullYear() !== currentDate.getUTCFullYear() ||
+          sessionDate.getUTCMonth() !== currentDate.getUTCMonth() ||
+          sessionDate.getUTCDate() !== currentDate.getUTCDate()) {
+          // Update the last access field of the session if chatted on a different day from its date field
+          const newName = getSessionName();
+          await chatSessionCollection.updateOne(
+            { sessionID, userID },
+            {
+              $set: {
+                name: newName,
+                date: currentDate
+              }
+            }
+          );
+        }
+      }
+    
+      const data = {
+        message,
+        sourceDocs,
+      };
+      res.status(200).json(data);
+  }
 
     const model = new OpenAIChat({
       temperature: 0.1,
@@ -220,10 +298,6 @@ export default async function handler(
 
 
     console.log(namespaces, 'namespace in chat.ts');
-
-
-    //selects the index
-    const index = pinecone.Index(PINECONE_INDEX_NAME);
 
     const modelForResponse = new OpenAIChat({
       temperature: 0.1,

@@ -102,21 +102,21 @@ interface CallResponse {
 }
 
 
-interface CustomQAChainOptions {
+interface CoursesCustomQAChainOptions {
     returnSourceDocuments: boolean;
     bufferMaxSize: number;
 }
 
-export class CustomQAChain {
+export class CoursesCustomQAChain {
     private model: OpenAIChat;
     private index: any;
     private namespaces: string[];
-    private options: CustomQAChainOptions;
+    private options: CoursesCustomQAChainOptions;
     private chatHistoryBuffer: ChatHistoryBuffer;
     
 
 
-    constructor(model: OpenAIChat, index: any, namespaces: string[], options: CustomQAChainOptions) {
+    constructor(model: OpenAIChat, index: any, namespaces: string[], options: CoursesCustomQAChainOptions) {
         this.model = model;
         this.index = index;
         this.namespaces = namespaces;
@@ -130,8 +130,8 @@ export class CustomQAChain {
     }
 
 
-    public static fromLLM(model: OpenAIChat, index: any, namespaces: string[], options: CustomQAChainOptions): CustomQAChain {
-        return new CustomQAChain(model, index, namespaces, options);
+    public static fromLLM(model: OpenAIChat, index: any, namespaces: string[], options: CoursesCustomQAChainOptions): CoursesCustomQAChain {
+        return new CoursesCustomQAChain(model, index, namespaces, options);
     }
 
 
