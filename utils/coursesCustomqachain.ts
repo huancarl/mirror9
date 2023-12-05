@@ -168,7 +168,7 @@ export class CoursesCustomQAChain {
     
         let fetchedTexts: PineconeResultItem[] = [];
         let remainingDocs = 5;                      // max vector search, adjust accordingly till find optimal
-    
+
         const maxNamespaces = 10;
         const namespacesToSearch = this.namespaces;
 

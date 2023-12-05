@@ -9,6 +9,8 @@ if (!process.env.PINECONE_INDEX_NAME) {
 const PINECONE_INDEX_NAME = 'cornellgpt';
 
 const NAMESPACE_NUMB: { [key: string]: string[] } = {
+  //Maps the names of the pdf files to namespace names so that it can be ingested and later retrieved 
+
   'INFO_2040_Textbook': ['INFO 2040 Textbook'],
   'Math_21a_Review_Sheet': ['Math 21a Review Sheet'],
   'Probability_Cheatsheet_v2.0': ['Probability Cheatsheet v2.0'],

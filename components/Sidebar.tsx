@@ -25,6 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         return null;
     });
     const [userID, setUserID] = useState(null);
+    const [isCreatingSession, setIsCreatingSession] = useState(false);
 
     const [bottomSectionHeight, setBottomSectionHeight] = useState(0); // State for the height of the bottom section
     const bottomSectionRef = useRef(null); // Ref for the bottom section
@@ -84,7 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
       // Sort dates
       const sortedDates = Object.keys(sessionsByDate).sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
     
-      //function for fetching chat sessions using the user's email and course
+      //function for fetching chat sessions using the user's email and courfetchChatSessionsse
       async function fetchChatSessions(userID) {
           try {
               const response = await fetch('/api/fetchAllSessions', {
@@ -98,9 +99,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
                   }),
               });
               const data = await response.json();
-              if (data.sessions === false) {
+              if (data.sessions === false && !isCreatingSession) {
                   console.log('No sessions found, creating a new one...');
-                  initNewChat();
+                  setIsCreatingSession(true);
+                  handleNewChat();
               } else {
                   setChatSessions(data.sessions || []);
                   // Ensure that the current session is valid
@@ -131,14 +133,14 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
             }
         }
         getUserInfoAndFetchSessions();
-    }, [currentSessionID, sessions, className, onSessionChange, userID]);
+    }, [currentSessionID, sessions, className, userID]);
 
     //initializes the UI with a session instantly
 
     const initNewChat = async () => {
       const newSessionID = uuidv4();
       const sessionName = getSessionName(); 
-      
+      setIsCreatingSession(true);
         try {
             const response = await fetch('/api/createNewChatSession', {
                 method: 'POST',
@@ -162,6 +164,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         } catch (error) {
             console.error('Failed to create new chat session:', error);
         }
+        setIsCreatingSession(false);
     }
 
     const handleNewChat = async () => {

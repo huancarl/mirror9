@@ -186,7 +186,7 @@ export default async function handler(
     if(namespace === 'Course Finder SP24'){
       const modelForResponse = new OpenAIChat({
         temperature: 0.1,
-        modelName: "gpt-4-1106-preview",
+        modelName: "gpt-3.5-turbo-1106",
         cache: true,
       });
       //init class
@@ -255,7 +255,10 @@ export default async function handler(
         sourceDocs,
       };
       res.status(200).json(data);
+      return;
   }
+
+    console.log('CHAT.TS RUNS AGAIN');
 
     const model = new OpenAIChat({
       temperature: 0.1,
