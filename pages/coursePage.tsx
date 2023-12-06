@@ -160,9 +160,9 @@ function CourseCatalog() {
     <div className={styles.container}>
           {/* <ProgressBar count={referralCount} /> */}
           {isPopupVisible && <Popup />}
-<button className={styles.referralText} onClick={handleReferralClick}>
+{/* <button className={styles.referralText} onClick={handleReferralClick}>
  GET FREE MESSAGES! 🎁
-</button>
+</button> */}
       <div className={styles.classInquiryContainer}>
         <button
     className={styles.classInquiryButton}
