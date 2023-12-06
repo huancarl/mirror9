@@ -4,7 +4,7 @@ import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { PINECONE_INDEX_NAME, NAMESPACE_NUMB } from '@/config/pinecone';
 import { pinecone } from '@/utils/pinecone-client';
 import { extractTitlesFromQuery } from '@/utils/helpers';
-import { OpenAIChat } from "langchain/llms";
+import { OpenAIChat } from "langchain/llms/openai";
 import { BufferMemory } from "langchain/memory";
 import { ConversationChain } from "langchain/chains";
 import {
