@@ -314,6 +314,8 @@ s
        
         `;
 
+        /** Chat Prompt Template */
+
         const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
             SystemMessagePromptTemplate.fromTemplate(prompt),
             new MessagesPlaceholder('chat_history'),
