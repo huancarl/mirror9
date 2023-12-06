@@ -1,12 +1,12 @@
 import connectToDb from '@/config/db';
 
-export default async (req, res) => {
+const fetchSessions = async (req, res) => {
   const { userID, course } = req.body;
 
   if (req.method !== 'POST') {
     res.status(405).send('Method not allowed');
     return;
-}
+  }
 
   if (!userID) {
     return res.status(400).json({ error: 'userID is required' });
@@ -35,3 +35,5 @@ export default async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+export default fetchSessions;

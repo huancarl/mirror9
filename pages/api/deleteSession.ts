@@ -1,6 +1,6 @@
 import connectToDb from '@/config/db';
 
-export default async (req, res) => {
+const deleteSession = async (req, res) => {
     const { sessionID, className } = req.body;
   
     if (!sessionID) {
@@ -27,3 +27,5 @@ export default async (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export default deleteSession;

@@ -1,6 +1,6 @@
 import connectToDb from '@/config/db';
 
-export default async (req, res) => {
+const createNewSession = async (req, res) => {
     const { userID, sessionID, course, name} = req.body;
   
     if (!userID || !sessionID) {
@@ -30,3 +30,5 @@ export default async (req, res) => {
       return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
+
+export default createNewSession;
