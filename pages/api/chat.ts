@@ -142,6 +142,7 @@ export default async function handler(
   //only accept post requests
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' });
+    console.log((req.method),"Chat.ts request")
     return;
   }
 
