@@ -40,6 +40,9 @@ export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 3.
   return <>{currentText}</>;
 };
 
+export default Typewriter;
+
+
 
 
 

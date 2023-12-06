@@ -1,4 +1,4 @@
-export function messageContainsCode(message:any, userMessage:any) {
+export function messageContainsCode(message, userMessage) {
     const codeKeywords = [
       'Python', 'python', 'PYTHON',
       'Java', 'java', 'JAVA',
@@ -33,7 +33,7 @@ export function messageContainsCode(message:any, userMessage:any) {
     return isQuestionCodeRelated && isAnswerCodeRelated;
   }
 
-  export function transformMessageWithCode(message: string) {
+  export function transformMessageWithCode(message) {
     // Split the message into segments based on triple backticks
     const segments = message.split('```');
   
@@ -62,5 +62,7 @@ export function messageContainsCode(message:any, userMessage:any) {
   
     return transformedMessage;
   }
+
+
   
 
