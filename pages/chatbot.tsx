@@ -22,14 +22,14 @@ import {
   MessageRenderer,
   parseBoldText,
   
-} from './katex';
+} from '../utils/katex';
 
 import {
   messageContainsCode,
   transformMessageWithCode
-} from './codeblock'
+} from '../utils/codeblock'
 import Sidebar from 'components/Sidebar';
-import { Typewriter } from './typewriter'; 
+import { Typewriter } from '../utils/typewriter'; 
 import { useRouter } from 'next/router';
 import "prismjs/themes/prism-tomorrow.css"; // You can choose different themes
 import useTypewriter from 'react-typewriter-hook'; // You need to install this package

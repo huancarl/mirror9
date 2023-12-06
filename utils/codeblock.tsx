@@ -26,7 +26,6 @@ export function messageContainsCode(message, userMessage) {
       'Clojure', 'clojure', 'CLOJURE',
       "code", "program"
     ];
-
     const isQuestionCodeRelated = codeKeywords.some(keyword => message.includes(keyword));
     const isAnswerCodeRelated = codeKeywords.some(keyword => userMessage.includes(keyword));
   
