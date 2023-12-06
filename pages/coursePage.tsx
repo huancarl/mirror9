@@ -71,7 +71,7 @@ function CourseCatalog() {
 
 
 
-  const [referralCount, setReferralCount] = useState(6); // ****** Modify the use state depending on how many referral links are used and verified *****
+  const [referralCount, setReferralCount] = useState(1); // ****** Modify the use state depending on how many referral links are used and verified *****
 
   // const ProgressBar = ({ count }) => {
   //   const maxReferrals = 10; // Maximum number of referrals

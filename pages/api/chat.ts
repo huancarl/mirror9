@@ -262,7 +262,7 @@ export default async function handler(
 
     const model = new OpenAIChat({
       temperature: 0.1,
-      modelName: "gpt-4-1106-preview",
+      modelName: "gpt-3.5-turbo-1106",
       cache: true,
   });
 
@@ -314,7 +314,7 @@ export default async function handler(
       bufferMaxSize: 4000,
     });
 
-
+    
     console.log('searching namespace for results...');
   
     const results = await qaChain.call({
