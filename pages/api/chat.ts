@@ -17,7 +17,7 @@ import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
 import connectToDb from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
-
+import * as path from 'path';
 
 function cleanText(text) {
   // Removing lines containing only whitespace
@@ -32,7 +32,7 @@ function cleanText(text) {
 // }
 
 
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
@@ -40,51 +40,57 @@ export default async function handler(
   const { question, messages, userID, sessionID, namespace} = req.body;
   const image = req.body.image;
 
-   const classMapping = {
-    "INFO 2040": ["INFO 2040 Textbook"],
-    "INFO 2950": ['INFO 2950 Koenecke Syllabus', 'INFO 2950 Lecture 7', 'INFO 2950 Handbook',
-  
-    'INFO 2950 Fall 2022 Midterm Solutions',
-    'INFO 2950 Fall 2022 Midterm Questions',
-    'INFO 2950 Lecture 1',
-    'INFO 2950 Lecture 2',
-    'INFO 2950 Lecture 3',
-    'INFO 2950 Lecture 4',
-    'INFO 2950 Lecture 5',
-    'INFO 2950 Lecture 6',
-    'INFO 2950 Lecture 8',
-    'INFO 2950 Lecture 9',
-    'INFO 2950 Lecture 10',
-    'INFO 2950 Midterm Fall 2023 Review Topics'
-    ],
-    "Other": "Probability Cheatsheet v2.0, Math 21a Review Sheet, Introduction To Probability",
-    "BIOEE 1540": [
-      "BIOEE Lecture 1 Course Logistics Fall 2023",
-      "BIOEE Lecture 2 Overview",
-      "BIOEE Lecture 3 Origin of Earth Ocean",
-      "BIOEE Lecture 4 History of Life in the Oceans 2023",
-      "BIOEE Lecture 5 6 Marine Geology",
-      "BIOEE Lecture 7 8 9 Waves Tides",
-      "BIOEE Lecture 10 11 12 Ocean Circulation",
-      "BIOEE Lecture 13 El Nino Other Oscillations",
-      "BIOEE Lecture 15 16 Primary Production",
-      "BIOEE Lecture 17 Pelagic FoodWebs",
-      "BIOEE Lecture 18 Guest Lecture 2023 COMPLETE",
-      "BIOEE Lecture 19 Microbial Processes",
-      "BIOEE Lecture 20 21 Rocky Intertidal Coral Reefs Whales",
-      "BIOEE Lecture 22 23 Marine Chemistry",
-      "BIOEE Lecture 25 26 Climate Change Science I and II",
-      "BIOEE Lecture 27 Howarth methane Oct 30 2023",
-      "BIOEE Lecture 28 Climate Change and Extreme Weather",
-      "BIOEE Lecture 30 Howarth Climate Solutions Nov 6 2023",
-      "BIOEE Lecture 31 Cornell 2035 Climate Action Plan",
-      "BIOEE Lecture 32 Marine Pollution",
-      "BIOEE Lecture 33 Fishing Impacts",
-      "BIOEE Lecture 34 Loss of Global Biodiversity",
-      "BIOEE Lecture 35 6th Extinction in the Oceans 2023"
-  ]
+  const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
 
-  }
+  const data = await fs.readFile(classMappingFilePath, 'utf8');
+  const classMapping = JSON.parse(data);
+  console.log(classMapping, 'classmapping test');
+
+  //  const classMapping = {
+  //   "INFO 2040": ["INFO 2040 Textbook"],
+  //   "INFO 2950": ['INFO 2950 Koenecke Syllabus', 'INFO 2950 Lecture 7', 'INFO 2950 Handbook',
+  
+  //   'INFO 2950 Fall 2022 Midterm Solutions',
+  //   'INFO 2950 Fall 2022 Midterm Questions',
+  //   'INFO 2950 Lecture 1',
+  //   'INFO 2950 Lecture 2',
+  //   'INFO 2950 Lecture 3',
+  //   'INFO 2950 Lecture 4',
+  //   'INFO 2950 Lecture 5',
+  //   'INFO 2950 Lecture 6',
+  //   'INFO 2950 Lecture 8',
+  //   'INFO 2950 Lecture 9',
+  //   'INFO 2950 Lecture 10',
+  //   'INFO 2950 Midterm Fall 2023 Review Topics'
+  //   ],
+  //   "Other": "Probability Cheatsheet v2.0, Math 21a Review Sheet, Introduction To Probability",
+  //   "BIOEE 1540": [
+  //     "BIOEE Lecture 1 Course Logistics Fall 2023",
+  //     "BIOEE Lecture 2 Overview",
+  //     "BIOEE Lecture 3 Origin of Earth Ocean",
+  //     "BIOEE Lecture 4 History of Life in the Oceans 2023",
+  //     "BIOEE Lecture 5 6 Marine Geology",
+  //     "BIOEE Lecture 7 8 9 Waves Tides",
+  //     "BIOEE Lecture 10 11 12 Ocean Circulation",
+  //     "BIOEE Lecture 13 El Nino Other Oscillations",
+  //     "BIOEE Lecture 15 16 Primary Production",
+  //     "BIOEE Lecture 17 Pelagic FoodWebs",
+  //     "BIOEE Lecture 18 Guest Lecture 2023 COMPLETE",
+  //     "BIOEE Lecture 19 Microbial Processes",
+  //     "BIOEE Lecture 20 21 Rocky Intertidal Coral Reefs Whales",
+  //     "BIOEE Lecture 22 23 Marine Chemistry",
+  //     "BIOEE Lecture 25 26 Climate Change Science I and II",
+  //     "BIOEE Lecture 27 Howarth methane Oct 30 2023",
+  //     "BIOEE Lecture 28 Climate Change and Extreme Weather",
+  //     "BIOEE Lecture 30 Howarth Climate Solutions Nov 6 2023",
+  //     "BIOEE Lecture 31 Cornell 2035 Climate Action Plan",
+  //     "BIOEE Lecture 32 Marine Pollution",
+  //     "BIOEE Lecture 33 Fishing Impacts",
+  //     "BIOEE Lecture 34 Loss of Global Biodiversity",
+  //     "BIOEE Lecture 35 6th Extinction in the Oceans 2023"
+  // ]
+
+  // }
 
   function createPrompt(namespaceToSearch: string, chat_history: any){
     return `(
@@ -271,6 +277,8 @@ export default async function handler(
 
     const fewShotPrompt = createPrompt(namespace, messages);
 
+    console.log(fewShotPrompt, 'chat.ts');
+
     const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
       SystemMessagePromptTemplate.fromTemplate(fewShotPrompt),
       new MessagesPlaceholder('chat_history'),
@@ -385,3 +393,5 @@ export default async function handler(
     res.status(500).json({ error: error.message || 'Something went wrong' });
   }
 }
+
+export default handler;

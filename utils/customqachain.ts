@@ -525,7 +525,7 @@ export class CustomQAChain {
         this.chatHistoryBuffer.addMessage(`Question: ${question}`);
 
 
-        console.log(prompt, 'prompt');
+        //console.log(prompt, 'prompt');
 
 
 // remove the following line because `response` is already sanitized and added to the chat history

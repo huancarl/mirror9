@@ -84,20 +84,21 @@ function countTokens(text: string): number {
   return text.split(/\s+/).length;
 }
 
-function splitIntoChunks(text: string, maxTokens: number): string[] {
+function splitIntoChunks(text: string, chunkSize: number): string[] {
   const words = text.split(/\s+/);
-  let currentChunk: string[] = []; // Explicitly declare as string array
-  let chunks: string[] = []; // Explicitly declare as array of strings
+  let currentChunk: string[] = [];
+  let chunks: string[] = [];
   let currentCount = 0;
 
   for (let word of words) {
-      if (currentCount + word.length > maxTokens) {
+      currentChunk.push(word);
+      currentCount++;
+
+      if (currentCount >= chunkSize) {
           chunks.push(currentChunk.join(' '));
           currentChunk = [];
           currentCount = 0;
       }
-      currentChunk.push(word);
-      currentCount += word.length;
   }
 
   if (currentChunk.length > 0) {
@@ -107,7 +108,7 @@ function splitIntoChunks(text: string, maxTokens: number): string[] {
   return chunks;
 }
 
-const TOKEN_LIMIT = 6000; // Set your OpenAI token limit
+const CHUNK_SIZE = 225; // Set your OpenAI token limit
 const indexToIngest = pinecone.Index(PINECONE_INDEX_NAME);
 const namespaceToIngest = 'Course Catalog';
 
@@ -125,48 +126,79 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
       //console.log(response.data.data.classes);
       //Get all of the classes that exist for parameter subject
       const classes = response.data.data.classes;
-      let allClassInfo: string[] = [];
+      // let allClassInfo: string[] = [];
       //For each class format the information to prepare for ingestion
       for(let i = 0; i < classes.length; i++){
 
         const classInfoStr = await formatInfoForClass(classes[i]);
-        console.log(classInfoStr);
-
-        const json = JSON.stringify(classInfoStr);
-        await fs.appendFile('classes-split.json', json + '\n');
-        allClassInfo.push(classInfoStr);  
-
-        let chunks;
-        if (countTokens(classInfoStr) > TOKEN_LIMIT) {
-          chunks = splitIntoChunks(classInfoStr, TOKEN_LIMIT); // Implement this function
-        } else {
-          chunks = [classInfoStr]; // Keep as a single chunk
-        }
-
-        let prevVectorId: string | null = null;
-
+        const chunks = splitIntoChunks(classInfoStr, CHUNK_SIZE);
+    
         for (const [index, chunk] of chunks.entries()) {
-          const vectorId = `${classes[i].crseId}_${index}`;
+
+          console.log(chunk, 'chunk');
+          const json = JSON.stringify(chunk);
+          await fs.appendFile('classes-split.json', json + '\n');
+
           const embeddings = new OpenAIEmbeddings(/* configuration */);
           const dbConfig = {
             pineconeIndex: indexToIngest,
             namespace: namespaceToIngest,
             textKey: 'text'
           };
-
+    
           let metadata = {
             courseId: classes[i].crseId,
             title: classes[i].titleLong,
             subject: classes[i].subject,
-            part: index,
-            prevVector: prevVectorId,
-            nextVector: index < chunks.length - 1 ? `${classes[i].crseId}_${index + 1}` : null
+            part: index
+            // Removed prevVector and nextVector
           };
+    
+        await PineconeStore.fromTexts([chunk], metadata, embeddings, dbConfig);  
 
-          prevVectorId = vectorId;
-          await PineconeStore.fromTexts([chunk], metadata, embeddings, dbConfig);
+
+
+
+
+        // const classInfoStr = await formatInfoForClass(classes[i]);
+        // console.log(classInfoStr);
+
+        // const json = JSON.stringify(classInfoStr);
+        // await fs.appendFile('classes-split.json', json + '\n');
+        // allClassInfo.push(classInfoStr);  
+
+        // let chunks;
+        // if (countTokens(classInfoStr) > TOKEN_LIMIT) {
+        //   chunks = splitIntoChunks(classInfoStr, TOKEN_LIMIT); // Implement this function
+        // } else {
+        //   chunks = [classInfoStr]; // Keep as a single chunk
+        // }
+
+        // let prevVectorId: string | null = null;
+
+        // for (const [index, chunk] of chunks.entries()) {
+        //   const vectorId = `${classes[i].crseId}_${index}`;
+        //   const embeddings = new OpenAIEmbeddings(/* configuration */);
+        //   const dbConfig = {
+        //     pineconeIndex: indexToIngest,
+        //     namespace: namespaceToIngest,
+        //     textKey: 'text'
+        //   };
+
+        //   let metadata = {
+        //     courseId: classes[i].crseId,
+        //     title: classes[i].titleLong,
+        //     subject: classes[i].subject,
+        //     part: index,
+        //     prevVector: prevVectorId,
+        //     nextVector: index < chunks.length - 1 ? `${classes[i].crseId}_${index + 1}` : null
+        //   };
+
+        //   prevVectorId = vectorId;
+        //   await PineconeStore.fromTexts([chunk], metadata, embeddings, dbConfig);
+        // }
         }
-        }
+      }
     } catch (error) {
       console.error('Error ingesting class data:', error);
     }

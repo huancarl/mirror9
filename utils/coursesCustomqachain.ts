@@ -68,12 +68,10 @@ class ChatHistoryBuffer {
 }
 
 interface Metadata {
-    text: string;
-    source: string;
-    pageNumber: number;
-    totalPages: number;
-    chapter?: number;   // Optional, if not all documents have chapters
-    book?: string;      // Optional, if not all documents are from books
+    courseID: string;
+    title: string;
+    subject: string;
+    part: number;
   }
 
 interface PineconeResultItem {
@@ -81,24 +79,21 @@ interface PineconeResultItem {
     values: any;
     text: any;
     value: {
-        text: string;
-        source: string;
-        pageNumber: number;
-        totalPages: number;
-        chapter?: number;
-        book?: string;
-        score : any;
+        courseID: string;
+        title: string; 
+        subject: string;
+        part: number;
     };
 }
 
 interface CallResponse {
     text: string;
     sourceDocuments: Array<{
-        text: string;
-        Source: string;
-        Page_Number: number;
-        Total_Pages: number;
-    }>;
+        courseID: string;
+        title: string;
+        subject: string;
+        part: number;
+    }> | null;
 }
 
 
@@ -224,18 +219,15 @@ export class CoursesCustomQAChain {
 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
-                text: vector.metadata.text,
-                "Source": vector.metadata.source,
-                'Page_Number': vector.metadata['loc.pageNumber'],
-                'Total_Pages': vector.metadata['pdf.totalPages']
-                // "Chapter": vector.metadata["chapter"]
+                courseID: vector.metadata.courseID,
+                title: vector.metadata.title,
+                subject: vector.metadata.subject,
             };
         });  
 
         const formattedSourceDocuments = sourceDocuments.map((doc, index) => {
             // Remove newlines and excessive spacing from the text
-            const cleanedText = doc.text.replace(/\s+/g, ' ').trim();
-            return `- Text: "${cleanedText}", Source: "${doc.Source}", Page Number: ${doc.Page_Number}, Total Pages: ${doc.Total_Pages}`;
+            return `- Class: ${doc.subject} ${doc.courseID} ${doc.title} Information for ${doc.subject} ${doc.courseID} ${doc.title}: "${doc}",`;
           }).join('\n');
        
         const prompt = `
@@ -283,7 +275,7 @@ export class CoursesCustomQAChain {
         Accuracy and Detail: Provide long, full, accurate, specific, detailed, and helpful answers. Never fabricate or guess answers.
         Chat History Utilization: Refer to ${chat_history} to maintain continuity and context in conversations. 
         Assess whether questions are continuations or new queries.
-        Make sure to use ${formattedSourceDocuments}
+        Make sure to use ${formattedSourceDocuments} when generating a response. Mention the class title, subject, and code within your response.
 
 
         Response Guidelines:
@@ -359,7 +351,7 @@ s
 
     return {
         text: response,
-        sourceDocuments: sourceDocuments
+        sourceDocuments: null
     };
 }
 }

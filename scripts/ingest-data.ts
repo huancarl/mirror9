@@ -50,11 +50,13 @@ export const run = async () => {
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/INFO_2950`);
 
-    for (const pdf of pdfFiles) {
+    for (const [fileNameWithExtension, document] of pdfFiles) {
 
-      const namespace = NAMESPACE_NUMB[pdf[0]][0]; // Adjust this if the mapping of folder to namespace changes
+      const fileName = fileNameWithExtension.replace('.pdf', '');
+      
+      const namespace = NAMESPACE_NUMB[fileName][0]; // Adjust this if the mapping of folder to namespace changes
 
-      const splitDocs = await textSplitter.splitDocuments(pdf[1]);
+      const splitDocs = await textSplitter.splitDocuments(document);
 
       const json = JSON.stringify(splitDocs);
       await fs.writeFile(`${namespace}-split.json`, json);
