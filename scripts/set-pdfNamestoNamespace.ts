@@ -24,19 +24,22 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
 
         // Append new keys and values, if they don't already exist
         pdfNames.forEach(pdfName => {
-            // Check if the key already exists
             const formattedName = pdfName.replace(/_/g, ' ');
+            const mappedName = `${className} ${formattedName}`;
+        
             if (!jsonData.hasOwnProperty(pdfName)) {
-                jsonData[pdfName] = [`${className} ${formattedName}`];
+                jsonData[pdfName] = [mappedName];
             }
-            // Update the classMaterialMapping with the new materials
+        
             if (!classMaterialMapping.hasOwnProperty(subjectName)) {
                 classMaterialMapping[subjectName] = [];
             }
-            if (!classMaterialMapping[subjectName].includes(formattedName)) {
-                classMaterialMapping[subjectName].push(formattedName);
+            
+            if (!classMaterialMapping[subjectName].includes(mappedName)) {
+                classMaterialMapping[subjectName].push(mappedName);
             }
         });
+        
 
         // Write the updated JSON back to the file
         fs.writeFileSync(jsonFilePath, JSON.stringify(jsonData, null, 2));
@@ -48,9 +51,9 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
 }
 
 export const run = async () => {
-    const nameOfFolder = 'INFO_3350';
-    const nameOfClassToAppendInFront = ''
-    const subjectNameForChatTS = '' // usually the same thing as nameOfClassToAppendInFront
+    const nameOfFolder = 'AEM_2241';
+    const nameOfClassToAppendInFront = 'AEM 2241'
+    const subjectNameForChatTS = 'AEM 2241' // usually the same thing as nameOfClassToAppendInFront
 
     const pdfNames = updatePdfNamesToNamespace(nameOfFolder, nameOfClassToAppendInFront, subjectNameForChatTS);
 }

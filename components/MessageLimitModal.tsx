@@ -101,15 +101,14 @@ const MessageLimitModal = ({ setShowLimitReachedModal, clientS}) => {
     <div className={styles.modalRight}>
       <h1 className={styles.freeHeader}>FREE</h1>
       <div className={styles.modalMessage}>
-        <h2>Upload your materials to CornellGPT</h2>
-        <p>We will verify it and grant you additional messages for FREE.</p>
+        <h2>Upload your materials and gain additional messages for FREE. </h2>
         <button
           className={styles.purpleButton}
           onClick={() => {
             window.open('https://docs.google.com/forms/d/e/1FAIpQLSezI8BOql8DGhvICuH2Rzyp9PYf4MO0vN6pgbCpx3B0S8NzxA/viewform?usp=sf_link', '_blank', 'noopener,noreferrer');
           }}
         >
-          Upload
+          UPLOAD
         </button>
       </div>
     </div>

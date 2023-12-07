@@ -64,6 +64,7 @@ function CourseCatalog() {
     { key: 'INFO 2950', title: 'INFO 2950', professor: 'Professor Koenecke' },
     { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
     { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
+    { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");

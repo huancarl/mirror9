@@ -69,19 +69,26 @@
 
 
 .purpleButton {
-  background-color: #800080; /* Purple color */
+  background-color: #6a00ff; /* Purple color */
   border: none;
   border-radius: 0.25rem;
   color: white;
-  padding: 1rem;
+  padding: 0.75rem 1rem; /* Match horizontal padding */
   margin-top: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  /* Add the following if the subscribe button has a set width */
+  width: auto; /* Match width of subscribe button if needed */
 }
 
+
 .purpleButton:hover {
-  background-color: #6a005a;
+  background-color: hsl(263, 75%, 70%);
 }
+.modalMessage h2 {
+  margin-left: 40px; /* Adjust as needed */
+}
+
 
 .priceHeader {
   text-align: center;

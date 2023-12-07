@@ -36,7 +36,7 @@ async function addNewUserHandler(req, res) {
                 // If user is not registered, insert a new document
                 await userCollection.insertOne({
                     userEmail: userEmail,
-                    messagesLeft: 10,
+                    messagesLeft: 30,
                     paid: false,
                     dateCreated: new Date(),
                 });

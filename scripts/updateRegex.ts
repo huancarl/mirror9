@@ -10,11 +10,11 @@ async function updateRegexWithPdfNames() {
     const pdfNamesData = JSON.parse(await fs.promises.readFile(pdfNamesFilePath, 'utf8'));
     const regexData = JSON.parse(await fs.promises.readFile(regexFilePath, 'utf8'));
 
+    // Extract and clean existing patterns from regexData
+    let existingPatterns = regexData.pattern.replace(/\\b/g, '').split('|').map(pattern => pattern.trim());
+
     // Extract values from pdfNamesData and flatten them into a single array
     const pdfNames = Object.values(pdfNamesData).flat();
-
-    // Extract existing patterns from regexData
-    let existingPatterns = regexData.pattern.split('|').map(pattern => pattern.trim());
 
     // Combine and remove duplicates
     const combinedPatterns = Array.from(new Set([...existingPatterns, ...pdfNames]));

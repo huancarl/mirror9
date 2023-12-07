@@ -306,6 +306,145 @@
 
 
 
+.modalOverlay {
+  display: flex;
+  justify-content: center; /* Keep it centered, but add margin to .modalContainer to push it right */
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+}
+
+.modalContainer {
+  background-color: #fff;
+  padding: 40px; /* More padding for a spacious look */
+  border-radius: 10px; /* Rounded corners for modern look */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Larger shadow for more depth */
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+  width: 400px; /* Wider container */
+  max-width: 90%; /* Ensure it doesn't get too wide on small screens */
+  margin-left: 100px;
+  margin-top: 180px;
+}
+
+.modalButtonContainer {
+  width: 100%; /* Full width */
+  display: flex;
+  flex-direction: column; /* Stack buttons vertically */
+  align-items: center; /* Center buttons */
+  gap: 20px; /* Space between buttons */
+}
+
+.modalButton {
+  background-color: darkred; /* Red background */
+  color: #fff; /* White text */
+  border: none; /* No border */
+  padding: 15px 30px; /* Larger padding for bigger buttons */
+  border-radius: 5px; /* Slightly rounded corners for buttons */
+  cursor: pointer;
+  font-size: 14px; /* Larger font size */
+  width: 70%; /* Use a percentage of the container width */
+  max-width: 300px; /* Maximum width for buttons */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+
+}
+
+.modalButton:hover {
+  background-color: #e63939; /* Slightly darker red on hover */
+  transform: translateY(0px); /* Lift button up slightly on hover */
+}
+
+
+
+/* Add any additional global styles for the popup, such as font family */
+.modalContainer {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Professional font */
+}
+
+
+
+
+/* Overlay styles */
+.modalOverlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+}
+
+/* Container for the popup */
+.modalContainer {
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+  max-width: 90%;
+  margin-left: 120px;
+  margin-top: 220px;
+}
+
+/* Container for the buttons */
+.modalButtonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px; /* Space between buttons */
+}
+
+/* Button styles */
+.modalButton {
+  background-color: darkred; /* Red background */
+  color: #fff; /* White text */
+  border: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  width: 80%; /* Adjust the width as needed */
+  max-width: 300px; /* Maximum width for buttons */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  text-align: center; /* Center text inside the button */
+  margin-bottom: 10px; /* Margin at the bottom of each button */
+}
+
+/* Hover effect for buttons */
+.modalButton:hover {
+  background-color: #b71c1c; /* Darker shade of red for hover */
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 600px) {
+  .modalContainer {
+    margin-left: 0; /* Full width on smaller screens */
+  }
+  .modalButton {
+    width: 100%; /* Full width buttons on smaller screens */
+  }
+}
+
+
+
+
+
+
+
 
 
 

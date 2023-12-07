@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import styles from '@/styles/Sidebar.module.css';
+import { useRouter } from 'next/router';
+import axios from 'axios'; 
+
 
 type ChatSession = {
     _id: string;
@@ -26,6 +29,9 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     });
     const [userID, setUserID] = useState(null);
     const [isCreatingSession, setIsCreatingSession] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const router = useRouter();
+
 
     const [bottomSectionHeight, setBottomSectionHeight] = useState(0); // State for the height of the bottom section
     const bottomSectionRef = useRef(null); // Ref for the bottom section
@@ -67,6 +73,62 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
+
+
+
+
+
+    const ProfilePopup = () => {
+      const router = useRouter();
+      const [isLoading, setIsLoading] = useState(false);
+    
+      const handleLogOut = () => {
+        router.push('/'); // This will navigate to the home page (index.tsx)
+      };
+    
+      const handleCancelSubscription = async () => {
+        setIsLoading(true);
+        try {
+          // Assuming 'userID' is available in your component, otherwise you'll need to fetch or pass it
+          const response = await axios.post('/api/cancelSubscription', { userID});
+          console.log(response.data.message);
+          setShowPopup(false); // Hide popup after cancellation
+          // Additional logic on successful cancellation can go here
+        } catch (error) {
+          console.error('Error canceling subscription:', error);
+          // Handle error, show message to user, etc.
+        }
+        setIsLoading(false);
+      };
+    
+      return (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContainer}>
+            <div className={styles.modalButtonContainer}>
+              <button onClick={handleLogOut} className={styles.modalButton}>Log Out</button>
+              <button 
+                onClick={handleCancelSubscription} 
+                className={styles.modalButton}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Cancelling...' : 'Cancel Subscription'}
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+    
+
+    const togglePopup = () => {
+      setShowPopup(!showPopup);
+    };
+    
+
+
+
+
 
     const getSessionName = () => {
       const now = new Date();
@@ -267,7 +329,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
           // If the user clicks 'Cancel', do nothing
           console.log('Deletion cancelled.');
         }
-
+        
         
         
       };
@@ -278,6 +340,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         <div>
         <div className={styles.side}>
         <button onClick={handleNewChat} className={styles.newChatButton}>
+          
   CornellGPT
   <img src="/chat.png" alt="Chat" className={styles.chatIcon} />
 </button>
@@ -320,7 +383,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 </button>
 <button
     className={styles.bottomButton}
-    onClick={() => window.open('https://discord.gg/yDcGnQCT', '_blank')}
+    onClick={() => window.open('https://discord.gg/eVT7CN69', '_blank')}
 >
     <img src="/discord.png" alt="Discord" className={styles.discordIcon} />
     CornellGPT Discord
@@ -328,10 +391,12 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 
 
                 
-                <button className={styles.bottomButton}>
+<button className={styles.bottomButton} onClick={togglePopup}>
                   <img src="/logout.png" alt="Log Out" className={styles.logoutIcon} />
                   <span className={styles.logoutText}>Profile</span>
+                  {showPopup && <ProfilePopup />}
                 </button>
+                
             </div>
         </div>
     </div>

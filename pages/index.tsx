@@ -8,13 +8,13 @@ const HomePage: React.FC = () => {
   const typewriter = useTypewriter(magicName);
   const index = useRef(0);
   const prompts = [
-    "How much weight is the prelim?",
-    "CS 2110: explain lecture 3",
+    "How much weight is the final?",
+    "CS 3110: explain OCaml code from chapter..",
     "When is the next prelim?",
     "CHEM 2090: explain the second lab",
-    "What classes should I take for distributions?",
+    "What diversity classes should I take?",
     "Generate practice prelim problems",
-    "INFO 2950: explain SQL code from lecture",
+    "INFO 2950: explain main concepts from lecture 13",
     "Explain how to do problem 1 from HW2",
   ];
 
@@ -40,7 +40,7 @@ const HomePage: React.FC = () => {
       <div className={styles.buttonContainer}>
         <h1 className={styles.title}>
           <span style={{ color: 'hsl(0, 100%, 30%)' }}>Cornell</span>
-          <span style={{ color: 'hsl(0, 100%, 30%)' }}>GPT</span>
+          <span style={{ color: 'hsl(0, 100%, 30%)' }}>GPT BETA</span>
         </h1>
         
         <Link href="/sign-up" passHref>

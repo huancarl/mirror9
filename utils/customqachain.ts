@@ -437,7 +437,7 @@ export class CustomQAChain {
         Reference Citing:
         - The source materials that you are given access to are as follows: ${formattedSourceDocuments}. 
         - You will select the most relevant, accurate, detailed parts of the course materials to fully develop your accurate answer. 
-        - ALWAYS cite the source name (just the pdf!) and page numbers when possible in parenthesis throughout the response. Place multiple citations with source and page number throughout the response where you used them. Never put them at the end of your response. 
+        - ALWAYS cite just the pdf source (not the whole mpath) and page numbers when possible in parenthesis throughout the response. Place multiple citations with source and page number throughout the response where you used them. Never put them at the end of your response. 
         - Never make up information beyond or deviate from the explicit, exact information found in the source materials or incorrectly source answers. 
         - If the user asks something about the class you do not have access to, then state that you do not have access to that specifically yet.
         - If information is not elaborated upon in the course materials simply state the information as is, never make assumptions from the course materials.
