@@ -178,9 +178,9 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 60;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 40;                      // max vector search, adjust accordingly till find optimal
     
-        const maxNamespaces = 20;
+        const maxNamespaces = 15;
         // const namespacesToSearch = this.namespaces
         //     .filter(namespace => namespace.includes(filter))
         //     .slice(0, maxNamespaces);
@@ -192,7 +192,7 @@ export class CustomQAChain {
                 return await this.index.query({
                     queryRequest: {
                         vector: queryEmbedding,
-                        topK: 30,
+                        topK: 15,
                         namespace: namespace,
                         includeMetadata: true,
                     },
