@@ -18,6 +18,15 @@ import * as fs from 'fs/promises'
 import connectToDb from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
 
+export const maxDuration = 300; // This function can run for a maximum of 5 seconds
+export const dynamic = 'force-dynamic';
+ 
+export function GET(request: Request) {
+  return new Response('Vercel', {
+    status: 200,
+  });
+}
+
 
 function cleanText(text) {
   // Removing lines containing only whitespace
