@@ -47,12 +47,8 @@ export const run = async () => {
     });
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
-
-<<<<<<< Updated upstream
-    const pdfFiles = await getAllPDFFiles(`${filePath}/AEM_2241`);
-=======
-    const pdfFiles = await getAllPDFFiles(`${filePath}/BIOEE_1540`);
->>>>>>> Stashed changes
+    
+    const pdfFiles = await getAllPDFFiles(`${filePath}/PUBPOL_2350`);
 
     for (const [fileNameWithExtension, document] of pdfFiles) {
 
@@ -75,7 +71,6 @@ export const run = async () => {
         });
       }
     }
-
     console.log('ingestion complete');
   } catch (error) {
     console.error('Failed to ingest your data', error);

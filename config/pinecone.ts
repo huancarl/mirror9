@@ -8,62 +8,69 @@ if (!process.env.PINECONE_INDEX_NAME) {
   throw new Error('Missing Pinecone index name in .env file');
 }
 
-const jsonFilePath = path.join('utils', 'pdfNamestoNamespace.json');
+// const jsonFilePath = path.join('utils', 'pdfNamestoNamespace.json');
 
-const NAMESPACE_NUMB = JSON.parse(fs.readFileSync(jsonFilePath, 'utf8'));
+// const NAMESPACE_NUMB = JSON.parse(fs.readFileSync(jsonFilePath, 'utf8'));
 
 const PINECONE_INDEX_NAME = 'cornellgpt';
 
-// const NAMESPACE_NUMB: { [key: string]: string[] } = {
-//   //Maps the names of the pdf files to namespace names so that it can be ingested and later retrieved 
+const NAMESPACE_NUMB: { [key: string]: string[] } = {
+  //Maps the names of the pdf files to namespace names so that it can be ingested and later retrieved 
 
-//   'INFO_2040_Textbook': ['INFO 2040 Textbook'],
-//   'Math_21a_Review_Sheet': ['Math 21a Review Sheet'],
-//   'Probability_Cheatsheet_v2.0': ['Probability Cheatsheet v2.0'],
+  // '2023 Fall AEM 2241 hw1': ['AEM 2241 2023 Fall AEM 2241 hw1'],
+  // '2023 Fall AEM 2241 hw2': ['AEM 2241 2023 Fall AEM 2241 hw2'],
+  // '2023 Fall AEM 2241 hw3': ['AEM 2241 2023 Fall AEM 2241 hw3'],
+  // '2023 Fall AEM 2241 hw4': ['AEM 2241 2023 Fall AEM 2241 hw4'],
+  // '20230822 AEM 2241 Time Value of Money - HANDOUT': ['AEM 2241 20230822 AEM 2241 Time Value of Money - HANDOUT'],
+  // '20230824 In-class notes': ['AEM 2241 20230824 In-class notes'],
+  // '20230828 AEM 2241 Discounted Cash Flow Valuation - HANDOUT (1)': ['AEM 2241 20230828 AEM 2241 Discounted Cash Flow Valuation - HANDOUT (1)'],
+  // '20230829 In-class notes': ['AEM 2241 20230829 In-class notes'],
+  // '20230830 AEM 2241 Discounted Cash Flow Valuation II HANDOUT': ['AEM 2241 20230830 AEM 2241 Discounted Cash Flow Valuation II HANDOUT'],
+  // '20230831 In-class notes': ['AEM 2241 20230831 In-class notes'],
+  // '20230905 AEM 2241 Discounted Cash Flow Valuation III HANDOUT': ['AEM 2241 20230905 AEM 2241 Discounted Cash Flow Valuation III HANDOUT'],
+  // '20230905 In-class notes': ['AEM 2241 20230905 In-class notes'],
+  // '20230907 In-class notes': ['AEM 2241 20230907 In-class notes'],
+  // '20230911 AEM 2241 Bonds and Bond Valuation HANDOUT': ['AEM 2241 20230911 AEM 2241 Bonds and Bond Valuation HANDOUT'],
+  // '20230912 In-class notes': ['AEM 2241 20230912 In-class notes'],
+  // '20230913 AEM 2241 Formula sheet v1 (1)': ['AEM 2241 20230913 AEM 2241 Formula sheet v1 (1)'],
+  // '20230913 AEM 2241 v1 SOLUTIONS': ['AEM 2241 20230913 AEM 2241 v1 SOLUTIONS'],
+  // '20230913 AEM 2241 v1': ['AEM 2241 20230913 AEM 2241 v1'],
+  // '20230914 AEM 2241 Bonds and Bond Valuation II  HANDOUT': ['AEM 2241 20230914 AEM 2241 Bonds and Bond Valuation II  HANDOUT'],
+  // '20230914 In-class notes': ['AEM 2241 20230914 In-class notes'],
+  // '20230918 AEM 2241 Stock Valuation HANDOUT (1)': ['AEM 2241 20230918 AEM 2241 Stock Valuation HANDOUT (1)'],
+  // '20230919 In-class notes': ['AEM 2241 20230919 In-class notes'],
+  // '20230921 In-class notes': ['AEM 2241 20230921 In-class notes'],
+  // '20230922 AEM 2241 Syllabus': ['AEM 2241 20230922 AEM 2241 Syllabus'],
+  // '20231002 AEM 2241 NPV and Other Investment Criteria - HANDOUT (1)': ['AEM 2241 20231002 AEM 2241 NPV and Other Investment Criteria - HANDOUT (1)'],
+  // '20231012 In-class notes': ['AEM 2241 20231012 In-class notes'],
+  // '20231017 AEM 2241 Making Capital Investment Decisions - HANDOUT': ['AEM 2241 20231017 AEM 2241 Making Capital Investment Decisions - HANDOUT'],
+  // '20231017 In-class notes': ['AEM 2241 20231017 In-class notes'],
+  // '20231023 AEM 2241 Formula sheet': ['AEM 2241 20231023 AEM 2241 Formula sheet'],
+  // '20231023 AEM 2241 v2 SOLUTIONS': ['AEM 2241 20231023 AEM 2241 v2 SOLUTIONS'],
+  // '20231023 AEM 2241 v2': ['AEM 2241 20231023 AEM 2241 v2'],
+  // '20231023 EXPLANATIONS': ['AEM 2241 20231023 EXPLANATIONS'],
+  // '20231025 AEM 2241 Project Analysis and Evaluation HANDOUT': ['AEM 2241 20231025 AEM 2241 Project Analysis and Evaluation HANDOUT'],
+  // '20231106 AEM 2241 Risk, Return, and the SML I & II - SLIDES': ['AEM 2241 20231106 AEM 2241 Risk, Return, and the SML I & II - SLIDES'],
+  // '20231120 AEM 2241 Cost of Capital - HANDOUT': ['AEM 2241 20231120 AEM 2241 Cost of Capital - HANDOUT'],
+  // '20231201 AEM 2241 Formula sheet': ['AEM 2241 20231201 AEM 2241 Formula sheet'],
+  // '20231201 AEM 2241 v3 SOLUTIONS': ['AEM 2241 20231201 AEM 2241 v3 SOLUTIONS'],
+  // '20231201 AEM 2241 v3': ['AEM 2241 20231201 AEM 2241 v3'],
+  // 'AEM 2241 - P2 Solutions': ['AEM 2241 - P2 Solutions'],
+  // 'AEM 2241 P1 solutions': ['AEM 2241 P1 solutions']
 
-//   'INFO2950_Koenecke_Syallbus' : ['INFO 2950 Koenecke Syllabus'],
-//   'INFO2950_Lec7_20230913' : ['INFO 2950 Lecture 7'],
-//   'INFO2950-Handbook' : ['INFO 2950 Handbook'],
 
-//   'MATH_4710': ["Introduction To Probability"],
-  
-//   'INFO_2950_Fall_2022_Midterm_Solutions': ['INFO 2950 Fall 2022 Midterm Solutions'],
-//   'INFO2950_FA22_MidtermQuestions': ['INFO 2950 Fall 2022 Midterm Questions'],
-//   'INFO2950_Lec1_20230821': ['INFO 2950 Lecture 1'],
-//   'INFO2950_Lec2_20230823': ['INFO 2950 Lecture 2'],
-//   'INFO2950_Lec3_20230828': ['INFO 2950 Lecture 3'],
-//   'INFO2950_Lec4_20230830': ['INFO 2950 Lecture 4'],
-//   'INFO2950_Lec5_20230906': ['INFO 2950 Lecture 5'],
-//   'INFO2950_Lec6_20230911': ['INFO 2950 Lecture 6'],
-//   'INFO2950_Lec8_20230918': ['INFO 2950 Lecture 8'],
-//   'INFO2950_Lec9_20230920': ['INFO 2950 Lecture 9'],
-//   'INFO2950_Lec10_20230925': ['INFO 2950 Lecture 10'],
-//   'INFO2950_Midterm_Fall_2023_Review Topics': ['INFO 2950 Midterm Fall 2023 Review Topics'],
+    'Disparities_2023': ['PUBPOL_2350 Disparities_2023'],
+    'International Comparisons_2023': ['PUBPOL_2350 International Comparisons_2023'],
+    'International Comparisons_Part_2_2023': ['PUBPOL_2350 International Comparisons_Part_2_2023'],
+    'Malpractice_2023': ['PUBPOL_2350 Malpractice_2023'],
+    'Pharma and Biotech_Management_2023': ['PUBPOL_2350 Pharma and Biotech_Management_2023'],
+    'Pharma and Biotech_Policy_2023': ['PUBPOL_2350 Pharma and Biotech_Policy_2023'],
+    'Pharma and Biotech_Policy_Part_2_2023': ['PUBPOL_2350 Pharma and Biotech_Policy_Part_2_2023'],
+    'Quality_2023': ['PUBPOL_2350 Quality_2023'],
+    'Reform_Alternative_2023': ['PUBPOL_2350 Reform_Alternative_2023']
+    
 
-//   '1_Course_Logistics_Fall_2023.pdf': ['BIOEE Lecture 1 Course Logistics Fall 2023'],
-//   '2_Overview.pdf': ['BIOEE Lecture 2 Overview'],
-//   '3_Origin_of_Earth_Ocean.pdf': ['BIOEE Lecture 3 Origin of Earth Ocean'],
-//   '4_History_of_Life_in_the_Oceans_2023.pdf': ['BIOEE Lecture 4 History of Life in the Oceans 2023'],
-//   '5-6_Marine_Geology.pdf': ['BIOEE Lecture 5 6 Marine Geology'],
-//   '7-8-9_Waves-Tides.pdf': ['BIOEE Lecture 7 8 9 Waves Tides'],
-//   '10-11-12_Ocean_Circulation.pdf': ['BIOEE Lecture 10 11 12 Ocean Circulation'],
-//   '13_El_Nino_Other_Oscillations.pdf': ['BIOEE Lecture 13 El Nino Other Oscillations'],
-//   '15-16_Primary_Production.pdf': ['BIOEE Lecture 15 16 Primary Production'],
-//   '17_Pelagic_FoodWebs.pdf': ['BIOEE Lecture 17 Pelagic FoodWebs'],
-//   '18_BioEE1540_Guest_Lecture_2023_COMPLETE.pdf': ['BIOEE Lecture 18 Guest Lecture 2023 COMPLETE'],
-//   '19_Microbial_Processes.pdf': ['BIOEE Lecture 19 Microbial Processes'],
-//   '20-21_Rocky_Intertidal-Coral_Reefs-Whales.pdf': ['BIOEE Lecture 20 21 Rocky Intertidal Coral Reefs Whales'],
-//   '22-23_Marine_Chemistry.pdf': ['BIOEE Lecture 22 23 Marine Chemistry'],
-//   '25_26_Climate_Change_Science_I_and_II.pdf': ['BIOEE Lecture 25 26 Climate Change Science I and II'],
-//   '27_Howarth_methane.pdf': ['BIOEE Lecture 27 Howarth methane Oct 30 2023'],
-//   '28_Climate_Change_and_Extreme_Weather.pdf': ['BIOEE Lecture 28 Climate Change and Extreme Weather'],
-//   '30_Howarth_Climate_Solutions_--_Nov_6_2023.pdf': ['BIOEE Lecture 30 Howarth Climate Solutions Nov 6 2023'],
-//   '31_Cornell-2035_Climate_Action_Plan.pdf': ['BIOEE Lecture 31 Cornell 2035 Climate Action Plan'],
-//   '32_Marine_Pollution.pdf': ['BIOEE Lecture 32 Marine Pollution'],
-//   '33_fishing_impacts.pdf': ['BIOEE Lecture 33 Fishing Impacts'],
-//   '34_Loss-of-Global_Biodiversity.pdf': ['BIOEE Lecture 34 Loss of Global Biodiversity'],
-//   '35_6th_extinction_in_the_oceans_2023.pdf': ['BIOEE Lecture 35 6th Extinction in the Oceans 2023'],
-// };
+};
 
 
 const PINECONE_NAME_SPACE = "";
