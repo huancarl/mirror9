@@ -60,11 +60,11 @@ function CourseCatalog() {
 
 
   const courses = [
-    { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
+    // { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
     { key: 'INFO 2950', title: 'INFO 2950', professor: 'Professor Koenecke' },
-    { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
-    { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
-    { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
+    // // { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
+    // { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
+    // { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
     { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'Professor Nicholson' },
   ];
 
