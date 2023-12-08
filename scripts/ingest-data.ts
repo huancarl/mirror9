@@ -48,7 +48,7 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    const pdfFiles = await getAllPDFFiles(`${filePath}/PUBPOL_2350`);
+    const pdfFiles = await getAllPDFFiles(`${filePath}/INFO_2950`);
 
     for (const [fileNameWithExtension, document] of pdfFiles) {
 
