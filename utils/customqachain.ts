@@ -178,7 +178,7 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 40;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 60;                      // max vector search, adjust accordingly till find optimal
     
         // const namespacesToSearch = this.namespaces
         //     .filter(namespace => namespace.includes(filter))
@@ -434,10 +434,12 @@ export class CustomQAChain {
         Reference Citing:
         - The source materials that you are given access to are as follows: ${formattedSourceDocuments}. 
         - You will select the most relevant, accurate, detailed parts of the course materials to fully develop your accurate answer. 
-        - ALWAYS cite just the pdf source (not the whole mpath) and page numbers when possible in parenthesis throughout the response. Place multiple citations with source and page number throughout the response where you used them. Never put them at the end of your response. 
+        - ALWAYS cite just the pdf and page numbers when possible in parenthesis throughout the response. Place multiple citations with source and page number throughout the response where you used them. Never put them at the end of your response. 
+          Do not do this for the source: (Source: docs/INFO 2950/lecture3.pdf, page _)
+          Instead do this: (Source: Lecture 3.pdf, page _)
         - Never make up information beyond or deviate from the explicit, exact information found in the source materials or incorrectly source answers. 
-        - If the user asks something about the class you do not have access to, then state that you do not have access to that specifically yet.
         - If information is not elaborated upon in the course materials simply state the information as is, never make assumptions from the course materials.
+        - You must put citations in parenthesis throughout the response. Do not put them at the end.
 
         {chat_history}:
         - You have access to the entire conversations with user. Do not forget prior messages. Chat History (from oldest to most recent messages). 
@@ -452,8 +454,6 @@ export class CustomQAChain {
         - Ambigious: If the context isn't directly related to the class, utilize feedback query. Simply ask the user to clarify for more information/details or specifics.
         - Unrelated: You must state to the user that it is unrelated to ${namespaceToFilter} and to navigate to the right class on CornellGPT. Do not makeup an answer.
        
-
-
         Feedback Queries:
         - If a query lacks explicitness and if you believe that the provided context does not cover the specifics of the question and is not relevant to the previous conversations from chat history, proactively ask the user for more specific details.
         - Your goal with feedback queries is not just to gather more information, but to ensure the user feels guided and understood in their educational journey. 
@@ -473,14 +473,10 @@ export class CustomQAChain {
         You must follow this formatting when you develop your answers:
         1. Bold Text: Use bold text in your messages to emphasize key terms, main topics, important points, or steps in a process. 
         2. Lists: Use bulleted and numbered lists when providing a sequence of steps, summarizing, ranking items, or listing items in a long or specific order.
-        3. Italic Text: Use italic text for titles of books, articles, or other publications. You can also use it to emphasize words that require special attention from the reader. Italicize sources.
         4. Bullet Points: Use bullet points to organize information into a clear and concise list. This is particularly useful for breaking down complex topics, outlining steps in a process, or listing items.
-           - Sub-points can be used for additional details or to elaborate on a main point.
-        5. Links: Make all links bolded
         6. Consistency: Maintain consistency in your formatting throughout the response. This helps in providing a professional and polished look to your answers.
         7. Readability: Ensure that your responses are easy to read. Use clear and concise language, and break down complex ideas into simpler terms when necessary.
         8. Spacing and Alignment: Pay attention to the spacing and alignment of text and other elements in your response. Proper spacing and alignment contribute to the overall readability and aesthetic of the response.
-        9. You must put citations in parenthesis throughout the response. Do not put them at the end.
         `;
 
         const reportsPrompt = ChatPromptTemplate.fromPromptMessages([

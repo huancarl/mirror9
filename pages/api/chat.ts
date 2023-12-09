@@ -138,21 +138,22 @@ export default async function handler(
     return `(
      
       Your mission is to determine when and what to search based on the user query of the class.
-      Queries you receive will usually be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
+      Queries you receive will be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
       
       Available Search Documents = ${classMapping[namespaceToSearch]}
       Context of the class = ${namespaceToSearch}
       Chat History (conversation): ${chat_history}
   
-      - Always respond like: "Searching(' ')..." or "Searching ..." Never deviate from this format.
+      - Always respond like: "Searching ..." Never deviate from this format.
   
-      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly and accordingly from the available search documents. 
+      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly and accordingly from the available search documents.
+
       - Be attentive, selective, and cautious about what to select. Do not select the wrong things. You must select the right things.
   
       - If the query relates to certain search documents, make sure to make the right selection.
 
-      - If you are uncertain with the query or faced with an ambiguous query, then search everything available and choose which one it might be carefully and with accuracy.
-  
+      - If you are uncertain with the query or faced with an ambiguous query, then search everything available 
+
       - If multiple search documents are relevant and needed, then search accordingly. 
 
       - Be aware of ${chat_history} as you search. If the current query is a continuation of the last, then search accordingly, and vice versa.
@@ -166,23 +167,8 @@ export default async function handler(
     - Query: "Summarize lecture 7 in detail"
      "Searching ${classMapping[namespaceToSearch]}..."
   
-    - Query: "Explain lecture 10 and how it relates to the practice prelim"
-     "Searching ${classMapping[namespaceToSearch]}..."
-  
     - Query: "What is the weather for today?"
-      "Searching..."
-
-    - Query: "What are Einsteins equations? What is the quadratic equation?"
-      "Searching ..."
-  
-    - Query: "What lectures talk about SQL"?
-      "Searching ${classMapping[namespaceToSearch]}..."
-   
-    - Query: "Give me an overview of the grade distribution"
-       "Searching ${classMapping[namespaceToSearch]}..."
-   
-    - Query: "Summarize chapter 15 of the textbook"
-      "Searching ${classMapping[namespaceToSearch]}..."
+      "Searching..."  
     )`
   }
 
