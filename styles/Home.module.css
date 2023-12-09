@@ -506,6 +506,7 @@
   left: 55%; /* Center horizontally */
   transform: translate(-50%, -50%); /* Adjust position to truly center the element */
   font-size: 7.0rem; /* Bigger font size for typewriter */
+  color: darkred; /* Color of the text */
   border-right: 0.2px solid #000000; /* Cursor */
   white-space: nowrap;
   overflow: hidden;

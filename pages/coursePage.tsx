@@ -66,6 +66,7 @@ function CourseCatalog() {
     // { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
     // { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
     { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'Professor Nicholson' },
+    { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Professor Peck & Caillaud' },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");

@@ -15,8 +15,8 @@ if (!process.env.PINECONE_INDEX_NAME) {
 const PINECONE_INDEX_NAME = 'cornellgpt';
 
 const NAMESPACE_NUMB: { [key: string]: string[] } = {
-  //Maps the names of the pdf files to namespace names so that it can be ingested and later retrieved 
 
+  //AEM 2241
   // '2023 Fall AEM 2241 hw1': ['AEM 2241 2023 Fall AEM 2241 hw1'],
   // '2023 Fall AEM 2241 hw2': ['AEM 2241 2023 Fall AEM 2241 hw2'],
   // '2023 Fall AEM 2241 hw3': ['AEM 2241 2023 Fall AEM 2241 hw3'],
@@ -58,7 +58,7 @@ const NAMESPACE_NUMB: { [key: string]: string[] } = {
   // 'AEM 2241 - P2 Solutions': ['AEM 2241 - P2 Solutions'],
   // 'AEM 2241 P1 solutions': ['AEM 2241 P1 solutions']
 
-
+    // PUBPOL
     'Disparities_2023': ['PUBPOL_2350 Disparities_2023'],
     'International Comparisons_2023': ['PUBPOL_2350 International Comparisons_2023'],
     'International Comparisons_Part_2_2023': ['PUBPOL_2350 International Comparisons_Part_2_2023'],
@@ -69,7 +69,7 @@ const NAMESPACE_NUMB: { [key: string]: string[] } = {
     'Quality_2023': ['PUBPOL_2350 Quality_2023'],
     'Reform_Alternative_2023': ['PUBPOL_2350 Reform_Alternative_2023'],
 
-
+      // INFO 2950
       'FA23_Midterm_QuestionSheet': ['INFO 2950 FA23_Midterm_QuestionSheet'],
       'Final Fall 2023 - Review Topics': ['INFO 2950 Final Fall 2023 - Review Topics'],
       'INFO 2950 Fall 2022 Midterm Solutions': ['INFO 2950 INFO 2950 Fall 2022 Midterm Solutions'],
@@ -107,7 +107,34 @@ const NAMESPACE_NUMB: { [key: string]: string[] } = {
       'Lec 20 clarification examples 20231106': ['INFO 2950 Lec 20 clarification examples 20231106'],
       'Lec10_ChalkboardExample_20230925': ['INFO 2950 Lec10_ChalkboardExample_20230925'],
       'Midterm Fall 2023 - Review Topics': ['INFO 2950 Midterm Fall 2023 - Review Topics'],
-      'FA23_Midterm_Solutions': ['INFO 2950 FA23_Midterm_Solutions']
+      'FA23_Midterm_Solutions': ['INFO 2950 FA23_Midterm_Solutions'],
+
+
+      // ENTOM 2030
+      'Lecture 2': ['ENTOM 2030 Lecture 2'],
+      'Lecture 3': ['ENTOM 2030 Lecture 3'],
+      'Lecture 4': ['ENTOM 2030 Lecture 4'],
+      'Lecture 5': ['ENTOM 2030 Lecture 5'],
+      'Lecture 6': ['ENTOM 2030 Lecture 6'],
+      'Lecture 7': ['ENTOM 2030 Lecture 7'],
+      'Lecture 8': ['ENTOM 2030 Lecture 8'],
+      'Lecture 9': ['ENTOM 2030 Lecture 9'],
+      'Lecture 10': ['ENTOM 2030 Lecture 10'],
+      'Lecture 11': ['ENTOM 2030 Lecture 11'],
+      'Lecture 12': ['ENTOM 2030 Lecture 12'],
+      'Lecture 13': ['ENTOM 2030 Lecture 13'],
+      'Lecture 14': ['ENTOM 2030 Lecture 14'],
+      'Lecture 15': ['ENTOM 2030 Lecture 15'],
+      'Lecture 16': ['ENTOM 2030 Lecture 16'],
+      'Lecture 17': ['ENTOM 2030 Lecture 17'],
+      'Lecture 18': ['ENTOM 2030 Lecture 18'],
+      'Lecture 19': ['ENTOM 2030 Lecture 19'],
+      'Lecture 20': ['ENTOM 2030 Lecture 20'],
+      'Lecture 21': ['ENTOM 2030 Lecture 21'],
+      'Lecture 22': ['ENTOM 2030 Lecture 22'],
+      'Lecture 24': ['ENTOM 2030 Lecture 24'],
+      'Lecture 25': ['ENTOM 2030 Lecture 25'],
+      'Lecture 26': ['ENTOM 2030 Lecture 26']
       
 
 };

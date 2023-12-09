@@ -101,6 +101,33 @@ export default async function handler(
     'INFO 2950 Lec10_ChalkboardExample_20230925',
     'INFO 2950 Midterm Fall 2023 - Review Topics',
     'INFO 2950 FA23_Midterm_Solutions'
+],
+
+'ENTOM 2030': [
+  'ENTOM 2030 Lecture 2',
+  'ENTOM 2030 Lecture 3',
+  'ENTOM 2030 Lecture 4',
+  'ENTOM 2030 Lecture 5',
+  'ENTOM 2030 Lecture 6',
+  'ENTOM 2030 Lecture 7',
+  'ENTOM 2030 Lecture 8',
+  'ENTOM 2030 Lecture 9',
+  'ENTOM 2030 Lecture 10',
+  'ENTOM 2030 Lecture 11',
+  'ENTOM 2030 Lecture 12',
+  'ENTOM 2030 Lecture 13',
+  'ENTOM 2030 Lecture 14',
+  'ENTOM 2030 Lecture 15',
+  'ENTOM 2030 Lecture 16',
+  'ENTOM 2030 Lecture 17',
+  'ENTOM 2030 Lecture 18',
+  'ENTOM 2030 Lecture 19',
+  'ENTOM 2030 Lecture 20',
+  'ENTOM 2030 Lecture 21',
+  'ENTOM 2030 Lecture 22',
+  'ENTOM 2030 Lecture 24',
+  'ENTOM 2030 Lecture 25',
+  'ENTOM 2030 Lecture 26'
 ]
   
 
