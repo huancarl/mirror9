@@ -42,7 +42,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css'; // Import the style you want to use
 import python from 'highlight.js/lib/languages/python';
 
-import '@/styles/CodeBlock.module.css'; // Adjust the path as necessary
+
 
 
 
