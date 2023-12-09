@@ -4,7 +4,7 @@ import styles from '@/styles/HomePage.module.css';
 import useTypewriter from 'react-typewriter-hook'; // You need to install this package
 
 const HomePage: React.FC = () => {
-  const [magicName, setMagicName] = useState("Summarize lecture 5 in detail");
+  const [magicName, setMagicName] = useState("Explain lecture 21 in detail");
   const typewriter = useTypewriter(magicName);
   const index = useRef(0);
   const prompts = [

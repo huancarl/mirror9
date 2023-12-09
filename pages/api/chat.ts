@@ -127,8 +127,8 @@ export default async function handler(
   'ENTOM 2030 Lecture 22',
   'ENTOM 2030 Lecture 24',
   'ENTOM 2030 Lecture 25',
-  'ENTOM 2030 Lecture 26'
-]
+  'ENTOM 2030 Lecture 26',
+],
   
 
 

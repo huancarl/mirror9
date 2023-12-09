@@ -191,7 +191,7 @@ export class CustomQAChain {
                 return await this.index.query({
                     queryRequest: {
                         vector: queryEmbedding,
-                        topK: 20,
+                        topK: 15,
                         namespace: namespace,
                         includeMetadata: true,
                     },
@@ -436,12 +436,13 @@ export class CustomQAChain {
         - You will select the most relevant, accurate, detailed parts of the course materials to fully develop your accurate answer. 
         - ALWAYS cite just the pdf and page numbers when possible in parenthesis throughout the response. Place multiple citations with source and page number throughout the response where you used them. Never put them at the end of your response. 
           Do not do this for the source: (Source: docs/INFO 2950/lecture3.pdf, page _)
-          Instead do this: (Source: Lecture 3.pdf, page _)
+          Instead do this: (Source: Lecture 3, page _)
+
         - Never make up information beyond or deviate from the explicit, exact information found in the source materials or incorrectly source answers. 
         - If information is not elaborated upon in the course materials simply state the information as is, never make assumptions from the course materials.
         - You must put citations in parenthesis throughout the response. Do not put them at the end.
 
-        {chat_history}:
+        chat history:
         - You have access to the entire conversations with user. Do not forget prior messages. Chat History (from oldest to most recent messages). 
         - You must understand that chat history is broken up by the user's messages and your very own answers. Understand this as you interpret chat history.
         - You must assess whether a question be a continuation of the conversation or entirely new. 
