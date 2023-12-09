@@ -178,7 +178,7 @@ export class CustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 60;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 50;                      // max vector search, adjust accordingly till find optimal
     
         // const namespacesToSearch = this.namespaces
         //     .filter(namespace => namespace.includes(filter))
@@ -191,7 +191,7 @@ export class CustomQAChain {
                 return await this.index.query({
                     queryRequest: {
                         vector: queryEmbedding,
-                        topK: 15,
+                        topK: 20,
                         namespace: namespace,
                         includeMetadata: true,
                     },
@@ -411,9 +411,9 @@ export class CustomQAChain {
         Look for the answer in ${this.namespaces} extensively and accurately.
 
         If the question is not relevant at all or you do not have access to the specific thing being asked for by the user, 
-            then assert to the user: "I may not have access to the specific information being requested at this time 
+            then assert to the user that you  may not have access to the specific information being requested at this time 
             and or this question may not be relevant to ${namespaceToFilter}. if this question is related to ${namespaceToFilter} , please allow the handsome founders to update CornellGPT
-            in relation to ${namespaceToFilter}, however I can provide you guidance..." then answer the question to the best of your ability.
+            in relation to ${namespaceToFilter} then continue to answer the question to the best of your ability without fabricating or assuming whats in ${this.namespaces}
             Never make up answers or fabricate what it might have.
 
         If the question is general or a simple question like "What is 2+2", then answer accordingly, but assert to the user that this is not relevant to ${namespaceToFilter}
