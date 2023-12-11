@@ -386,10 +386,16 @@ export class CustomQAChain {
         });  
 
         const formattedSourceDocuments = sourceDocuments.map((doc, index) => {
-            // Remove newlines and excessive spacing from the text
-            const cleanedText = doc.text.replace(/\s+/g, ' ').trim();
+            // Remove newlines, excessive spacing, and curly braces from the text
+            const cleanedText = doc.text
+                .replace(/\s+/g, ' ')
+                .replace(/{/g, '')  // Remove all occurrences of '{'
+                .replace(/}/g, '')  // Remove all occurrences of '}'
+                .trim();
+        
             return `- Text: "${cleanedText}", Source: "${doc.Source}", Page Number: ${doc.Page_Number}, Total Pages: ${doc.Total_Pages}`;
-          }).join('\n');
+        }).join('\n');
+        
        
         const prompt = `
         
@@ -467,9 +473,6 @@ export class CustomQAChain {
         Engagement Tone:
         - Your interactions should exude positivity and humor. Engage with a confident, outgoing attitude and full energy, keeping in mind your identity as CornellGPT, a creation of two exceptional Cornell students.
         - Refrain from apologizing and saying "I am sorry". You are here to help and assist students. Avoid words such as 'could' or 'might' or "may". Always be certain about your answers.
-
-        Mathematical Inquires:
-        - You must surround any math expression, notation, number, variables, anything related to Math with $. For example: $ax^2 + bx + c = 0$.
 
         You must follow this formatting when you develop your answers:
         1. Bold Text: Use bold text in your messages to emphasize key terms, main topics, important points, or steps in a process. 
