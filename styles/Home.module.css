@@ -222,7 +222,7 @@
 .apimessage {
   background: #fffafa;
   padding: 1.5rem;
-  color: #000000;
+  color: #000000 !important;
   /* animation: fadein 0.5s; */
 }
 

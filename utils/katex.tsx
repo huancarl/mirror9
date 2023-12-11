@@ -73,16 +73,11 @@ export function splitMessageIntoSegments(message) {
     useEffect(() => {
       try {
         if (window.katex && mathRef.current) {
-          console.log("Rendering LaTeX: ", latex);
           window.katex.render(latex, mathRef.current, {
             throwOnError: false // This will render the raw string on error instead of throwing an exception
           });
-        } else {
-          console.warn("KaTeX not loaded or ref not available");
-        }
-      } catch (error) {
-        console.error("Error rendering LaTeX: ", error);
-      }
+        } 
+      } catch (error) {}
     }, [latex]);
   
     return <span ref={mathRef} />;
