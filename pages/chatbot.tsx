@@ -589,7 +589,7 @@ function CodeBlock({ code }: { code: string }) {
                 src="/bigbear.png"
                 alt="AI"
                 width="40"
-                height="10"
+                height="20"
                 className={styles.boticon}
                 priority
             />

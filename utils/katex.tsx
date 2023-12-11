@@ -77,7 +77,8 @@ export function splitMessageIntoSegments(message) {
             throwOnError: false // This will render the raw string on error instead of throwing an exception
           });
         } 
-      } catch (error) {}
+      } catch (error) {
+      }
     }, [latex]);
   
     return <span ref={mathRef} />;
