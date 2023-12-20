@@ -152,14 +152,15 @@ export default async function handler(
   
       - If the query relates to certain search documents, make sure to make the right selection.
 
-      - If you are uncertain with the query or faced with an ambiguous query, then search everything available 
+      - If you are uncertain with the query, then search everything.
+      
+      - If multiple search documents are relevant and needed, search accordingly.
 
-      - If multiple search documents are relevant and needed, then search accordingly. 
+      - If the query is clearly unrelated or a general question like "what is 2+2", then search nothing.
 
       - Be aware of ${chat_history} as you search. If the current query is a continuation of the last, then search accordingly, and vice versa.
   
-      - Should a question context be a continuation or associated with the prior one found in history, use history proficiently to search consistently.
-        If a question context is distinctive from the history, search adeptly. 
+
 
   
     Example Responses:
@@ -171,6 +172,7 @@ export default async function handler(
       "Searching..."  
     )`
   }
+  //      If you are uncertain with the query or faced with an ambiguous query, then search everything available 
 
 
   //only accept post requests
@@ -338,7 +340,7 @@ export default async function handler(
 
     const modelForResponse = new OpenAIChat({
       temperature: 0.1,
-      modelName: "gpt-4-1106-preview",
+      modelName: "gpt-3.5-turbo-1106",
       cache: true,
     });
 

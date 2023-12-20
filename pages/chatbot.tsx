@@ -588,8 +588,8 @@ function CodeBlock({ code }: { code: string }) {
                 key={index}
                 src="/bigbear.png"
                 alt="AI"
-                width="40"
-                height="20"
+                width="35"
+                height="25"
                 className={styles.boticon}
                 priority
             />
