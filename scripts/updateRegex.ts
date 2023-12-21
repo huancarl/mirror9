@@ -3,27 +3,20 @@ import * as path from 'path';
 
 async function updateRegexWithPdfNames() {
   const pdfNamesFilePath = path.join('utils', 'pdfNamestoNamespace.json');
-  const regexFilePath = path.join('utils', 'materialsRegex.json');
+  const regexFilePath = path.join('utils', 'regex.txt');
 
   try {
-    // Read and parse the JSON files
+    // Read and parse the JSON file
     const pdfNamesData = JSON.parse(await fs.promises.readFile(pdfNamesFilePath, 'utf8'));
-    const regexData = JSON.parse(await fs.promises.readFile(regexFilePath, 'utf8'));
-
-    // Extract and clean existing patterns from regexData
-    let existingPatterns = regexData.pattern.replace(/\\b/g, '').split('|').map(pattern => pattern.trim());
 
     // Extract values from pdfNamesData and flatten them into a single array
     const pdfNames = Object.values(pdfNamesData).flat();
 
-    // Combine and remove duplicates
-    const combinedPatterns = Array.from(new Set([...existingPatterns, ...pdfNames]));
+    // Create a new regex pattern from the pdfNames
+    const newPattern = '\\b(' + pdfNames.join('|') + ')\\b';
 
-    // Update the regex pattern in regexData
-    regexData.pattern = '\\b(' + combinedPatterns.join('|') + ')\\b';
-
-    // Write the updated regex back to the file
-    await fs.promises.writeFile(regexFilePath, JSON.stringify(regexData, null, 2));
+    // Write the new regex pattern to regex.txt
+    await fs.promises.writeFile(regexFilePath, newPattern);
 
     console.log('Regex pattern updated successfully.');
 

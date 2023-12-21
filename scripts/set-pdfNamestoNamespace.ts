@@ -52,7 +52,7 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
 
 export const run = async () => {
     const nameOfFolder = 'AEM_2241';
-    const nameOfClassToAppendInFront = 'AEM 2241'
+    const nameOfClassToAppendInFront = 'AEM 2241' // Seperate class code and number with a space
     const subjectNameForChatTS = 'AEM 2241' // usually the same thing as nameOfClassToAppendInFront
 
     const pdfNames = updatePdfNamesToNamespace(nameOfFolder, nameOfClassToAppendInFront, subjectNameForChatTS);
