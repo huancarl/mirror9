@@ -101,6 +101,11 @@ interface CallResponse {
     }>;
 }
 
+interface ChatMessage {
+    type: 'userMessage' | 'apiMessage';
+    message: string;
+    sourceDocs?: any[];  // Adjust the type of sourceDocs as per your actual data
+  }
 
 interface CustomQAChainOptions {
     returnSourceDocuments: boolean;
@@ -350,11 +355,11 @@ export class CustomQAChain {
     // }
     
 
-    public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: string, namespaceToFilter: any}, ): Promise<CallResponse> {
+    public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: ChatMessage[], namespaceToFilter: any}, ): Promise<CallResponse> {
        
         const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
 
-        this.chatHistoryBuffer.addMessage(chat_history);
+        //this.chatHistoryBuffer.addMessage(chat_history);
         console.log(this.namespaces, 'name of namespaces');
         
 
@@ -601,8 +606,13 @@ export class CustomQAChain {
           ]);
         
         const history = new BufferMemory({ returnMessages: true, memoryKey: 'chat_history' });
-        for (let i = 0; i < chat_history.length; i += 2) {
-            history.saveContext([chat_history[i]], [chat_history[i+1]]);
+        //Add the session's chat history to Langchain
+
+        for (let i = chat_history.length - 1; i >= 0; i -= 2) {
+            if (chat_history.length - i > 6) {
+                break;
+            }
+            history.saveContext([chat_history[i-1].message], [chat_history[i].message]);
         }
         
         const chain = new ConversationChain({
@@ -630,7 +640,7 @@ export class CustomQAChain {
             throw new Error("Response Error.");
         }
 
-        this.chatHistoryBuffer.addMessage(`Question: ${question}`);
+        //this.chatHistoryBuffer.addMessage(`Question: ${question}`);
 
 
         //console.log(prompt, 'prompt');
