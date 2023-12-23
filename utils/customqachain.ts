@@ -395,9 +395,10 @@ export class CustomQAChain {
 
         Detailed Points Under Each Topic: 
         Under each bolded topic heading, provide detailed explanations of what the concept is and how it was used.
-        Make sure to explain the concept in detail, giving examples used from the source, instead of merely stating it.
-        For example under "1. Libraries:", you would explain in detail what libraries are in the context and give examples from the sources as well as citations.
+        Explain with multiple detailed sentences, giving examples used from the source. Do not merely state it.
+        For example under "1. Libraries:", you would explain in detail multiple sentences what libraries are in the context and give examples from the sources as well as citations.
         You must develop detailed sentences and use clear citations when applicable. If a topic requires further breakdown, sub-label these points with letters like a,b,c,etc. 
+        Do not simply state the topic without explanation.
         
         Clear Citations: 
         When applicable accompany each point with clear citations. 
