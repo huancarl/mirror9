@@ -341,7 +341,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         <div className={styles.side}>
         <button onClick={handleNewChat} className={styles.newChatButton}>
           
-  CornellGPT
+  New Convo
   <img src="/chat.png" alt="Chat" className={styles.chatIcon} />
 </button>
             {sortedDates.map(date => (

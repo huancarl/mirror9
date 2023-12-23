@@ -741,7 +741,7 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.slice(0, showMoreSources ? message.sourceDocs.length : 5).map((doc: any, index) => (
+                            {message.sourceDocs.slice(0, showMoreSources ? message.sourceDocs.length : 3).map((doc: any, index) => (
                               <div key={`messageSourceDocs-${index}`}> 
                               {/* //look at this section */}
                                 <AccordionItem value={`item-${index}`}>
@@ -756,7 +756,7 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
                                     <b>Source: </b> 
                                     <a href={`/pdfs/${doc.Source.split('/').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
                                     style={{
-                                      color: 'red',
+                                      color: 'blue',
                                       textDecoration: 'underline',
                                       cursor: 'pointer',
                                       fontWeight: 625
@@ -778,7 +778,7 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
 
 
 
- {message.sourceDocs.length > 5 && !showMoreSources && (
+ {message.sourceDocs.length > 3 && !showMoreSources && (
   <button className="p-2 text-sm text-red-500" onClick={() => setShowMoreSources(true)}>
     Show More
   </button>

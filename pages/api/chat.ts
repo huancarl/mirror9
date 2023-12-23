@@ -145,34 +145,32 @@ export default async function handler(
       
       Available Search Documents = ${classMapping[namespaceToSearch]}
       Context of the class = ${namespaceToSearch}
-      Chat History (conversation): ${chat_history}
+      Chat History (conversation): chat_history
   
       - Always respond like: "Searching ..." Never deviate from this format.
   
       - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly and accordingly from the available search documents.
 
       - Be attentive, selective, and cautious about what to select. Do not select the wrong things. You must select the right things.
+
+      - If the query asks for something that does not exist, then search everything.
   
       - If the query relates to certain search documents, make sure to make the right selection.
 
-      - If you are uncertain with the query, then search everything.
+      - If you are uncertain with the query or it is a general question, then search everything.
       
       - If multiple search documents are relevant and needed, search accordingly.
 
-      - If the query is clearly unrelated or a general question like "what is 2+2", then search nothing.
-
-      - Be aware of ${chat_history} as you search. If the current query is a continuation of the last, then search accordingly, and vice versa.
+      - Be aware of chat_history as you search. If the current query is a continuation of the last, then search accordingly. If the context is new, then search as a new question.
   
-
-
   
     Example Responses:
    
     - Query: "Summarize lecture 7 in detail"
      "Searching ${classMapping[namespaceToSearch]}..."
+
+    
   
-    - Query: "What is the weather for today?"
-      "Searching..."  
     )`
   }
   //      If you are uncertain with the query or faced with an ambiguous query, then search everything available 
@@ -301,7 +299,7 @@ export default async function handler(
     console.log('CHAT.TS RUNS AGAIN');
 
     const model = new OpenAIChat({
-      temperature: 0.1,
+      temperature: 0,
       modelName:"gpt-4-1106-preview",
       cache: true,
   });
@@ -342,7 +340,7 @@ export default async function handler(
     console.log(namespaces, 'namespace in chat.ts');
 
     const modelForResponse = new OpenAIChat({
-      temperature: 0.1,
+      temperature: 0,
       modelName: "gpt-3.5-turbo-1106",
       cache: true,
     });

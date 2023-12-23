@@ -61,12 +61,12 @@ function CourseCatalog() {
 
   const courses = [
     // { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
-    { key: 'INFO 2950', title: 'INFO 2950', professor: 'Professor Koenecke' },
+    { key: 'INFO 2950', title: 'INFO 2950', professor: 'Data Science Professor Koenecke' },
     // // { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
     // { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
     // { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
-    { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'Professor Nicholson' },
-    { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Professor Peck & Caillaud' },
+    { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'US Health Care Professor Nicholson' },
+    { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Honey Bees Professor Peck & Caillaud' },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -174,7 +174,7 @@ function CourseCatalog() {
     DONT SEE YOUR CLASS?
   </button>
       </div>
-      <h1 className={styles.title}>CornellGPT FA23</h1>
+      <h1 className={styles.title}>CornellGPT SP24</h1>
       <input
         type="text"
         placeholder="What class would you like help with?..."
