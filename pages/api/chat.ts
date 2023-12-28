@@ -17,6 +17,7 @@ import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
 import connectToDb from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
+import { HfInference } from '@huggingface/inference';
 
 export const maxDuration = 100; // This function can run for a maximum of 5 seconds
 export const dynamic = 'force-dynamic';
@@ -40,6 +41,28 @@ function cleanText(text) {
 //   // return sourceDocs.map(doc => ({ ...doc, text: cleanText(doc.text) }));
 // }
 
+interface Metadata {
+  text: string;
+  source: string;
+  pageNumber: number;
+  totalPages: number;
+  chapter?: number;   // Optional, if not all documents have chapters
+  book?: string;      // Optional, if not all documents are from books
+}
+interface PineconeResultItem {
+  metadata: Metadata;
+  values: any;
+  text: any;
+  value: {
+      text: string;
+      source: string;
+      pageNumber: number;
+      totalPages: number;
+      chapter?: number;
+      book?: string;
+      score : any;
+  };
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -60,7 +83,8 @@ export default async function handler(
       'PUBPOL_2350 Pharma and Biotech_Policy_2023',
       'PUBPOL_2350 Pharma and Biotech_Policy_Part_2_2023',
       'PUBPOL_2350 Quality_2023',
-      'PUBPOL_2350 Reform_Alternative_2023'
+      'PUBPOL_2350 Reform_Alternative_2023',
+      'PUBPOL_2350 All Materials'
   ],
     "INFO 2950": [
       'INFO 2950 FA23_Midterm_QuestionSheet',
@@ -100,7 +124,8 @@ export default async function handler(
       'INFO 2950 Lec 20 clarification examples 20231106',
       'INFO 2950 Lec10_ChalkboardExample_20230925',
       'INFO 2950 Midterm Fall 2023 - Review Topics',
-      'INFO 2950 FA23_Midterm_Solutions'
+      'INFO 2950 FA23_Midterm_Solutions',
+      'INFO_2950 All Materials'
   ],
 
     'ENTOM 2030': [
@@ -128,14 +153,79 @@ export default async function handler(
       'ENTOM 2030 Lecture 24',
       'ENTOM 2030 Lecture 25',
       'ENTOM 2030 Lecture 26',
+      'ENTOM_2030 All Materials'
     ],
   
   }
 
-  // function getContextDocs(): Promise<PineconeResultItem[]> {
+//   async function getContextDocs(namespace: any): Promise<string> {
 
-  //   return 
-  // }
+//     const index = pinecone.Index(PINECONE_INDEX_NAME);
+//     let contextForNamespace;
+//     const SummarizeQuery = "Summarize the key educational content and objectives in this school material";
+
+//     const embeddings = new OpenAIEmbeddings();
+//     const queryEmbedding = await embeddings.embedQuery(SummarizeQuery);
+
+//     if (!queryEmbedding) {
+//       throw new Error("Failed to generate embedding for the question.");
+//     }
+
+//     let fetchedTexts: PineconeResultItem[] = [];
+
+//     const queryResult = await index.query({
+//       queryRequest: {
+//         vector: queryEmbedding,
+//         topK: 100,
+//         namespace: namespace,
+//         includeMetadata: true,
+//       },
+//     });
+
+//     let ids: string[] = [];
+//     if (queryResult && Array.isArray(queryResult.matches)) {
+//       ids = queryResult.matches.map((match: { id: string }) => match.id);
+//     } else {
+//       console.error('No results found or unexpected result structure.');
+//     }
+
+//     if (ids.length > 0) {
+//       const fetchResponse: any =
+//           await index.fetch({
+//               ids: ids,
+//               namespace: namespace,
+//           });
+//       const vectorsArray: PineconeResultItem[] = Object.values(fetchResponse.vectors) as PineconeResultItem[];
+//       fetchedTexts.push(...vectorsArray);
+//     };
+
+//     // console.log(fetchedTexts, 'fetchedtexts');
+
+//     const combinedText = fetchedTexts.map(item => item.metadata.text).join(' ');
+//     //console.log(combinedText, 'combinedTexts');
+
+//     // Initialize the Hugging Face Inference API for summarization
+//     const hf = new HfInference('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');
+//     // Perform the summarization
+//     const summarizationResult = await hf.summarization({
+//         model: 'facebook/bart-large-cnn',
+//         inputs: combinedText,
+//         parameters: {
+//             max_length: 100  // Adjust as needed
+//         }
+//     });
+//     // Extract the summarized text
+
+//     console.log(summarizationResult, 'summarization result');
+
+//     if (summarizationResult) {
+//         contextForNamespace = summarizationResult;
+//     } else {
+//         throw new Error("Failed to generate summary.");
+//     }
+
+//     return contextForNamespace;
+// }
 
   function createPrompt(namespaceToSearch: string, chat_history: any){
     return `(
@@ -214,6 +304,8 @@ export default async function handler(
     const chatSessionCollection = db.collection('sessionIDs');
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
+    //getContextDocs('INFO 2950 INFO2950_Lec3_20230828');
+
     //In the case that the user is using the course catalog we don't need to make an extra call to gpt api
     //We are always using the Course Catalog namespace in the pinecone
     if(namespace === 'Course Finder SP24'){
@@ -291,8 +383,6 @@ export default async function handler(
       return;
   }
 
-    console.log('CHAT.TS RUNS AGAIN');
-
     const model = new OpenAIChat({
       temperature: 0,
       modelName:"gpt-4-1106-preview",
@@ -322,7 +412,7 @@ export default async function handler(
     });
 
 
-    console.log('response from chain.call in chat.ts', response.response);
+    console.log('response from chat.ts', response.response);
 
 
     const extractedNumbs = await extractTitlesFromQuery(response.response);

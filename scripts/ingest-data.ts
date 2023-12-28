@@ -48,7 +48,10 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    const pdfFiles = await getAllPDFFiles(`${filePath}/ENTOM_2030`);
+    const className = "ENTOM_2030";
+
+    const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
+    const classNamespace = `${className} All Materials`;
 
     for (const [fileNameWithExtension, document] of pdfFiles) {
 
@@ -58,8 +61,8 @@ export const run = async () => {
 
       const splitDocs = await textSplitter.splitDocuments(document);
 
-      const json = JSON.stringify(splitDocs);
-      await fs.writeFile(`${namespace}-split.json`, json);
+      //const json = JSON.stringify(splitDocs);
+      //await fs.writeFile(`${namespace}-split.json`, json);
 
       const upsertChunkSize = 25;
       for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
@@ -69,6 +72,14 @@ export const run = async () => {
           namespace: namespace,
           textKey: 'text',
         });
+
+        //upload to namespace with all materials
+        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
+          pineconeIndex: index,
+          namespace: classNamespace,
+          textKey: 'text',
+        });
+
       }
     }
     console.log('ingestion complete');

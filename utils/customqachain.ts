@@ -188,14 +188,14 @@ export class CustomQAChain {
         //     .filter(namespace => namespace.includes(filter))
         //     .slice(0, maxNamespaces);
         const namespacesToSearch = this.namespaces;
-
+        const numOfVectorsPerNS = Math.floor(remainingDocs/namespacesToSearch.length); 
     
         for (const namespace of namespacesToSearch) {
             const queryResult = await this.retryRequest(async () => {
                 return await this.index.query({
                     queryRequest: {
                         vector: queryEmbedding,
-                        topK: 20,
+                        topK: numOfVectorsPerNS,
                         namespace: namespace,
                         includeMetadata: true,
                     },
