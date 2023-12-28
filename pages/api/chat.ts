@@ -150,30 +150,25 @@ export default async function handler(
       - Always respond like: "Searching ..." Never deviate from this format.
   
       - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly and accordingly from the available search documents.
-
-      - Be attentive, selective, and cautious about what to select. Do not select the wrong things. You must select the right things.
-
-      - If the query asks for something that does not exist, then search everything.
-  
+      - Use your intelligence and intuition to select the accurate document. Take time to think before coming to a final conclusion.
       - If the query relates to certain search documents, make sure to make the right selection.
 
-      - If you are uncertain with the query or it is a general question, then search everything.
-      
+      - Be attentive, selective, and cautious about what to select. Do not select the wrong things. 
       - If multiple search documents are relevant and needed, search accordingly.
 
-      - Be aware of chat_history as you search. If the current query is a continuation of the last, then search accordingly. If the context is new, then search as a new question.
-  
-  
+      - If the query asks for something that does not exist, then search nothing.
+      - If the query asks something general to ${namespaceToSearch}, then search only '${namespaceToSearch} All Materials'.
+      - If the query asks something general unrelated to ${namespaceToSearch} like "What is 2+2", then search nothing.
+      - If you are uncertain with the query or it is a general question, then search only '${namespaceToSearch} All Materials'.
+      - If searching '${namespaceToSearch} All Materials' , do not search any other documents. 
+      
     Example Responses:
    
     - Query: "Summarize lecture 7 in detail"
      "Searching ${classMapping[namespaceToSearch]}..."
-
-    
   
     )`
   }
-  //      If you are uncertain with the query or faced with an ambiguous query, then search everything available 
 
 
   //only accept post requests
@@ -340,7 +335,7 @@ export default async function handler(
     console.log(namespaces, 'namespace in chat.ts');
 
     const modelForResponse = new OpenAIChat({
-      temperature: 0,
+      temperature: 0.05,
       modelName: "gpt-3.5-turbo-1106",
       cache: true,
     });
