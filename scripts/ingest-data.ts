@@ -48,7 +48,7 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    const className = "ENTOM_2030";
+    const className = "INFO_2950";
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
     const classNamespace = `${className} All Materials`;
@@ -67,11 +67,11 @@ export const run = async () => {
       const upsertChunkSize = 25;
       for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
         const chunk = splitDocs.slice(i, i + upsertChunkSize);
-        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
-          pineconeIndex: index,
-          namespace: namespace,
-          textKey: 'text',
-        });
+        // await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
+        //   pineconeIndex: index,
+        //   namespace: namespace,
+        //   textKey: 'text',
+        // });
 
         //upload to namespace with all materials
         await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {

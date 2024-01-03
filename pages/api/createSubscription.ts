@@ -1,3 +1,5 @@
+import connectToDb from '@/config/db';
+
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 
 if (!stripeSecretKey) {

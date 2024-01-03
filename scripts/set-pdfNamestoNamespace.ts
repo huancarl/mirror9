@@ -27,10 +27,12 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
             const formattedName = pdfName.replace(/_/g, ' ');
             const mappedName = `${className} ${formattedName}`;
         
-            if (!jsonData.hasOwnProperty(pdfName)) {
+            //Adds the pdf name to the mapping for pdf name to namespace
+            if (!jsonData.hasOwnProperty(mappedName)) {
                 jsonData[pdfName] = [mappedName];
             }
-        
+            
+            //Create class key for the dictionary for chat.ts access documents IF it doesn't exist
             if (!classMaterialMapping.hasOwnProperty(subjectName)) {
                 classMaterialMapping[subjectName] = [];
             }
@@ -40,6 +42,17 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
             }
         });
         
+        //Add Class X All Materials
+        const allMaterials = `${folderName} All Materials`;
+        if (!jsonData.hasOwnProperty(allMaterials)) {
+            jsonData[allMaterials] = [allMaterials];
+        }
+        if (!classMaterialMapping.hasOwnProperty(subjectName)) {
+            classMaterialMapping[subjectName] = [];
+        }
+        if (!classMaterialMapping[subjectName].includes(allMaterials)) {
+            classMaterialMapping[subjectName].push(allMaterials);
+        }
 
         // Write the updated JSON back to the file
         fs.writeFileSync(jsonFilePath, JSON.stringify(jsonData, null, 2));
@@ -51,9 +64,9 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
 }
 
 export const run = async () => {
-    const nameOfFolder = 'AEM_2241';
-    const nameOfClassToAppendInFront = 'AEM 2241' // Seperate class code and number with a space
-    const subjectNameForChatTS = 'AEM 2241' // usually the same thing as nameOfClassToAppendInFront
+    const nameOfFolder = 'INFO_2950';
+    const nameOfClassToAppendInFront = 'INFO 2950' // Seperate class code and number with a space
+    const subjectNameForChatTS = 'INFO 2950' // usually the same thing as nameOfClassToAppendInFront
 
     const pdfNames = updatePdfNamesToNamespace(nameOfFolder, nameOfClassToAppendInFront, subjectNameForChatTS);
 }

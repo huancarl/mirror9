@@ -18,7 +18,7 @@ export default async (req, res) => {
         return res.status(200).json({ fetched: true, code: refDoc.code});
       }
       else{
-        const referralCode = uuidv4();
+        const referralCode = uuidv4().substring(0, 9);;
         await referrals.insertOne({
           code: referralCode,
           date_created: new Date(),
