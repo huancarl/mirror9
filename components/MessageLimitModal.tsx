@@ -43,39 +43,86 @@ const MessageLimitModal = ({ setShowLimitReachedModal, clientS}) => {
       return;
     }
   
-    const { error } = await stripe.confirmSetup({
-      elements,
-      confirmParams: {
-        return_url: "http://localhost:3000/chatbot",
-      },
-    });
+    try {
+
+      const {error: submitError} = await elements.submit();
+      if (submitError) {
+        setMessage(`Error creating subscription. ${submitError}`);
+        return;
+      }
+
+      //Create customer on backend
+      const customerResponse = await fetch('/api/createStripeCustomer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userEmail: userID, }),
+      });
+      const customerResponseData = await customerResponse.json();
+      const customerID = customerResponseData.customerID;
+
+      //Create Subscription Intent via Backend
+      const subscriptionIntentResponse = await fetch('/api/createSubscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customerID: customerResponseData.customerID}),
+      });
   
-    if (error) {
-      setMessage(error.message || "An error occurred.");
-      setIsLoading(false);
-    } else {
-      // Call API to create subscription here
-      try {
-        const response = await fetch('/api/create-subscription', {
+      const subscriptionIntentData = await subscriptionIntentResponse.json();
+      if (subscriptionIntentData.error) {
+        throw new Error(subscriptionIntentData.message || "Subscription Intent creation failed.");
+      }
+
+      const nextSubBillingDate = subscriptionIntentData.nextBillingDate;
+      const subID = subscriptionIntentData.subscriptionID;
+
+      // Give Subscription Creation on Backend
+      const finalizeResponse = await fetch('/api/giveSubscription', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userEmail: userID, billingDate: nextSubBillingDate, customerID: customerID, subID: subID}),
+      });
+  
+      const finalizeData = await finalizeResponse.json();
+      if (finalizeData.error) {
+        throw new Error(finalizeData.message || "Subscription finalization failed.");
+      }
+
+      const {clientSecret} = subscriptionIntentData;
+
+      const { error } = await stripe.confirmPayment({
+        clientSecret,
+        elements,
+        confirmParams: {
+          return_url: 'http://localhost:3000/coursePage',
+        },
+      });
+
+      if (error) {
+        // This point is only reached if there's an immediate error when
+        // confirming the payment. Show the error to your customer (for example, payment details incomplete)
+
+        setMessage(`Error creating subscription. Please ensure that your payment information is correct.`);
+
+        //Remove the sub because they did not pay for it
+        const errorResponse = await fetch('/api/removeSubscription', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId: userID }),
+          body: JSON.stringify({ userEmail: userID}),
         });
-  
-        const subscriptionData = await response.json();
-        if (response.ok) {
-          setMessage("Subscription successful!");
-          // Additional success handling
-        } else {
-          throw new Error(subscriptionData.message || "Subscription failed.");
-        }
-      } catch (err) {
-        setMessage("Error");
-        console.error('Subscription error:', err);
+        
+      } else {
+        // Your customer is redirected to your `return_url`. For some payment
+        // methods like iDEAL, your customer is redirected to an intermediate
+        // site first to authorize the payment, then redirected to the `return_url`.
       }
-      setIsLoading(false);
+  
+    } catch (err) {
+      setMessage("Error creating subscription.");
+      console.error('Subscription error:', err);
     }
+    setIsLoading(false);
   };
+  
       
   return (
 <>

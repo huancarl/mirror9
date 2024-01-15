@@ -47,7 +47,7 @@ async function addNewUserHandler(req, res) {
                         //Give membership for a month
                         // const numOfReferred = refSource.usersReferred + 1;
                         // if (numOfReferred > 9 ){
-                        //     await userCollection.updateOne({refSourceUserID}, { $set: { paid: true} });
+                        //     await userCollection.updateOne({refSourceUserID}, { $set: { paid: true} {subscriptionEndDt: } });
                         // }
                         // else{}
                         const referrerReward = 5;
@@ -73,6 +73,7 @@ async function addNewUserHandler(req, res) {
 
                     paid: false,
                     subscriptionEndDt: null,
+                    stripeSubID: null,
                 });
 
 

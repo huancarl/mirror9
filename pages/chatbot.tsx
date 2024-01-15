@@ -35,7 +35,7 @@ import "prismjs/themes/prism-tomorrow.css"; // You can choose different themes
 import useTypewriter from 'react-typewriter-hook'; // You need to install this package
 
 import MessageLimitModal from 'components/MessageLimitModal'; 
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, Stripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
 import hljs from 'highlight.js';
@@ -81,8 +81,11 @@ const [messageState, setMessageState] = useState<{
 
   const [firstMessageSent, setFirstMessageSent] = useState(false);
 
+  
+
   //Stripe set up
-  const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+  const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
+
   const [clientSecret, setClientSecret] = useState("");
   // const appearance = {
   //   theme: 'stripe',
@@ -90,6 +93,15 @@ const [messageState, setMessageState] = useState<{
   const options = {
     clientSecret,
   };
+  useEffect(() => {
+    const initializeStripe = async () => {
+      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
+      setStripePromise(stripe);
+    };
+
+    initializeStripe();
+  }, []);
+
 
   const router = useRouter();
   useEffect(() => {
@@ -251,6 +263,7 @@ const handleCloseModal = () => {
 };
 
 useEffect(() => {
+
   fetch("/api/create-setup-intent", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -568,7 +581,7 @@ function CodeBlock({ code }: { code: string }) {
 
   return (
     <>
-    {clientSecret && showLimitReachedModal && (
+    {clientSecret && showLimitReachedModal && stripePromise && (
         <Elements stripe={stripePromise} options={ options }>
           <MessageLimitModal setShowLimitReachedModal={handleCloseModal} clientS={clientSecret}/>
         </Elements>

@@ -229,6 +229,8 @@ export class CoursesCustomQAChain {
             // Remove newlines and excessive spacing from the text
             return `- Class: ${doc.subject} ${doc.courseID} ${doc.title} Information for ${doc.subject} ${doc.courseID} ${doc.title}: "${doc}",`;
           }).join('\n');
+
+        console.log(formattedSourceDocuments, 'formatted source docs for course catalog');
        
         const prompt = `
         
@@ -339,6 +341,9 @@ export class CoursesCustomQAChain {
         }
 
         this.chatHistoryBuffer.addMessage(`Question: ${question}`);
+
+
+        //console.log(prompt, 'prompt');
 
     return {
         text: response,
