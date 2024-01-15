@@ -8,13 +8,13 @@ const HomePage: React.FC = () => {
   const typewriter = useTypewriter(magicName);
   const index = useRef(0);
   const prompts = [
-    "How much weight is the final?",
-    "CS 3110: explain OCaml code from chapter..",
+    "How much is the final worth?",
+    "CS 2110: explain dijkstra's algorithm",
     "When is the next prelim?",
     "CHEM 2090: explain the second lab",
     "What diversity classes should I take?",
     "Generate practice prelim problems",
-    "INFO 2950: explain main concepts from lecture 13",
+    "INFO 2950: explain Naive Bayes",
     "Explain how to do problem 1 from HW2",
   ];
 
@@ -25,6 +25,8 @@ const HomePage: React.FC = () => {
     }, 5000);
     return () => clearInterval(interval);
   }, []);
+
+  
 
 
   
@@ -40,7 +42,7 @@ const HomePage: React.FC = () => {
       <div className={styles.buttonContainer}>
         <h1 className={styles.title}>
           <span style={{ color: 'hsl(0, 100%, 30%)' }}>Cornell</span>
-          <span style={{ color: 'hsl(0, 100%, 30%)' }}>GPT BETA</span>
+          <span style={{ color: 'hsl(0, 100%, 30%)' }}>GPT</span>
         </h1>
         
         <Link href="/sign-up" passHref>
@@ -56,8 +58,8 @@ const HomePage: React.FC = () => {
         </Link>
       </div>
       <footer className={styles.footer}>
-        <a href="/terms-of-use" className={styles.footerLink}>Terms of Use</a> | 
-        <a href="/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+      <a href="https://mountain-pig-87a.notion.site/Terms-Of-Use-CornellGPT-96c16de16cc94ff5b574fb4632b069e9" className={styles.footerLink} target="_blank">Terms of Use</a> |
+        <a href="https://mountain-pig-87a.notion.site/Privacy-Policy-CornellGPT-6f20ea4c7a7741eabe19bfee5004a069" className={styles.footerLink} target="_blank">Privacy Policy</a>
         </footer>
     </div>
   );

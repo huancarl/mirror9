@@ -459,7 +459,32 @@ useEffect(() => {
   //     });
   //   }
   // });
-  
+
+  const [placeholderText, setPlaceholderText] = useState('Explain lecture 3...');
+
+  // Define your placeholder texts
+  const placeholders = [
+    'Explain lecture 5 in detail...',
+    'What is the grade breakdown?...',
+    'When are profs office hours?...',
+    'Summarize lecture 20...',
+  ];
+
+  useEffect(() => {
+    let placeholderIndex = 0;
+
+    // Change placeholder every 5 seconds (5000 milliseconds)
+    const intervalId = setInterval(() => {
+      // Update the placeholder text
+      setPlaceholderText(placeholders[placeholderIndex]);
+
+      // Move to the next placeholder text, or loop back to the start
+      placeholderIndex = (placeholderIndex + 1) % placeholders.length;
+    }, 2000);
+
+    // Clear the interval when the component unmounts
+    return () => clearInterval(intervalId);
+  }, []);
   
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -554,6 +579,14 @@ function CodeBlock({ code }: { code: string }) {
       <Sidebar className={courseTitle} onSessionChange={handleSessionChange} onNewChat={handleSessionChange} /> 
       : null}
   </aside>
+
+  <button
+    className={styles.classInquiryButton}
+    onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
+  >
+    UPLOAD MATERIALS
+  </button>
+
   <div className="mainContent" key={refreshKey}>
     <div className="mx-auto flex flex-col gap-4">
     <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>  
@@ -657,8 +690,7 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
 // }
 
 
-  
-//&& !isCodeMessage && !messageContainsMath
+
   if (messageContainsMath(message.message)) {
     content = <MessageRenderer key={index} message={message.message} />;
   } else if (isCodeMessage) {
@@ -669,41 +701,7 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
     content = <span>{parseBoldText(message.message)}</span>;
   }
 
-  
 
-
-
-
-  // if (message.type === 'apiMessage' && !isCodeMessage) {
-  //   const formattedMessage = message.message.replace(/\n/g, '<br/>');
-  //   content = <div dangerouslySetInnerHTML={{ __html: formattedMessage }} />;}
-  //   } else {
-  //     content = <Typewriter message={message.message} />;
-  //   }
-  // } else if (isCodeMessage) {
-  //   content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  // } else {
-  //   content = <span>{message.message}</span>;
-  // }
-
-
-  // if (messageContainsMath(message.message)) {
-  // content = <MessageRenderer key={index} message={message.message} />;
-  //  }
-  //  else if (message.type === 'apiMessage' && !isCodeMessage) {
-  //   const normalizedMessage = message.message.replace(/\r\n/g, '\n');
-  //   const lines = normalizedMessage.split('\n');
-  //   content = lines.map((line, idx) => (
-  //     <div key={idx} className="line">
-  //       <Typewriter message={line} />
-  //       {idx < lines.length - 1 && <br />}
-  //     </div>
-  //   ));
-  // } else if (isCodeMessage) {
-  //   content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  // } else {
-  //   content = <span>{message.message}</span>;
-  // }
 
     if (isLoading) {
       return <>Loading...</>;
@@ -715,17 +713,17 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
                 <div className={styles.markdownanswer}
                     style={
                         isCodeMessage ? {
-                            backgroundColor: "#f5f5f5",
-                            padding: "10px",
-                            borderRadius: "5px",
-                            display: "block",
-                            margin: "1em 0",
-                            border: "1px solid #ddd",
-                            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-                            fontFamily: "'Courier New', monospace",
-                            fontSize: "14px",
-                            color: "black",
-                            lineHeight: "1.4",
+                            // backgroundColor: "#f5f5f5",
+                            // padding: "10px",
+                            // borderRadius: "5px",
+                            // display: "block",
+                            // margin: "1em 0",
+                            // border: "1px solid #ddd",
+                            // boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+                            // fontFamily: "'Courier New', monospace",
+                            // fontSize: "14px",
+                            // color: "black",
+                            // lineHeight: "1.4",
                         } : {}
                     }>
                     {content}
@@ -741,7 +739,7 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
                             collapsible
                             className="flex-col"
                           >
-                            {message.sourceDocs.slice(0, showMoreSources ? message.sourceDocs.length : 3).map((doc: any, index) => (
+                            {message.sourceDocs.slice(0, showMoreSources ? message.sourceDocs.length : 1).map((doc: any, index) => (
                               <div key={`messageSourceDocs-${index}`}> 
                               {/* //look at this section */}
                                 <AccordionItem value={`item-${index}`}>
@@ -778,9 +776,9 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
 
 
 
- {message.sourceDocs.length > 3 && !showMoreSources && (
+ {message.sourceDocs.length > 2 && !showMoreSources && (
   <button className="p-2 text-sm text-red-500" onClick={() => setShowMoreSources(true)}>
-    Show More
+    Show All
   </button>
 )}
 {showMoreSources && (
@@ -798,20 +796,22 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
             </div>
             <div className={styles.center}>
               <div className={styles.cloudform}>
+      <a href="https://mountain-pig-87a.notion.site/Terms-Of-Use-CornellGPT-96c16de16cc94ff5b574fb4632b069e9" className={styles.termsOfUse} target="_blank">CornellGPT is not fool proof. Double-check key information.</a> 
+
                 <form onSubmit={handleSubmit}>
                   <textarea
                     disabled={loading}
                     onKeyDown={handleEnter}
                     ref={textAreaRef}
                     autoFocus={false}
-                    rows={1}
+                    rows={3}
                     maxLength={100000} // input size adjustment***
                     id="userInput"
                     name="userInput"
                     placeholder={
                       loading
                         ? 'Retrieving...'
-                        : 'Message CornellGPT...'
+                        : placeholderText
                     }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}

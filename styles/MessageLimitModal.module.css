@@ -1,18 +1,19 @@
 .modal {
   position: fixed;
   top: 50%;
-  left: 56%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  width: 90%;
-  max-width: 800px;
+  left: 50%;
+  transform: translate(-37%, -50%); 
+  z-index: 1030;
+  width: 90%; /* This makes the modal width 90% of the viewport width */
+  max-width: 800px; /* Increase max-width to 800px for a wider modal */
   background: #fff;
-  padding: 2rem;
+  padding: 2rem; /* You can adjust the padding if you want less whitespace */
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr;
-  align-items: center;
+  display: flex; /* Changed from grid to flex for better control */
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+  justify-content: center; /* Center children vertically */
 }
 
 .modalBackdrop {
@@ -22,7 +23,7 @@
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 1029;
 }
 
 .StripeElement {
@@ -43,9 +44,9 @@
 
 .freeHeader {
   text-align: center;
-  font-size: 3rem; /* Adjust the size as needed */
+  font-size: 2rem; /* Adjust the size as needed */
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 29rem;
   color: #333;
 }
 
@@ -65,46 +66,47 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  
 }
 
 
 .purpleButton {
   background-color: #6a00ff; /* Purple color */
   border: none;
-  border-radius: 0.25rem;
   color: white;
   padding: 0.75rem 1rem; /* Match horizontal padding */
-  margin-top: 1rem;
+  border-radius: 0.5rem;
+
   cursor: pointer;
   transition: background-color 0.3s ease;
-  /* Add the following if the subscribe button has a set width */
-  width: auto; /* Match width of subscribe button if needed */
+
+  width: auto; 
+  margin-top: -50rem;
 }
 
 
 .purpleButton:hover {
   background-color: hsl(263, 75%, 70%);
 }
-.modalMessage h2 {
-  margin-left: 40px; /* Adjust as needed */
-}
+
 
 
 .priceHeader {
   text-align: center;
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 2rem;
+
   margin-bottom: 1rem;
+  font-weight: 800; /* Maximum boldness, if not already set */
   color: #333;
 }
 
 .subscribeButton {
-  background-color: #007bff;
+  background-color: darkred;
   color: white;
   border: none;
   margin: 1rem auto; /* Center button */
   display: block;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -114,18 +116,72 @@
 }
 
 .subscribeButton:hover {
-  background-color: #0069d9;
+  background-color: #fc675f;
 }
 
 /* Responsive design breakpoints */
 @media (min-width: 768px) {
   .modal {
-      width: 70%;
+      width: 40%;
   }
 }
 
 @media (min-width: 1024px) {
   .modal {
-      width: 50%;
+      width: 30%;
   }
 }
+.smallText {
+  text-align: center;
+  font-size: 0.9rem; 
+  color: #6a00ff; /* Purple color */
+  margin-top: 0.5rem; /* Spacing above the text */
+  font-weight: normal; /* Adjust the weight as needed */
+  text-decoration: underline; /* Adds underline to the text */
+}
+
+.smallText:hover {
+  color: #a885ff; 
+}
+
+.referralfootnoteText{
+  text-align: center;
+  font-size: 0.9rem; 
+  color: #ff0000;
+  margin-top: 0.5rem; /* Adjust top margin for spacing */
+  margin-right: 20rem;
+  font-weight: normal;
+  text-decoration: underline;
+  
+}
+
+
+.referralfootnoteText:hover{
+  color: #ff8585; 
+}
+
+
+
+
+.closeButton {
+  position: absolute;
+  top: 0.2rem; /* Adjust as needed */
+  right: 0.9rem; /* Adjust as needed */
+  background: transparent;
+  border: none;
+  font-size: 2rem; /* Adjust as needed */
+  cursor: pointer;
+  color: darkred /* Adjust as needed */
+}
+
+.closeButton:hover {
+  color: #fc675f;
+}
+
+
+
+
+
+
+
+

@@ -60,7 +60,7 @@ function CourseCatalog() {
 
 
   const courses = [
-    // { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
+    { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
     { key: 'INFO 2950', title: 'INFO 2950', professor: 'Data Science Professor Koenecke' },
     // // { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
     // { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
@@ -135,23 +135,32 @@ function CourseCatalog() {
     <div className={styles.popupOverlay}>
       <div className={styles.popup}>
         <div className={styles.popupHeader}>
-          <h2>🎅 REFER FOR FREE MESSAGES! 🎁</h2>
-          <button onClick={() => setIsPopupVisible(false)}>X</button>
+          <h2>Get up to 200 free messages for referrals 🧸</h2>
+          <button onClick={() => setIsPopupVisible(false)}>🅇</button>
         </div>
         <div className={styles.popupContent}>
-        <p>Refer other Cornellians with your link, both you and the person you refer will receive rewards!</p>
+        <p>Earn 20 messages for every Cornellian who signs up with your link —
+           and they will get an extra 20 messages too! You 
+           will get your bonus messages the minute they sign up.
+        </p>
 
           <div className={styles.referralRewards}>
             <p>1 referral = 20 messages</p>
             <p>2 referrals = 40 messages</p>
-            <p>5 referrals = 1 MONTH UNLIMITED</p>
-            <p>10 referrals = UNLIMITED🔥</p>
+            <p>10 referrals = 200 messages🔥</p>
           </div>
           <div className={styles.referralLinkBox}>
             <input type="text" value={referralLink} readOnly />
             <button onClick={handleCopy}>
               {copied ? "✓" : "Copy"}
             </button>
+          </div>
+          <div className={styles.referralLinkBox}>
+            <input type="text" value={"xyz@cornell.edu"} />
+            <button onClick={handleCopy}>
+              {copied ? "✈️" : "Send"}
+            </button>
+            
           </div>
         </div>
       </div>
@@ -163,9 +172,9 @@ function CourseCatalog() {
     <div className={styles.container}>
           {/* <ProgressBar count={referralCount} /> */}
           {isPopupVisible && <Popup />}
-{/* <button className={styles.referralText} onClick={handleReferralClick}>
+<button className={styles.referralText} onClick={handleReferralClick}>
  GET FREE MESSAGES! 🎁
-</button> */}
+</button>
       <div className={styles.classInquiryContainer}>
         <button
     className={styles.classInquiryButton}

@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import styles from '@/styles/Sidebar.module.css';
 import { useRouter } from 'next/router';
 import axios from 'axios'; 
+import MessageLimitModal from './MessageLimitModal';
+
+
+
 
 
 type ChatSession = {
@@ -28,6 +32,16 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         return null;
     });
     const [userID, setUserID] = useState(null);
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const handleModalVisibility = (visible) => {
+        setIsModalVisible(visible);
+    };
+
+
+  
+
     const [isCreatingSession, setIsCreatingSession] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter();
@@ -73,6 +87,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+
+
 
 
 
@@ -338,10 +354,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 
     return (
         <div>
-        <div className={styles.side}>
+        <div className={styles.side} >
         <button onClick={handleNewChat} className={styles.newChatButton}>
           
-  New Convo
+  New Chat
   <img src="/chat.png" alt="Chat" className={styles.chatIcon} />
 </button>
             {sortedDates.map(date => (
@@ -383,7 +399,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 </button>
 <button
     className={styles.bottomButton}
-    onClick={() => window.open('https://discord.gg/eVT7CN69', '_blank')}
+    onClick={() => window.open('https://discord.gg/3V2RhTZWF8', '_blank')}
 >
     <img src="/discord.png" alt="Discord" className={styles.discordIcon} />
     CornellGPT Discord
@@ -399,6 +415,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
                 
             </div>
         </div>
+        
     </div>
 ); 
                                   }

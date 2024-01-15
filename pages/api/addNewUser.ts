@@ -26,7 +26,7 @@ async function addNewUserHandler(req, res) {
 
             // Check if the email is a Cornell email
             if (!userEmail.endsWith('@cornell.edu')) {
-                return res.status(400).json({ created: false, message: 'Cornell emails only (@cornell.edu)' });
+                return res.status(400).json({ created: false, message: 'Cornell emails only' });
             }
 
             const db = await connectToDb();

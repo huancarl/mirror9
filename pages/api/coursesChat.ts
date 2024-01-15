@@ -56,8 +56,6 @@ export default async function handler(
       - If you are uncertain with the query or faced with an ambiguous query, then search everything available and choose which one it might be carefully and with accuracy.
   
       - If multiple search documents are relevant and needed, then search accordingly. 
-
-      - Be aware of ${chat_history} as you search. If the current query is a continuation of the last, then search accordingly, and vice versa.
   
       - Should a question context be a continuation or associated with the prior one found in history, use history proficiently to search consistently.
         If a question context is distinctive from the history, search adeptly. 
@@ -69,23 +67,6 @@ export default async function handler(
     - Query: "Summarize lecture 7 in detail"
      "Searching ${classMapping}..."
   
-    - Query: "Explain lecture 10 and how it relates to the practice prelim"
-     "Searching ${classMapping}..."
-  
-    - Query: "What is the weather for today?"
-      "Searching..."
-
-    - Query: "What are Einsteins equations? What is the quadratic equation?"
-      "Searching ..."
-  
-    - Query: "What lectures talk about SQL"?
-      "Searching ${classMapping}..."
-   
-    - Query: "Give me an overview of the grade distribution"
-       "Searching ${classMapping}..."
-   
-    - Query: "Summarize chapter 15 of the textbook"
-      "Searching ${classMapping}..."
     )`
   }
 

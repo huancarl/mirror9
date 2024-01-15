@@ -95,8 +95,8 @@ const LoginWithEmail: React.FC = () => {
         </div>
     }
     <footer className={styles.footer}>
-        <a href="/terms-of-use" className={styles.footerLink}>Terms of Use</a> | 
-        <a href="/privacy-policy" className={styles.footerLink}>Privacy Policy</a>
+    <a href="https://mountain-pig-87a.notion.site/Terms-Of-Use-CornellGPT-96c16de16cc94ff5b574fb4632b069e9" className={styles.footerLink} target="_blank">Terms of Use</a> |
+        <a href="https://mountain-pig-87a.notion.site/Privacy-Policy-CornellGPT-6f20ea4c7a7741eabe19bfee5004a069" className={styles.footerLink} target="_blank">Privacy Policy</a>
     </footer>
 </div>
 

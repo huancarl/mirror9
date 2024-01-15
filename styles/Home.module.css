@@ -14,7 +14,10 @@
 
 .header {
   width: auto;
+  position: relative;
 }
+
+
 
 
 .header p {
@@ -24,21 +27,42 @@
 
 .cloudform {
   position: fixed;
-  bottom: 0;
+  bottom: 0; /* Keeps the bottom edge at the bottom of the viewport */
   left: 12vw; /* Anchor to the left side */
   right: 0%; /* Adjust right spacing - this effectively sets the width */
   z-index: 900;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem; /* Reduced padding to decrease the height */
-  background: #ffffff; /* Presuming you want to keep the red background */
+  padding: 0.5rem; /* Padding inside the box */
+  background: #ffffff; /* Red background */
   box-sizing: border-box;
   width: 100vw;
-  /* Removed the max-width as it was incorrectly set to 1250vw which is likely a typo */
-
-  
+  height: 105px; /* Example height - adjust as needed */
 }
+.termsOfUse {
+  font-size: 0.7rem; /* Small text size */
+  text-align: center;
+  position: absolute;
+  bottom: 0px; /* Position at the bottom of the cloudform */
+  left: -8vw; /* Anchor to the left side */
+  width: 100%;
+  color: darkred; /* A subtle color */
+  z-index: 1000; /* Higher z-index */
+}
+
+.termsOfUse:hover{
+  color: rgb(255, 160, 160); /* A subtle color */
+
+}
+
+
+
+
+
+
+
+
 
 .message-container {
   padding-bottom: 6.25em; /* You may adjust this value */
@@ -50,8 +74,8 @@
 
 .textarea-container {
   position: relative;
-  bottom: 0;
   left: 0;
+  bottom: 20px;
   right: 0; /* This ensures it stretches across the bottom */
   z-index: 1000; /* High enough to stay on top */
   display: flex;
@@ -75,8 +99,8 @@
   flex-grow: 1; /* Allow textarea to fill the space */
   margin-right: 12rem; /* Adjusted to create space for the button inside the textarea */
   width: 50rem;
-  max-height: 12.5em; /* Maximum expandable height */
-  min-height: 3.75em;
+  max-height: 3.5em; /* Maximum expandable height */
+  min-height: 3.5em;
 
   
   padding-right: 4rem; /* Adjust this value based on the size of your button */
@@ -194,7 +218,7 @@
 .usermessagewaiting {
   padding: 1.5rem;
   color: #000;
-  background: linear-gradient(to right, #07080938, #1a1c2024, #07080936);
+  background: linear-gradient(to right, #ffffff38,#fb000038, #ff000038);
   background-size: 200% 200%;
   background-position: -100% 0;
   animation: loading-gradient 2s ease-in-out infinite;
@@ -365,7 +389,7 @@
 
 
 .cloud {
-  width: 75vw;
+  width: 65vw;
   height: 65vh;
   background: #ffffff;
   border-radius: 0.5rem;
@@ -521,6 +545,31 @@
     font-size: 4rem; /* Smaller font size for mobile devices */
   }
 }
+
+.classInquiryButton {
+  position: absolute; /* Position relative to the nearest positioned ancestor */
+  top: 0.3rem; /* Position from the top of the page */
+  right: 1rem; /* Position from the right of the page */
+  padding: 10px 23px;
+  background-color: #6a00ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: auto;
+  max-width: 400px;
+  font-weight: bold;
+}
+
+.classInquiryButton:hover {
+  background-color: hsl(263, 75%, 70%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 
 
 

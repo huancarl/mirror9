@@ -17,7 +17,7 @@ import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
 import connectToDb from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
-import { HfInference } from '@huggingface/inference';
+// import { HfInference } from '@huggingface/inference';
 
 export const maxDuration = 100; // This function can run for a maximum of 5 seconds
 export const dynamic = 'force-dynamic';
@@ -228,34 +228,40 @@ export default async function handler(
 // }
 
   function createPrompt(namespaceToSearch: string, chat_history: any){
+
     return `(
      
       Your mission is to determine when and what to search based on the user query of the class.
       Queries you receive will be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
       
-      Available Search Documents = ${classMapping[namespaceToSearch]}
+      Available Search Documents = ${classMapping[namespaceToSearch]} 
       Context of the class = ${namespaceToSearch}
-      Chat History (conversation): chat_history
   
       - Always respond like: "Searching ..." Never deviate from this format.
   
-      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly and accordingly from the available search documents.
+      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly 
+        and accordingly from the available search documents.
       - Use your intelligence and intuition to select the accurate document. Take time to think before coming to a final conclusion.
       - If the query relates to certain search documents, make sure to make the right selection.
 
-      - Be attentive, selective, and cautious about what to select. Do not select the wrong things. 
       - If multiple search documents are relevant and needed, search accordingly.
 
-      - If the query asks for something that does not exist, then search nothing.
-      - If the query asks something general to ${namespaceToSearch}, then search only '${namespaceToSearch} All Materials'.
+      - If the query asks for class material that does not strictly exist in the search documents, then search nothing.
+      - If the query says Hi or other simple conversational messages, then search nothing.
       - If the query asks something general unrelated to ${namespaceToSearch} like "What is 2+2", then search nothing.
-      - If you are uncertain with the query or it is a general question, then search only '${namespaceToSearch} All Materials'.
-      - If searching '${namespaceToSearch} All Materials' , do not search any other documents. 
+
+      - If the query asks something general to ${namespaceToSearch}, then search only ${namespaceToSearch} All Materials.
+      - If you are uncertain with the query, then search only ${namespaceToSearch} All Materials'.
+      - If you are searching all lectures, instead search only ${namespaceToSearch} All Materials'.
+      - If searching ${namespaceToSearch} All Materials , do not search any other documents. 
       
     Example Responses:
    
     - Query: "Summarize lecture 7 in detail"
      "Searching ${classMapping[namespaceToSearch]}..."
+
+    - Query: "Summarize lecture 83"
+    "Searching....."
   
     )`
   }
@@ -384,7 +390,7 @@ export default async function handler(
   }
 
     const model = new OpenAIChat({
-      temperature: 0,
+      temperature: 0.1,
       modelName:"gpt-4-1106-preview",
       cache: true,
   });
@@ -425,10 +431,11 @@ export default async function handler(
     console.log(namespaces, 'namespace in chat.ts');
 
     const modelForResponse = new OpenAIChat({
-      temperature: 0.05,
+      temperature: 0.1,
       modelName: "gpt-3.5-turbo-1106",
       cache: true,
     });
+    
 
 
     //init class

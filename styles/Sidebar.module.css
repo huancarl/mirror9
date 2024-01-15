@@ -440,6 +440,24 @@
 }
 
 
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+/* In your Sidebar.module.css */
+.greyedOut {
+  opacity: 0.5; /* Adjust as needed for the grey-out effect */
+  background-color: rgba(0, 0, 0, 0.5); /* Optional, for a darker overlay */
+}
+
+
+
 
 
 

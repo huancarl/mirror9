@@ -81,9 +81,10 @@ const MessageLimitModal = ({ setShowLimitReachedModal, clientS}) => {
 <>
   <div className={styles.modalBackdrop} onClick={() => setShowLimitReachedModal(false)} />
   <div className={styles.modal}>
+  <button className={styles.closeButton} onClick={() => setShowLimitReachedModal(false)}>🆇</button>
     <div className={styles.modalLeft}>
       <div className={styles.modalPayment}>
-        <h2 className={styles.priceHeader}>$9.99/month UNLIMITED messages</h2>
+        <h2 className={styles.priceHeader}>$9.99/month UNLIMITED</h2>
         <form id="payment-form" onSubmit={handleSubmit}>
           <PaymentElement id="payment-element" />
           <button
@@ -93,26 +94,13 @@ const MessageLimitModal = ({ setShowLimitReachedModal, clientS}) => {
           >
             {isLoading ? <div className={styles.spinner}></div> : "Subscribe"}
           </button>
+          <a href="https://forms.gle/tvBPKA2bQnkjsAk56" className={styles.smallText} target="_blank" rel="noopener noreferrer">OR UPLOAD MATERIALS</a>
+          <div className={styles.referralfootnoteText}>REFER</div> 
           {message && <div id="payment-message">{message}</div>}
         </form>
       </div>
     </div>
-    <div className={styles.divider}></div>
-    <div className={styles.modalRight}>
-      <h1 className={styles.freeHeader}>FREE</h1>
-      <div className={styles.modalMessage}>
-        <h2>Upload your materials and gain additional messages for FREE. </h2>
-        <button
-          className={styles.purpleButton}
-          onClick={() => {
-            window.open('https://docs.google.com/forms/d/e/1FAIpQLSezI8BOql8DGhvICuH2Rzyp9PYf4MO0vN6pgbCpx3B0S8NzxA/viewform?usp=sf_link', '_blank', 'noopener,noreferrer');
-          }}
-        >
-          UPLOAD
-        </button>
-      </div>
     </div>
-  </div>
 </>
 
   );
