@@ -68,6 +68,7 @@ class ChatHistoryBuffer {
 }
 
 interface Metadata {
+    text: any;
     courseID: string;
     title: string;
     subject: string;
@@ -162,18 +163,17 @@ export class CoursesCustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 5;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 10;                      // max vector search, adjust accordingly till find optimal
 
-        const maxNamespaces = 10;
         const namespacesToSearch = this.namespaces;
-
+        const numOfVectorsPerNS = Math.floor(remainingDocs/1); 
     
         for (const namespace of namespacesToSearch) {
             const queryResult = await this.retryRequest(async () => {
                 return await this.index.query({
                     queryRequest: {
                         vector: queryEmbedding,
-                        topK: 5,
+                        topK: numOfVectorsPerNS,
                         namespace: namespace,
                         includeMetadata: true,
                     },
@@ -219,15 +219,16 @@ export class CoursesCustomQAChain {
 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
+                text: vector.text, 
                 courseID: vector.metadata.courseID,
                 title: vector.metadata.title,
                 subject: vector.metadata.subject,
             };
         });  
 
-        const formattedSourceDocuments = sourceDocuments.map((doc, index) => {
+        const formattedSourceDocuments = sourceDocuments.map((doc) => {
             // Remove newlines and excessive spacing from the text
-            return `- Class: ${doc.subject} ${doc.courseID} ${doc.title} Information for ${doc.subject} ${doc.courseID} ${doc.title}: "${doc}",`;
+            return `- Information for ${doc.subject} ${doc.courseID} ${doc.title}: ${doc.text},`;
           }).join('\n');
 
         console.log(formattedSourceDocuments, 'formatted source docs for course catalog');
@@ -310,9 +311,16 @@ export class CoursesCustomQAChain {
             HumanMessagePromptTemplate.fromTemplate('{query}'),
           ]);
         
-        const history = new BufferMemory({ returnMessages: true, memoryKey: 'chat_history' });
-        for (let i = 0; i < chat_history.length; i += 2) {
-            history.saveContext([chat_history[i]], [chat_history[i+1]]);
+        const history = new BufferMemory({ returnMessages: false, memoryKey: 'chat_history' });
+
+        for (let i = chat_history.length - 1; i >= 0; i -= 2) {
+            if (chat_history.length - i > 6) {
+                break;
+            }
+            // Remove or transform quotations from the messages
+            const systemMessage = chat_history[i-1].replace(/"[^"]*"/g, '');
+            const humanMessage = chat_history[i].replace(/"[^"]*"/g, '');
+            history.saveContext([systemMessage], [humanMessage]);
         }
         
         const chain = new ConversationChain({

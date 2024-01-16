@@ -243,7 +243,7 @@ export class CustomQAChain {
         const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
 
         //this.chatHistoryBuffer.addMessage(chat_history);
-        console.log(this.namespaces, 'name of namespaces');
+        //console.log(this.namespaces, 'name of namespaces');
         
         const sourceDocuments = relevantDocs.map(vector => {
             return {

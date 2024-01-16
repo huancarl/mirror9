@@ -67,11 +67,13 @@ export const run = async () => {
       const upsertChunkSize = 25;
       for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
         const chunk = splitDocs.slice(i, i + upsertChunkSize);
-        // await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
-        //   pineconeIndex: index,
-        //   namespace: namespace,
-        //   textKey: 'text',
-        // });
+
+        //upload to individual namespaces for each class material
+        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
+          pineconeIndex: index,
+          namespace: namespace,
+          textKey: 'text',
+        });
 
         //upload to namespace with all materials
         await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
