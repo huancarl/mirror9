@@ -16,6 +16,11 @@ type ChatSession = {
     date: string;
 };
 
+interface ProfilePopupProps {
+  userID: string | null;
+}
+
+
 type SidebarProps = {
     className?: any;
     onSessionChange?: (sessionId: string) => void;
@@ -93,54 +98,83 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 
 
 
+    
 
 
-    const ProfilePopup = () => {
+
+    const ProfilePopup: React.FC<ProfilePopupProps> = ({ userID }) => {
       const router = useRouter();
       const [isLoading, setIsLoading] = useState(false);
+      const [isCancelled, setIsCancelled] = useState(false); // New state for tracking cancellation success
     
       const handleLogOut = () => {
-        router.push('/'); // This will navigate to the home page (index.tsx)
+        router.push('/'); // Navigate to the home page
       };
     
       const handleCancelSubscription = async () => {
         setIsLoading(true);
         try {
-          // Assuming 'userID' is available in your component, otherwise you'll need to fetch or pass it
-          const response = await axios.post('/api/cancelSubscription', { userID});
-          console.log(response.data.message);
-          setShowPopup(false); // Hide popup after cancellation
-          // Additional logic on successful cancellation can go here
+          const response = await fetch('/api/cancelSubscription', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userID: userID })
+          });
+    
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+    
+          const responseData = await response.json();
+          console.log(responseData.message);
+          setIsCancelled(true); // Update to reflect cancellation status
+          // You can add more logic here based on the response
+    
         } catch (error) {
           console.error('Error canceling subscription:', error);
-          // Handle error, show message to user, etc.
         }
         setIsLoading(false);
       };
+      
+      
+      const handleClosePopup = () => {
+        setShowPopup(true); // This will hide the popup
+      };
+
     
-      return (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modalContainer}>
-            <div className={styles.modalButtonContainer}>
-              <button onClick={handleLogOut} className={styles.modalButton}>Log Out</button>
-              <button 
-                onClick={handleCancelSubscription} 
-                className={styles.modalButton}
-                disabled={isLoading}
-              >
-                {isLoading ? 'Cancelling...' : 'Cancel Subscription'}
-              </button>
-            </div>
-          </div>
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContainer}>
+        <div className={styles.modalHeader}>
+          <button onClick={handleClosePopup} className={styles.closeButton}>🆇</button>
         </div>
-      );
-    };
+        <div className={styles.modalButtonContainer}>
+          <button onClick={handleLogOut} className={styles.modalButton}>Log Out</button>
+          <button 
+          onClick={handleCancelSubscription} 
+          className={styles.modalButton}
+          disabled={isLoading || isCancelled}
+        >
+          {isLoading ? 'Loading...' : isCancelled ? '✔️' : 'Cancel Subscription'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
+
+
     
 
     const togglePopup = () => {
       setShowPopup(!showPopup);
     };
     
+
+
 
 
 
@@ -352,6 +386,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
       
       
 
+
+
     return (
         <div>
         <div className={styles.side} >
@@ -410,7 +446,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 <button className={styles.bottomButton} onClick={togglePopup}>
                   <img src="/logout.png" alt="Log Out" className={styles.logoutIcon} />
                   <span className={styles.logoutText}>Profile</span>
-                  {showPopup && <ProfilePopup />}
+                  {showPopup && <ProfilePopup userID={userID} />}
                 </button>
                 
             </div>
@@ -419,5 +455,10 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     </div>
 ); 
                                   }
+
+
+
+
+
 
 export default Sidebar;

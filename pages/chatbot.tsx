@@ -473,31 +473,41 @@ useEffect(() => {
   //   }
   // });
 
-  const [placeholderText, setPlaceholderText] = useState('Explain lecture 3...');
+  const [placeholderText, setPlaceholderText] = useState('Message CornellGPT');
+  const namespaceToSearch = courseTitle;
 
-  // Define your placeholder texts
-  const placeholders = [
-    'Explain lecture 5 in detail...',
-    'What is the grade breakdown?...',
-    'When are profs office hours?...',
-    'Summarize lecture 20...',
-  ];
+  // Function to get placeholders based on the namespace
+  const getPlaceholders = (namespace) => {
+    if (namespace === 'Course Finder SP24') {
+      return [
+        'What are some diversity classes?...',
+        'Name 5 info science classes I can take...',
+        'Can I take CS 2110 without CS 1110?...',
+        'When is lecture for MATH 2940?...',
+        "What requirements does CS 4780 fulfill?..."
+      ];
+    } else {
+      return [
+        'Explain lecture 5 in detail...',
+        'What is the grade breakdown?...',
+        'When are profs office hours?...',
+        'Summarize lecture 20...',
+        'Explain the course overview...'
+      ];
+    }
+  };
 
   useEffect(() => {
+    const placeholders = getPlaceholders(namespaceToSearch);
     let placeholderIndex = 0;
 
-    // Change placeholder every 5 seconds (5000 milliseconds)
     const intervalId = setInterval(() => {
-      // Update the placeholder text
       setPlaceholderText(placeholders[placeholderIndex]);
-
-      // Move to the next placeholder text, or loop back to the start
       placeholderIndex = (placeholderIndex + 1) % placeholders.length;
     }, 2000);
 
-    // Clear the interval when the component unmounts
     return () => clearInterval(intervalId);
-  }, []);
+  }, [namespaceToSearch]);
   
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

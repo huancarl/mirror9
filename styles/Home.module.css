@@ -535,7 +535,7 @@
   white-space: nowrap;
   overflow: hidden;
   padding: 1rem;
-  z-index: 1500; /* Ensure it's above other elements, adjust as needed */
+  z-index: 500; /* Ensure it's above other elements, adjust as needed */
   width: auto; /* Adjust width as necessary */
 }
 
