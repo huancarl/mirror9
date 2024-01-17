@@ -114,7 +114,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
       const handleCancelSubscription = async () => {
         setIsLoading(true);
         try {
-          const response = await fetch('/api/cancelSubscription', {
+          const response = await fetch('/api/cancelSubscriptionButton', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
