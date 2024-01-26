@@ -41,7 +41,24 @@ import { Elements } from "@stripe/react-stripe-js";
 import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css'; // Import the style you want to use
 import python from 'highlight.js/lib/languages/python';
+import {withSession, isAuthenticated} from 'utils/session';
 
+//Make sure that the page cannot be accessed without logging in
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = await isAuthenticated(req);
+
+  if (!user) {
+      return {
+          redirect: {
+              destination: '/loginEmail', // Redirect to the sign-in page
+              permanent: false,
+          },
+      };
+  }
+
+  // User is authenticated
+  return { props: { user } };
+});
 
 
 
@@ -103,6 +120,7 @@ const [messageState, setMessageState] = useState<{
   }, []);
 
 
+  //Get the class the user has selected
   const router = useRouter();
   useEffect(() => {
     if (router.query.course) {
@@ -150,16 +168,32 @@ const handleBackClick = (e) => {
   
   
   const fetchChatHistory = async () => {
+
+    //Initalizes the page with the chat history and with a stripe payment intent
+
     const sessionRes = await fetch('/api/userInfo');
-        const sessionData = await sessionRes.json();
-        if (sessionRes.ok) {
-            // Set userID to the user's email from the session
-            userIDRef.current = sessionData.email;
-        } else {
-            // Handle the case where the session is not available
-            console.error('Session not found:', sessionData.error);
-            return;
-        }
+    const sessionData = await sessionRes.json();
+    if (sessionRes.ok) {
+        // Set userID to the user's email from the session
+        userIDRef.current = sessionData.email;
+    } else {
+        // Handle the case where the session is not available
+        console.error('Session not found:', sessionData.error);
+        return;
+    }
+
+    //Get the setupintent for stripe in case of payment
+    fetch("/api/create-setup-intent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userEmail: userIDRef.current})
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setClientSecret(data.clientSecret);
+      });
+
+    
     sessionIDRef.current = getOrGenerateUUID('sapp');
     try {
         //handling the edge case where you switch between course
@@ -261,19 +295,6 @@ const handleCloseModal = () => {
   setLoading(false); // Ensure loading is also set to false if needed
   // Any other state resets if necessary
 };
-
-useEffect(() => {
-
-  fetch("/api/create-setup-intent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userID: [{ id: userIDRef.current }] }),
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      setClientSecret(data.clientSecret);
-    });
-}, []);
 
 async function handleSubmit(e: any) {
   const namespaceToSearch: any = courseTitle;
@@ -593,7 +614,7 @@ function CodeBlock({ code }: { code: string }) {
 
   return (
     <>
-    {clientSecret && showLimitReachedModal && stripePromise && (
+    {showLimitReachedModal && stripePromise && (
         <Elements stripe={stripePromise} options={ options }>
           <MessageLimitModal setShowLimitReachedModal={handleCloseModal} clientS={clientSecret}/>
         </Elements>

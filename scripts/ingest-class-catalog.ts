@@ -126,10 +126,10 @@ function splitIntoChunks(text: string, chunkSize: number): string[] {
 
   return chunks;
 }
-
 const CHUNK_SIZE = 225; // Set your OpenAI token limit
+
 const indexToIngest = pinecone.Index(PINECONE_INDEX_NAME);
-const namespaceToIngest = 'Course Catalog';
+const namespaceToIngest = 'Course_Catalog';
 
 const ingestClassesForSubject = async (roster: string, subject: string,) => {
     //Gets a response from the Cornell API containing all classes for a subject. Then we parse the data and
@@ -150,7 +150,7 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
       for(let i = 0; i < classes.length; i++){
 
         const classInfoStr = await formatInfoForClass(classes[i]);
-        console.log(classInfoStr);
+        console.log(classInfoStr + '\n');
         const json = JSON.stringify(classInfoStr);
         await fs.appendFile('classes-split.json', json + '\n');
 
@@ -169,7 +169,7 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
           text: classInfoStr
             // Removed prevVector and nextVector
         };
-        await PineconeStore.fromTexts(texts, metadata, embeddings, dbConfig);
+        //await PineconeStore.fromTexts(texts, metadata, embeddings, dbConfig);
       }
     } catch (error) {
       console.error('Error ingesting class data:', error);
@@ -181,7 +181,7 @@ async function formatEnrollGroups(enrollGroupObj: any): Promise<string> {
   //Enroll groups are groups of lectures/labs that the users can enroll in. This function gets all of
   // The information for each. Returns it as a string to vectorize.
 
-  let enrollGroupsStr = 'The times of each enrollment group for this class are as follows. ';
+  let enrollGroupsStr = 'The times this class are as follows. ';
   const allGroups = enrollGroupObj;
   //For each enrollment group of a class get their respective information
   for(let i = 0; i < allGroups.length; i++){
@@ -238,6 +238,12 @@ async function formatEnrollGroups(enrollGroupObj: any): Promise<string> {
 
       // meetingInfo += `Instructor Information: ${instructorsInfo}`
     }
+
+    for (let k = 0; k < meetingTimes.size; k ++){
+      meetingInfo += meetingTimes[k];
+    }
+
+    console.log(meetingTimes, 'meeting times for a class \n');
 
     currGroup += meetingInfo;
     enrollGroupsStr += currGroup;

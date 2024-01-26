@@ -15,3 +15,8 @@ export function withSession(handler) {
     },
   });
 }
+
+export async function isAuthenticated(req){
+  const user = req.session.get('user');
+  return user ? user : null;
+}

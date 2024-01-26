@@ -3,22 +3,22 @@ import connectToDb from '@/config/db';
 
 const nodemailer = require('nodemailer');
 
-const sendPaymentFailedEmail = async (userEmail, link) => {
+const sendEmail = async (receivingEmail, link, sendingEmail) => {
     let transporter = nodemailer.createTransport({
       // Configure your SMTP server details
       host: "smtp.gmail.com",
       port: 587,
       secure: false,
       auth: {
-        user: 'cornellgpt@gmail.com',
-        pass: 'Bakertowerpingpong156143',
+        user: 'cornellgptnotice@gmail.com',
+        pass: 'zrgh yyvb iter rhcz',
       },
     });
   
     await transporter.sendMail({
-      from: 'CornellGPT <no-reply@ourdomain.com>',
-      to: userEmail,
-      subject: "You have received a special invite to the CornellGPT! Use the code below to signup for an account with extra benefits!",
+      from: 'CornellGPT <no-reply@gptcornell.com>',
+      to: receivingEmail,
+      subject: `You have received a special invite to CornellGPT from ${receivingEmail}! Use the code below to signup for an account with extra benefits!`,
       html: `<p>Please visit our website to sign up for an account with extra benefits. <a href='${link}'>Sign Up For CornellGPT!</a></p>`,
     });
   };
@@ -26,9 +26,9 @@ const sendPaymentFailedEmail = async (userEmail, link) => {
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     try{
-        const { userEmail, refCode } = req.body;
+        const { sender, receiver, refCode } = req.body;
         
-        await sendPaymentFailedEmail(userEmail, refCode);
+        await sendEmail(receiver, refCode, sender);
 
         res.status(200).json({
             success: true,

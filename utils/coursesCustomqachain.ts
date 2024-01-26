@@ -32,6 +32,11 @@ class RateLimiter {
     }
 }
 
+interface ChatMessage {
+    type: 'userMessage' | 'apiMessage';
+    message: string;
+    sourceDocs?: any[];  // Adjust the type of sourceDocs as per your actual data
+  }
 
 class ChatHistoryBuffer {
     private buffer: string[];
@@ -163,7 +168,7 @@ export class CoursesCustomQAChain {
         }
     
         let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 10;                      // max vector search, adjust accordingly till find optimal
+        let remainingDocs = 5;                      // max vector search, adjust accordingly till find optimal
 
         const namespacesToSearch = this.namespaces;
         const numOfVectorsPerNS = Math.floor(remainingDocs/1); 
@@ -210,29 +215,47 @@ export class CoursesCustomQAChain {
         return fetchedTexts;  
     }
 
-    public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: string, namespaceToFilter: any}, ): Promise<CallResponse> {
+    public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: ChatMessage[], namespaceToFilter: any}, ): Promise<CallResponse> {
        
         const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
-
-        this.chatHistoryBuffer.addMessage(chat_history);
-        // console.log(this.namespaces, 'name of namespaces');
+        
 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
-                text: vector.text, 
+                text: vector.metadata.text, 
                 courseID: vector.metadata.courseID,
                 title: vector.metadata.title,
                 subject: vector.metadata.subject,
             };
         });  
 
-        const formattedSourceDocuments = sourceDocuments.map((doc) => {
-            // Remove newlines and excessive spacing from the text
-            return `- Information for ${doc.subject} ${doc.courseID} ${doc.title}: ${doc.text},`;
-          }).join('\n');
+        let charCount = 0;
+        const maxChars = 12000;
+        
+        const formattedSourceDocuments = sourceDocuments.map((doc, index) => {
+            // Remove newlines, excessive spacing, and curly braces from the text
+            const cleanedText = doc.text
+                .replace(/\s+/g, ' ')
+                .replace(/{/g, '')  // Remove all occurrences of '{'
+                .replace(/}/g, '')  // Remove all occurrences of '}'
+                .trim();
+        
+            // Prepare the full string for this document
+            const fullString = `- Information for ${doc.subject} ${doc.title}: ${doc.text},`;;
+        
+            // Check if adding this text would exceed the character limit
+            if (charCount + fullString.length > maxChars) {
+                return null; // or some other indicator that you've reached the limit
+            } else {
+                charCount += fullString.length; // Update the character count
+                return fullString;
+            }
+        }).filter(Boolean).join('\n'); // Filter out null values and join
+
 
         console.log(formattedSourceDocuments, 'formatted source docs for course catalog');
-       
+        console.log(sourceDocuments, 'source documents');
+
         const prompt = `
         
 
@@ -306,6 +329,8 @@ export class CoursesCustomQAChain {
             new MessagesPlaceholder('chat_history'),
             HumanMessagePromptTemplate.fromTemplate('{query}'),
           ]);
+
+        console.log(prompt, 'prompt');
         
         const history = new BufferMemory({ returnMessages: false, memoryKey: 'chat_history' });
 
@@ -314,8 +339,8 @@ export class CoursesCustomQAChain {
                 break;
             }
             // Remove or transform quotations from the messages
-            const systemMessage = chat_history[i-1].replace(/"[^"]*"/g, '');
-            const humanMessage = chat_history[i].replace(/"[^"]*"/g, '');
+            const systemMessage = chat_history[i-1].message.replace(/"[^"]*"/g, '');
+            const humanMessage = chat_history[i].message.replace(/"[^"]*"/g, '');
             history.saveContext([systemMessage], [humanMessage]);
         }
         

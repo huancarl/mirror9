@@ -320,7 +320,7 @@ export default async function handler(
         cache: true,
       });
       //init class
-      const qaChain = CoursesCustomQAChain.fromLLM(modelForResponse, index, ['Course Catalog'], {
+      const qaChain = CoursesCustomQAChain.fromLLM(modelForResponse, index, ['Course_Catalog'], {
         returnSourceDocuments: true,
         bufferMaxSize: 4000,
       });

@@ -15,6 +15,7 @@ async function addNewUserHandler(req, res) {
         const { token, link } = req.body;
         let userUsedRef = false;
 
+        //Handle LogIn/Sign In
         const ticket = await client.verifyIdToken({
             idToken: token,
             audience: "143724527673-n3nkdbf2gh0ea2lgqrthh6k4142sofv1.apps.googleusercontent.com",
@@ -41,7 +42,7 @@ async function addNewUserHandler(req, res) {
                 if(link){
                     const refSource = await userCollection.findOne({ ref: link });
                     if(refSource){
-                        const refSourceUserID = refSource.userID;
+                        const refSourceUserID = refSource.userEmail;
                         //Give rewards for the referrer
 
                         //Give membership for a month
@@ -51,7 +52,7 @@ async function addNewUserHandler(req, res) {
                         // }
                         // else{}
                         const referrerReward = 5;
-                        await userCollection.updateOne({refSourceUserID}, { $inc: { usersReferred: 1, messagesLeft: referrerReward } });
+                        await userCollection.updateOne({userEmail: refSourceUserID}, { $inc: { usersReferred: 1, messagesLeft: referrerReward } });
                     }
                 }
 

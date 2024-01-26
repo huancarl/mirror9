@@ -3,6 +3,24 @@ import Link from 'next/link';
 import styles from '@/styles/courseSelection.module.css';
 import CourseBox from 'components/CourseBox';
 import { v4 as uuidv4 } from 'uuid';
+import {withSession, isAuthenticated} from 'utils/session';
+
+//Make sure that the page cannot be accessed without logging in
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = await isAuthenticated(req);
+
+  if (!user) {
+      return {
+          redirect: {
+              destination: '/loginEmail', // Redirect to the sign-in page
+              permanent: false,
+          },
+      };
+  }
+
+  // User is authenticated
+  return { props: { user } };
+});
 
 function CourseCatalog() {
 

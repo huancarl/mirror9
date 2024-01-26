@@ -3,7 +3,12 @@
       "pages/api/chat.ts": {
         "maxDuration": 200 
       }
-      
-      
-    }
+    },
+
+    "crons": [
+      {
+        "path": "/api/subscriptions",
+        "schedule": "0 0 * * *"
+      }
+    ]
   }

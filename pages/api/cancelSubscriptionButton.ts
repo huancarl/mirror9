@@ -7,6 +7,9 @@ if (!stripeSecretKey) {
   throw new Error('The STRIPE_SECRET_KEY environment variable is not set.');
 }
 const stripe = require("stripe")(stripeSecretKey);
+
+// SubID is stored in the DB already
+
 // async function getSubscriptionIdByUserID(userEmail: string) {
 //   // Retrieve customer by email
 //   const customers = await stripe.customers.list({ email: userEmail, limit: 1 });
@@ -34,27 +37,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const userCollection = db.collection('verifiedUsers');
 
       const userDoc = await userCollection.findOne({ userEmail: userID, paid: true });
+
+      if(!userDoc){
+        res.status(500).json({ message: 'No subscription found on DB' });
+      }
+
       const subID = userDoc ? userDoc.stripeSubID : null;
 
-      if (!subID) {
+      const subscription = await stripe.subscriptions.retrieve(
+        subID
+      );
+
+
+      if (!subscription || subscription.status === 'canceled') {
         // subID found, proceed with your logic
-        res.status(500).json({ error: 'Internal server error' });
+        res.status(200).json({ message: 'No subscription found on stripe' });
+        return;
       } 
 
       // Cancel the subscription
-      const canceledSubscription = await stripe.subscriptions.cancel(subID);
+      const canceledSubscription = await stripe.subscriptions.cancel(subscription.id);
 
       // Update database or perform additional logic as needed
       if (canceledSubscription) {
-        const allUsers = db.collection('verifiedUsers');
-        const filter = { userEmail: userID, paid: true };
-        const update = {
-          $set: {
-            paid: false, // Set paid status to false
-            stripeSubID: null,
-          },
-        };
-        const result = await allUsers.updateOne(filter, update);
+
+        // This deletes the subscription for the user on the MongoDB. We do not need to do this because 
+        // the cron job will delete it on the MongoDB for us when the user's month which they paid for is up.
+        // They should have the subscription until their month they paid for is up so we keep it for now on Mongo but
+        // we delete it on the stripe.
+
+        // const allUsers = db.collection('verifiedUsers');
+        // const filter = { userEmail: userID, paid: true };
+        // const update = {
+        //   $set: {
+        //     paid: false, // Set paid status to false
+        //     stripeSubID: null,
+        //   },
+        // };
+        // const result = await allUsers.updateOne(filter, update);
+
         // Send a success response
         res.status(200).json({ message: 'Subscription canceled successfully', canceledSubscription });
 

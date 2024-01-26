@@ -28,6 +28,25 @@ type SidebarProps = {
     onNewChat?: (newChatSession: string) => void;
 };
 
+const CancelConfirmationModal = ({ onClose, message }) => {
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContainer}>
+        <div className={styles.modalHeader}>
+          <button onClick={onClose} className={styles.closeButton}>X</button>
+        </div>
+        <div className={styles.modalContent}>
+          {message}
+        </div>
+        <div className={styles.modalFooter}>
+          <button onClick={onClose} className={styles.modalButton}>Close</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions, onNewChat }) => {
     const [chatSessions, setChatSessions] = useState<ChatSession[]>(sessions || []);
     const [currentSessionID, setCurrentSessionID] = useState<string | null>(() => {
@@ -37,7 +56,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
         return null;
     });
     const [userID, setUserID] = useState(null);
-
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const handleModalVisibility = (visible) => {
@@ -50,10 +68,11 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
     const [isCreatingSession, setIsCreatingSession] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const router = useRouter();
-
-
     const [bottomSectionHeight, setBottomSectionHeight] = useState(0); // State for the height of the bottom section
     const bottomSectionRef = useRef(null); // Ref for the bottom section
+
+    const [showCancelConfirmationModal, setShowCancelConfirmationModal] = useState(false);
+    const [confirmationMessage, setConfirmationMessage] = useState('');
 
   //   useEffect(() => {
   //     // ... (existing useEffect logic)
@@ -122,14 +141,13 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
             body: JSON.stringify({ userID: userID })
           });
     
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-    
           const responseData = await response.json();
-          console.log(responseData.message);
-          setIsCancelled(true); // Update to reflect cancellation status
-          // You can add more logic here based on the response
+
+          if(responseData.message === 'Subscription canceled successfully'){
+
+            setIsCancelled(true); // Update to reflect cancellation status
+            setShowCancelConfirmationModal(true);
+          }
     
         } catch (error) {
           console.error('Error canceling subscription:', error);
@@ -143,26 +161,26 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
       };
 
     
-  return (
-    <div className={styles.modalOverlay}>
-      <div className={styles.modalContainer}>
-        <div className={styles.modalHeader}>
-          <button onClick={handleClosePopup} className={styles.closeButton}>🆇</button>
+      return (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContainer}>
+            <div className={styles.modalHeader}>
+              <button onClick={handleClosePopup} className={styles.closeButton}>🆇</button>
+            </div>
+            <div className={styles.modalButtonContainer}>
+              <button onClick={handleLogOut} className={styles.modalButton}>Log Out</button>
+              <button 
+              onClick={handleCancelSubscription} 
+              className={styles.modalButton}
+              disabled={isLoading || isCancelled}>
+
+              {isLoading ? 'Loading...' : isCancelled ? '✔️' : 'Cancel Subscription'}
+              </button>
+            </div>
+          </div>
         </div>
-        <div className={styles.modalButtonContainer}>
-          <button onClick={handleLogOut} className={styles.modalButton}>Log Out</button>
-          <button 
-          onClick={handleCancelSubscription} 
-          className={styles.modalButton}
-          disabled={isLoading || isCancelled}
-        >
-          {isLoading ? 'Loading...' : isCancelled ? '✔️' : 'Cancel Subscription'}
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+      );
+    };
 
 
 
@@ -390,6 +408,16 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 
     return (
         <div>
+
+
+            {showCancelConfirmationModal && (
+              <CancelConfirmationModal
+                message={"Subscription Has Been Canceled"}
+                onClose={() => setShowCancelConfirmationModal(false)}
+              />
+            )}
+
+
         <div className={styles.side} >
         <button onClick={handleNewChat} className={styles.newChatButton}>
           
