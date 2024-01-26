@@ -304,8 +304,6 @@ export class CustomQAChain {
 
 
 
-
-
         Contexts:
         You must always assume the context of all of your educational conversations to be ${namespaceToFilter}. 
         As such, you must answer differently depending on the context relevance of the user’s question and which class
@@ -356,6 +354,7 @@ export class CustomQAChain {
         something exists in the source basis when it does not. Never source something incorrectly.
         
 
+        
         Use chat_history in the following:
         Contextual Relevance: Utilize chat history to provide contextually relevant responses. 
         If a user's query builds upon a previous conversation, refer to that conversation to 

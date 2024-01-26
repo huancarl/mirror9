@@ -523,6 +523,17 @@
   width: 100%; /* Full width of the viewport */
   z-index: 1500; /* Ensure it's above other elements, adjust as needed */
 }
+.backButton {
+  font-size: 1.9em;
+  position: absolute;
+  top: -5px;
+  left: 195px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: darkred;
+}
+
 
 .typewriter {
   position: fixed; /* Added fixed positioning */

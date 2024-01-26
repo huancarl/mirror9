@@ -508,6 +508,8 @@ useEffect(() => {
 
     return () => clearInterval(intervalId);
   }, [namespaceToSearch]);
+
+  
   
   
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -693,6 +695,9 @@ function splitMessageIntoSegments(message) {
 
 const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
 const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
+const handleBack = () => {
+  router.back(); // This will take the user to the previous page
+};
 
 // if (messageContainsMath(message.message)) {
 //   content = <MessageRenderer key={index} message={message.message} />;
@@ -731,6 +736,7 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
     }   
     return (
         <>
+        <button onClick={handleBack} className={styles.backButton}>←</button>
             <div key={`chatMessage-${index}`} className={className}>
                 {icon}
                 <div className={styles.markdownanswer}
@@ -819,7 +825,7 @@ const isLatestApiMessage = index === messages.length - 1 && message.type === 'ap
             </div>
             <div className={styles.center}>
               <div className={styles.cloudform}>
-      <a href="https://mountain-pig-87a.notion.site/Terms-Of-Use-CornellGPT-96c16de16cc94ff5b574fb4632b069e9" className={styles.termsOfUse} target="_blank">CornellGPT is not fool proof. Double-check key information.</a> 
+      <a href="https://mountain-pig-87a.notion.site/Terms-Of-Use-CornellGPT-96c16de16cc94ff5b574fb4632b069e9" className={styles.termsOfUse} target="_blank">CornellGPT is not perfect. Double-check key academic information.</a> 
 
                 <form onSubmit={handleSubmit}>
                   <textarea
