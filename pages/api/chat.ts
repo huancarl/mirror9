@@ -311,7 +311,6 @@ export default async function handler(
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
     //getContextDocs('INFO 2950 INFO2950_Lec3_20230828');
-
     //In the case that the user is using the course catalog we don't need to make an extra call to gpt api
     //We are always using the Course Catalog namespace in the pinecone
     if(namespace === 'Course Finder SP24'){
