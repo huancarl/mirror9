@@ -66,6 +66,14 @@ const courseMapping: { [code: string]: string } = {
     "SMR-HA": "Nolan School of Hotel Administration: Symbolic and Mathematical Reasoning"
 };
 
+const dayMap = {
+  'M': 'Monday ',
+  'T': 'Tuesday ',
+  'W': 'Wednesday ',
+  'R': 'Thursday ',
+  'F': 'Friday '
+};
+
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY, // Ensure your API key is set in environment variables
 });
@@ -150,7 +158,7 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
       for(let i = 0; i < classes.length; i++){
 
         const classInfoStr = await formatInfoForClass(classes[i]);
-        console.log(classInfoStr + '\n');
+        //console.log(classInfoStr + '\n');
         const json = JSON.stringify(classInfoStr);
         await fs.appendFile('classes-split.json', json + '\n');
 
@@ -178,19 +186,20 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
 
 async function formatEnrollGroups(enrollGroupObj: any): Promise<string> {
 
+  //Gets the times of each of the classes at Cornell
   //Enroll groups are groups of lectures/labs that the users can enroll in. This function gets all of
   // The information for each. Returns it as a string to vectorize.
 
-  let enrollGroupsStr = 'The times this class are as follows. ';
+  let enrollGroupsStr = 'Times for this class: ';
   const allGroups = enrollGroupObj;
-  //For each enrollment group of a class get their respective information
+  //For each enrollment group of a class get the information for their lectures
   for(let i = 0; i < allGroups.length; i++){
 
     let currGroup = '';
 
     //Get class info
 
-    // const classType = allGroups[i].classSections[0].ssrComponentLong;
+    const classType = allGroups[i].classSections[0].ssrComponentLong;
     // const sectionNum = allGroups[i].classSections[0].section;
     // const addConsent = allGroups[i].classSections[0].addConsentDescr;
     // const instructionMode = allGroups[i].classSections[0].instrModeDescr;
@@ -206,49 +215,125 @@ async function formatEnrollGroups(enrollGroupObj: any): Promise<string> {
 
     //Iterate through all of the meetings array to get meeting information which also contains info on professor. For each meeting...
 
-    let meetingInfo = ``;
-    let meetingTimes = new Set<string>(); // Use a Set of strings
+    let timeAndProfInfo = ``;
+    let meetingTimes = new Array<string>; // Use a Set of strings
+    let professors = new Set<string>;
 
-    for (let j = 0; j < allGroups[i].classSections[0].meetings.length; j++) {
+    //console.log(classType);
 
-      const startTime = allGroups[i].classSections[0].meetings[j].timeStart;
-      const endTime = allGroups[i].classSections[0].meetings[j].timeEnd;
+    if(classType === 'Lecture'){
 
-      // Combine startTime and endTime into a single string
-      const startAndEndTimes = `${startTime}-${endTime}`;
-      // Add the combined string to the Set
-      meetingTimes.add(startAndEndTimes);
+      for (let j = 0; j < allGroups[i].classSections[0].meetings.length; j++) {
 
-      // Gets the times and dates of each class section for a class
+        const startTime = allGroups[i].classSections[0].meetings[j].timeStart;
+        const endTime = allGroups[i].classSections[0].meetings[j].timeEnd;
 
-      // const startDate = allGroups[i].classSections[0].meetings[j].startDt;
-      // const endDate = allGroups[i].classSections[0].meetings[j].endDt;
+        // Combine startTime and endTime into a single string
+  
+        if (!startTime || !endTime){
+          continue;
+        }
+  
+        let pattern = allGroups[i].classSections[0].meetings[j].pattern;
+        let days = '';
 
-      //meetingInfo += `Starting Time: ${startTime}. Ending Time: ${endTime}. Starting Date: ${startDate}. Ending Date: ${endDate}. `;
-      // let instructorsInfo = 'Instructor information for this meeting: ';
+        if(pattern){
+          for (let weekday = 0; weekday < pattern.length; weekday++) {
+            days += dayMap[pattern[weekday]];
+          }
+        }
 
-      // for(let k = 0; k < allGroups[i].classSections[0].meetings[j].instructors.length; k++){
+        const startAndEndTimes = `${days}at ${startTime}-${endTime}`;
+        // Add the combined string to the Set
+        meetingTimes.push(startAndEndTimes);
+  
+        for(let k = 0; k < allGroups[i].classSections[0].meetings[j].instructors.length; k++){
+  
+          let instructorsString = '';
 
-      //   const instructorFirstName = allGroups[i].classSections[0].meetings[j].instructors[k].firstName;
-      //   const instructorMidName = allGroups[i].classSections[0].meetings[j].instructors[k].middleName;
-      //   const instructorLastName = allGroups[i].classSections[0].meetings[j].instructors[k].lastName;
-
-      //   instructorsInfo += `Instructor Number ${k+1}: ${instructorFirstName} ${instructorMidName} ${instructorLastName}. `; 
-      // }
-
-      // meetingInfo += `Instructor Information: ${instructorsInfo}`
+          const instructorFirstName = allGroups[i].classSections[0].meetings[j].instructors[k].firstName;
+          const instructorLastName = allGroups[i].classSections[0].meetings[j].instructors[k].lastName;
+          
+          if (instructorFirstName && instructorLastName){
+            instructorsString += `${instructorFirstName} ${instructorLastName}, `;
+            professors.add(instructorsString);
+          }          
+        }
+      }
+    } else {
+      continue;
     }
 
-    for (let k = 0; k < meetingTimes.size; k ++){
-      meetingInfo += meetingTimes[k];
+    let meetingTimesStr = '';
+    let allProfessorStr = 'with professor(s): ';
+
+    for(let time = 0; time < meetingTimes.length; time++){
+      meetingTimesStr += `${meetingTimes[time]} `;
     }
 
-    console.log(meetingTimes, 'meeting times for a class \n');
+    if(professors){
+      for(const value of professors){
+        allProfessorStr += `${value}`;
+      }
+    }
 
-    currGroup += meetingInfo;
+    //console.log(allProfessorStr);
+    
+    timeAndProfInfo = meetingTimesStr + allProfessorStr + timeAndProfInfo;
+    currGroup = currGroup + timeAndProfInfo;
+
     enrollGroupsStr += currGroup;
   }
+
+  if(enrollGroupsStr === 'Times for this class: '){
+    enrollGroupsStr = 'Times for this class: no information.'
+  }
+
+
   return enrollGroupsStr;
+
+
+    ///////////////////////////////
+
+
+
+    // let meetingInfo = ``;
+    // let meetingTimes = new Set<string>(); // Use a Set of strings
+
+    // for (let j = 0; j < allGroups[i].classSections[0].meetings.length; j++) {
+
+    //   const startTime = allGroups[i].classSections[0].meetings[j].timeStart;
+    //   const endTime = allGroups[i].classSections[0].meetings[j].timeEnd;
+
+    //   // Combine startTime and endTime into a single string
+
+    //   if (!startTime || !endTime){
+    //     continue;
+    //   }
+
+    //   const startAndEndTimes = `${startTime}-${endTime}`;
+    //   // Add the combined string to the Set
+    //   meetingTimes.add(startAndEndTimes);
+
+    //   // Gets the times and dates of each class section for a class
+
+    //   // const startDate = allGroups[i].classSections[0].meetings[j].startDt;
+    //   // const endDate = allGroups[i].classSections[0].meetings[j].endDt;
+
+    //   //meetingInfo += `Starting Time: ${startTime}. Ending Time: ${endTime}. Starting Date: ${startDate}. Ending Date: ${endDate}. `;
+    //   let instructorsInfo = 'Instructor information for this meeting: ';
+
+    //   for(let k = 0; k < allGroups[i].classSections[0].meetings[j].instructors.length; k++){
+
+    //      const instructorFirstName = allGroups[i].classSections[0].meetings[j].instructors[k].firstName;
+    //      const instructorMidName = allGroups[i].classSections[0].meetings[j].instructors[k].middleName;
+    //      const instructorLastName = allGroups[i].classSections[0].meetings[j].instructors[k].lastName;
+
+    //      instructorsInfo += `Instructor ${k+1}: ${instructorFirstName} ${instructorMidName} ${instructorLastName}. `; 
+    //   }
+
+    //   meetingInfo += `Instructor Information: ${instructorsInfo}`
+    // }
 }
 
 async function formatInfoForClass(course: any): Promise<string> {
@@ -265,7 +350,7 @@ async function formatInfoForClass(course: any): Promise<string> {
     const listOFDistributions = convertStringToList(distributionCode);
     for(let i = 0; i < listOFDistributions.length; i++){
       
-      distributions += " " + courseMapping[listOFDistributions[i]];
+      distributions += " " + courseMapping[listOFDistributions[i]] + ", ";
 
     }
   }
@@ -281,14 +366,17 @@ async function formatInfoForClass(course: any): Promise<string> {
 
   //Text containing the information for the class. Will be vectorized.
 
-  let combinedText = `Subject: ${course.subject}. Course number: ${course.catalogNbr}. Title of course: ${course.titleLong}. \
-  Course Description: ${course.description} Class Breadth: ${course.catalogBreadth}. Class Distributions:${course.catalogDistr}.\
-  Class Forbidden Overlaps: ${course.catalogForbiddenOverlaps}. Class Attributes: ${course.catalogAttribute}. \
-  When Is The Class Offered: ${course.catalogWhenOffered} Class Comments: ${course.catalogComments} \
-  Class Prerequisites And Corequisites: ${course.catalogPrereqCoreq}. Class Fee: ${course.catalogFee}. \
-  Class Satisfies Requirement: ${course.catalogSatisfiesReq}. Class Permission: ${course.catalogPermission} \
-  Class Academic Group: ${course.acadGroup}. Overlaps: ${course.catalogForbiddenOverlaps}. \
-  Distributions For This Class: ${distributions}. Class outcomes: ${outcomeComments}. ${enrollGroupInfo}`;
+  //Add pattern, professors, lecture time
+
+  let combinedText = `Information for the class ${course.subject} ${course.catalogNbr}, also known as\
+ ${course.titleLong}. Subject: ${course.subject}. Course number: ${course.catalogNbr || 'no information'}. Title of course: ${course.titleLong || 'no information'}.\
+  ${course.subject} ${course.catalogNbr} Description: ${course.description || 'no information'} ${course.subject} ${course.catalogNbr}'s Breadth: ${course.catalogBreadth || 'no information'}.\
+  ${course.subject} ${course.catalogNbr}'s Forbidden Overlaps: ${course.catalogForbiddenOverlaps || 'no information'}. ${course.subject} ${course.catalogNbr}'s Attributes: ${course.catalogAttribute || 'no information'}.\
+  When is ${course.subject} ${course.catalogNbr} Offered: ${course.catalogWhenOffered || 'no information'} ${course.subject} ${course.catalogNbr} Comments: ${course.catalogComments || 'no information'}\
+  ${course.subject} ${course.catalogNbr}'s Prerequisites And Corequisites: ${course.catalogPrereqCoreq || 'no information'}. Class Fee: ${course.catalogFee || 'no information'}.\
+  ${course.subject} ${course.catalogNbr} Satisfies the Requirement(s): ${course.catalogSatisfiesReq || 'no information'}. ${course.subject} ${course.catalogNbr} Permission(s): ${course.catalogPermission || 'no information'}\
+  ${course.subject} ${course.catalogNbr}'s Academic Group(s): ${course.acadGroup || 'no information'}. Overlaps: ${course.catalogForbiddenOverlaps || 'no information'}.\
+  ${course.subject} ${course.catalogNbr}'s Distributions Codes: ${course.catalogDistr || 'no information'}. ${course.subject} ${course.catalogNbr}'s Distributions: ${distributions || 'no information'}. ${course.subject} ${course.catalogNbr} outcomes: ${outcomeComments || 'no information'}. ${enrollGroupInfo}`;
 
   // let combinedText = `Subject: ${course.subject}. Course number: ${course.catalogNbr}. Title of course: ${course.titleLong}. \
   // Course Description: ${course.description}. Class Breadth: ${course.catalogBreadth}. Class Distributions: ${course.catalogDistr}.\
@@ -301,6 +389,8 @@ async function formatInfoForClass(course: any): Promise<string> {
 
   // console.log(combinedText);
   // console.log('\n');
+
+  console.log(combinedText);
 
   return combinedText;
 }
