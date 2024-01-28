@@ -236,19 +236,21 @@ export default async function handler(
       
       Available Search Documents = ${classMapping[namespaceToSearch]} 
       Context of the class = ${namespaceToSearch}
+
   
       - Always respond like: "Searching ..." Never deviate from this format.
-  
       - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly 
         and accordingly from the available search documents.
       - Use your intelligence and intuition to select the accurate document. Take time to think before coming to a final conclusion.
-      - If the query relates to certain search documents, make sure to make the right selection.
-
       - If multiple search documents are relevant and needed, search accordingly.
+
+
 
       - If the query asks for class material that does not strictly exist in the search documents, then search nothing.
       - If the query says Hi or other simple conversational messages, then search nothing.
       - If the query asks something general unrelated to ${namespaceToSearch} like "What is 2+2", then search nothing.
+
+
 
       - If the query asks something general to ${namespaceToSearch}, then search only ${namespaceToSearch} All Materials.
       - If you are uncertain with the query, then search only ${namespaceToSearch} All Materials'.
@@ -302,7 +304,7 @@ export default async function handler(
         else{
           await userLimitCollection.updateOne(
             { userEmail: userID }, 
-            { $inc: { messagesLeft: -1 } });
+            { $inc: { messagesLeft: 0 } }); // Change THIS WHEN GOING BACK TO PAYWALL/TRACKING MESSAGES
         }
       }
     } 
@@ -313,12 +315,14 @@ export default async function handler(
     //getContextDocs('INFO 2950 INFO2950_Lec3_20230828');
     //In the case that the user is using the course catalog we don't need to make an extra call to gpt api
     //We are always using the Course Catalog namespace in the pinecone
+    
     if(namespace === 'Course Finder SP24'){
       const modelForResponse = new OpenAIChat({
         temperature: 0.1,
         modelName: "gpt-3.5-turbo-1106",
         cache: true,
       });
+
       //init class
       const qaChain = CoursesCustomQAChain.fromLLM(modelForResponse, index, ['Course_Catalog'], {
         returnSourceDocuments: true,

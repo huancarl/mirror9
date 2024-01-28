@@ -465,35 +465,6 @@ useEffect(() => {
   };
   
 
-  // document.addEventListener('DOMContentLoaded', () => {
-  //   var isResizing = false;
-  //   var lastDownY = 0;
-  
-  //   const handle = document.querySelector('.resize-handle') as HTMLElement; // Assert as HTMLElement
-  //   const textarea = document.querySelector('.textarea') as HTMLTextAreaElement; // Assert as HTMLTextAreaElement
-  
-  //   if (handle && textarea) { // Check if elements are not null
-  //     handle.addEventListener('mousedown', function(e: MouseEvent) { // Assert event type
-  //       isResizing = true;
-  //       lastDownY = e.clientY;
-  //     });
-  
-  //     document.addEventListener('mousemove', function(e: MouseEvent) {
-  //       if (!isResizing) {
-  //         return;
-  //       }
-  //       var offsetBottom = document.body.offsetHeight - (textarea.offsetTop + textarea.offsetHeight);
-  //       var newHeight = offsetBottom + (lastDownY - e.clientY);
-  //       textarea.style.height = `${newHeight}px`;
-  //       lastDownY = e.clientY;
-  //     });
-  
-  //     document.addEventListener('mouseup', function() {
-  //       isResizing = false;
-  //     });
-  //   }
-  // });
-
   const [placeholderText, setPlaceholderText] = useState('Message CornellGPT');
   const namespaceToSearch = courseTitle;
 
@@ -502,10 +473,11 @@ useEffect(() => {
     if (namespace === 'Course Finder SP24') {
       return [
         'What are some diversity classes?...',
+        'What are the prereqs for MATH 2210?...',
         'Name 5 info science classes I can take...',
         'Can I take CS 2110 without CS 1110?...',
-        'When is lecture for MATH 2940?...',
-        "What requirements does CS 4780 fulfill?..."
+        'When is lecture for Human Bonding?...',
+        "What classes fulfill KCM-AS?..."
       ];
     } else {
       return [
@@ -555,62 +527,14 @@ function CodeBlock({ code }: { code: string }) {
         onClick={handleCopy}
         disabled={copied}
       >
-        {copied ? 'Copied🐻' : 'Copy'}
+        {copied ? '' : ''}
       </button>
     </div>
   );
     
 
     
-
-
-////////////////////////////////////////////////////////////////////////////////////
-  //   function getUniqueSources(docs: any[]): any[] {
-  //     const seenSources: { [key: string]: boolean } = {};
-  //     const uniqueDocs: any[] = [];
-      
-  //     for (let doc of docs) {
-  //         const sourceName = doc.Source.split('/').pop();
-  //         if (!seenSources[sourceName]) {
-  //             seenSources[sourceName] = true;
-  //             uniqueDocs.push(doc);
-  //         }
-  //     }
-      
-  //     return uniqueDocs;
-  // }
-
-
-
-  
-
-  
-  
-  
-  /////////////////////////////////////////////////////////////////////////////////
-  
   }
-  // const hasUserMessages = messages.some(message => message.type === 'userMessage');
-
-  // function renderHeader() {
-  //   if (!hasUserMessages) {
-  //     // If no user messages, return the centered title
-  //     return (
-  //       <div className="centeredTitle">
-  //         <h1>CornellGPT: {courseTitle}</h1>
-  //       </div>
-  //     );
-  //   } else {
-  //     // If there are user messages, return the header section
-  //     return (
-  //       <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>
-  //         <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
-  //           CornellGPT: <span className={styles.selectedClassName}>{courseTitle}</span>
-  //         </h1>
-  //       </div>
-  //     );
-  //   }
-  // }
 
   return (
     <>
@@ -659,15 +583,13 @@ function CodeBlock({ code }: { code: string }) {
     let className;
     let content;
 
-    // const uniqueSources = getUniqueSources(message.sourceDocs).slice(0, 5);
-
     if (message.type === 'apiMessage') {
         icon = (
             <Image
                 key={index}
                 src="/bigbear.png"
                 alt="AI"
-                width="35"
+                width="40"
                 height="25"
                 className={styles.boticon}
                 priority
@@ -692,52 +614,11 @@ function CodeBlock({ code }: { code: string }) {
     }
 
 
-  // if (messageContainsMath(message.message)) {
-  //     content = <MessageRenderer key={index} message={message.message} />;
-  // } else if (isCodeMessage) {
-  //     content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  // } else {
-  //     if (message.type === 'apiMessage' && !isCodeMessage && !messageContainsMath) {  
-  //         content = <Typewriter message={message.message} />; } 
-  //     else {
-  //         content = <span>{message.message}</span>;
-  //     }
-  // }
-
-  
-
-// Assuming this code is inside your message rendering function
-
-// Helper function to split the message into code and non-code segments
-function splitMessageIntoSegments(message) {
-  const segments = message.split(/(```[\s\S]+?```)/); 
-  return segments.filter(segment => segment.length > 0);
-}
-
 const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
 const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
 const handleBack = () => {
   router.back(); // This will take the user to the previous page
 };
-
-// if (messageContainsMath(message.message)) {
-//   content = <MessageRenderer key={index} message={message.message} />;
-// } else if (isCodeMessage) {
-//   const messageSegments = splitMessageIntoSegments(message.message);
-//   content = messageSegments.map((segment, idx) => {
-//     if (segment.startsWith('```') && segment.endsWith('```')) {
-//       const code = segment.replace(/^```|```$/g, '');
-//       return <CodeBlock key={`code-${idx}`} code={code} />;
-//     } else {
-//       return <span key={index}>{parseBoldText(message.message)}</span>;
-//     }
-//   });
-// } else if (message.type === 'apiMessage') {
-//   content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
-// } else {
-//   content = <span key={index}>{parseBoldText(message.message)}</span>;
-// }
-
 
 
   if (messageContainsMath(message.message)) {
@@ -763,17 +644,6 @@ const handleBack = () => {
                 <div className={styles.markdownanswer}
                     style={
                         isCodeMessage ? {
-                            // backgroundColor: "#f5f5f5",
-                            // padding: "10px",
-                            // borderRadius: "5px",
-                            // display: "block",
-                            // margin: "1em 0",
-                            // border: "1px solid #ddd",
-                            // boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-                            // fontFamily: "'Courier New', monospace",
-                            // fontSize: "14px",
-                            // color: "black",
-                            // lineHeight: "1.4",
                         } : {}
                     }>
                     {content}

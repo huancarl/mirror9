@@ -30,25 +30,26 @@
   bottom: 0; /* Keeps the bottom edge at the bottom of the viewport */
   left: 12vw; /* Anchor to the left side */
   right: 0%; /* Adjust right spacing - this effectively sets the width */
-  z-index: 900;
+  z-index: 500;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0.5rem; /* Padding inside the box */
-  background: #ffffff; /* Red background */
+  background: clear; /* Red background */
   box-sizing: border-box;
   width: 100vw;
-  height: 105px; /* Example height - adjust as needed */
+  height: 100px; /* Example height - adjust as needed */
 }
 .termsOfUse {
   font-size: 0.7rem; /* Small text size */
   text-align: center;
   position: absolute;
   bottom: 0px; /* Position at the bottom of the cloudform */
-  left: -8vw; /* Anchor to the left side */
-  width: 100%;
+  left: 6vw; /* Anchor to the left side */
+  width: 70%;
   color: darkred; /* A subtle color */
-  z-index: 1000; /* Higher z-index */
+  background-color: rgb(255, 255, 255);
+  padding-top: 10px; /* Increase padding at the top */
 }
 
 .termsOfUse:hover{
@@ -150,7 +151,7 @@
 .textarea:focus {
   outline: none;
   border-color: #000000;
-  box-shadow: 0 0 0 0.1875em #a32121;
+  box-shadow: 0 0 0 0.12em #a32121;
 }
 
 
@@ -274,7 +275,7 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  font-size: 0.9375em;
+  font-size: 0.85em;
   font-family: Arial, sans-serif;
   color: #8B0000;
   margin-bottom: 0.06em; /* Adjust the spacing from the bottom */

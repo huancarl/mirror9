@@ -217,7 +217,7 @@
   border-radius: 4px; /* Slightly rounded corners for the NEW tag */
   position: absolute; /* Position absolutely within the button */
   top: 50%;
-  right: 10px; /* Position the NEW tag to the right inside the button */
+  right: 5px; /* Position the NEW tag to the right inside the button */
   transform: translateY(-50%); /* Center the tag vertically */
   /* Remove margin-left and right properties if previously set */
 }

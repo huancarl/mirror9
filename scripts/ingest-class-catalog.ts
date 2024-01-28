@@ -169,7 +169,7 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
           text: classInfoStr
             // Removed prevVector and nextVector
         };
-        //await PineconeStore.fromTexts(texts, metadata, embeddings, dbConfig);
+        await PineconeStore.fromTexts(texts, metadata, embeddings, dbConfig);
       }
     } catch (error) {
       console.error('Error ingesting class data:', error);

@@ -459,7 +459,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
 <button className={`${styles.bottomButton} ${styles.referButton}`}>
   <img src="/refericon.png" alt="Refer" className={styles.referIcon} /> {/* Replace with the actual path to your refer icon */}
   REFER
-  <span className={styles.newTag}>FREE</span>
+  <span className={styles.newTag}>COMING SOON!</span>
 </button>
 <button
     className={styles.bottomButton}
