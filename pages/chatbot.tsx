@@ -472,12 +472,10 @@ useEffect(() => {
   const getPlaceholders = (namespace) => {
     if (namespace === 'Course Finder SP24') {
       return [
-        'Name 5 diversity classes?...',
         'What are the prereqs for MATH 2210?...',
         'Name 5 info science classes I can take...',
         'Can I take CS 2110 without CS 1110?...',
         'When is lecture for Human Bonding?...',
-        "What classes fulfill KCM-AS?..."
       ];
     } else {
       return [
