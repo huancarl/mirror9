@@ -319,7 +319,7 @@ export default async function handler(
     if(namespace === 'Course Finder SP24'){
       const modelForResponse = new OpenAIChat({
         temperature: 0.1,
-        modelName: "gpt-3.5-turbo-1106",
+        modelName: "gpt-4-1106-preview",
         cache: true,
       });
 

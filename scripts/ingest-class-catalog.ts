@@ -378,17 +378,6 @@ async function formatInfoForClass(course: any): Promise<string> {
   ${course.subject} ${course.catalogNbr}'s Academic Group(s): ${course.acadGroup || 'no information'}. Overlaps: ${course.catalogForbiddenOverlaps || 'no information'}.\
   ${course.subject} ${course.catalogNbr}'s Distributions Codes: ${course.catalogDistr || 'no information'}. ${course.subject} ${course.catalogNbr}'s Distributions: ${distributions || 'no information'}. ${course.subject} ${course.catalogNbr} outcomes: ${outcomeComments || 'no information'}. ${enrollGroupInfo}`;
 
-  // let combinedText = `Subject: ${course.subject}. Course number: ${course.catalogNbr}. Title of course: ${course.titleLong}. \
-  // Course Description: ${course.description}. Class Breadth: ${course.catalogBreadth}. Class Distributions: ${course.catalogDistr}.\
-  // Class Forbidden Overlaps: ${course.catalogForbiddenOverlaps}. Class Attributes: ${course.catalogAttribute}. \
-  // When Is The Class Offered: ${course.catalogWhenOffered} Class Comments: ${course.catalogComments}. \
-  // Class Prerequisites And Corequisites: ${course.catalogPrereqCoreq} Class Fee: ${course.catalogFee}. \
-  // Class Satisfies Requirement: ${course.catalogSatisfiesReq}. Class Permission: ${course.catalogPermission} \
-  // Class Academic Group: ${course.acadGroup}. Offered: ${course.catalogWhenOffered}, Overlaps: ${course.catalogForbiddenOverlaps}. \
-  // Distributions For This Class: ${distributions}. Class outcomes: ${outcomeComments}. ${enrollGroupInfo}`;
-
-  // console.log(combinedText);
-  // console.log('\n');
 
   console.log(combinedText);
 
