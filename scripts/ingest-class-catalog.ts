@@ -171,7 +171,7 @@ const ingestClassesForSubject = async (roster: string, subject: string,) => {
         const texts = [classInfoStr];
     
         let metadata = {
-          courseId: classes[i].crseId,
+          courseId: classes[i].catalogNbr,
           title: classes[i].titleLong,
           subject: classes[i].subject,
           text: classInfoStr
