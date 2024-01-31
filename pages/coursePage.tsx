@@ -86,10 +86,10 @@ function CourseCatalog() {
     // { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
     // { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'US Health Care Professor Nicholson' },
     // { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Honey Bees Professor Peck & Caillaud' },
-    { key: 'CS 4780', title: 'CS 4780/5780', professor: ' Machine Learning, Professor Weinberger & Sridharan' },
-    { key: 'ENGL 2800', title: 'ENGL 2800 (SEM 108)', professor: 'Creative Writing, Professor Makridi' },
+    { key: 'CS 4780', title: 'CS 4780', professor: ' Machine Learning, Professor Weinberger & Sridharan' },
+    { key: 'ENGL 2800', title: 'ENGL 2800', professor: 'Creative Writing, Professor Makridi' },
     { key: 'INFO 1260', title: 'INFO 1260', professor: 'Conseq. Of Computing, Professor Kleinberg & Levy' },
-    { key: 'INFO 4390', title: 'INFO 4390/5390/CS 5382', professor: 'Fair Algorithms, Professor Koenecke' },
+    { key: 'INFO 4390', title: 'INFO 4390', professor: 'Fair Algorithms, Professor Koenecke' },
     { key: 'PLSCI 1150', title: 'PLSCI 1150', professor: 'CSI: Forensic Botany, Professor William Crepet' },
     { key: 'INFO 4300', title: 'INFO 4300', professor: 'Language & Information, Professor Danescu-Niculescu-Mizil' },
 
