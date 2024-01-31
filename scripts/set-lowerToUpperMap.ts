@@ -20,11 +20,12 @@ async function updateLowerToUpperMap() {
 
     // Iterate over pdfTitlesData and update lowerToUpperMapData
     for (const [key, value] of Object.entries(pdfTitlesData)) {
-      const lowerKey = key.toLowerCase();
-      const title = value[0]; // Assuming each key maps to an array with a single title string
+      const title = value[0];
+      const sanitizedTitle = title.replace(/ /g, '_'); // Replace spaces with underscores in the title
+      const lowerSanitizedTitle = sanitizedTitle.toLowerCase();
 
-      if (!lowerToUpperMapData[lowerKey] && !Object.values(lowerToUpperMapData).includes(title)) {
-        lowerToUpperMapData[lowerKey] = title;
+      if (!lowerToUpperMapData[lowerSanitizedTitle]) {
+        lowerToUpperMapData[lowerSanitizedTitle] = title;
       }
     }
 

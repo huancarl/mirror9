@@ -74,6 +74,10 @@ export default async function handler(
   const { question, messages, userID, sessionID, namespace} = req.body;
   const image = req.body.image;
 
+  const cleanedNamespace = namespace.replace(/ /g, '_');
+
+  console.log(cleanedNamespace, 'cleanedNames');
+
   const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
   const data = await fs.readFile(classMappingFilePath, 'utf8');
   const classMapping = JSON.parse(data);
@@ -325,7 +329,7 @@ export default async function handler(
     //In the case that the user is using the course catalog we don't need to make an extra call to gpt api
     //We are always using the Course Catalog namespace in the pinecone
     
-    if(namespace === 'Course Finder SP24'){
+    if(cleanedNamespace === 'Course_Finder_SP24'){
       const modelForResponse = new OpenAIChat({
         temperature: 0.1,
         modelName: "gpt-3.5-turbo-1106",
@@ -341,7 +345,7 @@ export default async function handler(
       const results = await qaChain.call({
         question: sanitizedQuestion,
         chat_history: messages,
-        namespaceToFilter: namespace
+        namespaceToFilter: cleanedNamespace
       });
       
       const message = results.text;
@@ -409,7 +413,7 @@ export default async function handler(
 
     // const processedMessages = messages.map((messageObject: { message: any; }) => messageObject.message);
 
-    const fewShotPrompt = createPrompt(namespace, messages);
+    const fewShotPrompt = createPrompt(cleanedNamespace, messages);
 
     const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
       SystemMessagePromptTemplate.fromTemplate(fewShotPrompt),
@@ -462,7 +466,7 @@ export default async function handler(
     const results = await qaChain.call({
       question: sanitizedQuestion,
       chat_history: messages,
-      namespaceToFilter: namespace
+      namespaceToFilter: cleanedNamespace
     });
 
 

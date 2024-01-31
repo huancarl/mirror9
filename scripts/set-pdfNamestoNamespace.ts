@@ -24,8 +24,8 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
 
         // Append new keys and values, if they don't already exist
         pdfNames.forEach(pdfName => {
-            const formattedName = pdfName.replace(/_/g, ' ');
-            const mappedName = `${className} ${formattedName}`;
+            const formattedName = pdfName.replace(/ /g, '_').replace(/[()]/g, '_'); // Replace spaces and parentheses with underscores
+            const mappedName = `${className} ${formattedName}`.replace(/ /g, '_');
         
             //Adds the pdf name to the mapping for pdf name to namespace
             if (!jsonData.hasOwnProperty(mappedName)) {
@@ -64,9 +64,9 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
 }
 
 export const run = async () => {
-    const nameOfFolder = 'CS_4780';
-    const nameOfClassToAppendInFront = 'CS 4780' // Seperate class code and number with a space
-    const subjectNameForChatTS = 'CS 4780' // usually the same thing as nameOfClassToAppendInFront
+    const nameOfFolder = 'ENGL_2800'; //Make sure the name of the folder for the class has underscores instead of spaces
+    const nameOfClassToAppendInFront = nameOfFolder;
+    const subjectNameForChatTS = nameOfFolder;
 
     const pdfNames = updatePdfNamesToNamespace(nameOfFolder, nameOfClassToAppendInFront, subjectNameForChatTS);
 }

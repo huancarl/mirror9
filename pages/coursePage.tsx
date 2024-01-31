@@ -76,7 +76,7 @@ function CourseCatalog() {
     fetchOrCreateRef();
   }, []);
 
-
+  //Don't trailing spaces to the key and title
   const courses = [
     { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
     { key: 'INFO 2950', title: 'INFO 2950', professor: 'Data Science Professor Koenecke' },
@@ -86,6 +86,7 @@ function CourseCatalog() {
     { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'US Health Care Professor Nicholson' },
     { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Honey Bees Professor Peck & Caillaud' },
     { key: 'CS 4780', title: 'CS 4780', professor: ' Professor Weinberger' },
+    { key: 'ENGL 2800', title: 'ENGL 2800', professor: 'Creative Writing Elisávet Makridi' },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");

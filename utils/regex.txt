@@ -1,1 +1,0 @@
-\b(CS_4780_5780_Syllabus|CS_4780_All_Materials)\b

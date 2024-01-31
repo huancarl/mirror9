@@ -48,7 +48,7 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    const className = "CS_4780";
+    const className = "ENGL_2800"; //should have underscores for spaces
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
     const classNamespace = `${className}_All_Materials`;
