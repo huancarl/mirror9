@@ -76,25 +76,29 @@ function CourseCatalog() {
     fetchOrCreateRef();
   }, []);
 
-  //Don't trailing spaces to the key and title
+  
+
   const courses = [
     { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
-    { key: 'INFO 2950', title: 'INFO 2950', professor: 'Data Science Professor Koenecke' },
+    // { key: 'INFO 2950', title: 'INFO 2950', professor: 'Data Science Professor Koenecke' },
     // // { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
     // { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
     // { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
-    { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'US Health Care Professor Nicholson' },
-    { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Honey Bees Professor Peck & Caillaud' },
-    { key: 'CS 4780', title: 'CS 4780', professor: ' Professor Weinberger' },
-    { key: 'ENGL 2800', title: 'ENGL 2800', professor: 'Creative Writing Elisávet Makridi' },
+    // { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'US Health Care Professor Nicholson' },
+    // { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Honey Bees Professor Peck & Caillaud' },
+    { key: 'CS 4780', title: 'CS 4780', professor: ' Machine Learning Professor Weinberger & Sridharan' },
+    { key: 'ENGL 2800', title: 'ENGL 2800 (SEM 108)', professor: 'Creative Writing Professor Makridi' },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCourses, setFilteredCourses] = useState(courses);
 
+  
 
 
-  const [referralCount, setReferralCount] = useState(1); // ****** Modify the use state depending on how many referral links are used and verified *****
+
+  const [referralCount, setReferralCount] = useState(1); 
+  // ****** Modify the use state depending on how many referral links are used and verified *****
 
   // const ProgressBar = ({ count }) => {
   //   const maxReferrals = 10; // Maximum number of referrals
@@ -150,6 +154,8 @@ function CourseCatalog() {
     });
   };
 
+
+  
 
   const Popup = () => (
     <div className={styles.popupOverlay}>

@@ -9,9 +9,9 @@ type CourseBoxProps = {
 const CourseBox = ({ title, professor }: CourseBoxProps) => {
   return (
     <Link href={`/chatbot?course=${title}`}>
-      <div className={styles.courseBox}>
-        <h3>{title}</h3>
-        <p>{professor}</p>
+    <div className={styles.courseBox}>
+      <h2 className={styles.courseTitle}>{title}</h2>
+      <p className={styles.professorName}>{professor}</p>
       </div>
     </Link>
   );
