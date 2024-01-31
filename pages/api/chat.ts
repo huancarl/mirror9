@@ -17,6 +17,8 @@ import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
 import connectToDb from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
+import * as path from 'path';
+
 // import { HfInference } from '@huggingface/inference';
 
 export const maxDuration = 100; // This function can run for a maximum of 5 seconds
@@ -72,91 +74,96 @@ export default async function handler(
   const { question, messages, userID, sessionID, namespace} = req.body;
   const image = req.body.image;
 
-   const classMapping = {
-
-    "PUBPOL 2350": [
-      'PUBPOL_2350 Disparities_2023',
-      'PUBPOL_2350 International Comparisons_2023',
-      'PUBPOL_2350 International Comparisons_Part_2_2023',
-      'PUBPOL_2350 Malpractice_2023',
-      'PUBPOL_2350 Pharma and Biotech_Management_2023',
-      'PUBPOL_2350 Pharma and Biotech_Policy_2023',
-      'PUBPOL_2350 Pharma and Biotech_Policy_Part_2_2023',
-      'PUBPOL_2350 Quality_2023',
-      'PUBPOL_2350 Reform_Alternative_2023',
-      'PUBPOL_2350 All Materials'
-  ],
-    "INFO 2950": [
-      'INFO 2950 FA23_Midterm_QuestionSheet',
-      'INFO 2950 Final Fall 2023 - Review Topics',
-      'INFO 2950 INFO 2950 Fall 2022 Midterm Solutions',
-      'INFO 2950 INFO 2950 Final Fall 2022 questions',
-      'INFO 2950 INFO2950_FA22_MidtermQuestions',
-      'INFO 2950 INFO2950_Koenecke_Syllabus',
-      'INFO 2950 INFO2950_Lec1_20230821',
-      'INFO 2950 INFO2950_Lec2_20230823',
-      'INFO 2950 INFO2950_Lec3_20230828',
-      'INFO 2950 INFO2950_Lec4_20230830',
-      'INFO 2950 INFO2950_Lec5_20230906',
-      'INFO 2950 INFO2950_Lec6_20230911',
-      'INFO 2950 INFO2950_Lec7_20230913',
-      'INFO 2950 INFO2950_Lec8_20230918',
-      'INFO 2950 INFO2950_Lec9_20230920',
-      'INFO 2950 INFO2950_Lec10_20230925',
-      'INFO 2950 INFO2950_Lec11_20230927',
-      'INFO 2950 INFO2950_Lec12_20231004',
-      'INFO 2950 INFO2950_Lec13_20231011',
-      'INFO 2950 INFO2950_Lec14_20231016',
-      'INFO 2950 INFO2950_Lec15_20231018 2',
-      'INFO 2950 INFO2950_Lec16_20231023 2',
-      'INFO 2950 INFO2950_Lec17_20231025 2',
-      'INFO 2950 INFO2950_Lec18_20231030',
-      'INFO 2950 INFO2950_Lec19_20231101',
-      'INFO 2950 INFO2950_Lec20_20231106',
-      'INFO 2950 INFO2950_Lec21_20231108',
-      'INFO 2950 INFO2950_Lec22_20231113',
-      'INFO 2950 INFO2950_Lec23_20231115 2',
-      'INFO 2950 INFO2950_Lec24_20231120 2',
-      'INFO 2950 INFO2950_Lec25_20231127 2',
-      'INFO 2950 INFO2950_Lec26_20231129 2',
-      'INFO 2950 INFO2950_Lec27_20231204 2',
-      'INFO 2950 INFO2950-Handbook',
-      'INFO 2950 Lec 20 clarification examples 20231106',
-      'INFO 2950 Lec10_ChalkboardExample_20230925',
-      'INFO 2950 Midterm Fall 2023 - Review Topics',
-      'INFO 2950 FA23_Midterm_Solutions',
-      'INFO_2950 All Materials'
-  ],
-
-    'ENTOM 2030': [
-      'ENTOM 2030 Lecture 2',
-      'ENTOM 2030 Lecture 3',
-      'ENTOM 2030 Lecture 4',
-      'ENTOM 2030 Lecture 5',
-      'ENTOM 2030 Lecture 6',
-      'ENTOM 2030 Lecture 7',
-      'ENTOM 2030 Lecture 8',
-      'ENTOM 2030 Lecture 9',
-      'ENTOM 2030 Lecture 10',
-      'ENTOM 2030 Lecture 11',
-      'ENTOM 2030 Lecture 12',
-      'ENTOM 2030 Lecture 13',
-      'ENTOM 2030 Lecture 14',
-      'ENTOM 2030 Lecture 15',
-      'ENTOM 2030 Lecture 16',
-      'ENTOM 2030 Lecture 17',
-      'ENTOM 2030 Lecture 18',
-      'ENTOM 2030 Lecture 19',
-      'ENTOM 2030 Lecture 20',
-      'ENTOM 2030 Lecture 21',
-      'ENTOM 2030 Lecture 22',
-      'ENTOM 2030 Lecture 24',
-      'ENTOM 2030 Lecture 25',
-      'ENTOM 2030 Lecture 26',
-      'ENTOM_2030 All Materials'
-    ],
+  const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
+  const data = await fs.readFile(classMappingFilePath, 'utf8');
+  const classMapping = JSON.parse(data);
   
-  }
+
+  //  const classMapping = {
+
+  //   "PUBPOL 2350": [
+  //     'PUBPOL_2350 Disparities_2023',
+  //     'PUBPOL_2350 International Comparisons_2023',
+  //     'PUBPOL_2350 International Comparisons_Part_2_2023',
+  //     'PUBPOL_2350 Malpractice_2023',
+  //     'PUBPOL_2350 Pharma and Biotech_Management_2023',
+  //     'PUBPOL_2350 Pharma and Biotech_Policy_2023',
+  //     'PUBPOL_2350 Pharma and Biotech_Policy_Part_2_2023',
+  //     'PUBPOL_2350 Quality_2023',
+  //     'PUBPOL_2350 Reform_Alternative_2023',
+  //     'PUBPOL_2350 All Materials'
+  // ],
+  //   "INFO 2950": [
+  //     'INFO 2950 FA23_Midterm_QuestionSheet',
+  //     'INFO 2950 Final Fall 2023 - Review Topics',
+  //     'INFO 2950 INFO 2950 Fall 2022 Midterm Solutions',
+  //     'INFO 2950 INFO 2950 Final Fall 2022 questions',
+  //     'INFO 2950 INFO2950_FA22_MidtermQuestions',
+  //     'INFO 2950 INFO2950_Koenecke_Syllabus',
+  //     'INFO 2950 INFO2950_Lec1_20230821',
+  //     'INFO 2950 INFO2950_Lec2_20230823',
+  //     'INFO 2950 INFO2950_Lec3_20230828',
+  //     'INFO 2950 INFO2950_Lec4_20230830',
+  //     'INFO 2950 INFO2950_Lec5_20230906',
+  //     'INFO 2950 INFO2950_Lec6_20230911',
+  //     'INFO 2950 INFO2950_Lec7_20230913',
+  //     'INFO 2950 INFO2950_Lec8_20230918',
+  //     'INFO 2950 INFO2950_Lec9_20230920',
+  //     'INFO 2950 INFO2950_Lec10_20230925',
+  //     'INFO 2950 INFO2950_Lec11_20230927',
+  //     'INFO 2950 INFO2950_Lec12_20231004',
+  //     'INFO 2950 INFO2950_Lec13_20231011',
+  //     'INFO 2950 INFO2950_Lec14_20231016',
+  //     'INFO 2950 INFO2950_Lec15_20231018 2',
+  //     'INFO 2950 INFO2950_Lec16_20231023 2',
+  //     'INFO 2950 INFO2950_Lec17_20231025 2',
+  //     'INFO 2950 INFO2950_Lec18_20231030',
+  //     'INFO 2950 INFO2950_Lec19_20231101',
+  //     'INFO 2950 INFO2950_Lec20_20231106',
+  //     'INFO 2950 INFO2950_Lec21_20231108',
+  //     'INFO 2950 INFO2950_Lec22_20231113',
+  //     'INFO 2950 INFO2950_Lec23_20231115 2',
+  //     'INFO 2950 INFO2950_Lec24_20231120 2',
+  //     'INFO 2950 INFO2950_Lec25_20231127 2',
+  //     'INFO 2950 INFO2950_Lec26_20231129 2',
+  //     'INFO 2950 INFO2950_Lec27_20231204 2',
+  //     'INFO 2950 INFO2950-Handbook',
+  //     'INFO 2950 Lec 20 clarification examples 20231106',
+  //     'INFO 2950 Lec10_ChalkboardExample_20230925',
+  //     'INFO 2950 Midterm Fall 2023 - Review Topics',
+  //     'INFO 2950 FA23_Midterm_Solutions',
+  //     'INFO_2950 All Materials'
+  // ],
+
+  //   'ENTOM 2030': [
+  //     'ENTOM 2030 Lecture 2',
+  //     'ENTOM 2030 Lecture 3',
+  //     'ENTOM 2030 Lecture 4',
+  //     'ENTOM 2030 Lecture 5',
+  //     'ENTOM 2030 Lecture 6',
+  //     'ENTOM 2030 Lecture 7',
+  //     'ENTOM 2030 Lecture 8',
+  //     'ENTOM 2030 Lecture 9',
+  //     'ENTOM 2030 Lecture 10',
+  //     'ENTOM 2030 Lecture 11',
+  //     'ENTOM 2030 Lecture 12',
+  //     'ENTOM 2030 Lecture 13',
+  //     'ENTOM 2030 Lecture 14',
+  //     'ENTOM 2030 Lecture 15',
+  //     'ENTOM 2030 Lecture 16',
+  //     'ENTOM 2030 Lecture 17',
+  //     'ENTOM 2030 Lecture 18',
+  //     'ENTOM 2030 Lecture 19',
+  //     'ENTOM 2030 Lecture 20',
+  //     'ENTOM 2030 Lecture 21',
+  //     'ENTOM 2030 Lecture 22',
+  //     'ENTOM 2030 Lecture 24',
+  //     'ENTOM 2030 Lecture 25',
+  //     'ENTOM 2030 Lecture 26',
+  //     'ENTOM_2030 All Materials'
+  //   ],
+  
+  // }
 
 //   async function getContextDocs(namespace: any): Promise<string> {
 
@@ -249,6 +256,8 @@ export default async function handler(
       - If the query asks for class material that does not strictly exist in the search documents, then search nothing.
       - If the query says Hi or other simple conversational messages, then search nothing.
       - If the query asks something general unrelated to ${namespaceToSearch} like "What is 2+2", then search nothing.
+
+      - If the query displays a problem or an error or assistance, search only ${namespaceToSearch} All Materials.
 
 
 

@@ -43,7 +43,7 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
         });
         
         //Add Class X All Materials
-        const allMaterials = `${folderName} All Materials`;
+        const allMaterials = `${folderName}_All_Materials`;
         if (!jsonData.hasOwnProperty(allMaterials)) {
             jsonData[allMaterials] = [allMaterials];
         }
@@ -64,9 +64,9 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
 }
 
 export const run = async () => {
-    const nameOfFolder = 'INFO_2950';
-    const nameOfClassToAppendInFront = 'INFO 2950' // Seperate class code and number with a space
-    const subjectNameForChatTS = 'INFO 2950' // usually the same thing as nameOfClassToAppendInFront
+    const nameOfFolder = 'CS_4780';
+    const nameOfClassToAppendInFront = 'CS 4780' // Seperate class code and number with a space
+    const subjectNameForChatTS = 'CS 4780' // usually the same thing as nameOfClassToAppendInFront
 
     const pdfNames = updatePdfNamesToNamespace(nameOfFolder, nameOfClassToAppendInFront, subjectNameForChatTS);
 }

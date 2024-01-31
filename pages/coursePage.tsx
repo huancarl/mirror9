@@ -85,6 +85,7 @@ function CourseCatalog() {
     // { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
     { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'US Health Care Professor Nicholson' },
     { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Honey Bees Professor Peck & Caillaud' },
+    { key: 'CS 4780', title: 'CS 4780', professor: ' Professor Weinberger' },
   ];
 
   const [searchTerm, setSearchTerm] = useState("");

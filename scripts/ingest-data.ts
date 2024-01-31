@@ -48,10 +48,10 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    const className = "INFO_2950";
+    const className = "CS_4780";
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
-    const classNamespace = `${className} All Materials`;
+    const classNamespace = `${className}_All_Materials`;
 
     for (const [fileNameWithExtension, document] of pdfFiles) {
 
