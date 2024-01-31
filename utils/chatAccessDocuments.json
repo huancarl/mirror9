@@ -2,5 +2,41 @@
   "CS_4780": [
     "CS_4780_CS_4780_5780_Syllabus",
     "CS_4780_All_Materials"
+  ],
+  "ENGL_2800": [
+    "ENGL_2800_ENGL_2800_SEM_108_Syllabus__Spring_2024_",
+    "ENGL_2800_All_Materials"
+  ],
+  "INFO_1260": [
+    "INFO_1260_INFO_1260_Sp24_Lecture_1",
+    "INFO_1260_INFO_1260_Sp24_Lecture_2",
+    "INFO_1260_INFO_1260_Syllabus",
+    "INFO_1260_Salganik_Unpredictability",
+    "INFO_1260_Schauer_Boundaries",
+    "INFO_1260_All_Materials",
+    "INFO_1260_INFO_1260_Sp24_Lecture_4__ranking_and_attention_",
+    "INFO_1260_Notes_on_Rankings"
+  ],
+  "INFO_4300": [
+    "INFO_4300_Lecture-01_materials__INFO_CS_4300__Language_and_Information__Sp24_",
+    "INFO_4300_Syllabus_for_INFO_CS_4300__Language_and_Information__Sp24_",
+    "INFO_4300_All_Materials"
+  ],
+  "INFO_4390": [
+    "INFO_4390_2024-02-01_guest_lecture_-_What_Should_We_Do_when_Our_Ideas_of_Fairness_Conflict_",
+    "INFO_4390_INFO4390_Project_Information",
+    "INFO_4390_INFO4390_Python_Refresher_Tutorial__1_",
+    "INFO_4390_Kleinberg2016",
+    "INFO_4390_Python_Installation_Instructions",
+    "INFO_4390_SP24_INFO4390_Lec1_Intro_to_Class,_Algo_Fairness",
+    "INFO_4390_SP24_INFO4390_Lec2_Basic_ML",
+    "INFO_4390_syllabus__1_",
+    "INFO_4390_All_Materials"
+  ],
+  "PLSCI_1150": [
+    "PLSCI_1150_Lindbergh_Updated_References",
+    "PLSCI_1150_PLSCI_1150_Lecture_1",
+    "PLSCI_1150_PLSCI_1150_Syllabus",
+    "PLSCI_1150_All_Materials"
   ]
 }
