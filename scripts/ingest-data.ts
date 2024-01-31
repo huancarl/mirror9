@@ -48,7 +48,7 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    const className = "INFO_1260"; //should have underscores for spaces
+    const className = "INFO_4390"; //should have underscores for spaces
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
     const classNamespace = `${className}_All_Materials`;
@@ -58,7 +58,7 @@ export const run = async () => {
       const fileName = fileNameWithExtension.replace('.pdf', '');
       
       const namespace = NAMESPACE_NUMB[fileName][0]; // Adjust this if the mapping of folder to namespace changes
-
+      console.log(document);
       const splitDocs = await textSplitter.splitDocuments(document);
 
       //const json = JSON.stringify(splitDocs);
