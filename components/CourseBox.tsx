@@ -2,19 +2,21 @@ import Link from 'next/link';
 import styles from '@/styles/courseBox.module.css';
 
 type CourseBoxProps = {
-  title: string;
+  namespaceTitle: string;
   professor: string;
+  displayTitle: string;
 };
 
-const CourseBox = ({ title, professor }: CourseBoxProps) => {
+const CourseBox = ({namespaceTitle, displayTitle, professor }: CourseBoxProps) => {
   return (
-    <Link href={`/chatbot?course=${title}`}>
-    <div className={styles.courseBox}>
-      <h2 className={styles.courseTitle}>{title}</h2>
-      <p className={styles.professorName}>{professor}</p>
+    <Link href={`/chatbot?course=${namespaceTitle}`}>
+      <div className={styles.courseBox}>
+        <h2 className={styles.courseTitle}>{displayTitle}</h2>
+        <p className={styles.professorName}>{professor}</p>
       </div>
     </Link>
   );
 };
+
 
 export default CourseBox;

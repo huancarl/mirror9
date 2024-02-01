@@ -78,22 +78,45 @@ function CourseCatalog() {
 
   
 
-  const courses = [
-    // { key: 'Course Finder SP24', title: 'Course Finder SP24', professor: '' },
-    // { key: 'INFO 2950', title: 'INFO 2950', professor: 'Data Science Professor Koenecke' },
-    // // { key: 'INFO 2040', title: 'INFO 2040', professor: 'Professor Easley' },
-    // { key: 'BIOEE 1540', title: 'BIOEE 1540', professor: 'Professor Monger' },
-    // { key: 'AEM 2241', title: 'AEM 2241', professor: 'Professor Yang & Janosi' },
-    // { key: 'PUBPOL 2350', title: 'PUBPOL 2350', professor: 'US Health Care Professor Nicholson' },
-    // { key: 'ENTOM 2030', title: 'ENTOM 2030', professor: 'Honey Bees Professor Peck & Caillaud' },
-    { key: 'CS 4780', title: 'CS 4780', professor: ' Machine Learning, Professor Weinberger & Sridharan' },
-    { key: 'ENGL 2800', title: 'ENGL 2800', professor: 'Creative Writing, Professor Makridi' },
-    { key: 'INFO 1260', title: 'INFO 1260', professor: 'Conseq. Of Computing, Professor Kleinberg & Levy' },
-    { key: 'INFO 4390', title: 'INFO 4390', professor: 'Fair Algorithms, Professor Koenecke' },
-    { key: 'PLSCI 1150', title: 'PLSCI 1150', professor: 'CSI: Forensic Botany, Professor William Crepet' },
-    { key: 'INFO 4300', title: 'INFO 4300', professor: 'Language & Information, Professor Danescu-Niculescu-Mizil' },
+const courses = [
+  { 
+    key: 'CS 4780', 
+    namespaceTitle: 'CS 4780', 
+    displayTitle: 'CS 4780/5780', 
+    professor: 'Machine Learning, Professor Weinberger & Sridharan' 
+  },
+  { 
+    key: 'ENGL 2800', 
+    namespaceTitle: 'ENGL 2800', 
+    displayTitle: 'ENGL 2800 (SEM 108)', 
+    professor: 'Creative Writing, Professor Makridi' 
+  },
+  { 
+    key: 'INFO 1260', 
+    namespaceTitle: 'INFO 1260', 
+    displayTitle: 'INFO 1260/CS 1340', 
+    professor: 'Conseq. Of Computing, Professor Kleinberg & Levy' 
+  },
+  { 
+    key: 'INFO 4390', 
+    namespaceTitle: 'INFO 4390', 
+    displayTitle: 'INFO 4390/5390/CS 5382', 
+    professor: 'Fair Algorithms, Professor Koenecke' 
+  },
+  { 
+    key: 'PLSCI 1150', 
+    namespaceTitle: 'PLSCI 1150', 
+    displayTitle: 'PLSCI 1150', 
+    professor: 'CSI: Forensic Botany, Professor Crepet' 
+  },
+  { 
+    key: 'INFO 4300', 
+    namespaceTitle: 'INFO 4300', 
+    displayTitle: 'INFO 4300/CS 4300', 
+    professor: 'Language & Information, Professor Danescu-Niculescu-Mizil' 
+  },
+];
 
-  ];
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCourses, setFilteredCourses] = useState(courses);
@@ -144,7 +167,7 @@ function CourseCatalog() {
 
   useEffect(() => {
     const results = courses.filter(course => 
-      course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.displayTitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
       course.professor.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredCourses(results);
@@ -224,7 +247,7 @@ function CourseCatalog() {
       />
       <div className={styles.courseGrid}>
         {filteredCourses.map(course => (
-          <CourseBox key={course.key} title={course.title} professor={course.professor} />
+          <CourseBox key={course.key} namespaceTitle={course.namespaceTitle} displayTitle={course.displayTitle} professor={course.professor} />
         ))}
       </div>
     </div>

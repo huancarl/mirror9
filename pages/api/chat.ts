@@ -264,11 +264,10 @@ export default async function handler(
       - If the query displays a problem or an error or assistance, search only ${namespaceToSearch} All Materials.
 
 
-
       - If the query asks something general to ${namespaceToSearch}, then search only ${namespaceToSearch} All Materials.
+      - If you are searching ${namespaceToSearch} All Materials , you must not search any other documents. 
       - If you are uncertain with the query, then search only ${namespaceToSearch} All Materials'.
       - If you are searching all lectures, instead search only ${namespaceToSearch} All Materials'.
-      - If searching ${namespaceToSearch} All Materials , do not search any other documents. 
       
     Example Responses:
    
