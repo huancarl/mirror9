@@ -115,6 +115,12 @@ const courses = [
     displayTitle: 'INFO 4300/CS 4300', 
     professor: 'Language & Information, Professor Danescu-Niculescu-Mizil' 
   },
+  { 
+    key: 'INFO 4100', 
+    namespaceTitle: 'INFO 4100', 
+    displayTitle: 'INFO 4100', 
+    professor: 'Learning Analytics, Professor Rene Kizilcec' 
+  },
 ];
 
 

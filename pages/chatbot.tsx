@@ -42,6 +42,7 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css'; // Import the style you want to use
 import python from 'highlight.js/lib/languages/python';
 import {withSession, isAuthenticated} from 'utils/session';
+import pdfMapping from 'utils/pdfNamestoNamespace.json';
 
 //Make sure that the page cannot be accessed without logging in
 export const getServerSideProps = withSession(async ({ req, res }) => {
@@ -97,8 +98,6 @@ const [messageState, setMessageState] = useState<{
   const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
 
   const [firstMessageSent, setFirstMessageSent] = useState(false);
-
-  
 
   //Stripe set up
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
@@ -670,15 +669,6 @@ const handleBack = () => {
                                     </ReactMarkdown>
                                     <p className="mt-2">
                                     <b>Source: </b> 
-                                    <a href={`/pdfs/${doc.Source.split('/').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
-                                    style={{
-                                      color: 'blue',
-                                      textDecoration: 'underline',
-                                      cursor: 'pointer',
-                                      fontWeight: 625
-                                  }}>
-                                    {doc.Source.split('/').pop()}
-                                    </a>
 
                                     </p>
                                     <p>

@@ -95,7 +95,7 @@ async function addNewUserHandler(req, res) {
         }
     } catch (e) {
         console.error(e); // Always good to log the error
-        return res.status(500).json({ error: 'Failed to create an account', details: onmessage });
+        return res.status(500).json({ error: 'Failed to create an account'});
     }
 }
 

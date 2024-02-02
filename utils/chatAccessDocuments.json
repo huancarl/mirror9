@@ -15,7 +15,7 @@
     "INFO_1260_All_Materials",
     "INFO_1260_INFO_1260_Sp24_Lecture_4__ranking_and_attention_",
     "INFO_1260_Notes_on_Rankings",
-    "INFO_1260_INFO_1260___CS_1340__Choices_and_Consequences_in_Computing"
+    "INFO_1260_Syllabus_and_class_info"
   ],
   "INFO_4300": [
     "INFO_4300_Lecture-01_materials__INFO_CS_4300__Language_and_Information__Sp24_",
@@ -40,5 +40,13 @@
     "PLSCI_1150_PLSCI_1150_Lecture_1",
     "PLSCI_1150_All_Materials",
     "PLSCI_1150_Syllabus_for_PLSCI_1150_CSI__Forensic_Botany__2024SP_"
+  ],
+  "INFO_4100": [
+    "INFO_4100_Learning_Analytics_Syllabus_Spring_2024",
+    "INFO_4100_All_Materials",
+    "INFO_4100_fisher_mining_big_edu_data2020",
+    "INFO_4100_Getting_Started_with_R",
+    "INFO_4100_Lecture_1_Introduction",
+    "INFO_4100_Week2_Lecture_2_Edu_Data_Science"
   ]
 }
