@@ -669,7 +669,15 @@ const handleBack = () => {
                                     </ReactMarkdown>
                                     <p className="mt-2">
                                     <b>Source: </b> 
-
+                                    <a href={`/pdf/${doc.Source.split('/').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
+                                      style={{
+                                        color: 'blue',
+                                        textDecoration: 'underline',
+                                        cursor: 'pointer',
+                                        fontWeight: 625
+                                      }}>
+                                    {doc.Source.split('/').pop()}
+                                    </a>
                                     </p>
                                     <p>
                                       <b> Page number: </b> {doc.Page_Number}
