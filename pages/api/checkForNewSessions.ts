@@ -1,4 +1,4 @@
-import connectToDb from '@/config/db';
+import {connectToDb} from '@/config/db';
 
 const checkForNewSessions = async (req, res) => {
   const { userID, sessionID, course } = req.body;

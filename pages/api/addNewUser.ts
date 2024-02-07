@@ -1,4 +1,4 @@
-import connectToDb from '@/config/db';
+import {connectToDb }from '@/config/db';
 import { OAuth2Client } from 'google-auth-library';
 import { withSession } from 'utils/session'; // Adjust the import path as needed
 import { v4 as uuidv4 } from 'uuid';

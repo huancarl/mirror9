@@ -1,4 +1,4 @@
-import connectToDb from '@/config/db';
+import {connectToDb} from '@/config/db';
 
 export default async (req, res) => {
     if (req.method !== 'POST') {

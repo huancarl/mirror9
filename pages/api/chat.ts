@@ -15,7 +15,7 @@ import {
 } from 'langchain/prompts'
 import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
-import connectToDb from '@/config/db';
+import {connectToDb} from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
 import * as path from 'path';
 
@@ -31,11 +31,11 @@ export function GET(request: Request) {
 }
 
 
-function cleanText(text) {
-  // Removing lines containing only whitespace
-  const cleaned = text.split('\n').filter(line => line.trim().length > 0).join(' ');
-  return cleaned.replaceAll('  ', ' ').trim(); // Replace double spaces with single space
-}
+// function cleanText(text) {
+//   // Removing lines containing only whitespace
+//   const cleaned = text.split('\n').filter(line => line.trim().length > 0).join(' ');
+//   return cleaned.replaceAll('  ', ' ').trim(); // Replace double spaces with single space
+// }
 // function cleanSourceDocs(sourceDocs) {
 //   // Assuming sourceDocs is an array of strings:
 //   return sourceDocs.map(doc => cleanText(doc));
@@ -75,8 +75,6 @@ export default async function handler(
   const image = req.body.image;
 
   const cleanedNamespace = namespace.replace(/ /g, '_');
-
-  console.log(cleanedNamespace, 'cleanedNames');
 
   const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
   const data = await fs.readFile(classMappingFilePath, 'utf8');
@@ -169,74 +167,6 @@ export default async function handler(
   
   // }
 
-//   async function getContextDocs(namespace: any): Promise<string> {
-
-//     const index = pinecone.Index(PINECONE_INDEX_NAME);
-//     let contextForNamespace;
-//     const SummarizeQuery = "Summarize the key educational content and objectives in this school material";
-
-//     const embeddings = new OpenAIEmbeddings();
-//     const queryEmbedding = await embeddings.embedQuery(SummarizeQuery);
-
-//     if (!queryEmbedding) {
-//       throw new Error("Failed to generate embedding for the question.");
-//     }
-
-//     let fetchedTexts: PineconeResultItem[] = [];
-
-//     const queryResult = await index.query({
-//       queryRequest: {
-//         vector: queryEmbedding,
-//         topK: 100,
-//         namespace: namespace,
-//         includeMetadata: true,
-//       },
-//     });
-
-//     let ids: string[] = [];
-//     if (queryResult && Array.isArray(queryResult.matches)) {
-//       ids = queryResult.matches.map((match: { id: string }) => match.id);
-//     } else {
-//       console.error('No results found or unexpected result structure.');
-//     }
-
-//     if (ids.length > 0) {
-//       const fetchResponse: any =
-//           await index.fetch({
-//               ids: ids,
-//               namespace: namespace,
-//           });
-//       const vectorsArray: PineconeResultItem[] = Object.values(fetchResponse.vectors) as PineconeResultItem[];
-//       fetchedTexts.push(...vectorsArray);
-//     };
-
-//     // console.log(fetchedTexts, 'fetchedtexts');
-
-//     const combinedText = fetchedTexts.map(item => item.metadata.text).join(' ');
-//     //console.log(combinedText, 'combinedTexts');
-
-//     // Initialize the Hugging Face Inference API for summarization
-//     const hf = new HfInference('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');
-//     // Perform the summarization
-//     const summarizationResult = await hf.summarization({
-//         model: 'facebook/bart-large-cnn',
-//         inputs: combinedText,
-//         parameters: {
-//             max_length: 100  // Adjust as needed
-//         }
-//     });
-//     // Extract the summarized text
-
-//     console.log(summarizationResult, 'summarization result');
-
-//     if (summarizationResult) {
-//         contextForNamespace = summarizationResult;
-//     } else {
-//         throw new Error("Failed to generate summary.");
-//     }
-
-//     return contextForNamespace;
-// }
 
   function createPrompt(namespaceToSearch: string, chat_history: any){
 
@@ -295,7 +225,7 @@ export default async function handler(
 
 
   // OpenAI recommends replacing newlines with spaces for best results
-  const sanitizedQuestion = question.trim().replaceAll('\n', ' ');
+  const sanitizedQuestion = question.replace(/^\s+|\s+$/g, '').replace(/\n/g, ' ');
 
 
   try {
@@ -451,7 +381,7 @@ export default async function handler(
       cache: true,
     });
     
-
+    //gpt-4-1106-preview
 
     //init class
     const qaChain = CustomQAChain.fromLLM(modelForResponse, index, namespaces, {
@@ -462,8 +392,12 @@ export default async function handler(
     
     console.log('searching namespace for results...');
   
+    const embeddings = new OpenAIEmbeddings();
+    const queryEmbedding = await embeddings.embedQuery(question);
+
     const results = await qaChain.call({
-      question: sanitizedQuestion,
+      question: question,
+      questionEmbed: queryEmbedding,
       chat_history: messages,
       namespaceToFilter: cleanedNamespace
     });

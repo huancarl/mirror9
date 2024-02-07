@@ -1,4 +1,4 @@
-import connectToDb from '@/config/db';
+import {connectToDb} from '@/config/db';
 
 const fetchSessions = async (req, res) => {
   const { userID, course } = req.body;

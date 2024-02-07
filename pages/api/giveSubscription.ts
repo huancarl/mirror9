@@ -1,4 +1,4 @@
-import connectToDb from '@/config/db';
+import {connectToDb} from '@/config/db';
 
 export default async function giveSubscriptionHandler(req, res) {
     try {

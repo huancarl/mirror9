@@ -1,4 +1,4 @@
-import connectToDb from '@/config/db';
+import {connectToDb} from '@/config/db';
 
 const deleteSession = async (req, res) => {
     const { sessionID, className } = req.body;

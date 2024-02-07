@@ -1,4 +1,4 @@
-import connectToDb from '@/config/db';
+import {connectToDb} from '@/config/db';
 import Stripe from 'stripe';
 
 // Initialize Stripe

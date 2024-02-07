@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import Stripe from 'stripe';
-import connectToDb from '@/config/db';
+import {connectToDb }from '@/config/db';
 
 //set up email to potentially send if users cancel their plan
 const nodemailer = require('nodemailer');

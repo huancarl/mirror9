@@ -173,11 +173,11 @@ export class CustomQAChain {
         }
     }
 
-    private async getRelevantDocs(question: string, filter: any): Promise<PineconeResultItem[]> {
-        const embeddings = new OpenAIEmbeddings();
-        const queryEmbedding = await embeddings.embedQuery(question);
+    private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem[]> {
+        // const embeddings = new OpenAIEmbeddings();
+        // const queryEmbedding = await embeddings.embedQuery(question);
     
-        if (!queryEmbedding) {
+        if (!question) {
             throw new Error("Failed to generate embedding for the question.");
         }
     
@@ -187,6 +187,7 @@ export class CustomQAChain {
         // const namespacesToSearch = this.namespaces
         //     .filter(namespace => namespace.includes(filter))
         //     .slice(0, maxNamespaces);
+
         const namespacesToSearch = this.namespaces;
         const numOfVectorsPerNS = Math.floor(remainingDocs/namespacesToSearch.length); 
     
@@ -194,53 +195,34 @@ export class CustomQAChain {
             const queryResult = await this.retryRequest(async () => {
                 return await this.index.query({
                     queryRequest: {
-                        vector: queryEmbedding,
+                        vector: question,
                         topK: numOfVectorsPerNS,
                         namespace: namespace,
                         includeMetadata: true,
                     },
                 });
             });
-    
-            let ids: string[] = [];
+
+            //Iterate through the query results and add them to fetched texts
             if (queryResult && Array.isArray(queryResult.matches)) {
-                ids = queryResult.matches.map((match: { id: string }) => match.id);
+
+                for (const match of queryResult.matches) {
+                    fetchedTexts.push(match);
+                }
             } else {
                 console.error('No results found or unexpected result structure.');
             }
-    
-            const numToFetch = Math.min(ids.length, remainingDocs);
-    
-            if (numToFetch > 0) {
-                const fetchResponse = await this.retryRequest(async () => {
-                    return await this.index.fetch({
-                        ids: ids.slice(0, numToFetch),
-                        namespace: namespace,
-                    });
-                });
-    
-                const vectorsArray: PineconeResultItem[] = Object.values(fetchResponse.vectors) as PineconeResultItem[];
-                fetchedTexts.push(...vectorsArray);
-                remainingDocs -= vectorsArray.length;
-            }
-    
-            if (remainingDocs <= 0) {
-                break;
-            }
+            
         }
-    
+        
         return fetchedTexts;  
     }
 
-
-
     // Experimenting making faster searches with namespaces with Timeout Method
 
-    
-
-    public async call({ question, chat_history, namespaceToFilter}: { question: string; chat_history: ChatMessage[], namespaceToFilter: any}, ): Promise<CallResponse> {
+    public async call({ question, questionEmbed, chat_history, namespaceToFilter}: { question: string; questionEmbed: any; chat_history: ChatMessage[], namespaceToFilter: any}, ): Promise<CallResponse> {
        
-        const relevantDocs = await this.getRelevantDocs(question, namespaceToFilter);
+        const relevantDocs = await this.getRelevantDocs(questionEmbed, namespaceToFilter);
 
         //this.chatHistoryBuffer.addMessage(chat_history);
         //console.log(this.namespaces, 'name of namespaces');
@@ -456,23 +438,21 @@ export class CustomQAChain {
             query:question,
           });
 
-        let response = await this.retryRequest(async () => {
-            return await this.model.predict(prompt);
-        });
+        let response = prediction.response;
+        // let response = await this.retryRequest(async () => {
+        //     return await this.model.predict(prompt);
+        // });
         if (typeof response === 'undefined') {
             throw new Error("Failed to get a response from the model.");
         }
 
         response = this.sanitizeResponse(response);
 
-        if (typeof prediction.response === 'string') {
-            response = prediction.response;
-        } else {
+        if (typeof prediction.response !== 'string') {
             throw new Error("Response Error.");
-        }
+        } 
 
         this.chatHistoryBuffer.addMessage(`Question: ${question}`);
-
 
         //console.log(prompt, 'prompt');
 

@@ -9,14 +9,30 @@ const client = new MongoClient(uri, {
       deprecationErrors: true,
     }
   });
+
+let dbInstance: Db | null = null;
+
 async function connectToDb(): Promise<Db> {
+    if (dbInstance) {
+
+      return dbInstance;
+    }
+
     try{
-        await client.connect();
-        return client.db('CornellGPT');
+      await client.connect();
+      dbInstance= client.db('CornellGPT');
+      return dbInstance;
     }
     catch(e){
         console.log(e);
         throw e;
     }
 }
-export default connectToDb;
+
+async function closeConnection(): Promise<void> {
+
+    await client.close();
+}
+
+
+export { connectToDb, closeConnection, dbInstance};

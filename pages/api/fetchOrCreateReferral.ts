@@ -1,4 +1,4 @@
-import connectToDb from '@/config/db';
+import {connectToDb} from '@/config/db';
 import { v4 as uuidv4 } from 'uuid';
 
 export default async (req, res) => {
