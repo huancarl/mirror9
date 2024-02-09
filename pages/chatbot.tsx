@@ -24,10 +24,21 @@ import {
   
 } from '../utils/katex';
 
+
+
+
+
+// #1
 import {
   messageContainsCode,
   transformMessageWithCode
 } from '../utils/codeblock'
+
+
+
+
+
+
 import Sidebar from 'components/Sidebar';
 import { Typewriter } from '../utils/typewriter'; 
 import { useRouter } from 'next/router';
@@ -42,7 +53,6 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css'; // Import the style you want to use
 import python from 'highlight.js/lib/languages/python';
 import {withSession, isAuthenticated} from 'utils/session';
-import pdfMapping from 'utils/pdfNamestoNamespace.json';
 
 //Make sure that the page cannot be accessed without logging in
 export const getServerSideProps = withSession(async ({ req, res }) => {
@@ -98,6 +108,8 @@ const [messageState, setMessageState] = useState<{
   const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
 
   const [firstMessageSent, setFirstMessageSent] = useState(false);
+
+  
 
   //Stripe set up
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
@@ -480,7 +492,7 @@ useEffect(() => {
       return [
         'Explain lecture 5 in detail...',
         'What is the grade breakdown?...',
-        'When are profs office hours?...',
+        'When are the professors office hours?...',
         'Summarize lecture 20...',
         'Explain the course overview...'
       ];
@@ -505,6 +517,16 @@ useEffect(() => {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+
+
+
+
+
+
+
+
+
+// #2
 function CodeBlock({ code }: { code: string }) {
   const [copied, setCopied] = useState(false);
 
@@ -514,21 +536,14 @@ function CodeBlock({ code }: { code: string }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  return (
-    <div className="codeBlock">
-      <pre>
-        <code>{code}</code>
-      </pre>
-      <button
-        className={styles.copyButton}
-        onClick={handleCopy}
-        disabled={copied}
-      >
-        {copied ? '' : ''}
-      </button>
-    </div>
-  );
+
     
+
+
+
+
+
+
 
     
   }
@@ -611,18 +626,25 @@ function CodeBlock({ code }: { code: string }) {
     }
 
 
-const isCodeMessage = index > 0 && message.type === 'apiMessage' && messageContainsCode(messages[index - 1].message, message.message);
+
+
+
+
+// #3
+const isCodeMessage = message.message.includes('```') || message.message.includes('`') || message.message.includes('``'); 
+//
 const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
 const handleBack = () => {
   router.back(); // This will take the user to the previous page
 };
 
-
   if (messageContainsMath(message.message)) {
     content = <MessageRenderer key={index} message={message.message} />;
+  // #4
   } else if (isCodeMessage) {
-    content = <CodeBlock key={index} code={transformMessageWithCode(message.message)} />;
-  } else if (message.type === 'apiMessage') {                        
+    content = transformMessageWithCode(message.message);
+  //
+  } else if (message.type === 'apiMessage' && isCodeMessage) {                        
     content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
   } else {
     content = <span>{parseBoldText(message.message)}</span>;
@@ -638,13 +660,12 @@ const handleBack = () => {
         <button onClick={handleBack} className={styles.backButton}>←</button>
             <div key={`chatMessage-${index}`} className={className}>
                 {icon}
-                <div className={styles.markdownanswer}
-                    style={
-                        isCodeMessage ? {
-                        } : {}
-                    }>
-                    {content}
-                </div>
+                <div className={isCodeMessage ? styles.chatCodeBlock : styles.markdownanswer}>
+  {content}
+</div>
+
+
+
             </div>
                       {message.sourceDocs && (
                         <div
@@ -670,14 +691,15 @@ const handleBack = () => {
                                     <p className="mt-2">
                                     <b>Source: </b> 
                                     <a href={`/pdf/${doc.Source.split('/').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
-                                      style={{
-                                        color: 'blue',
-                                        textDecoration: 'underline',
-                                        cursor: 'pointer',
-                                        fontWeight: 625
-                                      }}>
+                                    style={{
+                                      color: 'blue',
+                                      textDecoration: 'underline',
+                                      cursor: 'pointer',
+                                      fontWeight: 625
+                                  }}>
                                     {doc.Source.split('/').pop()}
                                     </a>
+
                                     </p>
                                     <p>
                                       <b> Page number: </b> {doc.Page_Number}

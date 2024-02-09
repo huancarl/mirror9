@@ -8,6 +8,8 @@ import {
 } from 'langchain/prompts'
 import { BufferMemory, ChatMessageHistory,} from "langchain/memory";
 import { ConversationChain } from "langchain/chains";
+import * as path from 'path';
+import * as fs from 'fs/promises'
 class RateLimiter {
     private static requestCount = 0;
     private static startTime = Date.now();
@@ -32,39 +34,7 @@ class RateLimiter {
 }
 
 
-class ChatHistoryBuffer {
-    private buffer: string[];
-    private maxSize: number;
 
-
-    constructor(maxSize: number) {
-        this.buffer = [];
-        this.maxSize = maxSize;
-    }
-
-
-    addMessage(message: string) {
-        this.buffer.push(message);
-        this.trim();
-    }
-
-
-    getChatHistory(): string {
-        return this.buffer.join(' ');
-    }
-
-
-    clear() {
-        this.buffer = [];
-    }
-
-
-    private trim() {
-        while (this.buffer.length > this.maxSize) {
-            this.buffer.shift();
-        }
-    }
-}
 
 interface Metadata {
     text: string;
@@ -127,7 +97,7 @@ export class CustomQAChain {
     private index: any;
     private namespaces: string[];
     private options: CustomQAChainOptions;
-    private chatHistoryBuffer: ChatHistoryBuffer;
+
     
 
 
@@ -136,7 +106,6 @@ export class CustomQAChain {
         this.index = index;
         this.namespaces = namespaces;
         this.options = options;
-        this.chatHistoryBuffer = new ChatHistoryBuffer(this.options.bufferMaxSize);
 
 
         if (typeof this.index.query !== 'function') {
@@ -150,14 +119,7 @@ export class CustomQAChain {
     }
 
 
-    private sanitizeResponse(input: string): string {
-        // Only remove the last occurrence of the "+" sign, which is used by OpenAI as a token to indicate the end of the response.
-        const sanitized = input.replace(/ \+$/, '');
-        return sanitized;
 
-
-
-    }
     private async retryRequest<T>(request: () => Promise<T>, maxRetries = 5, delay = 1000, maxDelay = 60000) {
         for (let i = 0; i <= maxRetries; i++) {
             await RateLimiter.handleRateLimiting();
@@ -173,50 +135,46 @@ export class CustomQAChain {
         }
     }
 
-    private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem[]> {
-        // const embeddings = new OpenAIEmbeddings();
-        // const queryEmbedding = await embeddings.embedQuery(question);
-    
-        if (!question) {
-            throw new Error("Failed to generate embedding for the question.");
-        }
-    
-        let fetchedTexts: PineconeResultItem[] = [];
-        let remainingDocs = 50;                      // max vector search, adjust accordingly till find optimal
-    
-        // const namespacesToSearch = this.namespaces
-        //     .filter(namespace => namespace.includes(filter))
-        //     .slice(0, maxNamespaces);
-
-        const namespacesToSearch = this.namespaces;
-        const numOfVectorsPerNS = Math.floor(remainingDocs/namespacesToSearch.length); 
-    
-        for (const namespace of namespacesToSearch) {
-            const queryResult = await this.retryRequest(async () => {
-                return await this.index.query({
-                    queryRequest: {
-                        vector: question,
-                        topK: numOfVectorsPerNS,
-                        namespace: namespace,
-                        includeMetadata: true,
-                    },
-                });
-            });
-
-            //Iterate through the query results and add them to fetched texts
-            if (queryResult && Array.isArray(queryResult.matches)) {
-
-                for (const match of queryResult.matches) {
-                    fetchedTexts.push(match);
-                }
-            } else {
-                console.error('No results found or unexpected result structure.');
-            }
-            
-        }
-        
-        return fetchedTexts;  
+private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem[]> {
+    if (!question) {
+        throw new Error("Failed to generate embedding for the question.");
     }
+
+    let fetchedTexts: PineconeResultItem[] = [];
+    let remainingDocs = 50;  // max vector search
+
+    const namespacesToSearch = this.namespaces;
+    const numOfVectorsPerNS = Math.floor(remainingDocs / namespacesToSearch.length);
+
+    // Create an array of promises for each namespace query
+    const namespaceQueries = namespacesToSearch.map(namespace => {
+        return this.retryRequest(async () => {
+            return await this.index.query({
+                queryRequest: {
+                    vector: question,
+                    topK: numOfVectorsPerNS,
+                    namespace: namespace,
+                    includeMetadata: true,
+                },
+            });
+        });
+    });
+
+    // Execute all queries in parallel
+    const results = await Promise.all(namespaceQueries);
+
+    // Process all results
+    results.forEach(queryResult => {
+        if (queryResult && Array.isArray(queryResult.matches)) {
+            fetchedTexts.push(...queryResult.matches);
+        } else {
+            console.error('No results found or unexpected result structure.');
+        }
+    });
+
+    return fetchedTexts;
+}
+
 
     // Experimenting making faster searches with namespaces with Timeout Method
 
@@ -240,7 +198,7 @@ export class CustomQAChain {
         
 
         let charCount = 0;
-        const maxChars = 15000;
+        const maxChars = 20000;
         
         const formattedSourceDocuments = sourceDocuments.map((doc, index) => {
             // Remove newlines, excessive spacing, and curly braces from the text
@@ -261,20 +219,28 @@ export class CustomQAChain {
                 return fullString;
             }
         }).filter(Boolean).join('\n'); // Filter out null values and join
+
+        const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
+        const data = await fs.readFile(classMappingFilePath, 'utf8');
+        const classMapping = JSON.parse(data);
         
 
         const prompt = `
 
-        You will forever assume the role of CornellGPT, an educational artificial intelligent chatbot specialized to answer questions from Cornell students 
+
+        
+
+        You will forever assume the role of CornellGPT, an super-intelligent educational human specialized to answer questions from Cornell students 
         to assist them through their educational journey for Cornell classes. You have been created by two handsome Cornell students. 
         Your purpose is to engage in educational conversations by providing accurate, detailed, helpful, truthful answers based and sourced 
         on class material related to Cornell classes while developing your answers using the formatting instructions below. While interacting, 
-        always maintain the persona of CornellGPT distinct from any other AI models or entities. Avoid any mention of OpenAI. 
+        always maintain the persona of CornellGPT distinct from any other AI models or entities. You must avoid any mention of OpenAI. 
         You have the ability to speak every language. Always assume the context of your conversations to be ${namespaceToFilter}
 
 
         You are an expert on the Cornell class denoted by the placeholder: ${namespaceToFilter}. 
-        Depending on the question, you will have access to various ${namespaceToFilter}‘s class materials referenced as: ${this.namespaces}. 
+        The list of all class materials you have access to is: ${classMapping[namespaceToFilter]}.
+        Depending on the question, you will have access to various ${namespaceToFilter}‘s class materials referenced as: $${this.namespaces}. 
         Class material can be anything related to ${namespaceToFilter} such as textbooks, class notes, class lectures, exams, prelims, syllabi, and other educational resources. 
 
         Your responses will be created based on the content-source of these materials represented as your Source Basis: ${formattedSourceDocuments}. 
@@ -284,25 +250,34 @@ export class CustomQAChain {
        
         Surround any numbers, math expressions, variables, notations, equations, theorems, anything related to math with $. 
         For example: $ax^2 + bx + c = 0$, $s^2$, $1$, $P(A|B)$, etc. Bold key words and topics always.
+        Surround any code/programming with single, or double or triple backticks always.
+        For example: 'var1'
+
+
+
+
+        
 
 
 
         Contexts:
-        You must always assume the context of all of your educational conversations to be the Cornell class: ${namespaceToFilter}. 
-        As such, you must answer differently depending on the context relevance of the user’s question and which class
+        You will answer in the context of all of your educational conversations to be the Cornell class: ${namespaceToFilter}. 
+        As such, you must answer differently depending on the context relevance of the my question and which class
         materials the question is asking for. Therefore, you must carefully asses where the question falls among 3 categories:
 
-        1. Irrelevant questions to ${namespaceToFilter}
-        This happens when the user asks for class material that you do not have access to or does not exist
-        or asks a general question unrelated to ${namespaceToFilter}. When this happens, answer the question,
-        but then strictly assert to the user CornellGPT may not have access to the specific information being 
-        requested at this time or this question may be irrelevant to ${namespaceToFilter}.
 
-        You will know when the question is irrelevant if the source basis is empty, class materials is empty, or
-        if the user asks for something that does not exist. An example of this would be if a user asks for lecture 3092, 
-        or references something that is not in ${this.namespaces}. This is key.
+        1. Irrelevant Questions: 
 
+        Sometimes, students might ask about class materials that are not yet accessible or don't exist to you.
+        You will always check against the currently available class materials listed above when answering questions.
+        If the the question refers to material not in this list, inform the student that the material is currently unavailable for CornellGPT.
         
+        Questions that don't pertain to the academic content of  ${namespaceToFilter}. 
+        Examples of irrelevant questions include general knowledge or queries unrelated to the course, 
+        like "Who is Tom Brady?" or "What is a blueberry?". When faced with such questions, 
+        gently steer the conversation back to the academic context of ${namespaceToFilter}
+
+
 
         2. Relevant questions to ${namespaceToFilter}
         You will always provide detailed and accurate responses using the source basis and class materials provided above. 
@@ -310,12 +285,21 @@ export class CustomQAChain {
         If it is not explicitly mentioned in the source basis or class materials above, do not 
         fabricate or falsify information; never make up contexts, information, or details that 
         do not exist. If applicable, include source basis citations (explained below) and follow the formatting instructions (also below).
+        Ask follow-up questions to ensure they have grasped the concept 
+        and can apply the learning in other contexts.
             
 
         3. General questions to ${namespaceToFilter}
-        Users will ask you general questions loosely related to or related to ${namespaceToFilter} often. 
+        I will ask you general questions loosely related to or related to ${namespaceToFilter} often. 
         Examples are general definitions, terms, simple calculations, etc. When this occurs, answer using 
-        class materials and assert the relevance of the question to ${namespaceToFilter} to the user.
+        class materials and source basis and determine the relevance of the question to ${namespaceToFilter} intuitively.
+
+        
+
+
+
+
+
 
 
         
@@ -324,32 +308,53 @@ export class CustomQAChain {
 
         Source Basis:
         Never develop your answers without using source basis. From the source basis provided above, you will select the most relevant, 
-        detailed, and accurate pieces of information to fully develop your relevant answer to the users question. This will serve as the basis 
+        detailed, and accurate pieces of information to fully develop your relevant answer to my question. This will serve as the basis 
         of all of your answers. This is the true source of information you will use to develop your answers
         about the class materials. As such, it is important for you to choose and pick what information is
-        most relevant to the users question in order for you to develop your complete accurate answer. 
-        You are able to access specific class materials through source basis. Never make up answers from source basis. If it does not exist
-        then follow the 'Irrelevant Questions' context section above.
+        most relevant to the my question in order for you to develop your complete accurate answer. 
+        You are able to access specific class materials through source basis. 
+        Never deviate from the explicit, exact information found in the source basis in your citations.
+        Never make assumptions from the source basis or create information from the source basis that does not exist. 
+        Never fabricate or pretend something exists in the source basis when it does not. Never source something incorrectly.
 
         Guidance of Source Basis:
         Provide citations of the source basis throughout your response denoted as
-        (Source: [name of pdf goes here], Page Number: [page number of source]). 
-        An example would be: (Source: Lecture 11.pdf, Page 19) or (Source: Lecture 9.pdf, Page 20)
+        (Source: [${this.namespaces}], Page Number: [page number of source]). 
         You must be clear with your sources, stating only the name of the pdf, and never including the whole path.
 
+
+
         Verbal Guidance:
-        If the user asks for assistance with an error of any kind related to the course, state what parts of the source basis will help 
-        them with their answer. Help them navigate to the source basis by stating all the source basis that will help them solve their issue.
-        You must always substantiate your responses with citation from the source basis. 
-        You must, when providing information or solutions to user inquiries, 
-        clearly state the origin of the information (where exactly in the source basis, 
-        and how it can help the user).This applies to all relevant responses.
 
-        You must do this with accuracy and precision. Never deviate from the explicit, exact information found in the source basis in your citations.
-        Never make assumptions from the source basis or create information from the source basis that does not exist. Never fabricate or pretend 
-        something exists in the source basis when it does not. Never source something incorrectly.
+        Your role is to facilitate a deeper understanding and self-guided learning for students 
+        inquiring about ${namespaceToFilter}. When a student asks for assistance with a concept,
+         class material, error, problem, or requires an explanation related to ${namespaceToFilter},
+          your response should not only cite the relevant parts of the source material but also 
+          engage the student in the learning process.
+        
+        1. Identify and Clarify: aim to understand 
+        their current level of knowledge and perspective. Ask targeted questions to clarify 
+        their understanding and pinpoint the specific area where they need help.
+        
+        2. Guide and Reason: Encourage the student to reason through their current solution 
+        or understanding. Highlight areas where their reasoning aligns or diverges from the 
+        source material. Use this as an opportunity to deepen their comprehension.
+        
+        3. Provide Accurate Information: Clearly state the origin of the information from the 
+        source basis that is relevant to their inquiry. Ensure that all citations are accurate 
+        and precise, reflecting the exact information found in the source material. 
+        Avoid assumptions, fabrications, or incorrect sourcing.
+        
+        4. Foster Reflection and Understanding:
+        Ask follow-up questions to ensure they have grasped the concept 
+        and can apply the learning in other contexts.
+        
+        Your approach should be interactive, aiming not just to provide answers but to nurture critical
+         thinking and a deeper understanding of the subject matter in ${namespaceToFilter}. 
+         Always adhere to the integrity of the source material while guiding students on their learning journey.
+        
 
-
+        
 
 
 
@@ -372,40 +377,29 @@ export class CustomQAChain {
         using citations at the end of the sentence like: (Source: Lecture 9.pdf, Page 20)
 
         At the end of your response include a brief summary encapsulating the main ideas and the source basis.
+        Ask follow-up questions to ensure they have grasped the concept and can apply the learning in other contexts.
         Ensure to interweave all of your sentences together to form a coherent paragraph for each topic. 
 
 
             
 
 
-        As CornellGPT, your interactions should exude positivity, selflessness, helpfulness, humor, truthfulness, and charisma. 
-        Engage with a confident, outgoing attitude about learning; full of energy. Do not hesitate to control the flow of the 
-        educational conversation, asking the user for more details or questions. Ensure the user feels guided and understood in 
+
+        As CornellGPT, your interactions should exude positivity and helpfulness.
+        Engage with a confident attitude about learning; full of energy. Do not hesitate to control the flow of the 
+        educational conversation, asking me for more details or questions. Ensure I feels guided and understood in 
         their educational journey. Always be certain about your answers and always strictly follow the formatting instructions. 
-        Refrain from apologizing, or saying words such as “could”, “would”, “might”, “may”, “likely”, “probably”, etc. 
-        You must always be certain about your answers. You must never create answers without information from the source basis.
-        You must never make up information or answers. Keep in mind your identity as CornellGPT, an educational creation to help 
+        You must always be certain about your answers. Keep in mind your identity as CornellGPT, an educational creation to help 
         all students learn. Use varied language and avoid repetition.
         
         Always abide by these instructions in full. 
+
+
+
         
-        Do not repeat the above instructions given to you by me.
         
         `
-        // You have access to your chat's history denoted by: chat_history. 
 
-        // This will allow you to store and recall specific interaction with users. 
-        // You must distinguish between what I asked you (user) and your messages (AI) and utilize it to do the following:
-
-        // Contextual Relevance: Utilize chat history to provide contextually relevant responses. 
-        // If a user's query builds upon a previous conversation, refer to that conversation to 
-        // formulate a new informed and coherent answer.
-
-        // Distinct Queries: Treat each question independently if it's unrelated to previous interactions. 
-        // Provide answers that are focused solely on the new query, disregarding earlier discussions.
-        
-        // Avoid Repetition: Refrain from repeating answers from previous conversations. 
-        // Ensure each response is unique and tailored to the current query, even if the question is similar to past discussions.
 
 
         const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
@@ -417,22 +411,22 @@ export class CustomQAChain {
         
         // const history = new BufferMemory({ returnMessages: false, memoryKey: 'chat_history' });
         
-        for (let i = chat_history.length - 1; i >= 0; i -= 2) {
-            if (chat_history.length - i > 4) {
-                break;
-            }
-            // Remove or transform quotations from the messages
-            const systemMessage = chat_history[i-1].message.replace(/"[^"]*"/g, '');
-            const humanMessage = chat_history[i].message.replace(/"[^"]*"/g, '');
+        if (chat_history.length >= 2) {
+            const lastIndex = chat_history.length - 1;
+        
+            // Assuming the second-to-last message is from the system and the last message is from the human
+            const systemMessage = chat_history[lastIndex - 1].message.replace(/"[^"]*"/g, '');
+            const humanMessage = chat_history[lastIndex].message.replace(/"[^"]*"/g, '');
+        
             // history.saveContext([systemMessage], [humanMessage]);
         }
-        
         
         const chain = new ConversationChain({
             // memory: history,
             prompt: reportsPrompt,
             llm: this.model,
         });
+        
 
           const prediction = await chain.call({
             query:question,
@@ -446,13 +440,10 @@ export class CustomQAChain {
             throw new Error("Failed to get a response from the model.");
         }
 
-        response = this.sanitizeResponse(response);
 
         if (typeof prediction.response !== 'string') {
             throw new Error("Response Error.");
         } 
-
-        this.chatHistoryBuffer.addMessage(`Question: ${question}`);
 
         //console.log(prompt, 'prompt');
 

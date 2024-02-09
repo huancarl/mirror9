@@ -388,6 +388,87 @@
   flex-direction: column;
 }
 
+.chatCodeBlock {
+  padding: 10px;
+  border-radius: 4px;
+  margin: 5px 0;
+  overflow-x: auto; /* Allows horizontal scrolling for long lines */
+  
+}
+
+
+
+/* Base styles for the code block */
+.chatCodeBlock code {
+  font-family: 'Consolas', 'Monaco', 'Courier New', Courier, monospace;
+  color: rgb(255, 255, 255); /* Lighter shade for better contrast */
+  font-size: 0.8rem; /* Responsive font size */
+  line-height: 1.8;
+  white-space: pre;
+  background-color: #000000;
+  -webkit-font-smoothing: antialiased; /* Improved font rendering */
+  -moz-osx-font-smoothing: grayscale; /* Improved font rendering */
+  user-select: text; /* Text is selectable */
+  display: block;
+  padding: 10px;
+  margin: 0;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
+  overflow-x: auto;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Transition for hover effect */
+}
+
+/* Hover effect for code block */
+.chatCodeBlock code:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Custom scrollbar styles */
+.chatCodeBlock ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.chatCodeBlock ::-webkit-scrollbar-thumb {
+  background: #676464;
+  border-radius: 4px;
+}
+
+.chatCodeBlock ::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Line numbering style */
+.chatCodeBlock code {
+  counter-reset: line;
+}
+
+.chatCodeBlock code::before {
+  content: counter(line);
+  counter-increment: line;
+  display: inline-block;
+  width: 1em;
+  margin-right: 12px;
+  color: #777;
+  text-align: right;
+}
+
+/* Style for the first line */
+.chatCodeBlock code span:first-line {
+  color: #888888; /* Grey color for the first line */
+}
+
+
+
+
+
+
+
+
+
 
 .cloud {
   width: 65vw;
@@ -492,9 +573,7 @@
   }
 
 
-  .markdownanswer code {
-    white-space: pre-wrap !important;
-  }
+
 
 
   .footer {

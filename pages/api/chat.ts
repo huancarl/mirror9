@@ -180,33 +180,26 @@ export default async function handler(
 
   
       - Always respond like: "Searching ..." Never deviate from this format.
-      - Utilize the user's query for hints, explicit mentions, or any relation to source documents, search strictly 
-        and accordingly from the available search documents.
-      - Use your intelligence and intuition to select the accurate document. Take time to think before coming to a final conclusion.
-      - If multiple search documents are relevant and needed, search accordingly.
+      - Determine from the question: hints, explicit mentions, or any relation to source documents, search strictly 
+        and accordingly from the available search documents. For example if the user asks for course logistics like 
+        professor, grade breakdown, etc you would search the syllabus. 
+
+        Use your intelligence and intuition to select the accurate document. 
+        Take time to think before coming to a final conclusion.
+        If multiple search documents are relevant and needed, search accordingly.
 
 
 
       - If the query asks for class material that does not strictly exist in the search documents, then search nothing.
       - If the query says Hi or other simple conversational messages, then search nothing.
-      - If the query asks something general unrelated to ${namespaceToSearch} like "What is 2+2", then search nothing.
-
-      - If the query displays a problem or an error or assistance, search only ${namespaceToSearch} All Materials.
+      - If the query asks something general unrelated to the academic context of ${namespaceToSearch} like "What is 2+2", then search nothing.
 
 
-      - If the query asks something general to ${namespaceToSearch}, then search only ${namespaceToSearch} All Materials.
-      - If you are searching ${namespaceToSearch} All Materials , you must not search any other documents. 
-      - If you are uncertain with the query, then search only ${namespaceToSearch} All Materials'.
-      - If you are searching all lectures, instead search only ${namespaceToSearch} All Materials'.
-      
-    Example Responses:
-   
-    - Query: "Summarize lecture 7 in detail"
-     "Searching ${classMapping[namespaceToSearch]}..."
-
-    - Query: "Summarize lecture 83"
-    "Searching....."
-  
+      - If the query asks something general to ${namespaceToSearch}, then search the All Materials document.
+      - If the query displays a problem or an error or assistance, search the All Materials.
+      - If you are searching All Materials , you must not search any other documents. 
+      - If you are uncertain with the query, then search only All Materials'.
+      - If your search requires a lot of documents, instead search only All Materials'.
     )`
   }
 
@@ -261,7 +254,7 @@ export default async function handler(
     if(cleanedNamespace === 'Course_Finder_SP24'){
       const modelForResponse = new OpenAIChat({
         temperature: 0.1,
-        modelName: "gpt-3.5-turbo-1106",
+        modelName: "gpt-3.5-turbo-0125",
         cache: true,
       });
 
@@ -336,7 +329,7 @@ export default async function handler(
 
     const model = new OpenAIChat({
       temperature: 0.1,
-      modelName:"gpt-4-1106-preview",
+      modelName: "gpt-4-0125-preview",
       cache: true,
   });
 
@@ -377,7 +370,7 @@ export default async function handler(
 
     const modelForResponse = new OpenAIChat({
       temperature: 0.1,
-      modelName: "gpt-3.5-turbo-1106",
+      modelName: "gpt-3.5-turbo-0125",
       cache: true,
     });
     

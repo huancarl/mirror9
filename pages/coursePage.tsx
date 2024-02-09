@@ -80,6 +80,40 @@ function CourseCatalog() {
 
 const courses = [
   { 
+    key: 'CS 1110', 
+    namespaceTitle: 'CS 1110', 
+    displayTitle: 'CS 1110', 
+    professor: 'Intro. To Computing, Professor Bracy' 
+  },
+  { 
+    key: 'CS 2110', 
+    namespaceTitle: 'CS 2110', 
+    displayTitle: 'CS 2110', 
+    professor: 'OOP & Data Structures, Professor Muhlberger' 
+  },
+  { 
+    key: 'HD 3620', 
+    namespaceTitle: 'HD 3620', 
+    displayTitle: 'HD 3620', 
+    professor: 'Human Bonding, Professor Hazan' 
+  },
+  { 
+    key: 'CHEM 2070', 
+    namespaceTitle: 'CHEM 2070', 
+    displayTitle: 'CHEM 2070', 
+    professor: 'General Chem I, Professor Bogusz' 
+  },
+  { 
+    key: 'PYSCH 1101', 
+    namespaceTitle: 'PYSCH 1101', 
+    displayTitle: 'PYSCH 1101', 
+    professor: 'Intro To Psychology, Professor Anderson' 
+  },
+
+
+
+
+  { 
     key: 'CS 4780', 
     namespaceTitle: 'CS 4780', 
     displayTitle: 'CS 4780/5780', 
@@ -118,7 +152,7 @@ const courses = [
   { 
     key: 'INFO 4100', 
     namespaceTitle: 'INFO 4100', 
-    displayTitle: 'INFO 4100', 
+    displayTitle: 'INFO 4100/5101', 
     professor: 'Learning Analytics, Professor Rene Kizilcec' 
   },
 ];
