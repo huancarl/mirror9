@@ -1,7 +1,18 @@
 {
   "CS_4780": [
     "CS_4780_CS_4780_5780_Syllabus",
-    "CS_4780_All_Materials"
+    "CS_4780_All_Materials",
+    "CS_4780_CoverAndHart1997",
+    "CS_4780_DBSCAN_demo.ipynb_-_Colaboratory",
+    "CS_4780_Gaussian_Mixture_Model_Demo",
+    "CS_4780_PCAlecture.ipynb_-_Colaboratory",
+    "CS_4780_Unsupervised_learning",
+    "CS_4780_Visualizing_DBSCAN_Clustering_Blog",
+    "CS_4780_Visualizing_K-Means_Clustering_Blog",
+    "CS_4780_lecture0_Intro_2024",
+    "CS_4780_lecturenote1_MLsetup",
+    "CS_4780_lecturenote2_kNN",
+    "CS_4780_lecturenote3"
   ],
   "ENGL_2800": [
     "ENGL_2800_ENGL_2800_SEM_108_Syllabus__Spring_2024_",
@@ -33,7 +44,14 @@
     "INFO_4390_syllabus__1_",
     "INFO_4390_All_Materials",
     "INFO_4390_INFO4390_Phase_1_Rubric",
-    "INFO_4390_SP24_INFO4390_Lec3_Principles1-2,_Fairness_Defs"
+    "INFO_4390_SP24_INFO4390_Lec3_Principles1-2,_Fairness_Defs",
+    "INFO_4390_2024-02-08_guest_lecture_-_2001.08793",
+    "INFO_4390_2024-02-08_guest_lecture_-_3593013.3594081",
+    "INFO_4390_2024-02-08_guest_lecture_Significance_-_2016_-_Lum_-_To_predict_and_serve",
+    "INFO_4390_2024-02-13_guest_lecture_-_2001.00973",
+    "INFO_4390_2024-02-13_guest_lecture_-_2206.09511",
+    "INFO_4390_2024-02-22_guest_lecture_3636509",
+    "INFO_4390_SP24_INFO4390_Lec4_Principle3,_Train_and_Test_on_Diverse_Data"
   ],
   "PLSCI_1150": [
     "PLSCI_1150_Lindbergh_Updated_References",
@@ -47,6 +65,19 @@
     "INFO_4100_fisher_mining_big_edu_data2020",
     "INFO_4100_Getting_Started_with_R",
     "INFO_4100_Lecture_1_Introduction",
-    "INFO_4100_Week2_Lecture_2_Edu_Data_Science"
+    "INFO_4100_Week2_Lecture_2_Edu_Data_Science",
+    "INFO_4100_AlgorithmicFairnessInEducation_Kizilcec",
+    "INFO_4100_HW1_Solutions",
+    "INFO_4100_HandbookLearningAnalyticsChapter4",
+    "INFO_4100_Homework___Week_2__Overview_of_Learning_Analytics___Learning_Analytics___edX",
+    "INFO_4100_How_Learning_Works_FullTextbook",
+    "INFO_4100_Lecture_Week3_Ethical_Considerations",
+    "INFO_4100_Re-imagining__Learning_Analytics____a_case_for_starting_again___1_",
+    "INFO_4100_Section__Overview_of_Learning_Analytics_",
+    "INFO_4100_Week_4_Group_Presentation",
+    "INFO_4100_Week_4_Video_Reflection",
+    "INFO_4100_Week3HW",
+    "INFO_4100_Week3_Section__Ethical_Considerations",
+    "INFO_4100_Wk2_Edu_Data_Science"
   ]
 }

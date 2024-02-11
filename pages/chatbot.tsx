@@ -644,7 +644,7 @@ const handleBack = () => {
   } else if (isCodeMessage) {
     content = transformMessageWithCode(message.message);
   //
-  } else if (message.type === 'apiMessage' && isCodeMessage) {                        
+  } else if (message.type === 'apiMessage' || isCodeMessage) {                        
     content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
   } else {
     content = <span>{parseBoldText(message.message)}</span>;
