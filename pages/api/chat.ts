@@ -17,6 +17,7 @@ import { CustomQAChain } from "@/utils/customqachain";
 import * as fs from 'fs/promises'
 import {connectToDb} from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
+import {anti_cheat} from '@/utils/antiCheat';
 import * as path from 'path';
 
 // import { HfInference } from '@huggingface/inference';
@@ -385,8 +386,28 @@ export default async function handler(
     
     console.log('searching namespace for results...');
   
+    //This creates an openAI embedding of the question so that it can be used to search the pinecone for vectors
     const embeddings = new OpenAIEmbeddings();
     const queryEmbedding = await embeddings.embedQuery(question);
+
+    //Check the list of all ingested class assignments 
+    const cheatJsonMapping = path.join('utils', 'classAssignmentsNamespaces.json');
+    const cheatData = await fs.readFile(cheatJsonMapping, 'utf8');
+    const cheatNamespaces = JSON.parse(cheatData);
+
+    let assignmentNamespace = namespace.replace(/ /g, '_');
+    assignmentNamespace = assignmentNamespace + '_Assignments';
+
+
+    //Only run if the class has a class assignments namespace
+    if(assignmentNamespace in cheatNamespaces){
+
+      if(await anti_cheat(question, queryEmbedding, 'test')) {
+        //If anti cheat returns true it is cheating
+        //Paramters: question, question embeddings, namespace to search
+        console.log('Cheating detected, avert from normal user flow');
+      }
+    }
 
     const results = await qaChain.call({
       question: question,
@@ -394,7 +415,6 @@ export default async function handler(
       chat_history: messages,
       namespaceToFilter: cleanedNamespace
     });
-
 
     const message = results.text;
     const sourceDocs = results.sourceDocuments;

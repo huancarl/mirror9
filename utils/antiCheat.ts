@@ -1,3 +1,6 @@
+import { PINECONE_INDEX_NAME, NAMESPACE_NUMB } from '@/config/pinecone';
+import { pinecone } from '@/utils/pinecone-client';
+
 interface Metadata {
     text: string;
     source: string;
@@ -28,11 +31,11 @@ async function calculate_similarity_score(question: any, assignmentNamespaces: s
     // It takes in an embedded question, the namespaces where the assignments are ingested in, and the pinecone index to search in
 
     let fetchedTexts: PineconeResultItem[] = [];
-    let remainingDocs = 50;                      // max vector search, adjust accordingly till find optimal
+    let remainingDocs = 1;                      // max vector search, adjust accordingly till find optimal
     let similarity_score = 0; //init the score to 0
 
     const namespacesToSearch = assignmentNamespaces;
-    const numOfVectorsPerNS = Math.floor(remainingDocs/namespacesToSearch.length); 
+    const numOfVectorsPerNS = Math.floor(remainingDocs/1); 
     
     for (const namespace of namespacesToSearch) {
         const queryResult = await index.query({
@@ -42,37 +45,41 @@ async function calculate_similarity_score(question: any, assignmentNamespaces: s
                 namespace: namespace,
                 includeMetadata: true,
             },
-    });
+        });
 
         //Iterate through the query results and add them to fetched texts
         if (queryResult && Array.isArray(queryResult.matches)) {
 
             for (const match of queryResult.matches) {
                 fetchedTexts.push(match);
-                if (match.score > similarity_score) {
-                    similarity_score = match.score;
-                }
+                // if (match.score > similarity_score) {
+                //     similarity_score = match.score;
+                // }
+                similarity_score += match.score;
+
             }
         } else {
             console.error('No results found or unexpected result structure.');
         }
     }
+    console.log(similarity_score/remainingDocs, 'this is the similiartiy score');
+    similarity_score = similarity_score/remainingDocs;
     return similarity_score;  
 }
 
-export async function anti_cheat(question: string, questionEmbed: any): Promise<boolean> {
+export async function anti_cheat(question: string, questionEmbed: any, namespace: string): Promise<boolean> {
     
-    let cheat;
-    const score = await calculate_similarity_score(questionEmbed, ['test'], null);
+    let cheat: boolean;
 
-    if(score > 0.85){
+    const index = pinecone.Index(PINECONE_INDEX_NAME);
+    const score = await calculate_similarity_score(questionEmbed, ['INFO_1260_Assignments'], index);
+
+    if(score > 0.89){
         cheat = true;
     }
     else{
         cheat = false;
     }
-
     return cheat;
-
 }
 

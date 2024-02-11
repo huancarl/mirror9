@@ -13,10 +13,10 @@ const client = new MongoClient(uri, {
 let dbInstance: Db | null = null;
 
 async function connectToDb(): Promise<Db> {
-    if (dbInstance) {
+    // if (dbInstance) {
 
-      return dbInstance;
-    }
+    //   return dbInstance;
+    // }
 
     try{
       await client.connect();
