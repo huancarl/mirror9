@@ -82,93 +82,6 @@ export default async function handler(
   const classMapping = JSON.parse(data);
   
 
-  //  const classMapping = {
-
-  //   "PUBPOL 2350": [
-  //     'PUBPOL_2350 Disparities_2023',
-  //     'PUBPOL_2350 International Comparisons_2023',
-  //     'PUBPOL_2350 International Comparisons_Part_2_2023',
-  //     'PUBPOL_2350 Malpractice_2023',
-  //     'PUBPOL_2350 Pharma and Biotech_Management_2023',
-  //     'PUBPOL_2350 Pharma and Biotech_Policy_2023',
-  //     'PUBPOL_2350 Pharma and Biotech_Policy_Part_2_2023',
-  //     'PUBPOL_2350 Quality_2023',
-  //     'PUBPOL_2350 Reform_Alternative_2023',
-  //     'PUBPOL_2350 All Materials'
-  // ],
-  //   "INFO 2950": [
-  //     'INFO 2950 FA23_Midterm_QuestionSheet',
-  //     'INFO 2950 Final Fall 2023 - Review Topics',
-  //     'INFO 2950 INFO 2950 Fall 2022 Midterm Solutions',
-  //     'INFO 2950 INFO 2950 Final Fall 2022 questions',
-  //     'INFO 2950 INFO2950_FA22_MidtermQuestions',
-  //     'INFO 2950 INFO2950_Koenecke_Syllabus',
-  //     'INFO 2950 INFO2950_Lec1_20230821',
-  //     'INFO 2950 INFO2950_Lec2_20230823',
-  //     'INFO 2950 INFO2950_Lec3_20230828',
-  //     'INFO 2950 INFO2950_Lec4_20230830',
-  //     'INFO 2950 INFO2950_Lec5_20230906',
-  //     'INFO 2950 INFO2950_Lec6_20230911',
-  //     'INFO 2950 INFO2950_Lec7_20230913',
-  //     'INFO 2950 INFO2950_Lec8_20230918',
-  //     'INFO 2950 INFO2950_Lec9_20230920',
-  //     'INFO 2950 INFO2950_Lec10_20230925',
-  //     'INFO 2950 INFO2950_Lec11_20230927',
-  //     'INFO 2950 INFO2950_Lec12_20231004',
-  //     'INFO 2950 INFO2950_Lec13_20231011',
-  //     'INFO 2950 INFO2950_Lec14_20231016',
-  //     'INFO 2950 INFO2950_Lec15_20231018 2',
-  //     'INFO 2950 INFO2950_Lec16_20231023 2',
-  //     'INFO 2950 INFO2950_Lec17_20231025 2',
-  //     'INFO 2950 INFO2950_Lec18_20231030',
-  //     'INFO 2950 INFO2950_Lec19_20231101',
-  //     'INFO 2950 INFO2950_Lec20_20231106',
-  //     'INFO 2950 INFO2950_Lec21_20231108',
-  //     'INFO 2950 INFO2950_Lec22_20231113',
-  //     'INFO 2950 INFO2950_Lec23_20231115 2',
-  //     'INFO 2950 INFO2950_Lec24_20231120 2',
-  //     'INFO 2950 INFO2950_Lec25_20231127 2',
-  //     'INFO 2950 INFO2950_Lec26_20231129 2',
-  //     'INFO 2950 INFO2950_Lec27_20231204 2',
-  //     'INFO 2950 INFO2950-Handbook',
-  //     'INFO 2950 Lec 20 clarification examples 20231106',
-  //     'INFO 2950 Lec10_ChalkboardExample_20230925',
-  //     'INFO 2950 Midterm Fall 2023 - Review Topics',
-  //     'INFO 2950 FA23_Midterm_Solutions',
-  //     'INFO_2950 All Materials'
-  // ],
-
-  //   'ENTOM 2030': [
-  //     'ENTOM 2030 Lecture 2',
-  //     'ENTOM 2030 Lecture 3',
-  //     'ENTOM 2030 Lecture 4',
-  //     'ENTOM 2030 Lecture 5',
-  //     'ENTOM 2030 Lecture 6',
-  //     'ENTOM 2030 Lecture 7',
-  //     'ENTOM 2030 Lecture 8',
-  //     'ENTOM 2030 Lecture 9',
-  //     'ENTOM 2030 Lecture 10',
-  //     'ENTOM 2030 Lecture 11',
-  //     'ENTOM 2030 Lecture 12',
-  //     'ENTOM 2030 Lecture 13',
-  //     'ENTOM 2030 Lecture 14',
-  //     'ENTOM 2030 Lecture 15',
-  //     'ENTOM 2030 Lecture 16',
-  //     'ENTOM 2030 Lecture 17',
-  //     'ENTOM 2030 Lecture 18',
-  //     'ENTOM 2030 Lecture 19',
-  //     'ENTOM 2030 Lecture 20',
-  //     'ENTOM 2030 Lecture 21',
-  //     'ENTOM 2030 Lecture 22',
-  //     'ENTOM 2030 Lecture 24',
-  //     'ENTOM 2030 Lecture 25',
-  //     'ENTOM 2030 Lecture 26',
-  //     'ENTOM_2030 All Materials'
-  //   ],
-  
-  // }
-
-
   function createPrompt(namespaceToSearch: string, chat_history: any){
 
     return `(
@@ -181,15 +94,17 @@ export default async function handler(
 
   
       - Always respond like: "Searching ..." Never deviate from this format.
-      - Determine from the question: hints, explicit mentions, or any relation to source documents, search strictly 
-        and accordingly from the available search documents. For example if the user asks for course logistics like 
-        professor, grade breakdown, etc you would search the syllabus. 
-
-        Use your intelligence and intuition to select the accurate document. 
-        Take time to think before coming to a final conclusion.
-        If multiple search documents are relevant and needed, search accordingly.
+      - When searching never change the name of the available search documents. It must be strictly word by word how its given to you.
+        Do not shorten it even if there is repetition like: "HD_3620_HD_3620_Spring_2024_syllabus".
 
 
+      - You must recognize hints, keywords, explicit mentions, or any relation or clue to source documents
+        and then search strictly and accordingly from the available search documents for specific documents.
+      - Use your intelligence to determine what to search and what each document may entail, 
+        for example anything about instructors, professors, course breakdown, etc would be a syllabus search.
+        for example lec01 in the search documents most likely means lecture 1. Keep these in mind as you search.
+      
+      - If multiple search documents are relevant and needed, search accordingly.
 
       - If the query asks for class material that does not strictly exist in the search documents, then search nothing.
       - If the query says Hi or other simple conversational messages, then search nothing.
@@ -197,10 +112,11 @@ export default async function handler(
 
 
       - If the query asks something general to ${namespaceToSearch}, then search the All Materials document.
-      - If the query displays a problem or an error or assistance, search the All Materials.
-      - If you are searching All Materials , you must not search any other documents. 
-      - If you are uncertain with the query, then search only All Materials'.
-      - If your search requires a lot of documents, instead search only All Materials'.
+      - If the query displays a problem or an error or assistance, search the All Materials document.
+      - If you are searching All Materials , you must not search any other document. 
+      - If you are uncertain with the query, then search only All Materials document.
+      - If your search requires a lot of documents, instead search only All Materials document.
+      - If it is not clear what documents to search from the question then search only All Material document.
     )`
   }
 
@@ -371,8 +287,10 @@ export default async function handler(
 
     const modelForResponse = new OpenAIChat({
       temperature: 0.1,
+      // modelName: "gpt-4-0125-preview",
       modelName: "gpt-3.5-turbo-0125",
       cache: true,
+      
     });
     
     //gpt-4-1106-preview

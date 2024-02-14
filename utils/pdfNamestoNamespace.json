@@ -1,168 +1,516 @@
 {
-  "CS_4780_5780_Syllabus": [
+  "Chapter 1 Revised 2024 - Tagged": [
+    "AEM_2210_Chapter_1_Revised_2024_-_Tagged"
+  ],
+  "Chapter 2 Revised 2024 - Tagged": [
+    "AEM_2210_Chapter_2_Revised_2024_-_Tagged"
+  ],
+  "Chapter 3 Revised 2024 - Tagged": [
+    "AEM_2210_Chapter_3_Revised_2024_-_Tagged"
+  ],
+  "AEM_2210_All_Materials": [
+    "AEM_2210_All_Materials"
+  ],
+  "01_Problem Set (with solutions)": [
+    "AEM_2240_01_Problem_Set__with_solutions_"
+  ],
+  "01_Time Value of Money_HANDOUT": [
+    "AEM_2240_01_Time_Value_of_Money_HANDOUT"
+  ],
+  "02_Trading in Financial Markets_HANDOUT": [
+    "AEM_2240_02_Trading_in_Financial_Markets_HANDOUT"
+  ],
+  "03_Equity Investment - DCF Approach_HANDOUT": [
+    "AEM_2240_03_Equity_Investment_-_DCF_Approach_HANDOUT"
+  ],
+  "AEM2240_OfficeHoursSchedule_InPerson": [
+    "AEM_2240_AEM2240_OfficeHoursSchedule_InPerson"
+  ],
+  "AEM2240_Spring2024syl_Addoum": [
+    "AEM_2240_AEM2240_Spring2024syl_Addoum"
+  ],
+  "AEM_2240_All_Materials": [
+    "AEM_2240_All_Materials"
+  ],
+  "AEM 2601 - S24 - Weekly TA and CA OHs - Jan 18": [
+    "AEM_2601_AEM_2601_-_S24_-_Weekly_TA_and_CA_OHs_-_Jan_18"
+  ],
+  "AEM2601_Syllabus_2024_newDraft3-1": [
+    "AEM_2601_AEM2601_Syllabus_2024_newDraft3-1"
+  ],
+  "AEM_2601_-_Strategic_Issue_Memo_-_Rubric (1)": [
+    "AEM_2601_AEM_2601_-_Strategic_Issue_Memo_-_Rubric__1_"
+  ],
+  "Lecture1": [
+    "AEM_2601_Lecture1"
+  ],
+  "Lecture2_presentation (1)": [
+    "AEM_2601_Lecture2_presentation__1_"
+  ],
+  "Lecture3_Industry_AnalysisII (1)": [
+    "AEM_2601_Lecture3_Industry_AnalysisII__1_"
+  ],
+  "Lecture4_ColaWars (1)": [
+    "AEM_2601_Lecture4_ColaWars__1_"
+  ],
+  "Lecture5_Positioning (1)": [
+    "AEM_2601_Lecture5_Positioning__1_"
+  ],
+  "Lecture6_TradeOffs_and_RBV (1)": [
+    "AEM_2601_Lecture6_TradeOffs_and_RBV__1_"
+  ],
+  "AEM_2601_All_Materials": [
+    "AEM_2601_All_Materials"
+  ],
+  "AEM 3000_Team Roles Document (1).docx": [
+    "AEM_3030_AEM_3000_Team_Roles_Document__1_.docx"
+  ],
+  "AEM 3000_Team Roles Document.docx": [
+    "AEM_3030_AEM_3000_Team_Roles_Document.docx"
+  ],
+  "AEM3000 January 16": [
+    "AEM_3000_AEM3000_January_16"
+  ],
+  "Asset Map": [
+    "AEM_3000_Asset_Map"
+  ],
+  "February 1 Biases and Pitfalls": [
+    "AEM_3000_February_1_Biases_and_Pitfalls"
+  ],
+  "Grand Challenges 2022 - Researching Local.pptx": [
+    "AEM_3030_Grand_Challenges_2022_-_Researching_Local.pptx"
+  ],
+  "Grand Challenges Project Canvas": [
+    "AEM_3000_Grand_Challenges_Project_Canvas"
+  ],
+  "Jan 30 - Building High Performing Teams.pptx": [
+    "AEM_3030_Jan_30_-_Building_High_Performing_Teams.pptx"
+  ],
+  "Lecture1_Jan23.pptx": [
+    "AEM_3030_Lecture1_Jan23.pptx"
+  ],
+  "Lecture2_Jan25.pptx": [
+    "AEM_3030_Lecture2_Jan25.pptx"
+  ],
+  "Lecture5_Feb6.pptx": [
+    "AEM_3030_Lecture5_Feb6.pptx"
+  ],
+  "Logic Model Planning Template": [
+    "AEM_3000_Logic_Model_Planning_Template"
+  ],
+  "Make Your Values Mean Something": [
+    "AEM_3000_Make_Your_Values_Mean_Something"
+  ],
+  "Organizational Scan (1)": [
+    "AEM_3000_Organizational_Scan__1_"
+  ],
+  "Organizational Scan": [
+    "AEM_3000_Organizational_Scan"
+  ],
+  "Power and Stakeholders": [
+    "AEM_3000_Power_and_Stakeholders"
+  ],
+  "Ramzy_AEM 3000_stakeholders": [
+    "AEM_3000_Ramzy_AEM_3000_stakeholders"
+  ],
+  "Survival!-1.docx": [
+    "AEM_3030_Survival!-1.docx"
+  ],
+  "W1C2_CarlaAnnHarris": [
+    "AEM_3000_W1C2_CarlaAnnHarris"
+  ],
+  "AEM_3000_All_Materials": [
+    "AEM_3000_All_Materials"
+  ],
+  "Ask The Expert_ Brittany Sutton on_ Skills to Solve Business Problems_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Ask_The_Expert__Brittany_Sutton_on__Skills_to_Solve_Business_Problems__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Ask the Expert_ Brittany Sutton on Using Pivot Tables and Reporting_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Ask_the_Expert__Brittany_Sutton_on_Using_Pivot_Tables_and_Reporting__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Ask the Expert_ John Doyle on Making Good Forecasting Decisions Using Excel_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Ask_the_Expert__John_Doyle_on_Making_Good_Forecasting_Decisions_Using_Excel__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Course Outline_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Course_Outline__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Course Policies - Academic Integrity, Students with Disabilities and Belonging_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Course_Policies_-_Academic_Integrity,_Students_with_Disabilities_and_Belonging__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "JCB Inclusion Statement_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_JCB_Inclusion_Statement__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Read_ Amortized Loans_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Read__Amortized_Loans__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Read_ What Makes it _Big_ Data__ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Read__What_Makes_it__Big__Data___AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Selecting TRUE or FALSE in HLOOKUP & VLOOKUP_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Selecting_TRUE_or_FALSE_in_HLOOKUP_&_VLOOKUP__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "TA Office Hours Support_Contact_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_TA_Office_Hours_Support_Contact__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 1 Module 1 Familiarize Yourself with Business Analytics_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_1_Module_1_Familiarize_Yourself_with_Business_Analytics__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 2 Module 1 Wrap-up_ Introduction to Big Data_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_2_Module_1_Wrap-up__Introduction_to_Big_Data__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 2 Module 2 Apply Logic to Your Data Sets_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_2_Module_2_Apply_Logic_to_Your_Data_Sets__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 2 Module 3 Reference Across Data Sets_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_2_Module_3_Reference_Across_Data_Sets__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 2 Module 3 Wrap-up_ Reference Across Data Sets_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_2_Module_3_Wrap-up__Reference_Across_Data_Sets__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 3 Introduction_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_3_Introduction__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 3 Module 1 Introduction_ Visualize Data with Pivot Tables_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_3_Module_1_Introduction__Visualize_Data_with_Pivot_Tables__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 3 Module 1 Wrap-up_ Visualize Data with Pivot Tables_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_3_Module_1_Wrap-up__Visualize_Data_with_Pivot_Tables__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 3 Module 2 Communicate Data Clearly and Accurately_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_3_Module_2_Communicate_Data_Clearly_and_Accurately__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 3 Module 2 Wrap-up_ Communicate Data Clearly and Accurately_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_3_Module_2_Wrap-up__Communicate_Data_Clearly_and_Accurately__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 3 Module 3 Visualize with Charts and Graphs_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_3_Module_3_Visualize_with_Charts_and_Graphs__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 3 Module 3 Wrap-up_ Visualize with Charts and Graphs_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_3_Module_3_Wrap-up__Visualize_with_Charts_and_Graphs__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 4 Introduction_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_4_Introduction__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 4 Module 1 Complete a Loan Analysis_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_4_Module_1_Complete_a_Loan_Analysis__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 4 Module 1 Wrap-up_ Complete a Loan Analysis_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_4_Module_1_Wrap-up__Complete_a_Loan_Analysis__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 4 Module 2 Use Forecasting and Predictive Analytics_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_4_Module_2_Use_Forecasting_and_Predictive_Analytics__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 4 Module 2 Wrap-up_ Use Forecasting and Predictive Analytics_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_4_Module_2_Wrap-up__Use_Forecasting_and_Predictive_Analytics__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 4 Module 3 Make Predictions with Data Tables and Simulations_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_4_Module_3_Make_Predictions_with_Data_Tables_and_Simulations__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 4 Module 3 Wrap-up_ Make Predictions with Data Tables and Simulations _ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_4_Module_3_Wrap-up__Make_Predictions_with_Data_Tables_and_Simulations___AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 5 Introduction_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_5_Introduction__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 5 Module 1 Prescriptive Modeling using Solver_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_5_Module_1_Prescriptive_Modeling_using_Solver__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 5 Module 1 Wrap-up_ Prescriptive Modeling using Solver_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_5_Module_1_Wrap-up__Prescriptive_Modeling_using_Solver__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 5 Module 2 Methods of Prescriptive Modeling with Solver_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_5_Module_2_Methods_of_Prescriptive_Modeling_with_Solver__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 5 Module 2 Wrap-up_ Methods of Prescriptive Modeling with Solver_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_5_Module_2_Wrap-up__Methods_of_Prescriptive_Modeling_with_Solver__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 5 Module 3 Reporting and Managing Solver Models_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_5_Module_3_Reporting_and_Managing_Solver_Models__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 5 Module 3 Wrap-up_ Reporting and Managing Solver Models_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_5_Module_3_Wrap-up__Reporting_and_Managing_Solver_Models__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 6 Introduction_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_6_Introduction__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 6 Module 1 Relating Data_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_6_Module_1_Relating_Data__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 6 Module 1 Wrap-up_ Relating Data_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_6_Module_1_Wrap-up__Relating_Data__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 6 Module 2 Making Data More Interactive_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_6_Module_2_Making_Data_More_Interactive__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "UNIT 6 Module 2 Wrap-up_ Making Data More Interactive_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_UNIT_6_Module_2_Wrap-up__Making_Data_More_Interactive__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "USING COUNTIFS_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_USING_COUNTIFS__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Uncut Interview with Dyson Alum Andy Kim on Excel and SQL Queries and Building Analytical Intuition_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Uncut_Interview_with_Dyson_Alum_Andy_Kim_on_Excel_and_SQL_Queries_and_Building_Analytical_Intuition__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Understanding Down Payment and Balloon Payment in Excel_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Understanding_Down_Payment_and_Balloon_Payment_in_Excel__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Unit 2 Introduction_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Unit_2_Introduction__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "Unit 5_Module_2_Distribution_Workbook.xlsx - Module 2 Distribution Workbook": [
+    "AEM_3030_Unit_5_Module_2_Distribution_Workbook.xlsx_-_Module_2_Distribution_Workbook"
+  ],
+  "Unit2_Workbook2.xlsx": [
+    "AEM_3030_Unit2_Workbook2.xlsx"
+  ],
+  "Unit3_Workbook1.xlsx": [
+    "AEM_3030_Unit3_Workbook1.xlsx"
+  ],
+  "Unit5_Workbook-3.xlsx": [
+    "AEM_3030_Unit5_Workbook-3.xlsx"
+  ],
+  "Unit5_Workbook-4.xlsx": [
+    "AEM_3030_Unit5_Workbook-4.xlsx"
+  ],
+  "Unit5_Workbook-6.xlsx": [
+    "AEM_3030_Unit5_Workbook-6.xlsx"
+  ],
+  "Unit_2_Workbook_1.xlsx - Unit 2": [
+    "AEM_3030_Unit_2_Workbook_1.xlsx_-_Unit_2"
+  ],
+  "Using a 3 Dimensional INDEX Function_ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_Using_a_3_Dimensional_INDEX_Function__AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "What is an Algorithm__ AEM 3030 Explorations in Analytic Modeling (2024SP)": [
+    "AEM_3030_What_is_an_Algorithm___AEM_3030_Explorations_in_Analytic_Modeling__2024SP_"
+  ],
+  "unit_3_action_plan.docx": [
+    "AEM_3030_unit_3_action_plan.docx"
+  ],
+  "unit_3_audience_analysis.docx": [
+    "AEM_3030_unit_3_audience_analysis.docx"
+  ],
+  "unit_3_checklist_of_visual_integrity.docx": [
+    "AEM_3030_unit_3_checklist_of_visual_integrity.docx"
+  ],
+  "AEM_3030_All_Materials": [
+    "AEM_3030_All_Materials"
+  ],
+  "Lecture1_introduction": [
+    "AEM_4140_Lecture1_introduction"
+  ],
+  "Lecture2_heuristicsbiases": [
+    "AEM_4140_Lecture2_heuristicsbiases"
+  ],
+  "Lecture3_heuristicsbiases": [
+    "AEM_4140_Lecture3_heuristicsbiases"
+  ],
+  "syllabus_BE-1 (2)": [
+    "AEM_4140_syllabus_BE-1__2_"
+  ],
+  "AEM_4140_All_Materials": [
+    "AEM_4140_All_Materials"
+  ],
+  "AEM4210.AEM64100 Syllabus 2024": [
+    "AEM_4210_AEM4210.AEM64100_Syllabus_2024"
+  ],
+  "AEM4210.Bitcoin and Bubbles.2023 (1)": [
+    "AEM_4210_AEM4210.Bitcoin_and_Bubbles.2023__1_"
+  ],
+  "AEM4210.War and Commodities.2024": [
+    "AEM_4210_AEM4210.War_and_Commodities.2024"
+  ],
+  "AbacusPitchbook_GS_02272007": [
+    "AEM_4210_AbacusPitchbook_GS_02272007"
+  ],
+  "AbacusProspectus_2007": [
+    "AEM_4210_AbacusProspectus_2007"
+  ],
+  "Chapter 1.Introduction.2024": [
+    "AEM_4210_Chapter_1.Introduction.2024"
+  ],
+  "Chapter 13.Hedging with Futures.2023": [
+    "AEM_4210_Chapter_13.Hedging_with_Futures.2023"
+  ],
+  "Chapter 4.Futures and Forwards.2024": [
+    "AEM_4210_Chapter_4.Futures_and_Forwards.2024"
+  ],
+  "Credit Derivatives and the Financial Crisis.2024": [
+    "AEM_4210_Credit_Derivatives_and_the_Financial_Crisis.2024"
+  ],
+  "Trade Wars and Futures.AEM4210.2020": [
+    "AEM_4210_Trade_Wars_and_Futures.AEM4210.2020"
+  ],
+  "comp21489.SEC.Complaint. GS-Paulsone": [
+    "AEM_4210_comp21489.SEC.Complaint._GS-Paulsone"
+  ],
+  "AEM_4210_All_Materials": [
+    "AEM_4210_All_Materials"
+  ],
+  "3020_HW_01": [
+    "BTRY_3020_3020_HW_01"
+  ],
+  "3020_HW_02": [
+    "BTRY_3020_3020_HW_02"
+  ],
+  "3020_HW_03": [
+    "BTRY_3020_3020_HW_03"
+  ],
+  "BTRY3020-STSCI3200-Syllabus_S24": [
+    "BTRY_3020_BTRY3020-STSCI3200-Syllabus_S24"
+  ],
+  "BTRY3020_STSCI3200_Notes (1)": [
+    "BTRY_3020_BTRY3020_STSCI3200_Notes__1_"
+  ],
+  "ExamRules": [
+    "BTRY_3020_ExamRules"
+  ],
+  "Homework & Discussion Submission Rules_ BTRY 3020 COMBINED Biological Statistics II (2024SP)": [
+    "BTRY_3020_Homework_&_Discussion_Submission_Rules__BTRY_3020_COMBINED_Biological_Statistics_II__2024SP_"
+  ],
+  "Lecture #001 Pages ( 4 - 6 )_ BTRY 3020 COMBINED Biological Statistics II (2024SP)": [
+    "BTRY_3020_Lecture_#001_Pages___4_-_6____BTRY_3020_COMBINED_Biological_Statistics_II__2024SP_"
+  ],
+  "Lecture #002 Pages ( 7 - 10 )_ BTRY 3020 COMBINED Biological Statistics II (2024SP)": [
+    "BTRY_3020_Lecture_#002_Pages___7_-_10____BTRY_3020_COMBINED_Biological_Statistics_II__2024SP_"
+  ],
+  "Lecture #003 Pages ( 12 - 14 )_ BTRY 3020 COMBINED Biological Statistics II (2024SP)": [
+    "BTRY_3020_Lecture_#003_Pages___12_-_14____BTRY_3020_COMBINED_Biological_Statistics_II__2024SP_"
+  ],
+  "Lecture #004 Pages ( 14 - 18 )_ BTRY 3020 COMBINED Biological Statistics II (2024SP)": [
+    "BTRY_3020_Lecture_#004_Pages___14_-_18____BTRY_3020_COMBINED_Biological_Statistics_II__2024SP_"
+  ],
+  "Office Hours_ BTRY 3020 COMBINED Biological Statistics II (2024SP)": [
+    "BTRY_3020_Office_Hours__BTRY_3020_COMBINED_Biological_Statistics_II__2024SP_"
+  ],
+  "BTRY_3020_All_Materials": [
+    "BTRY_3020_All_Materials"
+  ],
+  "AEW for 1110_ CS 1110 Intro to Computing_ Design & Development (24SP)": [
+    "CS_1110_AEW_for_1110__CS_1110_Intro_to_Computing__Design_&_Development__24SP_"
+  ],
+  "Academic Integrity_ CS 1110 Intro to Computing_ Design & Development (24SP)": [
+    "CS_1110_Academic_Integrity__CS_1110_Intro_to_Computing__Design_&_Development__24SP_"
+  ],
+  "CS 1110 Exam Success_ CS 1110 Intro to Computing_ Design & Development (24SP)": [
+    "CS_1110_CS_1110_Exam_Success__CS_1110_Intro_to_Computing__Design_&_Development__24SP_"
+  ],
+  "CS 1110 Intro to Computing_ Design & Development (24SP)": [
+    "CS_1110_CS_1110_Intro_to_Computing__Design_&_Development__24SP_"
+  ],
+  "CS1110 _ Types and expressions": [
+    "CS_1110_CS1110___Types_and_expressions"
+  ],
+  "Communications_ CS 1110 Intro to Computing_ Design & Development (24SP)": [
+    "CS_1110_Communications__CS_1110_Intro_to_Computing__Design_&_Development__24SP_"
+  ],
+  "Grading_ CS 1110 Intro to Computing_ Design & Development (24SP)": [
+    "CS_1110_Grading__CS_1110_Intro_to_Computing__Design_&_Development__24SP_"
+  ],
+  "Lecture01-intro_types (2)": [
+    "CS_1110_Lecture01-intro_types__2_"
+  ],
+  "Lecture02-vars_assignments": [
+    "CS_1110_Lecture02-vars_assignments"
+  ],
+  "Lecture03-fns_modules": [
+    "CS_1110_Lecture03-fns_modules"
+  ],
+  "Lecture04-strings": [
+    "CS_1110_Lecture04-strings"
+  ],
+  "Lecture05-functions": [
+    "CS_1110_Lecture05-functions"
+  ],
+  "Lecture06-specs_testing": [
+    "CS_1110_Lecture06-specs_testing"
+  ],
+  "Lecture07-objects": [
+    "CS_1110_Lecture07-objects"
+  ],
+  "Lecture08-conditionals": [
+    "CS_1110_Lecture08-conditionals"
+  ],
+  "Lecture09-memory": [
+    "CS_1110_Lecture09-memory"
+  ],
+  "Lecture10-lists": [
+    "CS_1110_Lecture10-lists"
+  ],
+  "Lecture11-iteration": [
+    "CS_1110_Lecture11-iteration"
+  ],
+  "Lecture12-nested-lists": [
+    "CS_1110_Lecture12-nested-lists"
+  ],
+  "Lecture14-recursion2": [
+    "CS_1110_Lecture14-recursion2"
+  ],
+  "Lecture15-classes": [
+    "CS_1110_Lecture15-classes"
+  ],
+  "Lecture16-17-classes2": [
+    "CS_1110_Lecture16-17-classes2"
+  ],
+  "Lecture18-inheritance": [
+    "CS_1110_Lecture18-inheritance"
+  ],
+  "Lecture19-inheritance2": [
+    "CS_1110_Lecture19-inheritance2"
+  ],
+  "Lecture20-while": [
+    "CS_1110_Lecture20-while"
+  ],
+  "Lecture21-subclasses": [
+    "CS_1110_Lecture21-subclasses"
+  ],
+  "Lecture22-sort_search": [
+    "CS_1110_Lecture22-sort_search"
+  ],
+  "Office Hours_ CS 1110 Intro to Computing_ Design & Development (24SP)": [
+    "CS_1110_Office_Hours__CS_1110_Intro_to_Computing__Design_&_Development__24SP_"
+  ],
+  "enroll-handout": [
+    "CS_1110_enroll-handout"
+  ],
+  "review2-handout": [
+    "CS_1110_review2-handout"
+  ],
+  "thinkpython2": [
+    "CS_1110_thinkpython2"
+  ],
+  "CS_1110_All_Materials": [
+    "CS_1110_All_Materials"
+  ],
+  "Lecture 1": [
+    "CS_4700_Lecture_1"
+  ],
+  "Lecture2_uninformed_search.pptx": [
+    "CS_4700_Lecture2_uninformed_search.pptx"
+  ],
+  "Lecture3_informed_search.pptx": [
+    "CS_4700_Lecture3_informed_search.pptx"
+  ],
+  "Lecture4_local_search.pptx": [
+    "CS_4700_Lecture4_local_search.pptx"
+  ],
+  "Lecture5_adversarial_search.pptx": [
+    "CS_4700_Lecture5_adversarial_search.pptx"
+  ],
+  "Lecture6_expectimax_search_and_utilities.pptx": [
+    "CS_4700_Lecture6_expectimax_search_and_utilities.pptx"
+  ],
+  "Lecture7_MDPs_I.pptx": [
+    "CS_4700_Lecture7_MDPs_I.pptx"
+  ],
+  "Lecture8_MDPs_II.pptx": [
+    "CS_4700_Lecture8_MDPs_II.pptx"
+  ],
+  "CS_4700_All_Materials": [
+    "CS_4700_All_Materials"
+  ],
+  "CS 4780_5780 Syllabus": [
     "CS_4780_CS_4780_5780_Syllabus"
-  ],
-  "CS_4780_All_Materials": [
-    "CS_4780_All_Materials"
-  ],
-  "ENGL 2800 SEM 108 Syllabus (Spring 2024)": [
-    "ENGL_2800_ENGL_2800_SEM_108_Syllabus__Spring_2024_"
-  ],
-  "ENGL_2800_All_Materials": [
-    "ENGL_2800_All_Materials"
-  ],
-  "INFO 1260 Sp24 Lecture 1": [
-    "INFO_1260_INFO_1260_Sp24_Lecture_1"
-  ],
-  "INFO 1260 Sp24 Lecture 2": [
-    "INFO_1260_INFO_1260_Sp24_Lecture_2"
-  ],
-  "Salganik_Unpredictability": [
-    "INFO_1260_Salganik_Unpredictability"
-  ],
-  "Schauer_Boundaries": [
-    "INFO_1260_Schauer_Boundaries"
-  ],
-  "INFO_1260_All_Materials": [
-    "INFO_1260_All_Materials"
-  ],
-  "Lecture-01 materials_ INFO_CS 4300_ Language and Information (Sp24)": [
-    "INFO_4300_Lecture-01_materials__INFO_CS_4300__Language_and_Information__Sp24_"
-  ],
-  "Syllabus for INFO_CS 4300_ Language and Information (Sp24)": [
-    "INFO_4300_Syllabus_for_INFO_CS_4300__Language_and_Information__Sp24_"
-  ],
-  "INFO_4300_All_Materials": [
-    "INFO_4300_All_Materials"
-  ],
-  "2024-02-01 guest lecture - What Should We Do when Our Ideas of Fairness Conflict ": [
-    "INFO_4390_2024-02-01_guest_lecture_-_What_Should_We_Do_when_Our_Ideas_of_Fairness_Conflict_"
-  ],
-  "INFO4390 Project Information": [
-    "INFO_4390_INFO4390_Project_Information"
-  ],
-  "INFO4390_Python_Refresher_Tutorial (1)": [
-    "INFO_4390_INFO4390_Python_Refresher_Tutorial__1_"
-  ],
-  "Kleinberg2016": [
-    "INFO_4390_Kleinberg2016"
-  ],
-  "Python Installation Instructions": [
-    "INFO_4390_Python_Installation_Instructions"
-  ],
-  "SP24_INFO4390_Lec1 Intro to Class, Algo Fairness": [
-    "INFO_4390_SP24_INFO4390_Lec1_Intro_to_Class,_Algo_Fairness"
-  ],
-  "SP24_INFO4390_Lec2 Basic ML": [
-    "INFO_4390_SP24_INFO4390_Lec2_Basic_ML"
-  ],
-  "syllabus (1)": [
-    "INFO_4390_syllabus__1_"
-  ],
-  "INFO_4390_All_Materials": [
-    "INFO_4390_All_Materials"
-  ],
-  "Lindbergh Updated References": [
-    "PLSCI_1150_Lindbergh_Updated_References"
-  ],
-  "PLSCI 1150 Lecture 1": [
-    "PLSCI_1150_PLSCI_1150_Lecture_1"
-  ],
-  "PLSCI_1150_All_Materials": [
-    "PLSCI_1150_All_Materials"
-  ],
-  "INFO 1260 Sp24 Lecture 4 (ranking and attention)": [
-    "INFO_1260_INFO_1260_Sp24_Lecture_4__ranking_and_attention_"
-  ],
-  "Notes_on_Rankings": [
-    "INFO_1260_Notes_on_Rankings"
-  ],
-  "Syllabus for PLSCI 1150 CSI_ Forensic Botany (2024SP)": [
-    "PLSCI_1150_Syllabus_for_PLSCI_1150_CSI__Forensic_Botany__2024SP_"
-  ],
-  "INFO4390 Phase 1 Rubric": [
-    "INFO_4390_INFO4390_Phase_1_Rubric"
-  ],
-  "SP24_INFO4390_Lec3 Principles1-2, Fairness Defs": [
-    "INFO_4390_SP24_INFO4390_Lec3_Principles1-2,_Fairness_Defs"
-  ],
-  "Learning Analytics Syllabus Spring 2024": [
-    "INFO_4100_Learning_Analytics_Syllabus_Spring_2024"
-  ],
-  "INFO_4100_All_Materials": [
-    "INFO_4100_All_Materials"
-  ],
-  "fisher_mining_big_edu_data2020": [
-    "INFO_4100_fisher_mining_big_edu_data2020"
-  ],
-  "Getting Started with R": [
-    "INFO_4100_Getting_Started_with_R"
-  ],
-  "Lecture 1 Introduction": [
-    "INFO_4100_Lecture_1_Introduction"
-  ],
-  "Week2 Lecture 2 Edu Data Science": [
-    "INFO_4100_Week2_Lecture_2_Edu_Data_Science"
-  ],
-  "Syllabus_and_class_info": [
-    "INFO_1260_Syllabus_and_class_info"
-  ],
-  "Bell_MillionDollar": [
-    "INFO_1260_Bell_MillionDollar"
-  ],
-  "Benkler_Breitbart": [
-    "INFO_1260_Benkler_Breitbart"
-  ],
-  "Citron_CyberHarassment": [
-    "INFO_1260_Citron_CyberHarassment"
-  ],
-  "Klonick_NewGovernors": [
-    "INFO_1260_Klonick_NewGovernors"
-  ],
-  "Kosseff_Testimony": [
-    "INFO_1260_Kosseff_Testimony"
-  ],
-  "Notes_on_Personalization": [
-    "INFO_1260_Notes_on_Personalization"
-  ],
-  "Sp24 Lecture 5 (ranking continued, speech principles) 20240131": [
-    "INFO_1260_Sp24_Lecture_5__ranking_continued,_speech_principles__20240131"
-  ],
-  "Sp24 Lecture 6 (First Amendment, Sec 230) 20240202": [
-    "INFO_1260_Sp24_Lecture_6__First_Amendment,_Sec_230__20240202"
-  ],
-  "Sp24 Lecture 7 (Sec 230, Personalization) 20240205": [
-    "INFO_1260_Sp24_Lecture_7__Sec_230,_Personalization__20240205"
-  ],
-  "Sp24 Lecture 8 (Personalization and Fragmentation) 20240207": [
-    "INFO_1260_Sp24_Lecture_8__Personalization_and_Fragmentation__20240207"
-  ],
-  "Sp24 Lecture 9 (content moderation) 20240209": [
-    "INFO_1260_Sp24_Lecture_9__content_moderation__20240209"
-  ],
-  "Steck_12thACM": [
-    "INFO_1260_Steck_12thACM"
-  ],
-  "Lecture3 2024": [
-    "PLSCI_1150_Lecture3_2024"
-  ],
-  "PLSCI February 5 2024 Lecture": [
-    "PLSCI_1150_PLSCI_February_5_2024_Lecture"
-  ],
-  "PLSCI Lecture 7": [
-    "PLSCI_1150_PLSCI_Lecture_7"
-  ],
-  "PLSCI Lecture 8.1": [
-    "PLSCI_1150_PLSCI_Lecture_8.1"
-  ],
-  "Quiz 1 examples with answers": [
-    "PLSCI_1150_Quiz_1_examples_with_answers"
-  ],
-  "Quiz 1 Study Guide and Information 2024": [
-    "PLSCI_1150_Quiz_1_Study_Guide_and_Information_2024"
-  ],
-  "Quiz Question examples 2024": [
-    "PLSCI_1150_Quiz_Question_examples_2024"
   ],
   "CoverAndHart1997": [
     "CS_4780_CoverAndHart1997"
@@ -197,8 +545,371 @@
   "lecturenote3": [
     "CS_4780_lecturenote3"
   ],
+  "CS_4780_All_Materials": [
+    "CS_4780_All_Materials"
+  ],
+  "ENGL 2800 SEM 108 Syllabus (Spring 2024)": [
+    "ENGL_2800_ENGL_2800_SEM_108_Syllabus__Spring_2024_"
+  ],
+  "ENGL_2800_All_Materials": [
+    "ENGL_2800_All_Materials"
+  ],
+  "ENGL 2800.108 Syllabus (Spring 2024) (1) (2)": [
+    "ENGL_2800_ENGL_2800.108_Syllabus__Spring_2024___1___2_"
+  ],
+  "ENGL 2800.108 Syllabus (Spring 2024) (1) (3)": [
+    "ENGL_2800_ENGL_2800.108_Syllabus__Spring_2024___1___3_"
+  ],
+  "Lecture1-intro": [
+    "ENGRD_2700_Lecture1-intro"
+  ],
+  "Lecture2-descriptive-stats": [
+    "ENGRD_2700_Lecture2-descriptive-stats"
+  ],
+  "Lecture3-counting-probability": [
+    "ENGRD_2700_Lecture3-counting-probability"
+  ],
+  "Lecture4-probability-models": [
+    "ENGRD_2700_Lecture4-probability-models"
+  ],
+  "Lecture5-conditional-probability": [
+    "ENGRD_2700_Lecture5-conditional-probability"
+  ],
+  "Lecture6-random-variables": [
+    "ENGRD_2700_Lecture6-random-variables"
+  ],
+  "ENGRD_2700_All_Materials": [
+    "ENGRD_2700_All_Materials"
+  ],
+  "1.26 PPT": [
+    "GDEV_1200_1.26_PPT"
+  ],
+  "1.29 PPT": [
+    "GDEV_1200_1.29_PPT"
+  ],
+  "1.31 PPT": [
+    "GDEV_1200_1.31_PPT"
+  ],
+  "2.2 PPT": [
+    "GDEV_1200_2.2_PPT"
+  ],
+  "2.5 PPT": [
+    "GDEV_1200_2.5_PPT"
+  ],
+  "2.7 PPT": [
+    "GDEV_1200_2.7_PPT"
+  ],
+  "2.9 PPT": [
+    "GDEV_1200_2.9_PPT"
+  ],
+  "BannedintheUSA": [
+    "GDEV_1200_BannedintheUSA"
+  ],
+  "Bryant - School Boards": [
+    "GDEV_1200_Bryant_-_School_Boards"
+  ],
+  "Classroom Content_ Weekly Schedule & Daily Reminders_ GDEV 1200 FWS_ Topics in Global Development (2024SP)": [
+    "GDEV_1200_Classroom_Content__Weekly_Schedule_&_Daily_Reminders__GDEV_1200_FWS__Topics_in_Global_Development__2024SP_"
+  ],
+  "First Paper Assignment": [
+    "GDEV_1200_First_Paper_Assignment"
+  ],
+  "GDEV 1200 Syllabus.docx": [
+    "GDEV_1200_GDEV_1200_Syllabus.docx"
+  ],
+  "Mathews 2016": [
+    "GDEV_1200_Mathews_2016"
+  ],
+  "Purpose of Schooling_ Weekly Schedule & Daily Reminders_ GDEV 1200 FWS_ Topics in Global Development (2024SP)": [
+    "GDEV_1200_Purpose_of_Schooling__Weekly_Schedule_&_Daily_Reminders__GDEV_1200_FWS__Topics_in_Global_Development__2024SP_"
+  ],
+  "Stitzlein 2017": [
+    "GDEV_1200_Stitzlein_2017"
+  ],
+  "Syllabus for GDEV 1200 FWS_ Topics in Global Development (2024SP)": [
+    "GDEV_1200_Syllabus_for_GDEV_1200_FWS__Topics_in_Global_Development__2024SP_"
+  ],
+  "Tyack - Textbooks": [
+    "GDEV_1200_Tyack_-_Textbooks"
+  ],
+  "WEB DuBois_Full Text": [
+    "GDEV_1200_WEB_DuBois_Full_Text"
+  ],
+  "Washington_Full Text": [
+    "GDEV_1200_Washington_Full_Text"
+  ],
+  "iowa-city-community-school-district-sf496-books-removed": [
+    "GDEV_1200_iowa-city-community-school-district-sf496-books-removed"
+  ],
+  "kim-2022-under-the-law-banning-books-unlawful-censorship-or-within-a-school-s-discretion": [
+    "GDEV_1200_kim-2022-under-the-law-banning-books-unlawful-censorship-or-within-a-school-s-discretion"
+  ],
+  "kimmel-hartsfield-2018-it-was-the-word-scrotum-on-the-first-page-educators-perspectives-of-controversial-literature": [
+    "GDEV_1200_kimmel-hartsfield-2018-it-was-the-word-scrotum-on-the-first-page-educators-perspectives-of-controversial-literature"
+  ],
+  "GDEV_1200_All_Materials": [
+    "GDEV_1200_All_Materials"
+  ],
+  "A _Green Lantern_ Theory of the Presidency_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_A__Green_Lantern__Theory_of_the_Presidency__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Bargaining Tested": [
+    "GOVT_3161_Bargaining_Tested"
+  ],
+  "Bargaining_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Bargaining__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Evaluating the Presidency_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Evaluating_the_Presidency__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "From 1787 to the UET": [
+    "GOVT_3161_From_1787_to_the_UET"
+  ],
+  "From 1787 to the Unitary Executive Theory_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_From_1787_to_the_Unitary_Executive_Theory__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "General Elections_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_General_Elections__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Green Lantern Theory": [
+    "GOVT_3161_Green_Lantern_Theory"
+  ],
+  "Policy Making_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Policy_Making__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Political Time_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Political_Time__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Power as Bargaining": [
+    "GOVT_3161_Power_as_Bargaining"
+  ],
+  "Primaries_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Primaries__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Relations with Congress_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Relations_with_Congress__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Relations with the Judiciary_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Relations_with_the_Judiciary__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "The Bureaucracy_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_The_Bureaucracy__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "The Public Presidency_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_The_Public_Presidency__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Toward a Modern Presidency": [
+    "GOVT_3161_Toward_a_Modern_Presidency"
+  ],
+  "Toward a “Modern” Presidency_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Toward_a_“Modern”_Presidency__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "Unilateral Action_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Unilateral_Action__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "With the Stroke of a Pen": [
+    "GOVT_3161_With_the_Stroke_of_a_Pen"
+  ],
+  "GOVT_3161_All_Materials": [
+    "GOVT_3161_All_Materials"
+  ],
+  "Toward a Modern Presidency_ GOVT 3161 COMBINED-XLIST The American Presidency (2024SP)": [
+    "GOVT_3161_Toward_a_Modern_Presidency__GOVT_3161_COMBINED-XLIST_The_American_Presidency__2024SP_"
+  ],
+  "HADM 2230 Geiszler Spring 2024 (1)": [
+    "HADM_2230_HADM_2230_Geiszler_Spring_2024__1_"
+  ],
+  "HADM_2230_All_Materials": [
+    "HADM_2230_All_Materials"
+  ],
+  "2024_HADM4200_HW1 (3)": [
+    "HADM_4200_2024_HADM4200_HW1__3_"
+  ],
+  "2024_HADM4200_HW2 (1)": [
+    "HADM_4200_2024_HADM4200_HW2__1_"
+  ],
+  "4200 HW 1 Solution_2.6.24": [
+    "HADM_4200_4200_HW_1_Solution_2.6.24"
+  ],
+  "HADM4200_S24_IncomeApproach_toPost": [
+    "HADM_4200_HADM4200_S24_IncomeApproach_toPost"
+  ],
+  "HADM4200_S24_Lec1_Intro": [
+    "HADM_4200_HADM4200_S24_Lec1_Intro"
+  ],
+  "HADM4200_S24_Lec2_Cities (2)": [
+    "HADM_4200_HADM4200_S24_Lec2_Cities__2_"
+  ],
+  "HADM4200_S24_Lec3_PreClass": [
+    "HADM_4200_HADM4200_S24_Lec3_PreClass"
+  ],
+  "HADM4200_S24_Lec5_SalesComparison": [
+    "HADM_4200_HADM4200_S24_Lec5_SalesComparison"
+  ],
+  "HADM4200_S24_Market_Research": [
+    "HADM_4200_HADM4200_S24_Market_Research"
+  ],
+  "HADM4200_SYLLABUS_SP24_Kytomaa_2.5.24": [
+    "HADM_4200_HADM4200_SYLLABUS_SP24_Kytomaa_2.5.24"
+  ],
+  "HADM_4200_All_Materials": [
+    "HADM_4200_All_Materials"
+  ],
+  "Back et al. - 2008 - Becoming Friends by Chance": [
+    "HD_3620_Back_et_al._-_2008_-_Becoming_Friends_by_Chance"
+  ],
+  "Bosson et al. - 2006 - Interpersonal chemistry through negativity Bondin": [
+    "HD_3620_Bosson_et_al._-_2006_-_Interpersonal_chemistry_through_negativity_Bondin"
+  ],
+  "Diamond - 2004 - Emerging Perspectives on Distinctions Between Roma": [
+    "HD_3620_Diamond_-_2004_-_Emerging_Perspectives_on_Distinctions_Between_Roma"
+  ],
+  "Feeney and Collins - 2015 - Thriving through relationships": [
+    "HD_3620_Feeney_and_Collins_-_2015_-_Thriving_through_relationships"
+  ],
+  "Fink and Penton-Voak - 2002 - Evolutionary Psychology of Facial Attractiveness": [
+    "HD_3620_Fink_and_Penton-Voak_-_2002_-_Evolutionary_Psychology_of_Facial_Attractiveness"
+  ],
+  "Finkel and Eastwick - 2015 - Attachment and pairbonding": [
+    "HD_3620_Finkel_and_Eastwick_-_2015_-_Attachment_and_pairbonding"
+  ],
+  "Fletcher et al. - 2015 - Pair-Bonding, Romantic Love, and Evolution The Cu": [
+    "HD_3620_Fletcher_et_al._-_2015_-_Pair-Bonding,_Romantic_Love,_and_Evolution_The_Cu"
+  ],
+  "Glocker et al. - 2009 - Baby Schema in Infant Faces Induces Cuteness Perce": [
+    "HD_3620_Glocker_et_al._-_2009_-_Baby_Schema_in_Infant_Faces_Induces_Cuteness_Perce"
+  ],
+  "HB lecture 1.30.24.aft.pptx": [
+    "HD_3620_HB_lecture_1.30.24.aft.pptx"
+  ],
+  "HB lecture 2.1.24.bef.pptx": [
+    "HD_3620_HB_lecture_2.1.24.bef.pptx"
+  ],
+  "HB lecture 2.6.24.aft.pptx": [
+    "HD_3620_HB_lecture_2.6.24.aft.pptx"
+  ],
+  "HB lecture.2.8.24.aft.pptx": [
+    "HD_3620_HB_lecture.2.8.24.aft.pptx"
+  ],
+  "HD 3620 Spring 2024 Reading List_Final Exam.docx": [
+    "HD_3620_HD_3620_Spring_2024_Reading_List_Final_Exam.docx"
+  ],
+  "HD 3620 Spring 2024 Reading List_Prelim 1.docx": [
+    "HD_3620_HD_3620_Spring_2024_Reading_List_Prelim_1.docx"
+  ],
+  "HD 3620 Spring 2024 Reading List_Prelim 2.docx": [
+    "HD_3620_HD_3620_Spring_2024_Reading_List_Prelim_2.docx"
+  ],
+  "HD 3620 Spring 2024 syllabus": [
+    "HD_3620_HD_3620_Spring_2024_syllabus"
+  ],
+  "Hofer - 2006 - Psychobiological Roots of Early Attachment": [
+    "HD_3620_Hofer_-_2006_-_Psychobiological_Roots_of_Early_Attachment"
+  ],
+  "Holt-Lunstad et al. - 2017 - Advancing social connection as a public health pri": [
+    "HD_3620_Holt-Lunstad_et_al._-_2017_-_Advancing_social_connection_as_a_public_health_pri"
+  ],
+  "Hunt et al. - 2015 - Leveling the Playing Field Longer Acquaintance Pr": [
+    "HD_3620_Hunt_et_al._-_2015_-_Leveling_the_Playing_Field_Longer_Acquaintance_Pr"
+  ],
+  "Mikulincer and Shaver - 2020 - Broaden-and-build effects of contextually boosting the sense of attachment security in adulthood": [
+    "HD_3620_Mikulincer_and_Shaver_-_2020_-_Broaden-and-build_effects_of_contextually_boosting_the_sense_of_attachment_security_in_adulthood"
+  ],
+  "Pietromonaco and Powers - 2015 - Attachment and health-related physiological stress processes": [
+    "HD_3620_Pietromonaco_and_Powers_-_2015_-_Attachment_and_health-related_physiological_stress_processes"
+  ],
+  "SONA Instructions.docx": [
+    "HD_3620_SONA_Instructions.docx"
+  ],
+  "Selcuk et al. - 2017 - Perceived Partner Responsiveness Predicts Better S": [
+    "HD_3620_Selcuk_et_al._-_2017_-_Perceived_Partner_Responsiveness_Predicts_Better_S"
+  ],
+  "Spring 2024 Office Hours Locations.docx": [
+    "HD_3620_Spring_2024_Office_Hours_Locations.docx"
+  ],
+  "Suomi - 1997 - Early determinants of behaviour evidence from pri": [
+    "HD_3620_Suomi_-_1997_-_Early_determinants_of_behaviour_evidence_from_pri"
+  ],
+  "Toma and D_Angelo - 2017 - Connecting Porfile to Profile": [
+    "HD_3620_Toma_and_D_Angelo_-_2017_-_Connecting_Porfile_to_Profile"
+  ],
+  "Who to call for what.docx": [
+    "HD_3620_Who_to_call_for_what.docx"
+  ],
+  "Wright - 1997 - Why Johnny Can_t Sleep": [
+    "HD_3620_Wright_-_1997_-_Why_Johnny_Can_t_Sleep"
+  ],
+  "Zayas et al. - 2011 - Roots of Adult Attachment Maternal Caregiving at 18 months predicts adult peer and partner attachment": [
+    "HD_3620_Zayas_et_al._-_2011_-_Roots_of_Adult_Attachment_Maternal_Caregiving_at_18_months_predicts_adult_peer_and_partner_attachment"
+  ],
+  "HD_3620_All_Materials": [
+    "HD_3620_All_Materials"
+  ],
+  "Bell_MillionDollar": [
+    "INFO_1260_Bell_MillionDollar"
+  ],
+  "Benkler_Breitbart": [
+    "INFO_1260_Benkler_Breitbart"
+  ],
+  "Citron_CyberHarassment": [
+    "INFO_1260_Citron_CyberHarassment"
+  ],
+  "INFO 1260 Sp24 Lecture 1": [
+    "INFO_1260_INFO_1260_Sp24_Lecture_1"
+  ],
+  "INFO 1260 Sp24 Lecture 2": [
+    "INFO_1260_INFO_1260_Sp24_Lecture_2"
+  ],
+  "INFO 1260 Sp24 Lecture 4 (ranking and attention)": [
+    "INFO_1260_INFO_1260_Sp24_Lecture_4__ranking_and_attention_"
+  ],
+  "Klonick_NewGovernors": [
+    "INFO_1260_Klonick_NewGovernors"
+  ],
+  "Kosseff_Testimony": [
+    "INFO_1260_Kosseff_Testimony"
+  ],
+  "Notes_on_Personalization": [
+    "INFO_1260_Notes_on_Personalization"
+  ],
+  "Notes_on_Rankings": [
+    "INFO_1260_Notes_on_Rankings"
+  ],
+  "Salganik_Unpredictability": [
+    "INFO_1260_Salganik_Unpredictability"
+  ],
+  "Schauer_Boundaries": [
+    "INFO_1260_Schauer_Boundaries"
+  ],
+  "Sp24 Lecture 5 (ranking continued, speech principles) 20240131": [
+    "INFO_1260_Sp24_Lecture_5__ranking_continued,_speech_principles__20240131"
+  ],
+  "Sp24 Lecture 6 (First Amendment, Sec 230) 20240202": [
+    "INFO_1260_Sp24_Lecture_6__First_Amendment,_Sec_230__20240202"
+  ],
+  "Sp24 Lecture 7 (Sec 230, Personalization) 20240205": [
+    "INFO_1260_Sp24_Lecture_7__Sec_230,_Personalization__20240205"
+  ],
+  "Sp24 Lecture 8 (Personalization and Fragmentation) 20240207": [
+    "INFO_1260_Sp24_Lecture_8__Personalization_and_Fragmentation__20240207"
+  ],
+  "Sp24 Lecture 9 (content moderation) 20240209": [
+    "INFO_1260_Sp24_Lecture_9__content_moderation__20240209"
+  ],
+  "Steck_12thACM": [
+    "INFO_1260_Steck_12thACM"
+  ],
+  "Syllabus_and_class_info": [
+    "INFO_1260_Syllabus_and_class_info"
+  ],
+  "INFO_1260_All_Materials": [
+    "INFO_1260_All_Materials"
+  ],
   "AlgorithmicFairnessInEducation_Kizilcec": [
     "INFO_4100_AlgorithmicFairnessInEducation_Kizilcec"
+  ],
+  "Getting Started with R": [
+    "INFO_4100_Getting_Started_with_R"
   ],
   "HW1_Solutions": [
     "INFO_4100_HW1_Solutions"
@@ -211,6 +922,12 @@
   ],
   "How_Learning_Works_FullTextbook": [
     "INFO_4100_How_Learning_Works_FullTextbook"
+  ],
+  "Learning Analytics Syllabus Spring 2024": [
+    "INFO_4100_Learning_Analytics_Syllabus_Spring_2024"
+  ],
+  "Lecture 1 Introduction": [
+    "INFO_4100_Lecture_1_Introduction"
   ],
   "Lecture_Week3_Ethical Considerations": [
     "INFO_4100_Lecture_Week3_Ethical_Considerations"
@@ -227,6 +944,9 @@
   "Week 4 Video Reflection": [
     "INFO_4100_Week_4_Video_Reflection"
   ],
+  "Week2 Lecture 2 Edu Data Science": [
+    "INFO_4100_Week2_Lecture_2_Edu_Data_Science"
+  ],
   "Week3HW": [
     "INFO_4100_Week3HW"
   ],
@@ -235,6 +955,45 @@
   ],
   "Wk2 Edu Data Science": [
     "INFO_4100_Wk2_Edu_Data_Science"
+  ],
+  "fisher_mining_big_edu_data2020": [
+    "INFO_4100_fisher_mining_big_edu_data2020"
+  ],
+  "INFO_4100_All_Materials": [
+    "INFO_4100_All_Materials"
+  ],
+  "Lecture1 - Introduction_2024_upd": [
+    "INFO_4220_Lecture1_-_Introduction_2024_upd"
+  ],
+  "Lecture2 - Markets and Game Theory Recap_2024_up": [
+    "INFO_4220_Lecture2_-_Markets_and_Game_Theory_Recap_2024_up"
+  ],
+  "Lecture3 - Game Theory Cont_2024_upd": [
+    "INFO_4220_Lecture3_-_Game_Theory_Cont_2024_upd"
+  ],
+  "Lecture4 - Basic Matching Model_2024_upd": [
+    "INFO_4220_Lecture4_-_Basic_Matching_Model_2024_upd"
+  ],
+  "Lecture5 - The National Medical Residence Program_2024_upd": [
+    "INFO_4220_Lecture5_-_The_National_Medical_Residence_Program_2024_upd"
+  ],
+  "SP24_IS_INFO4220_Cheyre": [
+    "INFO_4220_SP24_IS_INFO4220_Cheyre"
+  ],
+  "INFO_4220_All_Materials": [
+    "INFO_4220_All_Materials"
+  ],
+  "Lecture-01 materials_ INFO_CS 4300_ Language and Information (Sp24)": [
+    "INFO_4300_Lecture-01_materials__INFO_CS_4300__Language_and_Information__Sp24_"
+  ],
+  "Syllabus for INFO_CS 4300_ Language and Information (Sp24)": [
+    "INFO_4300_Syllabus_for_INFO_CS_4300__Language_and_Information__Sp24_"
+  ],
+  "INFO_4300_All_Materials": [
+    "INFO_4300_All_Materials"
+  ],
+  "2024-02-01 guest lecture - What Should We Do when Our Ideas of Fairness Conflict ": [
+    "INFO_4390_2024-02-01_guest_lecture_-_What_Should_We_Do_when_Our_Ideas_of_Fairness_Conflict_"
   ],
   "2024-02-08 guest lecture - 2001.08793": [
     "INFO_4390_2024-02-08_guest_lecture_-_2001.08793"
@@ -254,7 +1013,418 @@
   "2024-02-22 guest lecture 3636509": [
     "INFO_4390_2024-02-22_guest_lecture_3636509"
   ],
+  "INFO4390 Phase 1 Rubric": [
+    "INFO_4390_INFO4390_Phase_1_Rubric"
+  ],
+  "INFO4390 Project Information": [
+    "INFO_4390_INFO4390_Project_Information"
+  ],
+  "INFO4390_Python_Refresher_Tutorial (1)": [
+    "INFO_4390_INFO4390_Python_Refresher_Tutorial__1_"
+  ],
+  "Kleinberg2016": [
+    "INFO_4390_Kleinberg2016"
+  ],
+  "Python Installation Instructions": [
+    "INFO_4390_Python_Installation_Instructions"
+  ],
+  "SP24_INFO4390_Lec1 Intro to Class, Algo Fairness": [
+    "INFO_4390_SP24_INFO4390_Lec1_Intro_to_Class,_Algo_Fairness"
+  ],
+  "SP24_INFO4390_Lec2 Basic ML": [
+    "INFO_4390_SP24_INFO4390_Lec2_Basic_ML"
+  ],
+  "SP24_INFO4390_Lec3 Principles1-2, Fairness Defs": [
+    "INFO_4390_SP24_INFO4390_Lec3_Principles1-2,_Fairness_Defs"
+  ],
   "SP24_INFO4390_Lec4 Principle3, Train and Test on Diverse Data": [
     "INFO_4390_SP24_INFO4390_Lec4_Principle3,_Train_and_Test_on_Diverse_Data"
+  ],
+  "syllabus (1)": [
+    "INFO_4390_syllabus__1_"
+  ],
+  "INFO_4390_All_Materials": [
+    "INFO_4390_All_Materials"
+  ],
+  "INFO4940-5940_Foundations1_Slides": [
+    "INFO_4940_INFO4940-5940_Foundations1_Slides"
+  ],
+  "INFO4940-5940_Foundations2_Slides": [
+    "INFO_4940_INFO4940-5940_Foundations2_Slides"
+  ],
+  "INFO4940-5940_Multilateral_Treaties_Fairness_Personality_TheoriesSlides": [
+    "INFO_4940_INFO4940-5940_Multilateral_Treaties_Fairness_Personality_TheoriesSlides"
+  ],
+  "INFO_4940_5940_Syllabus_Priehs": [
+    "INFO_4940_INFO_4940_5940_Syllabus_Priehs"
+  ],
+  "INFO_4940_All_Materials": [
+    "INFO_4940_All_Materials"
+  ],
+  "MAE3240_2024_SYLLABUS": [
+    "MAE_3240_MAE3240_2024_SYLLABUS"
+  ],
+  "MAE_3240_All_Materials": [
+    "MAE_3240_All_Materials"
+  ],
+  "Lecture1_Intro_01.22.24": [
+    "MAE_3780_Lecture1_Intro_01.22.24"
+  ],
+  "Lecture2_PhysicsRecap_01.24.24": [
+    "MAE_3780_Lecture2_PhysicsRecap_01.24.24"
+  ],
+  "Lecture3_KirchoffsLaws_01.26.24": [
+    "MAE_3780_Lecture3_KirchoffsLaws_01.26.24"
+  ],
+  "Lecture4_IdealVsPractical_01.29.24": [
+    "MAE_3780_Lecture4_IdealVsPractical_01.29.24"
+  ],
+  "Lecture5_NodeAnalysis_01.31.24": [
+    "MAE_3780_Lecture5_NodeAnalysis_01.31.24"
+  ],
+  "Lecture6_MeshAnalysis_02.2.24": [
+    "MAE_3780_Lecture6_MeshAnalysis_02.2.24"
+  ],
+  "Lecture7_EnergyStoringDevices_02.05.24": [
+    "MAE_3780_Lecture7_EnergyStoringDevices_02.05.24"
+  ],
+  "Lecture8_EnergyStoringDevices_02.07.24": [
+    "MAE_3780_Lecture8_EnergyStoringDevices_02.07.24"
+  ],
+  "MAE3780_Syllabus_Spring2024_Tentative_01.22.24": [
+    "MAE_3780_MAE3780_Syllabus_Spring2024_Tentative_01.22.24"
+  ],
+  "MAE_3780_All_Materials": [
+    "MAE_3780_All_Materials"
+  ],
+  "Multivariable_Calculus_Shimamoto": [
+    "MATH_2220_Multivariable_Calculus_Shimamoto"
+  ],
+  "Syllabus for MATH 2220 Multivariable Calculus (2024SP)": [
+    "MATH_2220_Syllabus_for_MATH_2220_Multivariable_Calculus__2024SP_"
+  ],
+  "syllabus (2)": [
+    "MATH_2220_syllabus__2_"
+  ],
+  "MATH_2220_All_Materials": [
+    "MATH_2220_All_Materials"
+  ],
+  "1312 syllabus spring 2024 -Jan 23 2024": [
+    "MUSIC_1312_1312_syllabus_spring_2024_-Jan_23_2024"
+  ],
+  "Grading rubric general": [
+    "MUSIC_1312_Grading_rubric_general"
+  ],
+  "History of Rock lecture 2 slides spring 2024 PDF": [
+    "MUSIC_1312_History_of_Rock_lecture_2_slides_spring_2024_PDF"
+  ],
+  "Study Guide Exam 1 Spring 2024": [
+    "MUSIC_1312_Study_Guide_Exam_1_Spring_2024"
+  ],
+  "ThreeTypical_forms": [
+    "MUSIC_1312_ThreeTypical_forms"
+  ],
+  "definitions for unit 1": [
+    "MUSIC_1312_definitions_for_unit_1"
+  ],
+  "MUSIC_1312_All_Materials": [
+    "MUSIC_1312_All_Materials"
+  ],
+  "Lecture 1 Intro": [
+    "NS_3150_Lecture_1_Intro"
+  ],
+  "Lecture 2 thermodynamics-24": [
+    "NS_3150_Lecture_2_thermodynamics-24"
+  ],
+  "Lecture 3 Energy metabolism-24": [
+    "NS_3150_Lecture_3_Energy_metabolism-24"
+  ],
+  "Lecture 4- Caloric Regulation_02012024": [
+    "NS_3150_Lecture_4-_Caloric_Regulation_02012024"
+  ],
+  "Lecture 5 Enivronment-24": [
+    "NS_3150_Lecture_5_Enivronment-24"
+  ],
+  "Lecture 6 Genes-2 24": [
+    "NS_3150_Lecture_6_Genes-2_24"
+  ],
+  "Spring 2024 NS3150 Syllabus_DCB": [
+    "NS_3150_Spring_2024_NS3150_Syllabus_DCB"
+  ],
+  "NS_3150_All_Materials": [
+    "NS_3150_All_Materials"
+  ],
+  "01-HoffmanSQL": [
+    "ORIE_3120_01-HoffmanSQL"
+  ],
+  "02-SQLiteFunctionsfor3120": [
+    "ORIE_3120_02-SQLiteFunctionsfor3120"
+  ],
+  "ORIE 3120 Prereq Questions 2024": [
+    "ORIE_3120_ORIE_3120_Prereq_Questions_2024"
+  ],
+  "ORIE3120 Spring 2024 Lecture 01": [
+    "ORIE_3120_ORIE3120_Spring_2024_Lecture_01"
+  ],
+  "lec02 SQL Intro": [
+    "ORIE_3120_lec02_SQL_Intro"
+  ],
+  "lec03 Basic Queries": [
+    "ORIE_3120_lec03_Basic_Queries"
+  ],
+  "lec04 Group By": [
+    "ORIE_3120_lec04_Group_By"
+  ],
+  "lec05 Inner Join": [
+    "ORIE_3120_lec05_Inner_Join"
+  ],
+  "lec06 Advanced Joins": [
+    "ORIE_3120_lec06_Advanced_Joins"
+  ],
+  "lec07 Foreign Keys": [
+    "ORIE_3120_lec07_Foreign_Keys"
+  ],
+  "lec08 Tableau and Database Connections": [
+    "ORIE_3120_lec08_Tableau_and_Database_Connections"
+  ],
+  "ORIE_3120_All_Materials": [
+    "ORIE_3120_All_Materials"
+  ],
+  "0. Course Introduction": [
+    "ORIE_3310_0._Course_Introduction"
+  ],
+  "1. LP-IP 01.22.2024": [
+    "ORIE_3310_1._LP-IP_01.22.2024"
+  ],
+  "1. LP-IP 01.24.2024": [
+    "ORIE_3310_1._LP-IP_01.24.2024"
+  ],
+  "1. LP-IP 01.29.2024": [
+    "ORIE_3310_1._LP-IP_01.29.2024"
+  ],
+  "1. LP-IP 01.31.2024": [
+    "ORIE_3310_1._LP-IP_01.31.2024"
+  ],
+  "1. LP-IP 02.05.2024": [
+    "ORIE_3310_1._LP-IP_02.05.2024"
+  ],
+  "1. LP-IP 02.07.2024": [
+    "ORIE_3310_1._LP-IP_02.07.2024"
+  ],
+  "1. LP-IP 02.12.2024": [
+    "ORIE_3310_1._LP-IP_02.12.2024"
+  ],
+  "2. Valid inequalities 02.12.2024": [
+    "ORIE_3310_2._Valid_inequalities_02.12.2024"
+  ],
+  "HW1": [
+    "ORIE_3310_HW1"
+  ],
+  "Quick Reference 3310-5310": [
+    "ORIE_3310_Quick_Reference_3310-5310"
+  ],
+  "Syllabus-3310-5310": [
+    "ORIE_3310_Syllabus-3310-5310"
+  ],
+  "ORIE_3310_All_Materials": [
+    "ORIE_3310_All_Materials"
+  ],
+  "Discussion 1": [
+    "ORIE_3510_Discussion_1"
+  ],
+  "Discussion 2 (1)": [
+    "ORIE_3510_Discussion_2__1_"
+  ],
+  "Discussion 3": [
+    "ORIE_3510_Discussion_3"
+  ],
+  "Random variables and events": [
+    "ORIE_3510_Random_variables_and_events"
+  ],
+  "hw1": [
+    "ORIE_3510_hw1"
+  ],
+  "lec1": [
+    "ORIE_3510_lec1"
+  ],
+  "lec2": [
+    "ORIE_3510_lec2"
+  ],
+  "lec3": [
+    "ORIE_3510_lec3"
+  ],
+  "lec4": [
+    "ORIE_3510_lec4"
+  ],
+  "lec5": [
+    "ORIE_3510_lec5"
+  ],
+  "syllabus": [
+    "ORIE_3510_syllabus"
+  ],
+  "ORIE_3510_All_Materials": [
+    "ORIE_3510_All_Materials"
+  ],
+  "Lecture3 2024": [
+    "PLSCI_1150_Lecture3_2024"
+  ],
+  "Lindbergh Updated References": [
+    "PLSCI_1150_Lindbergh_Updated_References"
+  ],
+  "PLSCI 1150 Lecture 1": [
+    "PLSCI_1150_PLSCI_1150_Lecture_1"
+  ],
+  "PLSCI February 5 2024 Lecture": [
+    "PLSCI_1150_PLSCI_February_5_2024_Lecture"
+  ],
+  "PLSCI Lecture 7": [
+    "PLSCI_1150_PLSCI_Lecture_7"
+  ],
+  "PLSCI Lecture 8.1": [
+    "PLSCI_1150_PLSCI_Lecture_8.1"
+  ],
+  "Quiz 1 Study Guide and Information 2024": [
+    "PLSCI_1150_Quiz_1_Study_Guide_and_Information_2024"
+  ],
+  "Quiz 1 examples with answers": [
+    "PLSCI_1150_Quiz_1_examples_with_answers"
+  ],
+  "Quiz Question examples 2024": [
+    "PLSCI_1150_Quiz_Question_examples_2024"
+  ],
+  "Syllabus for PLSCI 1150 CSI_ Forensic Botany (2024SP)": [
+    "PLSCI_1150_Syllabus_for_PLSCI_1150_CSI__Forensic_Botany__2024SP_"
+  ],
+  "PLSCI_1150_All_Materials": [
+    "PLSCI_1150_All_Materials"
+  ],
+  "CSI Lecture 1 2024(40)": [
+    "PLSCI_1150_CSI_Lecture_1_2024_40_"
+  ],
+  "PLSCI Lecture 2524 - Tagged": [
+    "PLSCI_1150_PLSCI_Lecture_2524_-_Tagged"
+  ],
+  "aaa1Lecture3 2024 - Tagged": [
+    "PLSCI_1150_aaa1Lecture3_2024_-_Tagged"
+  ],
+  "FAQ_ Lectures and Lecture Quizzes_ Magical Mushrooms, Mischievous Molds PLSCI 2010_2013 (2024SP)": [
+    "PLSCI_2013_FAQ__Lectures_and_Lecture_Quizzes__Magical_Mushrooms,_Mischievous_Molds_PLSCI_2010_2013__2024SP_"
+  ],
+  "Lab 1 guide (lab overview)_ PLSCI 2013 LABS Mushrooms, Molds and More (2024SP)": [
+    "PLSCI_2013_Lab_1_guide__lab_overview___PLSCI_2013_LABS_Mushrooms,_Molds_and_More__2024SP_"
+  ],
+  "Lab 2 guide (lab overview)_ PLSCI 2013 LABS Mushrooms, Molds and More (2024SP)": [
+    "PLSCI_2013_Lab_2_guide__lab_overview___PLSCI_2013_LABS_Mushrooms,_Molds_and_More__2024SP_"
+  ],
+  "Lab 3 guide (lab overview, yeast plate take-home advice)_ PLSCI 2013 LABS Mushrooms, Molds and More (2024SP)": [
+    "PLSCI_2013_Lab_3_guide__lab_overview,_yeast_plate_take-home_advice___PLSCI_2013_LABS_Mushrooms,_Molds_and_More__2024SP_"
+  ],
+  "Lab FAQ (including quizzes and missed labs)_ PLSCI 2013 LABS Mushrooms, Molds and More (2024SP)": [
+    "PLSCI_2013_Lab_FAQ__including_quizzes_and_missed_labs___PLSCI_2013_LABS_Mushrooms,_Molds_and_More__2024SP_"
+  ],
+  "Lab02_Reading_Be It Ever So Humble There_s No Place Like Dung": [
+    "PLSCI_2013_Lab02_Reading_Be_It_Ever_So_Humble_There_s_No_Place_Like_Dung"
+  ],
+  "Lab03 Reading Mold Cleanup in Your Home _ Mold _ US EPA(1)": [
+    "PLSCI_2013_Lab03_Reading_Mold_Cleanup_in_Your_Home___Mold___US_EPA_1_"
+  ],
+  "Lecture 2 core": [
+    "PLSCI_2013_Lecture_2_core"
+  ],
+  "Lecture 3 classification-slides": [
+    "PLSCI_2013_Lecture_3_classification-slides"
+  ],
+  "Lecture 4 CORE": [
+    "PLSCI_2013_Lecture_4_CORE"
+  ],
+  "Lecture 6 CORE video": [
+    "PLSCI_2013_Lecture_6_CORE_video"
+  ],
+  "Lecture1-Intro.6-up": [
+    "PLSCI_2013_Lecture1-Intro.6-up"
+  ],
+  "Lecture5-Mycotoxins-slides": [
+    "PLSCI_2013_Lecture5-Mycotoxins-slides"
+  ],
+  "Magical Mushrooms, Mischievous Molds PLSCI 2010_2013 (2024SP)": [
+    "PLSCI_2013_Magical_Mushrooms,_Mischievous_Molds_PLSCI_2010_2013__2024SP_"
+  ],
+  "PLSCI 2010+2013 Syllabus 2024-v.0.9 (2)": [
+    "PLSCI_2013_PLSCI_2010+2013_Syllabus_2024-v.0.9__2_"
+  ],
+  "PLSCI2013-Labs-2024-v011824-1": [
+    "PLSCI_2013_PLSCI2013-Labs-2024-v011824-1"
+  ],
+  "The Shroom Squad_ Magical Mushrooms, Mischievous Molds PLSCI 2010_2013 (2024SP)": [
+    "PLSCI_2013_The_Shroom_Squad__Magical_Mushrooms,_Mischievous_Molds_PLSCI_2010_2013__2024SP_"
+  ],
+  "PLSCI_2013_All_Materials": [
+    "PLSCI_2013_All_Materials"
+  ],
+  "Spring 2024 - Big Data on the Social World - syllabus - Tagged (1)": [
+    "SOC_3580_Spring_2024_-_Big_Data_on_the_Social_World_-_syllabus_-_Tagged__1_"
+  ],
+  "SOC_3580_All_Materials": [
+    "SOC_3580_All_Materials"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-assignments-html": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-assignments-html"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-discussions-dis01-handout-html": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-discussions-dis01-handout-html"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-discussions-dis02-handout-html": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-discussions-dis02-handout-html"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-discussions-dis03-handout-html": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-discussions-dis03-handout-html"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-discussions-dis04-handout-html": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-discussions-dis04-handout-html"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-exams-html": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-exams-html"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-lectures-html-lecture-1-course-overview": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-lectures-html-lecture-1-course-overview"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-resources-html": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-resources-html"
+  ],
+  "courses-cis-cornell-edu-courses-cs2110-2024sp-restricted-office_hours-html": [
+    "CS_2110_courses-cis-cornell-edu-courses-cs2110-2024sp-restricted-office_hours-html"
+  ],
+  "lec01-slides": [
+    "CS_2110_lec01-slides"
+  ],
+  "lec02-slides": [
+    "CS_2110_lec02-slides"
+  ],
+  "lec03-slides": [
+    "CS_2110_lec03-slides"
+  ],
+  "lec04-slides": [
+    "CS_2110_lec04-slides"
+  ],
+  "lec05-slides": [
+    "CS_2110_lec05-slides"
+  ],
+  "lec06-slides": [
+    "CS_2110_lec06-slides"
+  ],
+  "lec07-slides": [
+    "CS_2110_lec07-slides"
+  ],
+  "www-cs-cornell-edu-courses-cs2110-2024sp-": [
+    "CS_2110_www-cs-cornell-edu-courses-cs2110-2024sp-"
+  ],
+  "www-cs-cornell-edu-courses-cs2110-2024sp-schedule-html": [
+    "CS_2110_www-cs-cornell-edu-courses-cs2110-2024sp-schedule-html"
+  ],
+  "www-cs-cornell-edu-courses-cs2110-2024sp-syllabus-html": [
+    "CS_2110_www-cs-cornell-edu-courses-cs2110-2024sp-syllabus-html"
+  ],
+  "CS_2110_All_Materials": [
+    "CS_2110_All_Materials"
   ]
 }

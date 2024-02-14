@@ -64,7 +64,7 @@ function updatePdfNamesToNamespace(folderName: string, className: string, subjec
 }
 
 export const run = async () => {
-    const nameOfFolder = 'INFO_4390'; //Make sure the name of the folder for the class has underscores instead of spaces
+    const nameOfFolder = "PLSCI_1150"; //Make sure the name of the folder for the class has underscores instead of spaces
     const nameOfClassToAppendInFront = nameOfFolder;
     const subjectNameForChatTS = nameOfFolder;
 

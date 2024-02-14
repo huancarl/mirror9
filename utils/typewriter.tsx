@@ -6,7 +6,7 @@ interface TypewriterProps {
   animate: boolean; // New prop to control animation
 }
 
-export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 3.0, animate }) => {
+export const Typewriter: React.FC<TypewriterProps> = ({ message = [], speed = 0.4, animate }) => {
   const [currentText, setCurrentText] = useState<React.ReactNode[]>([]);
   const [index, setIndex] = useState<number>(0);
   const [charIndex, setCharIndex] = useState<number>(0);

@@ -79,62 +79,99 @@ function CourseCatalog() {
   
 
 const courses = [
-  // { 
-  //   key: 'CS 1110', 
-  //   namespaceTitle: 'CS 1110', 
-  //   displayTitle: 'CS 1110', 
-  //   professor: 'Intro. To Computing, Professor Bracy' 
-  // },
-  // { 
-  //   key: 'CS 2110', 
-  //   namespaceTitle: 'CS 2110', 
-  //   displayTitle: 'CS 2110', 
-  //   professor: 'OOP & Data Structures, Professor Muhlberger' 
-  // },
-  // { 
-  //   key: 'HD 3620', 
-  //   namespaceTitle: 'HD 3620', 
-  //   displayTitle: 'HD 3620', 
-  //   professor: 'Human Bonding, Professor Hazan' 
-  // },
-  // { 
-  //   key: 'CHEM 2070', 
-  //   namespaceTitle: 'CHEM 2070', 
-  //   displayTitle: 'CHEM 2070', 
-  //   professor: 'General Chem I, Professor Bogusz' 
-  // },
-  // { 
-  //   key: 'PYSCH 1101', 
-  //   namespaceTitle: 'PYSCH 1101', 
-  //   displayTitle: 'PYSCH 1101', 
-  //   professor: 'Intro To Psychology, Professor Anderson' 
-  // },
-
-
-
-
+ 
   { 
     key: 'CS 4780', 
     namespaceTitle: 'CS 4780', 
-    displayTitle: 'CS 4780/5780', 
+    displayTitle: 'CS 4780/ CS 5780', 
     professor: 'Machine Learning, Professor Weinberger & Sridharan' 
   },
+
   { 
-    key: 'ENGL 2800', 
-    namespaceTitle: 'ENGL 2800', 
-    displayTitle: 'ENGL 2800 (SEM 108)', 
-    professor: 'Creative Writing, Professor Makridi' 
+    key: "CS 2110", 
+    namespaceTitle: "CS 2110",
+    displayTitle: "CS 2110", 
+    professor: 'OOP & Data Structures, Professor Muhlberger' 
   },
+
   { 
     key: 'INFO 1260', 
     namespaceTitle: 'INFO 1260', 
     displayTitle: 'INFO 1260/CS 1340', 
     professor: 'Conseq. Of Computing, Professor Kleinberg & Levy' 
   },
+
+
+  { 
+    key: 'AEM 2601', 
+    namespaceTitle: 'AEM 2601', 
+    displayTitle: 'AEM 2601', 
+    professor: 'Strategy, Professor Preuss & Wu' 
+  },
+
+  { 
+    key: 'AEM 2240', 
+    namespaceTitle: 'AEM 2240', 
+    displayTitle: 'AEM 2240', 
+    professor: 'Finance for Dyson Majors, Professor Addoum' 
+  },
+  { 
+    key: "PLSCI 2013", 
+    namespaceTitle: 'PLSCI 2013', 
+    displayTitle: "PLSCI 2013/ PLSCI 2010", 
+    professor: 'Mushrooms, Professor Hodge' 
+  },
+
+  { 
+    key: "CS 1110", 
+    namespaceTitle:  "CS 1110", 
+    displayTitle: "CS 1110", 
+    professor: 'Intro To Computing, Professor Bracy' 
+  },
+
+  { 
+    key: "MATH 2220", 
+    namespaceTitle:  "MATH 2220", 
+    displayTitle: "MATH 2220", 
+    professor: 'Multivariable Calc, Professor Dozier' 
+  },
+
+
+  { 
+    key: "HD 3620", 
+    namespaceTitle: "HD 3620",
+    displayTitle: "HD 3620", 
+    professor: 'Human Bonding, Professor Hazan' 
+  },
+
+  { 
+    key: "AEM 3000", 
+    namespaceTitle: "AEM 3000",
+    displayTitle: "AEM 3000", 
+    professor: 'Working Together. Professor Sauer & Wolfolds' 
+  },
+
+
+  { 
+    key: "BTRY 3020", 
+    namespaceTitle:  "BTRY 3020", 
+    displayTitle: "BTRY 3020/ BTRY 5020 STSCI 3200/ STSCI 5201", 
+    professor: 'Biological Statistics 2, Professor Entner' 
+  },
+
+
+
+  { 
+    key: 'ENGL 2800', 
+    namespaceTitle: 'ENGL 2800', 
+    displayTitle: 'ENGL 2800 (SEM 108)', 
+    professor: 'Creative Writing, Professor Makridi' 
+  },
+
   { 
     key: 'INFO 4390', 
     namespaceTitle: 'INFO 4390', 
-    displayTitle: 'INFO 4390/5390/CS 5382', 
+    displayTitle: 'INFO 4390/ INFO 5390/ CS 5382', 
     professor: 'Fair Algorithms, Professor Koenecke' 
   },
   { 
@@ -146,15 +183,169 @@ const courses = [
   { 
     key: 'INFO 4300', 
     namespaceTitle: 'INFO 4300', 
-    displayTitle: 'INFO 4300/CS 4300', 
+    displayTitle: 'INFO 4300/ CS 4300', 
     professor: 'Language & Information, Professor Danescu-Niculescu-Mizil' 
   },
   { 
     key: 'INFO 4100', 
     namespaceTitle: 'INFO 4100', 
-    displayTitle: 'INFO 4100/5101', 
+    displayTitle: 'INFO 4100/ INFO 5101', 
     professor: 'Learning Analytics, Professor Rene Kizilcec' 
   },
+
+
+
+  { 
+    key: 'AEM 4140', 
+    namespaceTitle: 'AEM 4140', 
+    displayTitle: 'AEM 4140', 
+    professor: 'Behavioral Econ, Professor Fisher' 
+  },
+
+
+  { 
+    key: "GOVT 3161", 
+    namespaceTitle: "GOVT 3161", 
+    displayTitle: "GOVT 3161", 
+    professor: 'The American Presidency, Professor Kriner' 
+  },
+
+  { 
+    key: "GDEV 1200", 
+    namespaceTitle: "GDEV 1200", 
+    displayTitle: "GDEV 1200 FWS", 
+    professor: 'Topics In Global Dev, Professor LeBeau' 
+  },
+
+  { 
+    key: "AEM 3030", 
+    namespaceTitle: "AEM 3030", 
+    displayTitle: "AEM 3030", 
+    professor: 'Explorations in Analytic Modeling, Professor Haeger' 
+  },
+
+  { 
+    key: "SOC 3580", 
+    namespaceTitle: "SOC 3580", 
+    displayTitle: "SOC 3580", 
+    professor: 'Big Data on the Social World, Professor Young' 
+  },
+
+  { 
+    key: "MAE 3240", 
+    namespaceTitle: "MAE 3240", 
+    displayTitle: "MAE 3240", 
+    professor: 'Heat Transfer, Professor Avedisian' 
+  },
+
+  { 
+    key: "INFO 4940", 
+    namespaceTitle: "INFO 4940", 
+    displayTitle: "INFO 4940", 
+    professor: 'U.S. Copyright Laws, Professor Priehs' 
+  },
+
+  { 
+    key: "HADM 4200", 
+    namespaceTitle: "HADM 4200", 
+    displayTitle: "HADM 4200", 
+    professor: 'Principles of Real Estate, Professor Kytomaa' 
+  },
+
+  { 
+    key: "HADM 2230", 
+    namespaceTitle: "HADM 2230", 
+    displayTitle: "HADM 2230", 
+    professor: 'Financial Accounting Principles, Professor Geiszler'
+  },
+
+  { 
+    key: "ENGRD 2700", 
+    namespaceTitle: "ENGRD 2700", 
+    displayTitle: "ENGRD 2700", 
+    professor: 'Basic Engineering Probability and Statistics, Professor Wissel'
+  },
+
+  { 
+    key: "AEM 2210", 
+    namespaceTitle: "AEM 2210", 
+    displayTitle: "AEM 2210", 
+    professor: 'Financial Accounting, Professor Szpiro'
+  },
+
+  { 
+    key: "MAE 3780", 
+    namespaceTitle: "MAE 3780", 
+    displayTitle: "MAE 3780", 
+    professor: 'Mechatronics, Professor Nunez'
+  },
+
+  { 
+    key: "CS 4700", 
+    namespaceTitle: "CS 4700", 
+    displayTitle: "CS 4700", 
+    professor: 'Foundations of AI, Professor Ellis'
+  },
+
+  { 
+    key: "INFO 4220", 
+    namespaceTitle: "INFO 4220", 
+    displayTitle: "INFO 4220", 
+    professor: 'Networks II: Market Design, Professor Cheyre Forestier'
+  },
+
+  { 
+    key: "MUSIC 1312", 
+    namespaceTitle: "MUSIC 1312", 
+    displayTitle: "MUSIC 1312", 
+    professor: 'History of Rock Music, Professor Peraino'
+  },
+
+  { 
+    key: "AEM 4210", 
+    namespaceTitle: "AEM 4210", 
+    displayTitle: "AEM 4210", 
+    professor: 'Futures, Options and Financial Derivatives, Professor Turvey'
+  },
+
+  { 
+    key: "NS 3150", 
+    namespaceTitle: "NS 3150", 
+    displayTitle: "NS 3150", 
+    professor: 'Obesity and the Regulation of Body Weight, Professor Berry'
+  },
+
+  { 
+    key: "ORIE 3120", 
+    namespaceTitle: "ORIE 3120", 
+    displayTitle: "ORIE 3120", 
+    professor: 'Practical Tools for Operations Research, Machine Learning and Data Science, Professor Frazier'
+  },
+
+  { 
+    key: "ORIE 3310", 
+    namespaceTitle: "ORIE 3310", 
+    displayTitle: "ORIE 3310", 
+    professor: 'Optimization II, Professor Gunluk'
+  },
+
+  { 
+    key: "ORIE 3510", 
+    namespaceTitle: "ORIE 3510", 
+    displayTitle: "ORIE 3510", 
+    professor: 'Intro to Engineering Stochastic Processes I, Professor Scully'
+  },
+
+
+
+
+
+
+
+
+
+
+
 ];
 
 

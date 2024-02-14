@@ -115,7 +115,7 @@
   left: 74%; /* Position the left edge of the button in the middle of .cloudform */
   transform: translate(-50%, -50%); /* Shift the button back by half its width and height to center it */
   color: rgb(146, 40, 40);
-  background: #ffffff; /* Background color for the button */
+  background: clear; /* Background color for the button */
   padding: 0.5rem 1rem; /* Padding for the button */
   border: 0.0625em solid #ffffff; /* Border for the button */
   border-radius: 0.5rem; /* Rounded corners for the button */
@@ -163,7 +163,7 @@
 .loadingwheel {
   position: absolute;
   bottom: 0.2rem; /* Adjust as needed based on your layout */
-  right: 0rem; /* Position to the right inside the textarea-container or cloudform */
+  right: 0.2rem; /* Position to the right inside the textarea-container or cloudform */
   z-index: 1010; /* Ensure it's above other elements */
   /* Add any additional styling as needed */
 }
@@ -281,9 +281,6 @@
   margin-bottom: 0.06em; /* Adjust the spacing from the bottom */
   margin-right: 0.625em; /* Shifts the watermark slightly to the left */
 }
-
-
-
 
 
 

@@ -490,11 +490,12 @@ useEffect(() => {
       ];
     } else {
       return [
-        'Explain lecture 5 in detail...',
-        'What is the grade breakdown?...',
-        'When are the professors office hours?...',
-        'Summarize lecture 20...',
-        'Explain the course overview...'
+        'explain lecture 5 in detail...',
+        'explain page 4 in lecture 2',
+        'what is the grade breakdown?...',
+        'when are the professors office hours?...',
+        'summarize lecture 20...',
+        'explain the course overview...'
       ];
     }
   };
@@ -644,7 +645,7 @@ const handleBack = () => {
   } else if (isCodeMessage) {
     content = transformMessageWithCode(message.message);
   //
-  } else if (message.type === 'apiMessage' || isCodeMessage) {                        
+  } else if (message.type === 'apiMessage') {                        
     content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
   } else {
     content = <span>{parseBoldText(message.message)}</span>;
