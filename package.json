@@ -26,6 +26,7 @@
     "asciimath-to-latex": "^0.5.1",
     "clsx": "^1.2.1",
     "dotenv": "^16.0.3",
+    "firebase": "^10.8.0",
     "g": "^2.0.1",
     "google-auth-library": "^8.9.0",
     "highlight.js": "^11.9.0",

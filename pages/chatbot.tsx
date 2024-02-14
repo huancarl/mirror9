@@ -25,18 +25,11 @@ import {
 } from '../utils/katex';
 
 
-
-
-
 // #1
 import {
   messageContainsCode,
   transformMessageWithCode
 } from '../utils/codeblock'
-
-
-
-
 
 
 import Sidebar from 'components/Sidebar';
@@ -53,6 +46,9 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css'; // Import the style you want to use
 import python from 'highlight.js/lib/languages/python';
 import {withSession, isAuthenticated} from 'utils/session';
+import app from 'config/firebase-config'; 
+
+
 
 //Make sure that the page cannot be accessed without logging in
 export const getServerSideProps = withSession(async ({ req, res }) => {
@@ -108,6 +104,24 @@ const [messageState, setMessageState] = useState<{
   const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
 
   const [firstMessageSent, setFirstMessageSent] = useState(false);
+
+
+    // Implement Firebase Realtime Database logic here
+    // useEffect(() => {
+    //   const messagesRef = app.ref('messages');
+  
+    //   // Listen for real-time updates
+    //   messagesRef.on('value', (snapshot) => {
+    //     const data = snapshot.val();
+    //     if (data) {
+    //       // Update your state or perform other actions with the data
+    //       console.log(data);
+    //     }
+    //   });
+  
+    //   // Clean up
+    //   return () => messagesRef.off();
+    // }, []);
 
   
 
@@ -600,10 +614,10 @@ function CodeBlock({ code }: { code: string }) {
         icon = (
             <Image
                 key={index}
-                src="/bigbear.png"
+                src="/bigbear234.png"
                 alt="AI"
-                width="40"
-                height="25"
+                width="50"
+                height="45"
                 className={styles.boticon}
                 priority
             />

@@ -325,7 +325,7 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
 
         You are an expert on the Cornell class denoted by the placeholder: ${namespaceToFilter}. 
         The list of all class materials you have access to is: ${classMapping[namespaceToFilter]}.
-      - Use your intelligence to determine what each class materials may entail,
+        Use your intelligence to determine what each class materials may entail,
         for example lec01 in the class materials most likely means lecture 1, therefore you do have lecture1.
 
         Depending on the question, you will have access to various ${namespaceToFilter}‘s class materials referenced as: $${this.namespaces}. 
@@ -334,14 +334,13 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
         Your responses will be created based on the content-source of these materials represented as your Source Basis: ${formattedSourceDocuments}. 
         This will be the single most important basis and source of all of your answers also known as source basis. 
         Your answers will be accurate, detailed, and specific to the context of ${namespaceToFilter} and its materials. 
+        If you are in the context of a CS class, be ready to code in your responses.
 
        
         Surround any numbers, math expressions, variables, notations, equations, theorems, anything related to math with $. 
         For example: $ax^2 + bx + c = 0$, $s^2$, $1$, $P(A|B)$, etc. Bold key words and topics always.
         Surround any code/programming with single, or double or triple backticks always.
-        For example: 'var1'.
-
-        When coding do not bold any words.
+        For example: 'var1'. 
 
 
 
@@ -508,7 +507,7 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
           });
 
 
-        await this.chatWithOpenAI(prompt, question);
+        // await this.chatWithOpenAI(prompt, question);
 
         let response = prediction.response;
         // let response = await this.retryRequest(async () => {
