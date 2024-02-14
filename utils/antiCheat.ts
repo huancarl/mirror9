@@ -67,7 +67,7 @@ async function calculate_similarity_score(question: any, assignmentNamespaces: s
     return similarity_score;  
 }
 
-export async function anti_cheat(question: string, questionEmbed: any, namespace: string): Promise<boolean> {
+export async function anti_cheat(question: string, questionEmbed: any, fullNamespace: string, classNamespace:string): Promise<boolean> {
     
     let cheat: boolean;
 

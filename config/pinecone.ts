@@ -13,7 +13,7 @@ if (!process.env.PINECONE_INDEX_NAME) {
 const jsonFilePath = path.join('utils', 'pdfNamestoNamespace.json');
 const NAMESPACE_NUMB = JSON.parse(fs.readFileSync(jsonFilePath, 'utf8')); 
 
-const PINECONE_INDEX_NAME = 'gptcornell1';
+const PINECONE_INDEX_NAME = process.env.PINECONE_INDEX_NAME;
 
 // const NAMESPACE_NUMB: { [key: string]: string[] } = {
 

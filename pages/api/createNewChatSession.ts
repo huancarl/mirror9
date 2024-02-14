@@ -3,7 +3,6 @@ import {connectToDb, dbInstance }from '@/config/db';
 const createNewSession = async (req, res) => {
     const { userID, sessionID, course, name} = req.body;
   
-    console.log(dbInstance, 'this is dbinstance');
 
     if (!userID || !sessionID) {
       return res.status(400).json({ error: 'userID and sessionID are required' });

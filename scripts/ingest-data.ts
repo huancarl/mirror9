@@ -7,6 +7,7 @@ import { PDFLoader } from 'langchain/document_loaders/fs/pdf';
 import { PINECONE_INDEX_NAME, NAMESPACE_NUMB } from '@/config/pinecone';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 import { promises as fs } from 'fs';
+import { OpenAIApi, Configuration } from "openai";
 
 const filePath = 'docs';
 
@@ -37,6 +38,12 @@ async function getAllPDFFiles(directory: string): Promise<any> {
   }
 }
 
+// const configuration = new Configuration({
+//   apiKey: process.env.OPENAI_API_KEY,  // Use your OpenAI API key
+//  });
+// const openai = new OpenAIApi(configuration);
+
+const embeddingsGenerator = new OpenAIEmbeddings();
 
 
 export const run = async () => {
@@ -58,8 +65,10 @@ export const run = async () => {
       const fileName = fileNameWithExtension.replace('.pdf', '');
       
       const namespace = NAMESPACE_NUMB[fileName][0]; // Adjust this if the mapping of folder to namespace changes
-      console.log(document);
+      //console.log(document);
       const splitDocs = await textSplitter.splitDocuments(document);
+
+      //console.log(splitDocs);
 
       //const json = JSON.stringify(splitDocs);
       //await fs.writeFile(`${namespace}-split.json`, json);
@@ -68,19 +77,46 @@ export const run = async () => {
       for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
         const chunk = splitDocs.slice(i, i + upsertChunkSize);
 
-        //upload to individual namespaces for each class material
-        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
-          pineconeIndex: index,
-          namespace: namespace,
-          textKey: 'text',
-        });
+        const embeddings = await Promise.all(chunk.map(doc => 
+          embeddingsGenerator.embedDocuments([doc.pageContent])
+        ));
+ 
+        // Format for Pinecone upsert
+        const pineconeRecords = chunk.map((doc, idx) => {
+          // Use either a combination of file name and index or a UUID
+          const uniqueId = `${fileNameWithExtension}_${i + idx}`;  // Example: 'document1_0', 'document1_1', etc.
+          // Or use UUID: const uniqueId = uuidv4();
 
-        //upload to namespace with all materials
-        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
-          pineconeIndex: index,
-          namespace: classNamespace,
-          textKey: 'text',
+          //Create the metadata map using the metadata properties found in documents
+          //console.log(chunk[1]);
+          let metadataMap = {};
+          const text = doc.pageContent;
+          const pageNum = doc.metadata.loc.pageNumber;
+          const maxPages = doc.metadata.pdf.totalPages;
+          const source = doc.metadata.source;
+          const fromLine = doc.metadata.loc.lines.from;
+          const toLine = doc.metadata.loc.lines.to;
+
+          metadataMap['loc.lines.from'] = fromLine;
+          metadataMap['loc.lines.to'] = toLine;
+          metadataMap['loc.pageNumber'] = pageNum;
+          metadataMap['pdf.totalPages'] = maxPages;
+          metadataMap['source'] = source;
+          metadataMap['text'] = text;
+
+          return {
+            id: uniqueId,
+            values: embeddings[idx].flat(),
+            metadata: metadataMap,
+          };
         });
+     
+        //console.log(pineconeRecords);
+        // Upsert to Pinecone
+        //Upsert to the namespace of the specific class material for the class
+        await index.namespace(namespace).upsert(pineconeRecords);
+        //Upsert to the namespace that contains all of the class materials for each class
+        await index.namespace(classNamespace).upsert(pineconeRecords);
 
       }
     }

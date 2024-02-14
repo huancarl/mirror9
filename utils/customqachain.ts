@@ -10,6 +10,12 @@ import { BufferMemory, ChatMessageHistory,} from "langchain/memory";
 import { ConversationChain } from "langchain/chains";
 import * as path from 'path';
 import * as fs from 'fs/promises'
+import { Pinecone } from '@pinecone-database/pinecone';
+import { Configuration, OpenAIApi } from "openai";
+import axios, {Method} from 'axios';
+import https from 'https';
+
+
 class RateLimiter {
     private static requestCount = 0;
     private static startTime = Date.now();
@@ -91,12 +97,12 @@ interface CustomQAChainOptions {
 
 
 
-
 export class CustomQAChain {
     private model: OpenAIChat;
     private index: any;
     private namespaces: string[];
     private options: CustomQAChainOptions;
+    private pc: any;
 
     
 
@@ -106,6 +112,7 @@ export class CustomQAChain {
         this.index = index;
         this.namespaces = namespaces;
         this.options = options;
+        this.pc = new Pinecone();
 
 
         if (typeof this.index.query !== 'function') {
@@ -135,12 +142,77 @@ export class CustomQAChain {
         }
     }
 
+
+    private async chatWithOpenAI(prompt, question) {
+        const postData = {
+            model: "gpt-3.5-turbo-0125",
+            messages: [
+                { role: "system", content: prompt },
+                { role: "user", content: question },
+            ],
+            stream: true,
+        };
+    
+        const options = {
+            method: 'POST' as Method,
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+            },
+            data: JSON.stringify(postData),
+            url: 'https://api.openai.com/v1/chat/completions',
+            responseType: 'stream' as const, // Ensures TypeScript recognizes this as a valid responseType
+        };
+    
+        try {
+            const response = await axios(options);
+            //console.log(response);
+
+            // response.data.on('data', (chunk) => {
+            //     console.log("Received Chunk:", chunk.toString());
+            //     //console.log(chunk);
+            // });
+            let buffer = '';
+            response.data.on('data', (chunk) => {
+                buffer += chunk.toString();
+
+                if (buffer.endsWith('\n')) {
+                    buffer.split('\n').forEach((line) => {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const jsonStr = line.substring(5);
+                                const jsonData = JSON.parse(jsonStr);
+
+                                if (jsonData.choices && jsonData.choices.length > 0 && jsonData.choices[0].delta) {
+                                    const content = jsonData.choices[0].delta.content;
+                                    if (content) {
+                                        console.log("Content:", content);
+                                    }
+                                }
+                            } catch (err) {
+                                // Ignore the parsing error if it's due to non-JSON data
+                                if (!line.includes("[DONE]")) {
+                                    console.error('Error parsing JSON:', err);
+                                }
+                                    }
+                                }
+                            });
+
+                            buffer = '';
+                        }
+                    });
+        } catch (err) {
+            console.error('Error in API call:', err);
+        }
+    }
+
+
 private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem[]> {
     if (!question) {
         throw new Error("Failed to generate embedding for the question.");
     }
 
-    let fetchedTexts: PineconeResultItem[] = [];
+    let fetchedTexts: any = [];
     let remainingDocs = 50;  // max vector search
 
     const namespacesToSearch = this.namespaces;
@@ -148,15 +220,23 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
 
     // Create an array of promises for each namespace query
     const namespaceQueries = namespacesToSearch.map(namespace => {
+
+        const currNamespace = this.pc.index(process.env.PINECONE_INDEX_NAME).namespace(namespace);
+
         return this.retryRequest(async () => {
-            return await this.index.query({
-                queryRequest: {
-                    vector: question,
-                    topK: numOfVectorsPerNS,
-                    namespace: namespace,
-                    includeMetadata: true,
-                },
+            return await currNamespace.query({
+                topK: numOfVectorsPerNS,
+                vector: question,
+                includeMetadata: true,
             });
+            // return await this.index.query({
+            //     queryRequest: {
+            //         vector: question,
+            //         topK: numOfVectorsPerNS,
+            //         namespace: namespace,
+            //         includeMetadata: true,
+            //     },
+            // });
         });
     });
 
@@ -180,6 +260,11 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
 
     public async call({ question, questionEmbed, chat_history, namespaceToFilter}: { question: string; questionEmbed: any; chat_history: ChatMessage[], namespaceToFilter: any}, ): Promise<CallResponse> {
        
+        const configuration = new Configuration({
+            apiKey: process.env.OPENAI_API_KEY, // Ensure your API key is correctly set in your environment variables
+        });
+        const openai = new OpenAIApi(configuration);
+
         const relevantDocs = await this.getRelevantDocs(questionEmbed, namespaceToFilter);
 
         //this.chatHistoryBuffer.addMessage(chat_history);
@@ -418,11 +503,12 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
             prompt: reportsPrompt,
             llm: this.model,
         });
-        
-
           const prediction = await chain.call({
             query:question,
           });
+
+
+        await this.chatWithOpenAI(prompt, question);
 
         let response = prediction.response;
         // let response = await this.retryRequest(async () => {

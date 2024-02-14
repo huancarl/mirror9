@@ -13,20 +13,15 @@ const client = new MongoClient(uri, {
 let dbInstance: Db | null = null;
 
 async function connectToDb(): Promise<Db> {
-    // if (dbInstance) {
 
-    //   return dbInstance;
-    // }
-
-    try{
-      await client.connect();
-      dbInstance= client.db('CornellGPT');
-      return dbInstance;
-    }
-    catch(e){
-        console.log(e);
-        throw e;
-    }
+  if (dbInstance) {
+    // Return the existing database instance if it's already set
+    return dbInstance;
+  }
+    // Connect and set the dbInstance only if it hasn't been set yet
+  await client.connect();
+  dbInstance = client.db('CornellGPT');
+  return dbInstance;
 }
 
 async function closeConnection(): Promise<void> {

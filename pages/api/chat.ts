@@ -14,6 +14,7 @@ import {
     MessagesPlaceholder
 } from 'langchain/prompts'
 import { CustomQAChain } from "@/utils/customqachain";
+import { AssignmentCustomQAChain } from '@/utils/assignmentsqachain';
 import * as fs from 'fs/promises'
 import {connectToDb} from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
@@ -295,8 +296,12 @@ export default async function handler(
     
     //gpt-4-1106-preview
 
-    //init class
+    //init classes for responses
     const qaChain = CustomQAChain.fromLLM(modelForResponse, index, namespaces, {
+      returnSourceDocuments: true,
+      bufferMaxSize: 4000,
+    });
+    const assignmentQaChain = AssignmentCustomQAChain.fromLLM(modelForResponse, index, namespaces, {
       returnSourceDocuments: true,
       bufferMaxSize: 4000,
     });
@@ -313,26 +318,39 @@ export default async function handler(
     const cheatData = await fs.readFile(cheatJsonMapping, 'utf8');
     const cheatNamespaces = JSON.parse(cheatData);
 
-    let assignmentNamespace = namespace.replace(/ /g, '_');
-    assignmentNamespace = assignmentNamespace + '_Assignments';
+    let namespaceWithUnderscore = namespace.replace(/ /g, '_');
+    let assignmentNamespace = namespaceWithUnderscore + '_Assignments';
 
+    let results: any;
 
     //Only run if the class has a class assignments namespace
     if(assignmentNamespace in cheatNamespaces){
 
-      if(await anti_cheat(question, queryEmbedding, 'test')) {
-        //If anti cheat returns true it is cheating
-        //Paramters: question, question embeddings, namespace to search
+      //Check if the user's question is a direct copy and paste of a current assignment's questions
+      if(await anti_cheat(question, queryEmbedding, 'test_Assignments', 'test')) {
+        //If anti cheat returns true then the user is suspected of cheating
+        //Parameters for anti_cheat function: question, question embeddings, namespace to search
+
+
         console.log('Cheating detected, avert from normal user flow');
+
+        // results = await qaChain.call({
+        //   question: question,
+        //   questionEmbed: queryEmbedding,
+        //   chat_history: messages,
+        //   namespaceToFilter: cleanedNamespace
+        // });
       }
     }
+    else{
+      results = await qaChain.call({
+        question: question,
+        questionEmbed: queryEmbedding,
+        chat_history: messages,
+        namespaceToFilter: cleanedNamespace
+      });
+    }
 
-    const results = await qaChain.call({
-      question: question,
-      questionEmbed: queryEmbedding,
-      chat_history: messages,
-      namespaceToFilter: cleanedNamespace
-    });
 
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
