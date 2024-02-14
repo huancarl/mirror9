@@ -582,7 +582,7 @@ function CodeBlock({ code }: { code: string }) {
     className={styles.classInquiryButton}
     onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
   >
-    UPLOAD MATERIALS
+  ADD MATERIALS
   </button>
 
   <div className="mainContent" key={refreshKey}>
