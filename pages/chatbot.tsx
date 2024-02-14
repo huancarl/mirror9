@@ -506,6 +506,7 @@ useEffect(() => {
       return [
         'explain lecture 5 in detail...',
         'explain page 4 in lecture 2',
+        'explain the 2nd slideshow',
         'what is the grade breakdown?...',
         'when are the professors office hours?...',
         'summarize lecture 20...',
