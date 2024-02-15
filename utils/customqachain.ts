@@ -334,13 +334,15 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
         Your responses will be created based on the content-source of these materials represented as your Source Basis: ${formattedSourceDocuments}. 
         This will be the single most important basis and source of all of your answers also known as source basis. 
         Your answers will be accurate, detailed, and specific to the context of ${namespaceToFilter} and its materials. 
-        If you are in the context of a CS class, be ready to code in your responses.
 
        
-        Surround any numbers, math expressions, variables, notations, equations, theorems, anything related to math with $. 
+        Surround any numbers, math expressions, variables, notations, calculus, integrals, equations, theorems, anything related to math with $. 
         For example: $ax^2 + bx + c = 0$, $s^2$, $1$, $P(A|B)$, etc. Bold key words and topics always.
+
         Surround any code/programming with single, or double or triple backticks always.
         For example: 'var1'. 
+
+        If you are in the context of a CS class, be ready to code in your responses.
 
 
 
