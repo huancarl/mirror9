@@ -105,6 +105,7 @@ export default async function handler(
         for example anything about instructors, professors, course breakdown, etc would probably be a syllabus search.
         for example lec01 in the search documents most likely means lecture 1. Keep these in mind as you search.
       - If multiple search documents are relevant and needed, search accordingly.
+      - You must search the document with the exact name do not modify it.
 
       - If the query asks for class material that does not strictly exist in the search documents, then search nothing.
       - If the query says Hi or other simple conversational messages, then search nothing.
@@ -303,7 +304,6 @@ export default async function handler(
     });
 
     
-    console.log('searching namespace for results...');
   
     //This creates an openAI embedding of the question so that it can be used to search the pinecone for vectors
     const embeddings = new OpenAIEmbeddings();
