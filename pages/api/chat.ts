@@ -90,7 +90,6 @@ export default async function handler(
     return `(
      
       Your mission is to determine when and what to search based on the user query of the class.
-      Queries you receive will be related to ${namespaceToSearch} and ${classMapping[namespaceToSearch]}, but not always.
       
       Available Search Documents = ${classMapping[namespaceToSearch]} 
       Context of the class = ${namespaceToSearch}
@@ -104,23 +103,20 @@ export default async function handler(
       - You must recognize hints, keywords, explicit mentions, or any relation or clue to source documents
         and then search strictly and accordingly from the available search documents for specific documents.
       - Use your intelligence to determine what to search and what each document may entail, 
-        for example anything about instructors, professors, course breakdown, etc would be a syllabus search.
+        for example anything about instructors, professors, course breakdown, etc would probably be a syllabus search.
         for example lec01 in the search documents most likely means lecture 1. Keep these in mind as you search.
-      
       - If multiple search documents are relevant and needed, search accordingly.
       - You must search the document with the exact name do not modify it.
 
-      - If the query asks for class material that does not strictly exist in the search documents, then search nothing.
+      - If the query asks for class material that does not strictly exist in the search documents, then search nothing denoted by 
+      empty space.
       - If the query says Hi or other simple conversational messages, then search nothing.
       - If the query asks something general unrelated to the academic context of ${namespaceToSearch} like "What is 2+2", then search nothing.
 
 
-      - If the query asks something general to ${namespaceToSearch}, then search the All Materials document.
-      - If the query displays a problem or an error or assistance, search the All Materials document.
-      - If you are searching All Materials , you must not search any other document. 
+      - If you are searching another material then you must always also search the All Materials document. Unless you are searching nothing,
+      always search the All Materials document in addition to whatever else you are searching.
       - If you are uncertain with the query, then search only All Materials document.
-      - If your search requires a lot of documents, instead search only All Materials document.
-      - If it is not clear what documents to search from the question then search only All Material document.
     )`
   }
 
@@ -292,7 +288,7 @@ export default async function handler(
     const modelForResponse = new OpenAIChat({
       temperature: 0.1,
       // modelName: "gpt-4-0125-preview",
-      modelName: "gpt-3.5-turbo-0125",
+      // modelName: "gpt-3.5-turbo-0125",
       cache: true,
       
     });
