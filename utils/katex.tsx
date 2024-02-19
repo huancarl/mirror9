@@ -98,7 +98,6 @@ export function splitMessageIntoSegments(message) {
             return <MathComponent key={index} latex={latexSegment} />;
           } else {
             const parsedBoldText = parseBoldText(segment);
-            // Using Typewriter without animation
             return <Typewriter key={index} message={parsedBoldText} animate={true} />;
           }
         })}
@@ -111,10 +110,15 @@ export function splitMessageIntoSegments(message) {
   // For Bold Text
 
   export function parseBoldText(text) {
+    if (typeof text !== 'string') {
+      return [];
+    }
+  
     return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
       if (part.startsWith('**') && part.endsWith('**')) {
         return <strong key={index}>{part.slice(2, -2)}</strong>;
       }
-      return part;
+      return <span key={index}>{part}</span>; // Convert string parts to text nodes
     });
   }
+  

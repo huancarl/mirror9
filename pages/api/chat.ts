@@ -20,6 +20,7 @@ import {connectToDb} from '@/config/db';
 import { CoursesCustomQAChain } from '@/utils/coursesCustomqachain';
 import {anti_cheat} from '@/utils/antiCheat';
 import * as path from 'path';
+import { v4 as uuidv4 } from 'uuid';
 
 // import { HfInference } from '@huggingface/inference';
 
@@ -73,11 +74,12 @@ export default async function handler(
   res: NextApiResponse,
 ) {
 
-  const { question, messages, userID, sessionID, namespace} = req.body;
+  const { question, messages, userID, sessionID, namespace, messageID} = req.body;
   const image = req.body.image;
 
   const cleanedNamespace = namespace.replace(/ /g, '_');
 
+  //Get the list of class materials from chatAccessDocuments to put to prompt so gpt can choose the best one to search
   const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
   const data = await fs.readFile(classMappingFilePath, 'utf8');
   const classMapping = JSON.parse(data);
@@ -102,8 +104,9 @@ export default async function handler(
       - You must recognize hints, keywords, explicit mentions, or any relation or clue to source documents
         and then search strictly and accordingly from the available search documents for specific documents.
       - Use your intelligence to determine what to search and what each document may entail, 
-        for example anything about instructors, professors, course breakdown, etc would probably be a syllabus search.
+        for example anything about instructors, professors, course breakdown, etc would be a syllabus search.
         for example lec01 in the search documents most likely means lecture 1. Keep these in mind as you search.
+      
       - If multiple search documents are relevant and needed, search accordingly.
       - You must search the document with the exact name do not modify it.
 
@@ -112,9 +115,12 @@ export default async function handler(
       - If the query asks something general unrelated to the academic context of ${namespaceToSearch} like "What is 2+2", then search nothing.
 
 
-      - If you are searching another material then you must always also search the All Materials document. Unless you are searching nothing,
-      always search the All Materials document in addition to whatever else you are searching.
+      - If the query asks something general to ${namespaceToSearch}, then search the All Materials document.
+      - If the query displays a problem or an error or assistance, search the All Materials document.
+      - If you are searching All Materials , you must not search any other document. 
       - If you are uncertain with the query, then search only All Materials document.
+      - If your search requires a lot of documents, instead search only All Materials document.
+      - If it is not clear what documents to search from the question then search only All Material document.
     )`
   }
 
@@ -294,10 +300,12 @@ export default async function handler(
     //gpt-4-1106-preview
 
     //init classes for responses
-    const qaChain = CustomQAChain.fromLLM(modelForResponse, index, namespaces, {
+
+    const qaChain = CustomQAChain.fromLLM(modelForResponse, index, namespaces,{
       returnSourceDocuments: true,
       bufferMaxSize: 4000,
-    });
+    }, userID, messageID);
+    
     const assignmentQaChain = AssignmentCustomQAChain.fromLLM(modelForResponse, index, namespaces, {
       returnSourceDocuments: true,
       bufferMaxSize: 4000,
@@ -309,7 +317,7 @@ export default async function handler(
     const embeddings = new OpenAIEmbeddings();
     const queryEmbedding = await embeddings.embedQuery(question);
 
-    //Check the list of all ingested class assignments 
+    //Check the list of all ingested class assignments for the anti cheat check.
     const cheatJsonMapping = path.join('utils', 'classAssignmentsNamespaces.json');
     const cheatData = await fs.readFile(cheatJsonMapping, 'utf8');
     const cheatNamespaces = JSON.parse(cheatData);
@@ -326,8 +334,6 @@ export default async function handler(
       if(await anti_cheat(question, queryEmbedding, 'test_Assignments', 'test')) {
         //If anti cheat returns true then the user is suspected of cheating
         //Parameters for anti_cheat function: question, question embeddings, namespace to search
-
-
         console.log('Cheating detected, avert from normal user flow');
 
         // results = await qaChain.call({
@@ -346,7 +352,6 @@ export default async function handler(
         namespaceToFilter: cleanedNamespace
       });
     }
-
 
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
@@ -398,7 +403,6 @@ export default async function handler(
     }
     
     const data = {
-      message,
       sourceDocs,
     };
     // console.log(data, 'data');

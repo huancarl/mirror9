@@ -46,7 +46,11 @@ import hljs from 'highlight.js';
 import 'highlight.js/styles/github.css'; // Import the style you want to use
 import python from 'highlight.js/lib/languages/python';
 import {withSession, isAuthenticated} from 'utils/session';
-import app from 'config/firebase-config'; 
+
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { current } from '@reduxjs/toolkit';
+import { join } from 'path';
 
 
 
@@ -68,9 +72,6 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
 });
 
 
-
-
-
 declare global {
   interface Window {
     katex: any;
@@ -80,16 +81,17 @@ export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-const [messageState, setMessageState] = useState<{
-    messages: Message[];
-    pending?: string;
-    history: [string, string][];
-    pendingSourceDocs?: any;
-}>({
-    messages: [],
-    history: [],
-});
+  const [messageState, setMessageState] = useState<{
+      messages: Message[];
+      pending?: string;
+      history: [string, string][];
+      pendingSourceDocs?: any;
+  }>({
+      messages: [],
+      history: [],
+  });
 
+  //Manages the messages and the chat history for the user
   const { messages, history } = messageState;
   const [refreshKey, setRefreshKey] = useState(0);
   const messageListRef = useRef<HTMLDivElement>(null);
@@ -100,30 +102,75 @@ const [messageState, setMessageState] = useState<{
   const [sessions, setSessions] = useState<any[]>([]);
   const [courseTitle, setCourseTitle] = useState<string | string[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [courseHistoryRefreshKey, setCourseHistoryRefreshKey] = useState(0);
+
+  //For stripe modal
   const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
 
+  //Firebase data streaming displaying
   const [firstMessageSent, setFirstMessageSent] = useState(false);
+  const [firebaseData, setFirebaseData] = useState<any>(null);
+  const [firebaseMessageID, setFirebaseMessageID] = useState<string>('');
+  const lastMessageIndexRef = useRef<number>(0);
+  const [lastMessageContent, setLastMessageContent] = useState('');
 
+  // Implement Firebase Realtime Database reading logic here. Set up the connection to the database to read from it.
+  // This useeffect triggers when the user sends a message.
+  useEffect(() => {
+    const firebaseConfig = {
+      apiKey: "AIzaSyDjXYdilXhoG6t8ZI1taaZsJNwpuA8Njp0",
+      authDomain: "gptcornell.firebaseapp.com",
+      databaseURL: "https://gptcornell-default-rtdb.firebaseio.com",
+      projectId: "gptcornell",
+      storageBucket: "gptcornell.appspot.com",
+      messagingSenderId: "470419410736",
+      appId: "1:470419410736:web:60773dbdc58d81e034c2f5",
+      measurementId: "G-8KRK5JFE1Z"
+    };
 
-    // Implement Firebase Realtime Database logic here
-    // useEffect(() => {
-    //   const messagesRef = app.ref('messages');
-  
-    //   // Listen for real-time updates
-    //   messagesRef.on('value', (snapshot) => {
-    //     const data = snapshot.val();
-    //     if (data) {
-    //       // Update your state or perform other actions with the data
-    //       console.log(data);
-    //     }
-    //   });
-  
-    //   // Clean up
-    //   return () => messagesRef.off();
-    // }, []);
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
 
-  
+    let email = userIDRef.current;
+    let netIDWithoutDotCom = email ? email.split('@')[0] : '';
+
+    lastMessageIndexRef.current = messages.length;
+
+    //Read from the data stream
+    const dbRef = ref(database, `messages/${netIDWithoutDotCom}/${firebaseMessageID}`);
+
+    const unsubscribe = onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const messageValues = Object.values(data);
+        const joinedMessage = messageValues.join('');
+        setLastMessageContent(joinedMessage);
+      }
+    });
+    // Clean up subscription on unmount
+    return () => unsubscribe();
+  }, [firebaseMessageID]);
+
+  // Update the message as we are receiving the stream of data from the backend storage. 
+  // This use effect runs whenever the data stream is updated with more data from the backend.
+
+  useEffect(() => {
+    let fullMessage = lastMessageContent;
+    setMessageState(prevState => {
+        const newMessages = [ ...prevState.messages];
+        newMessages[lastMessageIndexRef.current] = {
+          type: 'apiMessage',
+          message: fullMessage,
+          sourceDocs: undefined, 
+        };
+        return {
+          ...prevState,
+          messages: newMessages,
+          history: [...prevState.history],
+        };
+      });
+
+  }, [lastMessageContent]);
+
 
   //Stripe set up
   const [stripePromise, setStripePromise] = useState<Stripe | null>(null);
@@ -327,13 +374,11 @@ async function handleSubmit(e: any) {
   e.preventDefault();
   setError(null);
 
+  //The user inputs nothing
   if (!query) {
     alert('Its blank! Enter a question lol');
     return;
   }
-
-  
-
   const isFirstMessage = messages.length === 0;
   if (isFirstMessage) {
     // Handle the first user message differently if needed
@@ -343,23 +388,23 @@ async function handleSubmit(e: any) {
 
   const question = query.trim();
   console.log('Sending question:', question);
-  console.log(messageState.messages, 'message state');
+  //console.log(messageState.messages, 'message state');
 
+  // Update state with the user's question
   setMessageState(prevState => ({
     ...prevState,
-    messages: [
-      ...prevState.messages,
-      {
-        type: 'userMessage',
-        message: question,
-      },
-    ],
+    messages: [...prevState.messages, { type: 'userMessage', message: question }],
   }));
 
   setLoading(true);
   setQuery('');
 
+  //Get the response from the backend using chat.ts --> customqachain with the openai api
   try {
+
+    const newFirebaseMessageID = uuidv4();
+    setFirebaseMessageID(newFirebaseMessageID);
+
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
@@ -371,9 +416,11 @@ async function handleSubmit(e: any) {
         userID: userIDRef.current,
         sessionID: sessionIDRef.current,
         namespace: namespaceToSearch,
+        messageID: newFirebaseMessageID,
       }),
     });
     const data = await response.json();
+
 
     if(data.message === 'User has exceeded their limit for messages'){
       //update state
@@ -396,20 +443,8 @@ async function handleSubmit(e: any) {
         setError(data.error);
       } else {
         if (!data.error) {
-          // Update the state to replace the last message with the actual API response
-          setMessageState(prevState => {
-            const newMessages = [ ...prevState.messages];
-            newMessages[newMessages.length] = {
-              type: 'apiMessage',
-              message: data.message,
-              sourceDocs: data.sourceDocs,
-            };
-            return {
-              ...prevState,
-              messages: newMessages,
-              history: [...prevState.history,   [question, data.message]],
-            };
-          });
+          // Update the state to place the sources for the message 
+          
         }}
         setLoading(false);
         //scroll to bottom
@@ -615,13 +650,13 @@ function CodeBlock({ code }: { code: string }) {
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
 
-                {messages.map((message, index) => {
+{messages.map((message, index) => {
     // Your message type handling logic 
     let icon;
     let className;
     let content;
 
-    if (message.type === 'apiMessage') {
+    if (message && message.type === 'apiMessage') {
         icon = (
             <Image
                 key={index}
@@ -630,9 +665,7 @@ function CodeBlock({ code }: { code: string }) {
                 width="50"
                 height="45"
                 className={styles.boticon}
-                priority
-            />
-        );
+                priority/>);
         className = styles.apimessage;
     } else {
         icon = (
@@ -643,9 +676,7 @@ function CodeBlock({ code }: { code: string }) {
                 width="35"
                 height="25"
                 className={styles.usericon}
-                priority
-            />
-        );
+                priority/>);
         className = loading && index === messages.length - 1
             ? styles.usermessagewaiting
             : styles.usermessage;
@@ -656,25 +687,31 @@ function CodeBlock({ code }: { code: string }) {
 
 
 
-// #3
-const isCodeMessage = message.message.includes('```') || message.message.includes('`') || message.message.includes('``'); 
-//
-const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
-const handleBack = () => {
-  router.back(); // This will take the user to the previous page
-};
+    // #3
+    let isCodeMessage = false;
+    if(typeof message.message === 'string'){
+      isCodeMessage = message.message 
+    ? message.message.includes('```') || message.message.includes('`') || message.message.includes('``') 
+    : false; 
+    }
 
-  if (messageContainsMath(message.message)) {
-    content = <MessageRenderer key={index} message={message.message} />;
-  // #4
-  } else if (isCodeMessage) {
-    content = transformMessageWithCode(message.message);
-  //
-  } else if (message.type === 'apiMessage') {                        
-    content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
-  } else {
-    content = <span>{parseBoldText(message.message)}</span>;
-  }
+    //const isLatestApiMessage = index === messages.length - 1 && message.type === 'apiMessage';
+    const isLatestApiMessage =false;
+    const handleBack = () => {
+      router.back(); // This will take the user to the previous page
+    };
+
+    if (messageContainsMath(message.message)) {
+      content = <MessageRenderer key={index} message={message.message} />;
+    // #4
+    } else if (isCodeMessage) {
+      content = transformMessageWithCode(message.message);
+    //
+    } else if (message.type === 'apiMessage') {                        
+      content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
+    } else {
+      content = <span>{parseBoldText(message.message)}</span>;
+    }
 
 
 
@@ -687,22 +724,17 @@ const handleBack = () => {
             <div key={`chatMessage-${index}`} className={className}>
                 {icon}
                 <div className={isCodeMessage ? styles.chatCodeBlock : styles.markdownanswer}>
-  {content}
-</div>
-
-
-
+                {content}
+                </div>
             </div>
-                      {message.sourceDocs && (
+            {message.sourceDocs && (
                         <div
                           className="p-5"
-                          key={`sourceDocsAccordion-${index}`}
-                        >
+                          key={`sourceDocsAccordion-${index}`}>
                           <Accordion
                             type="single"
                             collapsible
-                            className="flex-col"
-                          >
+                            className="flex-col">
                             {message.sourceDocs.slice(0, showMoreSources ? message.sourceDocs.length : 1).map((doc: any, index) => (
                               <div key={`messageSourceDocs-${index}`}> 
                               {/* //look at this section */}
@@ -716,20 +748,19 @@ const handleBack = () => {
                                     </ReactMarkdown>
                                     <p className="mt-2">
                                     <b>Source: </b> 
-                                    <a href={`/pdf/${doc.Source.split('/').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
-                                    style={{
-                                      color: 'blue',
-                                      textDecoration: 'underline',
-                                      cursor: 'pointer',
-                                      fontWeight: 625
-                                  }}>
-                                    {doc.Source.split('/').pop()}
-                                    </a>
-
+                                      <a href={`/pdf/${doc.Source.split('/').pop()}#page=${doc.Page_Number}`} target="_blank" rel="noopener noreferrer" 
+                                      style={{
+                                        color: 'blue',
+                                        textDecoration: 'underline',
+                                        cursor: 'pointer',
+                                        fontWeight: 625}}>
+                                      {doc.Source.split('/').pop()}
+                                      </a>
                                     </p>
                                     <p>
                                       <b> Page number: </b> {doc.Page_Number}
                                     </p>
+
                                     <p>
                                       <b> Total Pages: </b> {doc.Total_Pages}
                                     </p>
@@ -737,19 +768,16 @@ const handleBack = () => {
                                 </AccordionItem>
                               </div>
                             ))}
-
-
-
- {message.sourceDocs.length > 2 && !showMoreSources && (
-  <button className="p-2 text-sm text-red-500" onClick={() => setShowMoreSources(true)}>
-    Show All
-  </button>
-)}
-{showMoreSources && (
-  <button className="p-2 text-sm text-red-500" onClick={() => setShowMoreSources(false)}>
-    Show Less
-  </button>
-)}   
+                            {message.sourceDocs.length > 2 && !showMoreSources && (
+                              <button className="p-2 text-sm text-red-500" onClick={() => setShowMoreSources(true)}>
+                                Show All
+                              </button>
+                            )}
+                            {showMoreSources && (
+                              <button className="p-2 text-sm text-red-500" onClick={() => setShowMoreSources(false)}>
+                                Show Less
+                              </button>
+                            )}   
                           </Accordion>
                         </div>
                       )}
