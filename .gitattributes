@@ -1,1 +1,3 @@
 .pdf filter=lfs diff=lfs merge=lfs -text
+public/pdf/CSI[[:space:]]Lecture[[:space:]]1[[:space:]]2024(40).pdf filter=lfs diff=lfs merge=lfs -text
+classes-split.json filter=lfs diff=lfs merge=lfs -text
