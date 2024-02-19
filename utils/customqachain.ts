@@ -245,7 +245,7 @@ export class CustomQAChain {
         }
 
         let fetchedTexts: any = [];
-        let remainingDocs = 50;  // max vector search
+        let remainingDocs = 80;  // max vector search
 
         const namespacesToSearch = this.namespaces;
         const numOfVectorsPerNS = Math.floor(remainingDocs / namespacesToSearch.length);
@@ -377,18 +377,12 @@ export class CustomQAChain {
 
 
         1. Irrelevant Questions: 
-
-        When I ask for certain class materials (i.e. explain lecture 20) that are not yet accessible or don't exist to you.
-        You will always check against the currently available class materials listed above when answering questions.
-        If the the question refers to material not in this list, inform me that the material is currently unavailable for CornellGPT.
-        Use your best intuition to determine if it is or not in the list, for example if "lecture3note" is in the list that most
-        likely means lecture 3.
         
         Examples of irrelevant questions include general knowledge or queries unrelated to the academic nature of ${namespaceToFilter}, 
         like "Who is Tom Brady?" or "What is a blueberry?" or "Explain lecture 99" - when lecture 99 is not in the class materials.
-
-        If the question is irrelevant to the academic context of ${namespaceToFilter} & ${this.namespaces}
-        then be sure to notify me before answering.
+        Be smart enough to know what is truly irrelevant versus what may seem as irrelevant. For instance you may have access
+        to instructor details, and if someone asks about professor that would probably mean they are talking about the instructor.
+        Use your intelligent intuition to decide things like this.
 
 
 
