@@ -5,7 +5,7 @@ const fs = require('fs').promises;
 
 async function loadPattern() {
   try {
-    const filePath = path.join('utils', 'regex.txt');
+    const filePath = path.join(process.cwd(),'utils', 'regex.txt');
     const data = await fs.readFile(filePath, 'utf8');
     const trimmedData = data.trim(); // Trimming the data
     return new RegExp(trimmedData, 'gi');
