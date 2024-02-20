@@ -164,7 +164,7 @@ export class CustomQAChain {
     //Allows for data streaming but used without langchain
     private async chatWithOpenAI(prompt, question, userID) {
 
-        // console.log(prompt);
+        //console.log(prompt);
         
         const postData = {
             model: "gpt-3.5-turbo-0125",
@@ -290,6 +290,7 @@ export class CustomQAChain {
         //this.chatHistoryBuffer.addMessage(chat_history);
         //console.log(this.namespaces, 'name of namespaces');
         
+        //Map the metadata of the vectors retrieved from the pinecone 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
                 text: vector.metadata.text,
@@ -502,6 +503,7 @@ export class CustomQAChain {
             // history.saveContext([systemMessage], [humanMessage]);
         }
         
+        // Langchain call to openai
         // const chain = new ConversationChain({
         //     // memory: history,
         //     prompt: reportsPrompt,

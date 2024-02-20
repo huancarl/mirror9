@@ -133,9 +133,10 @@ export default function Home() {
     let email = userIDRef.current;
     let netIDWithoutDotCom = email ? email.split('@')[0] : '';
 
+    //Pre set the last message index to the next message that we are generating from openai with the length of messages
     lastMessageIndexRef.current = messages.length;
 
-    //Read from the data stream
+    //Read from the data stream from firebase
     const dbRef = ref(database, `messages/${netIDWithoutDotCom}/${firebaseMessageID}`);
 
     const unsubscribe = onValue(dbRef, (snapshot) => {
@@ -152,7 +153,6 @@ export default function Home() {
 
   // Update the message as we are receiving the stream of data from the backend storage. 
   // This use effect runs whenever the data stream is updated with more data from the backend.
-
   useEffect(() => {
     let fullMessage = lastMessageContent;
     setMessageState(prevState => {
@@ -422,7 +422,7 @@ async function handleSubmit(e: any) {
     const data = await response.json();
 
 
-    if(data.message === 'User has exceeded their limit for messages'){
+    if(data.message && data.message === 'User has exceeded their limit for messages'){
       //update state
       setShowLimitReachedModal(true);
       setQuery('');
@@ -443,8 +443,17 @@ async function handleSubmit(e: any) {
         setError(data.error);
       } else {
         if (!data.error) {
-          // Update the state to place the sources for the message 
-          
+          // Update the state to place the sources for the message that we just sent 
+          setMessageState(prevState => {
+            const newMessages = [ ...prevState.messages];
+            newMessages[lastMessageIndexRef.current].sourceDocs = data.sourceDocs;
+            return {
+              ...prevState,
+              messages: newMessages,
+              history: [...prevState.history],
+            };
+          });
+            
         }}
         setLoading(false);
         //scroll to bottom
