@@ -443,17 +443,19 @@ async function handleSubmit(e: any) {
         setError(data.error);
       } else {
         if (!data.error) {
-          // Update the state to place the sources for the message that we just sent 
-          setMessageState(prevState => {
-            const newMessages = [ ...prevState.messages];
-            newMessages[lastMessageIndexRef.current].sourceDocs = data.sourceDocs;
-            return {
-              ...prevState,
-              messages: newMessages,
-              history: [...prevState.history],
-            };
-          });
-            
+
+          if(data.sourceDocs){
+            // Update the state to place the sources for the message that we just sent 
+            setMessageState(prevState => {
+              const newMessages = [ ...prevState.messages];
+              newMessages[lastMessageIndexRef.current].sourceDocs = data.sourceDocs;
+              return {
+                ...prevState,
+                messages: newMessages,
+                history: [...prevState.history],
+              };
+            });
+            }    
         }}
         setLoading(false);
         //scroll to bottom

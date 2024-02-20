@@ -80,7 +80,11 @@ export default async function handler(
   const cleanedNamespace = namespace.replace(/ /g, '_');
 
   //Get the list of class materials from chatAccessDocuments to put to prompt so gpt can choose the best one to search
-  const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
+
+  const path = require('path');
+  const classMappingFilePath = path.join(process.cwd(), 'utils', 'chatAccessDocuments.json');
+
+  // const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
   const data = await fs.readFile(classMappingFilePath, 'utf8');
   const classMapping = JSON.parse(data);
   
