@@ -125,7 +125,7 @@ export class CustomQAChain {
 
         this.joinedResponse = '';
 
-        const serviceAccount = path.join('utils', 'serviceAccountKey.json');
+        const serviceAccount = path.join(process.cwd(), 'utils', 'serviceAccountKey.json');
         if (admin.apps.length === 0) {
             admin.initializeApp({
                 credential: admin.credential.cert(serviceAccount),
@@ -326,7 +326,7 @@ export class CustomQAChain {
             }
         }).filter(Boolean).join('\n'); // Filter out null values and join
 
-        const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
+        const classMappingFilePath = path.join(process.cwd(), 'utils', 'chatAccessDocuments.json');
         const data = await fs.readFile(classMappingFilePath, 'utf8');
         const classMapping = JSON.parse(data);
         

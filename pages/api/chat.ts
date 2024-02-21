@@ -318,7 +318,7 @@ export default async function handler(
     const queryEmbedding = await embeddings.embedQuery(question);
 
     //Check the list of all ingested class assignments for the anti cheat check.
-    const cheatJsonMapping = path.join('utils', 'classAssignmentsNamespaces.json');
+    const cheatJsonMapping = path.join(process.cwd(), 'utils', 'classAssignmentsNamespaces.json');
     const cheatData = await fs.readFile(cheatJsonMapping, 'utf8');
     const cheatNamespaces = JSON.parse(cheatData);
 

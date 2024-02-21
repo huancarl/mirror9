@@ -5,7 +5,7 @@ const fs = require('fs').promises;
 
 async function loadPattern() {
   try {
-    const filePath = path.join(process.cwd(),'utils', 'regex.txt');
+    const filePath = path.join(process.cwd(), 'utils', 'regex.txt');
     const data = await fs.readFile(filePath, 'utf8');
     const trimmedData = data.trim(); // Trimming the data
     return new RegExp(trimmedData, 'gi');
@@ -22,7 +22,7 @@ interface TitlesMap {
 
 async function loadTitlesMap() {
   try {
-    const filePath = path.join('utils', 'lowerToUpperMap.json');
+    const filePath = path.join(process.cwd(), 'utils', 'lowerToUpperMap.json');
     const jsonData = await fs.readFile(filePath, 'utf8');
     const data: TitlesMap = JSON.parse(jsonData);
     return data;
