@@ -125,7 +125,7 @@ export class CustomQAChain {
 
         this.joinedResponse = '';
 
-        const serviceAccount = path.join(process.cwd(), 'utils', 'serviceAccountKey.json');
+        const serviceAccount = path.join(process.cwd(),'utils', 'serviceAccountKey.json');
         if (admin.apps.length === 0) {
             admin.initializeApp({
                 credential: admin.credential.cert(serviceAccount),
@@ -164,10 +164,10 @@ export class CustomQAChain {
     //Allows for data streaming but used without langchain
     private async chatWithOpenAI(prompt, question, userID) {
 
-        //console.log(prompt);
+        // console.log(prompt);
         
         const postData = {
-            model: "gpt-3.5-turbo-0125",
+            model: "gpt-4-0125-preview",
             messages: [
                 { role: "system", content: prompt },
                 { role: "user", content: question },
@@ -245,7 +245,7 @@ export class CustomQAChain {
         }
 
         let fetchedTexts: any = [];
-        let remainingDocs = 80;  // max vector search
+        let remainingDocs = 60;  // max vector search
 
         const namespacesToSearch = this.namespaces;
         const numOfVectorsPerNS = Math.floor(remainingDocs / namespacesToSearch.length);
@@ -290,7 +290,6 @@ export class CustomQAChain {
         //this.chatHistoryBuffer.addMessage(chat_history);
         //console.log(this.namespaces, 'name of namespaces');
         
-        //Map the metadata of the vectors retrieved from the pinecone 
         const sourceDocuments = relevantDocs.map(vector => {
             return {
                 text: vector.metadata.text,
@@ -304,7 +303,7 @@ export class CustomQAChain {
         
 
         let charCount = 0;
-        const maxChars = 15000;
+        const maxChars = 20000;
         
         const formattedSourceDocuments = sourceDocuments.map((doc, index) => {
             // Remove newlines, excessive spacing, and curly braces from the text
@@ -357,10 +356,12 @@ export class CustomQAChain {
 
        
         Surround any numbers, math expressions, variables, notations, calculus, integrals, equations, theorems, anything related to math with $. 
-        For example: $ax^2 + bx + c = 0$, $s^2$, $1$, $P(A|B)$, etc. Bold key words and topics always.
+        For example: $ax^2 + bx + c = 0$, $s^2$, $1$, $P(A|B)$, etc. Do not put $ around anything that is not math related.
 
         Surround any code/programming with single, or double or triple backticks always.
         For example: 'var1'. 
+        
+        Bold key words and topics always. 
 
         If you are in the context of a CS class, be ready to code in your responses.
 
@@ -379,11 +380,19 @@ export class CustomQAChain {
 
         1. Irrelevant Questions: 
         
+        The list of all class materials you have access to is: ${classMapping[namespaceToFilter]}.
+
+        You must always check explicitly in the list above of class materials to see if you have access to the  specific thing being asked by the user. 
+        This is extremely critical in assessing if the question can be answered or not. If the user asks about a particular class material that you
+        do not have access to, simply say you do not have access to it at the present moment and to allow the handsome founders of CornellGPT to update CornellGPT soon.
         Examples of irrelevant questions include general knowledge or queries unrelated to the academic nature of ${namespaceToFilter}, 
         like "Who is Tom Brady?" or "What is a blueberry?" or "Explain lecture 99" - when lecture 99 is not in the class materials.
         Be smart enough to know what is truly irrelevant versus what may seem as irrelevant. For instance you may have access
         to instructor details, and if someone asks about professor that would probably mean they are talking about the instructor.
-        Use your intelligent intuition to decide things like this.
+        Use your intelligent intuition to decide things like this. 
+        If there is no direct reference of the material being requested by the user in your access, alert the user of the above, but you may continue to answer
+        if you have enough information from the source basis.
+
 
 
 
@@ -497,7 +506,6 @@ export class CustomQAChain {
             // history.saveContext([systemMessage], [humanMessage]);
         }
         
-        // Langchain call to openai
         // const chain = new ConversationChain({
         //     // memory: history,
         //     prompt: reportsPrompt,
