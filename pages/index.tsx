@@ -4,6 +4,7 @@ import styles from '@/styles/HomePage.module.css';
 import useTypewriter from 'react-typewriter-hook'; // You need to install this package
 import { useRouter } from 'next/router';
 import { isAuthenticated, withSession } from 'utils/session';
+import { Analytics } from "@vercel/analytics/react"
 
 export const getServerSideProps = withSession(async ({ req, res }) => {
   const user = await isAuthenticated(req);
@@ -54,6 +55,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <Analytics />{}
       <div className={styles.typewriterContainer}>
         <div className={styles.typewriter}>
           {typewriter}
