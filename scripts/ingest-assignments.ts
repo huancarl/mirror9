@@ -38,7 +38,7 @@ async function getAllPDFFiles(directory: string): Promise<any> {
   }
 }
 
-
+const embeddingsGenerator = new OpenAIEmbeddings();
 
 export const run = async () => {
   try {
@@ -49,50 +49,66 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    let className = "INFO_1260_Assignments"; //Name of the folder must follow the format: SUBJECT_NUMBER_Assignments
+    let className = "CS_4780_Assignments"; //Name of the folder must follow the format: SUBJECT_NUMBER_Assignments
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
     //const classNamespace = `${className}_All_Materials`;
-
     for (const [fileNameWithExtension, document] of pdfFiles) {
+
+      const fileName = fileNameWithExtension.replace('.pdf', '');
       
-      const namespace = className;
-      console.log(document);
+      const namespace = NAMESPACE_NUMB[fileName][0]; // Adjust this if the mapping of folder to namespace changes
+      //console.log(document);
       const splitDocs = await textSplitter.splitDocuments(document);
+
+      //console.log(splitDocs);
+
+      //const json = JSON.stringify(splitDocs);
+      //await fs.writeFile(`${namespace}-split.json`, json);
 
       const upsertChunkSize = 25;
       for (let i = 0; i < splitDocs.length; i += upsertChunkSize) {
         const chunk = splitDocs.slice(i, i + upsertChunkSize);
 
-        //upload to individual namespaces for each class material
-        await PineconeStore.fromDocuments(chunk, new OpenAIEmbeddings(), {
-          pineconeIndex: index,
-          namespace: namespace,
-          textKey: 'text',
+        const embeddings = await Promise.all(chunk.map(doc => 
+          embeddingsGenerator.embedDocuments([doc.pageContent])
+        ));
+ 
+        // Format for Pinecone upsert
+        const pineconeRecords = chunk.map((doc, idx) => {
+          // Use either a combination of file name and index or a UUID
+          const uniqueId = `${fileNameWithExtension}_${i + idx}`;  // Example: 'document1_0', 'document1_1', etc.
+          // Or use UUID: const uniqueId = uuidv4();
+
+          //Create the metadata map using the metadata properties found in documents
+          //console.log(chunk[1]);
+          let metadataMap = {};
+          const text = doc.pageContent;
+          const pageNum = doc.metadata.loc.pageNumber;
+          const maxPages = doc.metadata.pdf.totalPages;
+          const source = doc.metadata.source;
+          const fromLine = doc.metadata.loc.lines.from;
+          const toLine = doc.metadata.loc.lines.to;
+
+          metadataMap['loc.lines.from'] = fromLine;
+          metadataMap['loc.lines.to'] = toLine;
+          metadataMap['loc.pageNumber'] = pageNum;
+          metadataMap['pdf.totalPages'] = maxPages;
+          metadataMap['source'] = source;
+          metadataMap['text'] = text;
+
+          return {
+            id: uniqueId,
+            values: embeddings[idx].flat(),
+            metadata: metadataMap,
+          };
         });
-
+     
+        //console.log(pineconeRecords);
+        // Upsert to Pinecone
+        //Upsert to the namespace of the specific class material for the class
+        await index.namespace(namespace).upsert(pineconeRecords);
       }
-    }
-
-    const jsonFilePath = path.join('utils', 'classAssignmentsNamespaces.json');
-    try {
-        const jsonDataString = await fs.readFile(jsonFilePath, 'utf8');
-        const jsonData = JSON.parse(jsonDataString);
-
-        // The key you want to check and update
-        const key = className;  // Replace 'yourKey' with the actual key
-
-        // Check if the key exists and update the value
-        if (jsonData.hasOwnProperty(key)) {
-            jsonData[key] += 1;
-        } else {
-            jsonData[key] = 1;
-        }
-
-        // Write the updated JSON back to the file asynchronously
-        await fs.writeFile(jsonFilePath, JSON.stringify(jsonData, null, 2));
-    } catch (error) {
-        console.error('Error:', error);
     }
 
     console.log('assignment ingestion complete');

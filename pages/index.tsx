@@ -2,6 +2,24 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/HomePage.module.css';
 import useTypewriter from 'react-typewriter-hook'; // You need to install this package
+import { useRouter } from 'next/router';
+import { isAuthenticated, withSession } from 'utils/session';
+
+export const getServerSideProps = withSession(async ({ req, res }) => {
+  const user = await isAuthenticated(req);
+
+  if (user) {
+      return {
+          redirect: {
+              destination: '/coursePage', // Redirect to the sign-in page
+              permanent: false,
+          },
+      };
+  }
+  // User is authenticated
+  return { props: { user } };
+});
+
 
 const HomePage: React.FC = () => {
   const [magicName, setMagicName] = useState("Explain lecture 21 in detail");
@@ -19,6 +37,7 @@ const HomePage: React.FC = () => {
   ];
 
   useEffect(() => {
+    
     const interval = setInterval(() => {
       index.current = index.current >= prompts.length - 1 ? 0 : index.current + 1;
       setMagicName(prompts[index.current]);

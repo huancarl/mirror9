@@ -289,6 +289,7 @@ export default async function handler(
 
     console.log(namespaces, 'namespace in chat.ts');
 
+    //Not used delete please
     const modelForResponse = new OpenAIChat({
       temperature: 0.1,
       // modelName: "gpt-4-0125-preview",
@@ -306,14 +307,14 @@ export default async function handler(
       bufferMaxSize: 4000,
     }, userID, messageID);
     
-    const assignmentQaChain = AssignmentCustomQAChain.fromLLM(modelForResponse, index, namespaces, {
+    const assignmentQaChain = AssignmentCustomQAChain.fromLLM(modelForResponse, index, namespaces,{
       returnSourceDocuments: true,
       bufferMaxSize: 4000,
-    });
+    }, userID, messageID);
 
     
   
-    //This creates an openAI embedding of the question so that it can be used to search the pinecone for vectors
+    //This creates an openAI embedding of the question to search the pinecone for vectors
     const embeddings = new OpenAIEmbeddings();
     const queryEmbedding = await embeddings.embedQuery(question);
 
@@ -322,26 +323,34 @@ export default async function handler(
     const cheatData = await fs.readFile(cheatJsonMapping, 'utf8');
     const cheatNamespaces = JSON.parse(cheatData);
 
+    //clean the class name to match with the namespaces on pinecone
     let namespaceWithUnderscore = namespace.replace(/ /g, '_');
     let assignmentNamespace = namespaceWithUnderscore + '_Assignments';
+    let allMaterialsNamespace = namespaceWithUnderscore + '_All_Materials';
 
+    // Results of customqachain. This will be the sourcedocs retrieved from tbhe backend
     let results: any;
 
     //Only run if the class has a class assignments namespace
     if(assignmentNamespace in cheatNamespaces){
 
       //Check if the user's question is a direct copy and paste of a current assignment's questions
-      if(await anti_cheat(question, queryEmbedding, 'test_Assignments', 'test')) {
+      const antiCheatResponse = await anti_cheat(question, queryEmbedding, assignmentNamespace, allMaterialsNamespace)
+      const cheating = antiCheatResponse['cheatGuess'];
+      const metadata = antiCheatResponse['vector'];
+
+      if(cheating) {
         //If anti cheat returns true then the user is suspected of cheating
         //Parameters for anti_cheat function: question, question embeddings, namespace to search
         console.log('Cheating detected, avert from normal user flow');
 
-        // results = await qaChain.call({
-        //   question: question,
-        //   questionEmbed: queryEmbedding,
-        //   chat_history: messages,
-        //   namespaceToFilter: cleanedNamespace
-        // });
+        results = await assignmentQaChain.call({
+          question: question,
+          questionEmbed: queryEmbedding,
+          chat_history: messages,
+          namespaceToFilter: cleanedNamespace,
+          metadata: metadata
+        });
       }
     }
     else{
@@ -356,7 +365,7 @@ export default async function handler(
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
 
-    //save message to the database before displaying it
+    //save message to the database
     const saveToDB = {
       userID,
       sessionID,
@@ -365,6 +374,7 @@ export default async function handler(
       sourceDocs,
       timestamp : new Date()
     };
+
     await chatHistoryCollection.insertOne(saveToDB);
     const currSession = await chatSessionCollection.findOne({sessionID, userID });
 
