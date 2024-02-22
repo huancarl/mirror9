@@ -2,10 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import 'highlight.js/styles/github.css';
 import React from "react";
 import 'katex/dist/katex.min.css';
-import { Typewriter } from './typewriter';  
-
-
-
+import { Typewriter } from './typewriter';
 
 export function messageContainsMath(message) {
   const latexPatterns = [
@@ -28,9 +25,6 @@ export function messageContainsMath(message) {
   return false;  // Ensures all code paths return a value.
 }
 
-  
-
-
 export function transformMessageWithLatex(message) {
     let isInlineMath = message.startsWith('$') && message.endsWith('$');
     let isDisplayMath = message.startsWith('$$') && message.endsWith('$$');
@@ -43,82 +37,71 @@ export function transformMessageWithLatex(message) {
   
     let transformedMessage = message;
 
+    // Adjustments for LaTeX syntax
     transformedMessage = transformedMessage.replace(/\\\[|\\\]/g, "$$");
-  
     transformedMessage = transformedMessage.replace(/(\w+)\^(\w+)/g, '$1^{$2}');
-    transformedMessage = transformedMessage.replace(/\b(sqrt|sin|cos|tan|log)\b/g, '\$1 ');
+    transformedMessage = transformedMessage.replace(/\b(sqrt|sin|cos|tan|log)\b/g, '\\$1 ');
     transformedMessage = transformedMessage.replace(/(\d+)\/(\d+)/g, '\\frac{$1}{$2}');
     transformedMessage = transformedMessage.replace(/<=/g, '\\leq');
     transformedMessage = transformedMessage.replace(/>=/g, '\\geq');
     transformedMessage = transformedMessage.replace(/!=/g, '\\neq');
     transformedMessage = transformedMessage.replace(/(?<!\$)\$(?!\$)/g, '\\$');
-  
+
     return transformedMessage;
-  }
+}
 
-
-
-  
 export function splitMessageIntoSegments(message) {
-    const regex = /(\${1,2}.*?\${1,2})/g;
-    return message.split(regex)
-  }
-  
+  const regex = /(\${1,2}.*?\${1,2})/g;
+  return message.split(regex);
+}
 
+export function MathComponent({ latex }) {
+  const mathRef = useRef(null);
 
-  
-  export function MathComponent({ latex }) {
-    const mathRef = useRef(null);
-  
-    useEffect(() => {
-      try {
-        if (window.katex && mathRef.current) {
-          window.katex.render(latex, mathRef.current, {
-            throwOnError: false // This will render the raw string on error instead of throwing an exception
-          });
-        } 
-      } catch (error) {
-      }
-    }, [latex]);
-  
-    return <span ref={mathRef} />;
-  }
-  
-  
-
-
-  export function MessageRenderer({ message }) {
-    const segments = splitMessageIntoSegments(message);
-  
-    return (
-      <>
-        {segments.map((segment, index) => {
-          if (messageContainsMath(segment)) {
-            const latexSegment = transformMessageWithLatex(segment);
-            return <MathComponent key={index} latex={latexSegment} />;
-          } else {
-            const parsedBoldText = parseBoldText(segment);
-            return <Typewriter key={index} message={parsedBoldText} animate={true} />;
-          }
-        })}
-      </>
-    );
-  }
-  
-
-
-  // For Bold Text
-
-  export function parseBoldText(text) {
-    if (typeof text !== 'string') {
-      return [];
+  useEffect(() => {
+    try {
+      if (window.katex && mathRef.current) {
+        window.katex.render(latex, mathRef.current, {
+          throwOnError: false // This will render the raw string on error instead of throwing an exception
+        });
+      } 
+    } catch (error) {
+      console.error(error);
     }
-  
-    return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
-      if (part.startsWith('**') && part.endsWith('**')) {
-        return <strong key={index}>{part.slice(2, -2)}</strong>;
-      }
-      return <span key={index}>{part}</span>; // Convert string parts to text nodes
-    });
+  }, [latex]);
+
+  return <span ref={mathRef} />;
+}
+
+export function MessageRenderer({ message }) {
+  const segments = splitMessageIntoSegments(message);
+
+  return (
+    <>
+      {segments.map((segment, index) => {
+        if (messageContainsMath(segment)) {
+          const latexSegment = transformMessageWithLatex(segment);
+          return <MathComponent key={index} latex={latexSegment} />;
+        } else {
+          const parsedBoldText = parseBoldText(segment);
+          return <Typewriter key={index} message={parsedBoldText} animate={true} />;
+        }
+      })}
+    </>
+  );
+}
+
+// For Bold Text
+
+export function parseBoldText(text) {
+  if (typeof text !== 'string') {
+    return [];
   }
-  
+
+  return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={index}>{part.slice(2, -2)}</strong>;
+    }
+    return <span key={index}>{part}</span>; // Convert string parts to text nodes
+  });
+}
