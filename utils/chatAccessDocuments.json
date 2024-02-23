@@ -210,7 +210,15 @@
     "CS_4780_lecturenote1_MLsetup",
     "CS_4780_lecturenote2_kNN",
     "CS_4780_lecturenote3",
-    "CS_4780_All_Materials"
+    "CS_4780_All_Materials",
+    "CS_4780_Joint_MLE_MAP",
+    "CS_4780_NBayesLogReg",
+    "CS_4780_learning-cis-upenn-edu-cis520_fall2009-index-php-n-Lectures-PointEstimation",
+    "CS_4780_lecturenote04",
+    "CS_4780_lecturenote05",
+    "CS_4780_lecturenote06",
+    "CS_4780_lecturenote07",
+    "CS_4780_mturk-CVPR91"
   ],
   "ENGL_2800": [
     "ENGL_2800_ENGL_2800_SEM_108_Syllabus__Spring_2024_",
@@ -399,7 +407,16 @@
     "INFO_4390_SP24_INFO4390_Lec3_Principles1-2,_Fairness_Defs",
     "INFO_4390_SP24_INFO4390_Lec4_Principle3,_Train_and_Test_on_Diverse_Data",
     "INFO_4390_syllabus__1_",
-    "INFO_4390_All_Materials"
+    "INFO_4390_All_Materials",
+    "INFO_4390_2024-02-29_2008.12623",
+    "INFO_4390_2024-02-29_2305.16941",
+    "INFO_4390_DebRaji_INFO4390Presentation_20230213",
+    "INFO_4390_HW2_DueFeb29",
+    "INFO_4390_INFO4390_Phase_2_Rubric__due_Mar_14_",
+    "INFO_4390_SP24_INFO4390_Lec5_Principle4,_Removing_sensitive_features_won’t_automatically_make_your_algorithm_fair,_and_might_make_it_worse",
+    "INFO_4390_SP24_INFO4390_Lec6_Principle5_Consider_Whether_You're_Predicting_What_You_Want_to_be_Predicting",
+    "INFO_4390_SP24_INFO4390_Lec5_Principle4",
+    "INFO_4390_SP24_INFO4390_Lec6_Principle5_Consider_Whether_You're_"
   ],
   "INFO_4940": [
     "INFO_4940_INFO4940-5940_Foundations1_Slides",
@@ -553,5 +570,26 @@
     "CS_2110_www-cs-cornell-edu-courses-cs2110-2024sp-schedule-html",
     "CS_2110_www-cs-cornell-edu-courses-cs2110-2024sp-syllabus-html",
     "CS_2110_All_Materials"
+  ],
+  "AEM_3205": [
+    "AEM_3205_3205.E1.Rev.SP24.pptx",
+    "AEM_3205_AEM3205.SEC1.CORRUPTION__2_",
+    "AEM_3205_AEM3205.SEC2.BASICS__1_.pptx",
+    "AEM_3205_AEM3205.Syl.SP24.docx",
+    "AEM_3205_Darley2005",
+    "AEM_3205_PollEV_Student_Info_2024_Spring.pptx",
+    "AEM_3205_The_Abstract_Wild_-_Jack_Turner_-_Chapter_4_-_Economic_Nature_-_Tagged",
+    "AEM_3205_All_Materials"
+  ],
+  "AEM_4670": [
+    "AEM_4670_AEM4670_5670Syllabus",
+    "AEM_4670_CAPM_and_APT_[Compatibility_Mode]",
+    "AEM_4670_Excel_examples_2024.xlsx",
+    "AEM_4670_Lecture_2_3",
+    "AEM_4670_Lecture_4__1_",
+    "AEM_4670_Lecture1",
+    "AEM_4670_Useful_Excel_Functions_for_Frontier_Building",
+    "AEM_4670_Zvi_Bodie,_Alex_Kane,_Alan_J._Marcus_-_Investments-McGraw_Hill__2023_",
+    "AEM_4670_All_Materials"
   ]
 }

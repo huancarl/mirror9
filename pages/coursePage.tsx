@@ -338,6 +338,21 @@ const courses = [
     professor: 'Intro to Engineering Stochastic Processes I, Professor Scully'
   },
 
+  { 
+    key: "AEM 3205", 
+    namespaceTitle: "AEM 3205", 
+    displayTitle: "AEM 3205", 
+    professor: 'Ethics in Business and Organizations, Professor Doris'
+  },
+
+  { 
+    key: "AEM 4670", 
+    namespaceTitle: "AEM 4670", 
+    displayTitle: "AEM 4670", 
+    professor: 'Investments, Professor Murfin'
+  },
+
+
 
 
 
