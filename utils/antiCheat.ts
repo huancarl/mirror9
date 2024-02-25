@@ -131,7 +131,6 @@ async function calculate_similarity_score(question: any, assignmentNamespaces: s
 export async function anti_cheat(question: string, questionEmbed: any, fullNamespace: string, classNamespace:string): Promise<object> {
     
     let cheat: boolean;
-
     let result = {};
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);

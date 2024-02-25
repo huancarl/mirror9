@@ -323,12 +323,11 @@ export default async function handler(
     const cheatData = await fs.readFile(cheatJsonMapping, 'utf8');
     const cheatNamespaces = JSON.parse(cheatData);
 
-    //clean the class name to match with the namespaces on pinecone
     let namespaceWithUnderscore = namespace.replace(/ /g, '_');
     let assignmentNamespace = namespaceWithUnderscore + '_Assignments';
     let allMaterialsNamespace = namespaceWithUnderscore + '_All_Materials';
 
-    // Results of customqachain. This will be the sourcedocs retrieved from tbhe backend
+    // Sourcedocs retrieved from the backend
     let results: any;
 
     //Only run if the class has a class assignments namespace
@@ -361,6 +360,7 @@ export default async function handler(
         namespaceToFilter: cleanedNamespace
       });
     }
+
 
     const message = results.text;
     const sourceDocs = results.sourceDocuments;

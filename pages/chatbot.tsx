@@ -116,6 +116,24 @@ export default function Home() {
   // Implement Firebase Realtime Database reading logic here. Set up the connection to the database to read from it.
   // This useeffect triggers when the user sends a message.
   useEffect(() => {
+
+    //Pre set the last message index to the next message that we are generating from openai with the length of messages
+    lastMessageIndexRef.current = messages.length;
+
+    setMessageState(prevState => {
+      const newMessages = [ ...prevState.messages];
+      newMessages[lastMessageIndexRef.current] = {
+        type: 'apiMessage',
+        message: '',
+        sourceDocs: undefined, 
+      };
+      return {
+        ...prevState,
+        messages: newMessages,
+        history: [...prevState.history],
+      };
+    });
+
     const firebaseConfig = {
       apiKey: "AIzaSyDjXYdilXhoG6t8ZI1taaZsJNwpuA8Njp0",
       authDomain: "gptcornell.firebaseapp.com",
@@ -132,9 +150,6 @@ export default function Home() {
 
     let email = userIDRef.current;
     let netIDWithoutDotCom = email ? email.split('@')[0] : '';
-
-    //Pre set the last message index to the next message that we are generating from openai with the length of messages
-    lastMessageIndexRef.current = messages.length;
 
     //Read from the data stream from firebase
     const dbRef = ref(database, `messages/${netIDWithoutDotCom}/${firebaseMessageID}`);
@@ -155,19 +170,20 @@ export default function Home() {
   // This use effect runs whenever the data stream is updated with more data from the backend.
   useEffect(() => {
     let fullMessage = lastMessageContent;
+
+    if(!messages[lastMessageIndexRef.current]){
+      return;
+    }
+
     setMessageState(prevState => {
-        const newMessages = [ ...prevState.messages];
-        newMessages[lastMessageIndexRef.current] = {
-          type: 'apiMessage',
-          message: fullMessage,
-          sourceDocs: undefined, 
-        };
-        return {
-          ...prevState,
-          messages: newMessages,
-          history: [...prevState.history],
-        };
-      });
+      const newMessages = [ ...prevState.messages];
+      newMessages[lastMessageIndexRef.current].message = fullMessage;
+      return {
+        ...prevState,
+        messages: newMessages,
+        history: [...prevState.history],
+      };
+    });
 
   }, [lastMessageContent]);
 
@@ -445,9 +461,11 @@ async function handleSubmit(e: any) {
         if (!data.error) {
 
           if(data.sourceDocs){
+
             // Update the state to place the sources for the message that we just sent 
             setMessageState(prevState => {
               const newMessages = [ ...prevState.messages];
+
               newMessages[lastMessageIndexRef.current].sourceDocs = data.sourceDocs;
               return {
                 ...prevState,
@@ -700,7 +718,7 @@ function CodeBlock({ code }: { code: string }) {
 
     // #3
     let isCodeMessage = false;
-    if(typeof message.message === 'string'){
+    if(message && typeof message.message === 'string'){
       isCodeMessage = message.message 
     ? message.message.includes('```') || message.message.includes('`') || message.message.includes('``') 
     : false; 
