@@ -306,6 +306,7 @@ export default async function handler(
       returnSourceDocuments: true,
       bufferMaxSize: 4000,
     }, userID, messageID);
+
     
     const assignmentQaChain = AssignmentCustomQAChain.fromLLM(modelForResponse, index, namespaces,{
       returnSourceDocuments: true,

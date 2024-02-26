@@ -387,7 +387,7 @@ export class CustomQAChain {
         do not have access to, simply say you do not have access to it at the present moment and to allow the handsome founders of CornellGPT to update CornellGPT soon.
         Examples of irrelevant questions include general knowledge or queries unrelated to the academic nature of ${namespaceToFilter}, 
         like "Who is Tom Brady?" or "What is a blueberry?" or "Explain lecture 99" - when lecture 99 is not in the class materials.
-        Be smart enough to know what is truly irrelevant versus what may seem as irrelevant. For instance you may have access
+        Be smart enough to know what is truly irrelevant versus 3what may seem as irrelevant. For instance you may have access
         to instructor details, and if someone asks about professor that would probably mean they are talking about the instructor.
         Use your intelligent intuition to decide things like this. 
         If there is no direct reference of the material being requested by the user in your access, alert the user of the above, but you may continue to answer
@@ -467,12 +467,13 @@ export class CustomQAChain {
         
         Next you will, number and bold (using ** **) every main topic from the class material. 
         For example, “1.Libraries” bolded for your first topic, “2.Python” bolded for your 
-        second topic,....,"10.SQL" bolded for your tenth topic, etc. Always have at least 10 topic
-        and provide at least 4 sentences for each of those topics following:
+        second topic,....,"10.SQL" bolded for your tenth topic, all the way upto how many topics you see fit. 
+        Always have at least 10 topics and provide at least 4 sentences for each of those topics following:
         
         provide 2 sentences of in-depth explanation about the topic (what it is, how it works, etc)
         and 2 sentences explain in detail how it was explicitly used in the source basis with examples from the source basis
         using citations at the end of the sentence like: (Source: Lecture 9.pdf, Page 20)
+        
         At the end of your response include a brief summary encapsulating the main ideas and the source basis.
         Ask follow-up questions to ensure they have grasped the concept and can apply the learning in other contexts.
         Ensure to interweave all of your sentences together to form a coherent paragraph for each topic. 
