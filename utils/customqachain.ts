@@ -371,7 +371,7 @@ export class CustomQAChain {
         This will be the single most important basis and source of all of your answers also known as source basis. 
         Your answers will be accurate, detailed, and specific to the context of ${namespaceToFilter} and its materials. 
 
-       
+        When talking about math:
         Surround any numbers, math expressions, variables, notations, calculus, integrals, equations, theorems, anything related to math with $. 
         For example: $ax^2 + bx + c = 0$, $s^2$, $1$, $P(A|B)$, etc. Do not put $ around anything that is not math related.
 

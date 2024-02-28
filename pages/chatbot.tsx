@@ -714,10 +714,15 @@ function CodeBlock({ code }: { code: string }) {
 
 
 
+const handleOverlayClick = () => {
+  // Function to close the popup
+  setShowPopup(false); // Assuming setShowPopup is the setter function of your showPopup state
+};
 
 
-  const [classMapping, setClassMapping] = useState({});
+const [classMapping, setClassMapping] = useState({});
   const [mappingOutput, setMappingOutput] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
 
   // Fetch classMapping data
   const fetchClassMapping = async () => {
@@ -734,14 +739,28 @@ function CodeBlock({ code }: { code: string }) {
   // Function to handle button click
   const handleButtonClick = () => {
     if (classMapping && courseTitle && typeof(courseTitle) !== 'object') {
-      
       const title = courseTitle.replace(/ /g, '_');
       const output = classMapping[title];
       console.log(output);
-      setMappingOutput(JSON.stringify(output, null, 2)); // Displaying JSON in a readable format
+      if (Array.isArray(output)) {
+        // Join the array elements into a string separated by newlines (or another separator)
+        setMappingOutput(output.join('\n'));
+      } else {
+        // If output is not an array, display it as is
+        setMappingOutput(JSON.stringify(output, null, 2));
+      }
+      setShowPopup(true); // Show popup
     }
+  };
   
-  }
+  
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+  };
+
+
+
 
   return (
     <>
@@ -756,9 +775,7 @@ function CodeBlock({ code }: { code: string }) {
       <Sidebar className={courseTitle} onSessionChange={handleSessionChange} onNewChat={handleSessionChange} /> 
       : null}
   </aside>
-
   
-
   <button
     className={styles.classInquiryButton}
     onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
@@ -767,19 +784,30 @@ function CodeBlock({ code }: { code: string }) {
   </button>
 
 
+  <button className={styles.materialsButton} onClick={handleButtonClick}>
+  CURRENT ACCESS
+</button>
+{showPopup && (
+  <div className={styles.popup} onClick={handleOverlayClick}>
+    <div className={styles.popupinner} onClick={(e) => e.stopPropagation()}>
+      <pre>{mappingOutput}</pre>
+    </div>
+  </div>
+)}
+
+
+
+
+
+
   <div className="mainContent" key={refreshKey}>
     <div className="mx-auto flex flex-col gap-4">
     <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>  
 
-    <button className="classButton" onClick={handleButtonClick}>
-        Show Class Mapping
-    </button>
-    {mappingOutput && (
-      <div>
-        <h3>Class Mapping Output:</h3>
-        <pre>{mappingOutput}</pre>
-      </div>
-    )}
+
+
+
+
 
 
         <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
@@ -798,6 +826,8 @@ function CodeBlock({ code }: { code: string }) {
               )}
             <div className={styles.cloud}>
               <div ref={messageListRef} className={styles.messagelist}>
+
+
 
 {messages.map((message, index) => {
     // Your message type handling logic 

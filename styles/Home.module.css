@@ -662,7 +662,7 @@
 .classInquiryButton {
   position: absolute; /* Position relative to the nearest positioned ancestor */
   top: 0.3rem; /* Position from the top of the page */
-  right: 5rem; /* Position from the right of the page */
+  right: 1rem; /* Position from the right of the page */
   padding: 10px 23px;
   background-color: #6a00ff;
   color: white;
@@ -676,6 +676,7 @@
   width: auto;
   max-width: 400px;
   font-weight: bold;
+  margin-bottom: 10px;
 }
 
 .classInquiryButton:hover {
@@ -684,10 +685,14 @@
 }
 
 
-.classButton {
-  position: absolute; /* Position relative to the nearest positioned ancestor */
-  top: 0.3rem; /* Position from the top of the page */
-  right: 1rem; /* Position from the right of the page */
+
+
+
+.materialsButton {
+  position: absolute; /* Keep absolute positioning */
+  top: 0.3rem; /* Align vertically with .classInquiryButton */
+  right: 13rem;
+  /* The rest of the existing styles */
   padding: 10px 23px;
   background-color: #e30b0b;
   color: white;
@@ -701,12 +706,65 @@
   width: auto;
   max-width: 400px;
   font-weight: bold;
+  z-index: 1500;
 }
 
-.classButton:hover {
-  background-color: hsl(263, 75%, 70%);
+.materialsButton:hover {
+  background-color: hsl(0, 75%, 70%); /* Lighter red on hover for interaction feedback */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+}
+
+.popupinner {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left; /* Align text to the left */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  width: 90%; /* Increased width */
+  max-width: 900px; /* Increased maximum width */
+  max-height: 60%;
+  overflow-y: auto;
+  position: relative;
+  font-family: Arial, sans-serif;
+}
+
+.closePopupButton {
+  position: absolute;
+  top: 5px; /* Closer to the top edge */
+  right: 5px; /* Closer to the right edge */
+  border: none;
+  background: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #707070; /* Subtle color for the button */
+}
+
+/* Optional: Styling for the scroll bar for a sleeker look */
+.popupinner::-webkit-scrollbar {
+  width: 7px;
+}
+.popupinner::-webkit-scrollbar-horizontal {
+  height: 5px; /* Adjust the height to make it less thick */
+}
+
+.popupinner::-webkit-scrollbar-thumb {
+  background-color: #ecb2b2;
+  border-radius: 5px;
+}
+
 
 
 
