@@ -662,7 +662,7 @@
 .classInquiryButton {
   position: absolute; /* Position relative to the nearest positioned ancestor */
   top: 0.3rem; /* Position from the top of the page */
-  right: 1rem; /* Position from the right of the page */
+  right: 5rem; /* Position from the right of the page */
   padding: 10px 23px;
   background-color: #6a00ff;
   color: white;
@@ -687,7 +687,7 @@
 .classButton {
   position: absolute; /* Position relative to the nearest positioned ancestor */
   top: 0.3rem; /* Position from the top of the page */
-  right: 20rem; /* Position from the right of the page */
+  right: 1rem; /* Position from the right of the page */
   padding: 10px 23px;
   background-color: #e30b0b;
   color: white;

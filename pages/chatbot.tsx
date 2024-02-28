@@ -709,44 +709,38 @@ function CodeBlock({ code }: { code: string }) {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+}
 
 
 
 
 
 
-  // const Chatbot = () => {
-  // const [classMapping, setClassMapping] = useState({});
-  // const [mappingOutput, setMappingOutput] = useState('');
-  // const [courseTitle, setCourseTitle] = useState(''); // Assuming you have a way to set this
+  const [classMapping, setClassMapping] = useState({});
+  const [mappingOutput, setMappingOutput] = useState('');
 
-  // // Fetch classMapping data
-  // const fetchClassMapping = async () => {
-  //   const response = await fetch('/api/classMapping');
-  //   const mapping = await response.json();
-  //   setClassMapping(mapping);
-  // };
+  // Fetch classMapping data
+  const fetchClassMapping = async () => {
+    const response = await fetch('/api/classMapping');
+    const mapping = await response.json();
+    setClassMapping(mapping);
+  };
 
-  // // Call fetchClassMapping on component mount
-  // useEffect(() => {
-  //   fetchClassMapping();
-  // }, []);
+  // Call fetchClassMapping on component mount
+  useEffect(() => {
+    fetchClassMapping();
+  }, []);
 
-  // // Function to handle button click
-  // const handleButtonClick = () => {
-  //   if (classMapping && courseTitle) {
-  //     const output = classMapping[courseTitle];
-  //     setMappingOutput(JSON.stringify(output, null, 2)); // Displaying JSON in a readable format
-  //   }
+  // Function to handle button click
+  const handleButtonClick = () => {
+    if (classMapping && courseTitle && typeof(courseTitle) !== 'object') {
+      
+      const title = courseTitle.replace(/ /g, '_');
+      const output = classMapping[title];
+      console.log(output);
+      setMappingOutput(JSON.stringify(output, null, 2)); // Displaying JSON in a readable format
+    }
   
-
-    
-    
-
-    
-
-
-    
   }
 
   return (
@@ -763,17 +757,6 @@ function CodeBlock({ code }: { code: string }) {
       : null}
   </aside>
 
-
-{/* <button className="classButton" onClick={handleButtonClick}>
-  Show Class Mapping
-</button>
-
-{mappingOutput && (
-  <div>
-    <h3>Class Mapping Output:</h3>
-    <pre>{mappingOutput}</pre>
-  </div>
-)} */}
   
 
   <button
@@ -783,9 +766,22 @@ function CodeBlock({ code }: { code: string }) {
   ADD MATERIALS
   </button>
 
+
   <div className="mainContent" key={refreshKey}>
     <div className="mx-auto flex flex-col gap-4">
     <div className="headerSection" style={{ marginLeft: '130px', marginTop: '10px' }}>  
+
+    <button className="classButton" onClick={handleButtonClick}>
+        Show Class Mapping
+    </button>
+    {mappingOutput && (
+      <div>
+        <h3>Class Mapping Output:</h3>
+        <pre>{mappingOutput}</pre>
+      </div>
+    )}
+
+
         <h1 className="text-4xl font-bold leading-[1.1] tracking-tighter text-center">
         {messages.length > 0 && (
                 <span className={styles.selectedClassName}>{courseTitle}</span>
