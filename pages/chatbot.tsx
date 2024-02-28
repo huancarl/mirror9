@@ -125,7 +125,7 @@ export default function Home() {
       return;
     }
     else {
-      //Pre set the last message index to the next message that we are generating from openai with the length of messages
+      //Pre set the last message index to the next message the length of messages
       lastMessageIndexRef.current = messages.length;
 
       setMessageState(prevState => {
@@ -141,7 +141,7 @@ export default function Home() {
           history: [...prevState.history],
         };
       });
-
+   
       const firebaseConfig = {
         apiKey: "AIzaSyDjXYdilXhoG6t8ZI1taaZsJNwpuA8Njp0",
         authDomain: "gptcornell.firebaseapp.com",
@@ -835,7 +835,7 @@ const [classMapping, setClassMapping] = useState({});
     let className;
     let content;
 
-    if (message && message.type === 'apiMessage') {
+    if (message && message.type === 'apiMessage' && message.message === '') {
         icon = (
             <Image
                 key={index}
@@ -845,8 +845,25 @@ const [classMapping, setClassMapping] = useState({});
                 height="45"
                 className={styles.boticon}
                 priority/>);
-        className = styles.apimessage;
-    } else {
+          className = loading 
+                ? styles.usermessagewaiting
+                : styles.usermessage;
+    } 
+
+    if (message && message.type === 'apiMessage' && message.message !== '') {
+      icon = (
+        <Image
+            key={index}
+            src="/bigbear234.png"
+            alt="AI"
+            width="50"
+            height="45"
+            className={styles.boticon}
+            priority/>);
+    className = styles.apimessage;
+  } 
+
+    if (message && message.type === 'userMessage') {
         icon = (
             <Image
                 key={index}

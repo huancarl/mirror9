@@ -1,5 +1,6 @@
 import { PINECONE_INDEX_NAME, NAMESPACE_NUMB } from '@/config/pinecone';
 import { pinecone } from '@/utils/pinecone-client';
+import { Pinecone } from '@pinecone-database/pinecone';
 
 interface Metadata {
     text: string;
@@ -25,7 +26,7 @@ interface PineconeResultItem {
     };
 }
 
-async function calculate_material_similarity_score(question: any, assignmentNamespaces: string[], index: any){
+async function calculate_material_similarity_score(question: any, assignmentNamespaces: string[], pc: any){
 
     // The function will retrieve from the all materials namespaces for a class and get the most similiar vector from said class.
     // The purpose of this function is to act as an extra guard by comparing the scores of the vectors from all materials namespace with
@@ -39,37 +40,32 @@ async function calculate_material_similarity_score(question: any, assignmentName
     const namespacesToSearch = assignmentNamespaces;
     const numOfVectorsPerNS = Math.floor(remainingDocs/1); 
     
-    for (const namespace of namespacesToSearch) {
-        const queryResult = await index.query({
-            queryRequest: {
-                vector: question,
+    const namespaceQueries = namespacesToSearch.map(async namespace => {
+        const currNamespace = pc.index(process.env.PINECONE_INDEX_NAME).namespace(namespace);
+            return await currNamespace.query({
                 topK: numOfVectorsPerNS,
-                namespace: namespace,
+                vector: question,
                 includeMetadata: true,
-            },
-        });
+            });
 
-        //Iterate through the query results and add them to fetched texts
+    });
+
+    // Execute all queries in parallel
+    const results = await Promise.all(namespaceQueries);
+    // Process all results
+    results.forEach(queryResult => {
         if (queryResult && Array.isArray(queryResult.matches)) {
-
-            for (const match of queryResult.matches) {
-                fetchedTexts.push(match);
-                // if (match.score > similarity_score) {
-                //     similarity_score = match.score;
-                // }
-                similarity_score += match.score;
-
-            }
+            fetchedTexts.push(...queryResult.matches);
         } else {
             console.error('No results found or unexpected result structure.');
         }
-    }
+    });
     console.log(similarity_score/remainingDocs, 'this is the similiartiy score');
 
     return similarity_score;  
 }
 
-async function calculate_similarity_score(question: any, assignmentNamespaces: string[], index: any){
+async function calculate_similarity_score(question: any, assignmentNamespaces: string[], pc: any){
 
     // The function will retrieve from the assignment namespaces for a class and get the most similiar questions from those assignments 
     // It takes in an embedded question, the namespaces where the assignments are ingested in, and the pinecone index to search in
@@ -84,7 +80,7 @@ async function calculate_similarity_score(question: any, assignmentNamespaces: s
 
     // Create an array of promises for each namespace query
     const namespaceQueries = namespacesToSearch.map(async namespace => {
-        const currNamespace = index(process.env.PINECONE_INDEX_NAME).namespace(namespace);
+        const currNamespace = pc.index(process.env.PINECONE_INDEX_NAME).namespace(namespace);
             return await currNamespace.query({
                 topK: numOfVectorsPerNS,
                 vector: question,
@@ -104,10 +100,11 @@ async function calculate_similarity_score(question: any, assignmentNamespaces: s
         }
     });
 
-    console.log(results, 'array of results and scores');
     //Get the highest score
-    const score = results[0].matches.score;  
+    const score = results[0].matches[0].score;  
     
+    console.log(score, 'this is score');
+
     //We also want to return which assignment and which part of it we are assuming the user is asking about to
     //return to the prompt in assignmnetqachain
     
@@ -133,10 +130,13 @@ export async function anti_cheat(question: string, questionEmbed: any, fullNames
     let cheat: boolean;
     let result = {};
 
-    const index = pinecone.Index(PINECONE_INDEX_NAME);
-    const materialsScore = await calculate_material_similarity_score(question, [classNamespace], index);
+    const pc = new Pinecone();
 
-    const scoreAndMetadata = await calculate_similarity_score(questionEmbed, [fullNamespace], index);
+
+    const index = pinecone.Index(PINECONE_INDEX_NAME);
+    const materialsScore = await calculate_material_similarity_score(questionEmbed, [classNamespace], pc);
+
+    const scoreAndMetadata = await calculate_similarity_score(questionEmbed, [fullNamespace], pc);
     const score = scoreAndMetadata['score'];
     const metadata = scoreAndMetadata['metadata'];
 

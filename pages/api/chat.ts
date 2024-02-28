@@ -371,11 +371,13 @@ export default async function handler(
     if(assignmentNamespace in cheatNamespaces){
 
       //Check if the user's question is a direct copy and paste of a current assignment's questions
-      const antiCheatResponse = await anti_cheat(question, queryEmbedding, assignmentNamespace, allMaterialsNamespace)
+      const antiCheatResponse = await anti_cheat(question, queryEmbedding, assignmentNamespace, allMaterialsNamespace);
+
+      //'cheatGuess' is a bool of true or false and 'vector' is what assignment the user is trying to use
       const cheating = antiCheatResponse['cheatGuess'];
       const metadata = antiCheatResponse['vector'];
 
-      if(cheating) {
+    if(cheating) {
         //If anti cheat returns true then the user is suspected of cheating
         //Parameters for anti_cheat function: question, question embeddings, namespace to search
         console.log('Cheating detected, avert from normal user flow');
@@ -398,6 +400,7 @@ export default async function handler(
       });
     }
 
+    console.log(results, 'results in chat.ts');
 
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
