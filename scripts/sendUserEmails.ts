@@ -2,21 +2,21 @@ import {connectToDb} from '@/config/db';
 import nodemailer from 'nodemailer';
 
 
-const sendEmailAnnouncements = async (userEmail) => {
+let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+        user: 'cornellgptnotice@gmail.com',
+        pass: 'kskt umxf mtci gbej'
+    }
+});
 
-    let transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com", // Host for Gmail's SMTP server
-        port: 465,             // Port for secure SMTP
-        secure: true,          // Use SSL
-        auth: {
-            user: 'cornellgptnotice@gmail.com', // Your Gmail address
-            pass: 'zrgh yyvb iter rhcz'     // Your App Password
-        }
-    });
-  
+const sendEmailAnnouncements = async (userEmail: string) => {
+
   await transporter.sendMail({
     from: 'CornellGPT <no-reply@gptcornell.com>',
-    to: 'mpp59@cornell.edu',
+    to: userEmail,
     subject: "CornellGPT Early Access Feedback!",
     html: `<p>
 
@@ -41,15 +41,26 @@ const sendEmailAnnouncements = async (userEmail) => {
 
 export async function run(){
     try {
+        // Sending Limits for Regular Gmail Accounts:
+        // Daily limit of 500 emails per day (for every 24 hours).
+        // Each email can be sent to a maximum of 100 recipients. 
+        // If you send one email to 100 recipients, that counts as 100 emails towards your 500 email limit.
+        // These limits are applied over a rolling 24-hour period, not a set time of day.
+
         const db = await connectToDb();
         const userCollection = db.collection('verifiedUsers');
 
         //Get all users
         const verifiedUsers = await userCollection.find().toArray();
 
-        for (const user of verifiedUsers){
-            const email = user.userEmail;
+        for (let i = 23; i < verifiedUsers.length; i++){
+            const email = verifiedUsers[i].userEmail;
+            await sendEmailAnnouncements(email);
+            console.log(`${email}`);
         }
+
+        console.log("Emails sent successfully");
+        return;
 
     } catch (error) {
         console.error("An error occurred:", error);

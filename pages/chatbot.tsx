@@ -91,7 +91,7 @@ export default function Home() {
       history: [],
   });
 
-  //Manages the messages and the chat history for the user
+  //Manages and displays the messages and the chat history for the user
   const { messages, history } = messageState;
   const [refreshKey, setRefreshKey] = useState(0);
   const messageListRef = useRef<HTMLDivElement>(null);
@@ -99,7 +99,6 @@ export default function Home() {
   const userIDRef = useRef<string | null>(null);
   const sessionIDRef = useRef<string | null>(null);
   const [currentSessionID, setCurrentSessionID] = useState<string | null>(null);
-  const [sessions, setSessions] = useState<any[]>([]);
   const [courseTitle, setCourseTitle] = useState<string | string[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -107,83 +106,105 @@ export default function Home() {
   const [showLimitReachedModal, setShowLimitReachedModal] = useState(false);
 
   //Firebase data streaming displaying
-  const [firstMessageSent, setFirstMessageSent] = useState(false);
-  const [firebaseData, setFirebaseData] = useState<any>(null);
   const [firebaseMessageID, setFirebaseMessageID] = useState<string>('');
   const lastMessageIndexRef = useRef<number>(0);
   const [lastMessageContent, setLastMessageContent] = useState('');
+
+  //This useRef tracks if the application has mounted or not
+  const isInitialMount = useRef(true);
 
   // Implement Firebase Realtime Database reading logic here. Set up the connection to the database to read from it.
   // This useeffect triggers when the user sends a message.
   useEffect(() => {
 
-    //Pre set the last message index to the next message that we are generating from openai with the length of messages
-    lastMessageIndexRef.current = messages.length;
+    if (isInitialMount.current) {
+      // This is the initial mount, so we skip the effect and set the ref to false
+      isInitialMount.current = false;
+      return;
+    }
+    else {
+      //Pre set the last message index to the next message that we are generating from openai with the length of messages
+      lastMessageIndexRef.current = messages.length;
 
-    setMessageState(prevState => {
-      const newMessages = [ ...prevState.messages];
-      newMessages[lastMessageIndexRef.current] = {
-        type: 'apiMessage',
-        message: '',
-        sourceDocs: undefined, 
+      setMessageState(prevState => {
+        const newMessages = [ ...prevState.messages];
+        newMessages[lastMessageIndexRef.current] = {
+          type: 'apiMessage',
+          message: '',
+          sourceDocs: undefined, 
+        };
+        return {
+          ...prevState,
+          messages: newMessages,
+          history: [...prevState.history],
+        };
+      });
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDjXYdilXhoG6t8ZI1taaZsJNwpuA8Njp0",
+        authDomain: "gptcornell.firebaseapp.com",
+        databaseURL: "https://gptcornell-default-rtdb.firebaseio.com",
+        projectId: "gptcornell",
+        storageBucket: "gptcornell.appspot.com",
+        messagingSenderId: "470419410736",
+        appId: "1:470419410736:web:60773dbdc58d81e034c2f5",
+        measurementId: "G-8KRK5JFE1Z"
       };
-      return {
-        ...prevState,
-        messages: newMessages,
-        history: [...prevState.history],
-      };
-    });
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyDjXYdilXhoG6t8ZI1taaZsJNwpuA8Njp0",
-      authDomain: "gptcornell.firebaseapp.com",
-      databaseURL: "https://gptcornell-default-rtdb.firebaseio.com",
-      projectId: "gptcornell",
-      storageBucket: "gptcornell.appspot.com",
-      messagingSenderId: "470419410736",
-      appId: "1:470419410736:web:60773dbdc58d81e034c2f5",
-      measurementId: "G-8KRK5JFE1Z"
-    };
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
 
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+      let email = userIDRef.current;
+      let netIDWithoutDotCom = email ? email.split('@')[0] : '';
 
-    let email = userIDRef.current;
-    let netIDWithoutDotCom = email ? email.split('@')[0] : '';
+      //Read from the data stream from firebase
 
-    //Read from the data stream from firebase
-    const dbRef = ref(database, `messages/${netIDWithoutDotCom}/${firebaseMessageID}`);
-
-    const unsubscribe = onValue(dbRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const messageValues = Object.values(data);
-        const joinedMessage = messageValues.join('');
-        setLastMessageContent(joinedMessage);
+      if(!firebaseMessageID){
+        return;
       }
-    });
-    // Clean up subscription on unmount
-    return () => unsubscribe();
+
+      const dbRef = ref(database, `messages/${netIDWithoutDotCom}/${firebaseMessageID}`);
+
+      const unsubscribe = onValue(dbRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const messageValues = Object.values(data);
+
+          const joinedMessage = messageValues.join('');
+          setLastMessageContent(joinedMessage);
+        }
+      });
+      // Clean up subscription on unmount
+      return () => unsubscribe();
+    }
   }, [firebaseMessageID]);
 
   // Update the message as we are receiving the stream of data from the backend storage. 
   // This use effect runs whenever the data stream is updated with more data from the backend.
   useEffect(() => {
-    let fullMessage = lastMessageContent;
 
-    if(!messages[lastMessageIndexRef.current]){
+    if (isInitialMount.current) {
+      // This is the initial mount, so we skip the effect and set the ref to false
+      isInitialMount.current = false;
       return;
     }
+    else {
 
-    setMessageState(prevState => {
-      const newMessages = [ ...prevState.messages];
-      newMessages[lastMessageIndexRef.current].message = fullMessage;
-      return {
-        ...prevState,
-        messages: newMessages,
-        history: [...prevState.history],
-      };
-    });
+      let fullMessage = lastMessageContent;
+      if(!messages[lastMessageIndexRef.current]){
+        return;
+      }
+
+      setMessageState(prevState => {
+        const newMessages = [ ...prevState.messages];
+        newMessages[lastMessageIndexRef.current].message = fullMessage;
+        return {
+          ...prevState,
+          messages: newMessages,
+          history: [...prevState.history],
+        };
+      });
+    }
 
   }, [lastMessageContent]);
 
@@ -421,6 +442,22 @@ async function handleSubmit(e: any) {
     const newFirebaseMessageID = uuidv4();
     setFirebaseMessageID(newFirebaseMessageID);
 
+    //Get the last two messages to pass into the backend for the prompt
+    console.log(messageState, 'this is the message state');
+    const previousMessages: Message[] = [];
+    
+    let messagePointer = messageState.messages.length - 4;
+    if(messageState.messages[messagePointer]){
+      previousMessages.push(messageState.messages[messagePointer]);
+      previousMessages.push(messageState.messages[messagePointer+1]);
+      
+      messagePointer += 2;
+      if(messageState.messages[messagePointer]){
+        previousMessages.push(messageState.messages[messagePointer]); 
+        previousMessages.push(messageState.messages[messagePointer+1]); 
+      }
+    }
+  
     const response = await fetch('/api/chat', {
       method: 'POST',
       headers: {
@@ -428,7 +465,7 @@ async function handleSubmit(e: any) {
       },
       body: JSON.stringify({
         question,
-        messages: messageState.messages,
+        messages: previousMessages,
         userID: userIDRef.current,
         sessionID: sessionIDRef.current,
         namespace: namespaceToSearch,

@@ -69,6 +69,28 @@ interface PineconeResultItem {
   };
 }
 
+async function chatWithOpenAI(messages) {
+  const endpoint = 'https://api.openai.com/v1/chat/completions';
+  const apiKey = process.env.OPENAI_API_KEY; 
+
+  const postData = {
+      model: "gpt-4-0125-preview",
+      messages: messages,
+  };
+
+  const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify(postData),
+  });
+
+  const data = await response.json();
+  return data;
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -87,9 +109,8 @@ export default async function handler(
   // const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
   const data = await fs.readFile(classMappingFilePath, 'utf8');
   const classMapping = JSON.parse(data);
-  
 
-  function createPrompt(namespaceToSearch: string, chat_history: any){
+  function createPrompt(namespaceToSearch: string){
 
     return `(
      
@@ -97,13 +118,13 @@ export default async function handler(
       
       Available Search Documents = ${classMapping[namespaceToSearch]} 
       Context of the class = ${namespaceToSearch}
-
+  
   
       - Always respond like: "Searching ..." Never deviate from this format.
       - When searching never change the name of the available search documents. It must be strictly word by word how its given to you.
         Do not shorten it even if there is repetition like: "HD_3620_HD_3620_Spring_2024_syllabus".
-
-
+  
+  
       - You must recognize hints, keywords, explicit mentions, or any relation or clue to source documents
         and then search strictly and accordingly from the available search documents for specific documents.
       - Use your intelligence to determine what to search and what each document may entail, 
@@ -111,26 +132,18 @@ export default async function handler(
         for example lec01 in the search documents most likely means lecture 1. Keep these in mind as you search.
       - If multiple search documents are relevant and needed, search accordingly.
       - You must search the document with the exact name do not modify it.
-
+  
       - If the query asks for class material that does not strictly exist in the search documents, then search nothing denoted by 
       empty space.
       - If the query says Hi or other simple conversational messages, then search nothing.
       - If the query asks something general unrelated to the academic context of ${namespaceToSearch} like "What is 2+2", then search nothing.
-
-
+  
+  
       - If you are searching another material then you must always also search the All Materials document. Unless you are searching nothing,
       always search the All Materials document in addition to whatever else you are searching.
       - If you are uncertain with the query, then search only All Materials document.
     )`
-  }
-
-
-  //only accept post requests
-  // if (req.method !== 'POST') {
-  //   res.status(405).json({ error: 'Method not allowed' });
-  //   console.log((req.method),"Chat.ts request")
-  //   return;
-  // }
+  };
 
 
   if (!question) {
@@ -168,119 +181,145 @@ export default async function handler(
     const chatSessionCollection = db.collection('sessionIDs');
     const index = pinecone.Index(PINECONE_INDEX_NAME);
 
-    //getContextDocs('INFO 2950 INFO2950_Lec3_20230828');
-    //In the case that the user is using the course catalog we don't need to make an extra call to gpt api
-    //We are always using the Course Catalog namespace in the pinecone
     
-    if(cleanedNamespace === 'Course_Finder_SP24'){
-      const modelForResponse = new OpenAIChat({
-        temperature: 0.1,
-        modelName: "gpt-3.5-turbo-0125",
-        cache: true,
-      });
+  //Course Catalog
+  //   if(cleanedNamespace === 'Course_Finder_SP24'){
+  //     const modelForResponse = new OpenAIChat({
+  //       temperature: 0.1,
+  //       modelName: "gpt-3.5-turbo-0125",
+  //       cache: true,
+  //     });
 
-      //init class
-      const qaChain = CoursesCustomQAChain.fromLLM(modelForResponse, index, ['Course_Catalog'], {
-        returnSourceDocuments: true,
-        bufferMaxSize: 4000,
-      });
+  //     //init class
+  //     const qaChain = CoursesCustomQAChain.fromLLM(modelForResponse, index, ['Course_Catalog'], {
+  //       returnSourceDocuments: true,
+  //       bufferMaxSize: 4000,
+  //     });
 
-      const results = await qaChain.call({
-        question: sanitizedQuestion,
-        chat_history: messages,
-        namespaceToFilter: cleanedNamespace
-      });
+  //     const results = await qaChain.call({
+  //       question: sanitizedQuestion,
+  //       chat_history: messages,
+  //       namespaceToFilter: cleanedNamespace
+  //     });
       
-      const message = results.text;
-      const sourceDocs = null;
+  //     const message = results.text;
+  //     const sourceDocs = null;
 
-      //save message to the database before displaying it
-      const saveToDB = {
-        userID,
-        sessionID,
-        userQuestion: question,
-        answer: message,
-        sourceDocs,
-        timestamp : new Date()
-      };
-      await chatHistoryCollection.insertOne(saveToDB);
-      const currSession = await chatSessionCollection.findOne({sessionID, userID });
+  //     //save message to the database before displaying it
+  //     const saveToDB = {
+  //       userID,
+  //       sessionID,
+  //       userQuestion: question,
+  //       answer: message,
+  //       sourceDocs,
+  //       timestamp : new Date()
+  //     };
+  //     await chatHistoryCollection.insertOne(saveToDB);
+  //     const currSession = await chatSessionCollection.findOne({sessionID, userID });
 
-      if (currSession && currSession.isEmpty === true){
-        //update the document's .isEmpty field in mongodb
-        await chatSessionCollection.updateOne({ sessionID }, { $set: { isEmpty: false } });
-      }
+  //     if (currSession && currSession.isEmpty === true){
+  //       //update the document's .isEmpty field in mongodb
+  //       await chatSessionCollection.updateOne({ sessionID }, { $set: { isEmpty: false } });
+  //     }
 
-      //check the date of the access
-      const getSessionName = () => {
-        const now = new Date();
-        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      };
+  //     //check the date of the access
+  //     const getSessionName = () => {
+  //       const now = new Date();
+  //       return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  //     };
       
-      // Check the date of the access
-      if (currSession) {
-        const sessionDate = new Date(currSession.date);
-        const currentDate = new Date();
+  //     // Check the date of the access
+  //     if (currSession) {
+  //       const sessionDate = new Date(currSession.date);
+  //       const currentDate = new Date();
       
-        // Compare only the year, month, and day (ignoring the time)
-        if(sessionDate.getUTCFullYear() !== currentDate.getUTCFullYear() ||
-          sessionDate.getUTCMonth() !== currentDate.getUTCMonth() ||
-          sessionDate.getUTCDate() !== currentDate.getUTCDate()) {
-          // Update the last access field of the session if chatted on a different day from its date field
-          const newName = getSessionName();
-          await chatSessionCollection.updateOne(
-            { sessionID, userID },
-            {
-              $set: {
-                name: newName,
-                date: currentDate
-              }
-            }
-          );
-        }
-      }
+  //       // Compare only the year, month, and day (ignoring the time)
+  //       if(sessionDate.getUTCFullYear() !== currentDate.getUTCFullYear() ||
+  //         sessionDate.getUTCMonth() !== currentDate.getUTCMonth() ||
+  //         sessionDate.getUTCDate() !== currentDate.getUTCDate()) {
+  //         // Update the last access field of the session if chatted on a different day from its date field
+  //         const newName = getSessionName();
+  //         await chatSessionCollection.updateOne(
+  //           { sessionID, userID },
+  //           {
+  //             $set: {
+  //               name: newName,
+  //               date: currentDate
+  //             }
+  //           }
+  //         );
+  //       }
+  //     }
     
-      const data = {
-        message,
-        sourceDocs,
-      };
-      res.status(200).json(data);
-      return;
+  //     const data = {
+  //       message,
+  //       sourceDocs,
+  //     };
+  //     res.status(200).json(data);
+  //     return;
+  // }
+
+
+  const cleanedChatHistory: string [] = []
+  //Cleaned the message history
+  for (const mess of messages){
+    const cleanedMessage = mess.message.replace(/"[^"]*"/g, '');
+    cleanedChatHistory.push(cleanedMessage);
   }
 
-    const model = new OpenAIChat({
-      temperature: 0.1,
-      modelName: "gpt-4-0125-preview",
-      cache: true,
-  });
+  const previousMessages: object [] = [];
+  if(cleanedChatHistory) {
+    for(let i = 0; i < cleanedChatHistory.length; i++){
+      if(i%2 === 0){
+        // If even then user's question
+        previousMessages.push({role: "user", content: `${cleanedChatHistory[i]}`})
+      }
+      else{
+        // If odd then AI answer
+        previousMessages.push({role: "assistant", content: `${cleanedChatHistory[i]}`})
+        }
+      }
+  }
+
+  console.log(namespace, 'this is namespace');
+
+  let namespaceForPrompt = namespace.replace(/ /g, '_');
+
+  const prompt = createPrompt(namespaceForPrompt);
+
+  console.log(namespaceForPrompt);
+
+  previousMessages.push(
+    { role: "system", content: prompt },
+    { role: "user", content: question },
+  );
+
+  let response = await chatWithOpenAI(previousMessages);
+  response = response.choices[0].message.content;
 
     // const processedMessages = messages.map((messageObject: { message: any; }) => messageObject.message);
 
-    const fewShotPrompt = createPrompt(cleanedNamespace, messages);
+    // const fewShotPrompt = createPrompt(cleanedNamespace, messages);
 
-    const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
-      SystemMessagePromptTemplate.fromTemplate(fewShotPrompt),
-      new MessagesPlaceholder('chat_history'),
-      HumanMessagePromptTemplate.fromTemplate('{query}'),
-    ]);
-
-
-    const chain = new ConversationChain({
-      memory: new BufferMemory({ returnMessages: true, memoryKey: 'chat_history' }),
-      prompt: reportsPrompt,
-      llm: model,
-    })
-
-
-    const response = await chain.call({
-      query:sanitizedQuestion,
-    });
+    // const reportsPrompt = ChatPromptTemplate.fromPromptMessages([
+    //   SystemMessagePromptTemplate.fromTemplate(fewShotPrompt),
+    //   new MessagesPlaceholder('chat_history'),
+    //   HumanMessagePromptTemplate.fromTemplate('{query}'),
+    // ]);
+    // const chain = new ConversationChain({
+    //   memory: new BufferMemory({ returnMessages: true, memoryKey: 'chat_history' }),
+    //   prompt: reportsPrompt,
+    //   llm: model,
+    // })
+    // const response = await chain.call({
+    //   query:sanitizedQuestion,
+    // });
 
 
-    console.log('response from chat.ts', response.response);
+    console.log('response from chat.ts', response);
 
 
-    const extractedNumbs = await extractTitlesFromQuery(response.response);
+    const extractedNumbs = await extractTitlesFromQuery(response);
     // const numbsArray: string[] | undefined = extractedNumbs as string[] | undefined;
    
 
@@ -295,7 +334,6 @@ export default async function handler(
       // modelName: "gpt-4-0125-preview",
       // modelName: "gpt-3.5-turbo-0125",
       cache: true,
-      
     });
     
     //gpt-4-1106-preview

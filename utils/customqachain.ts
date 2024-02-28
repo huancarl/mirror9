@@ -162,16 +162,33 @@ export class CustomQAChain {
     }
 
     //Allows for data streaming but used without langchain
-    private async chatWithOpenAI(prompt, question, userID) {
+    private async chatWithOpenAI(prompt, question, userID, messageList) {
 
         // console.log(prompt);
+
+        const previousMessages: object [] = [];
+
+        if(messageList){
+            for(let i = 0; i < messageList.length; i++){
+                if(i%2 === 0){
+                    // If even then user's question
+                    previousMessages.push({role: "user", content: `${messageList[i]}`})
+                }
+                else{
+                    // If odd then AI answer
+                    previousMessages.push({role: "assistant", content: `${messageList[i]}`})
+                }
+            }
+        }
+
+        previousMessages.push(
+            { role: "system", content: prompt },
+            { role: "user", content: question },
+        );
         
         const postData = {
             model: "gpt-4-0125-preview",
-            messages: [
-                { role: "system", content: prompt },
-                { role: "user", content: question },
-            ],
+            messages: previousMessages,
             stream: true,
         };
     
@@ -375,7 +392,7 @@ export class CustomQAChain {
         Contexts:
         You will answer in the context of all of your educational conversations to be the Cornell class: ${namespaceToFilter}. 
         As such, you must answer differently depending on the context relevance of the my question and which class
-        materials the question is asking for. Therefore, you must carefully asses where the question falls among 3 categories:
+        materials the question is asking for. Therefore, you must carefully assess where the question falls among 3 categories:
 
 
         1. Irrelevant Questions: 
@@ -453,10 +470,22 @@ export class CustomQAChain {
         something exists in the source basis when it does not. Never source something incorrectly.
 
 
+        You have access to your chat's history.
+        This will allow you to store and recall specific interaction with users. 
 
+        You must distinguish between what I asked you and your messages and utilize it to do the following:
 
+        Contextual Relevance: Utilize chat history to provide contextually relevant responses. 
+        If a user's query builds upon a previous conversation, refer to that conversation to 
+        formulate a new informed and coherent answer.
 
+        Distinct Queries: Treat each question independently if it's unrelated to previous interactions. 
+        Provide answers that are focused solely on the new query, disregarding earlier discussions.
         
+        Avoid Repetition: Refrain from repeating answers from previous conversations. 
+        Ensure each response is unique and tailored to the current query, even if the question is similar to past discussions.
+
+
 
        Formatting:
         Follow this format when explaining or summarizing lectures, class materials, 
@@ -497,15 +526,15 @@ export class CustomQAChain {
         
         // const history = new BufferMemory({ returnMessages: false, memoryKey: 'chat_history' });
         
-        if (chat_history.length >= 2) {
-            const lastIndex = chat_history.length - 1;
-        
-            // Assuming the second-to-last message is from the system and the last message is from the human
-            const systemMessage = chat_history[lastIndex - 1].message.replace(/"[^"]*"/g, '');
-            const humanMessage = chat_history[lastIndex].message.replace(/"[^"]*"/g, '');
-        
-            // history.saveContext([systemMessage], [humanMessage]);
+
+        const cleanedChatHistory: string [] = []
+        //Cleaned the message history
+        for (const mess of chat_history){
+            const cleanedMessage = mess.message.replace(/"[^"]*"/g, '');
+            cleanedChatHistory.push(cleanedMessage);
         }
+
+
         
         // const chain = new ConversationChain({
         //     // memory: history,
@@ -518,7 +547,7 @@ export class CustomQAChain {
         // });
 
 
-        const response = await this.chatWithOpenAI(prompt, question, this.userID);
+        const response = await this.chatWithOpenAI(prompt, question, this.userID, cleanedChatHistory);
 
         if (typeof response === 'undefined') {
             throw new Error("Failed to get a response from the model.");
