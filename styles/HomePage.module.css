@@ -1,8 +1,9 @@
 .container {
     display: flex;
     height: 100vh;
-    background: linear-gradient(to right, #942e2e 60%, #ffffff 40%);
+    background: linear-gradient(to right, #ffffff 60%,  #942e2e 40%);
     position: relative; /* Ensure that the container is positioned relatively */
+    
 }
   
   .typewriterContainer {
@@ -11,16 +12,30 @@
     align-items: center;
     justify-content: center;
     padding: 2rem;
-    background-color: #942e2e; /* Darker color on the left side */
+    background-color: #ffffff; /* Darker color on the left side */
   }
   
   .typewriter {
     font-size: 2.5rem; /* Bigger font size for typewriter */
-    color: #fff;
-    border-right: 2px solid #fff;
+    color:  #942e2e;
+    border-right: 2px solid  #942e2e;
     white-space: nowrap;
     overflow: hidden;
   }
+
+  .openAILogo {
+    text-align: center;
+    position: absolute;
+    bottom: 10px; /* Raise the logo by 20px from the bottom */
+    left: 20px; /* Move the logo 20px to the right from the left edge */
+    right: 50%; /* Keep the right edge at the 60% mark of the container */
+    height: auto;
+    width: 200px;
+    margin: 0 auto; /* Center the logo horizontally in the available 60% space */
+}
+
+
+  
   
   .buttonContainer {
     flex: 1;
@@ -94,13 +109,13 @@
     right: 0; /* Align the footer to the right edge */
     left: 60%; /* Start the footer from the 60% mark of the container */
     font-size: small;
-    color: darkred;
+    color: rgb(255, 255, 255);
   }
   
   
   
   .footerLink {
-    color: darkred; /* Dark red color for the link text */
+    color: rgb(255, 255, 255); /* Dark red color for the link text */
     text-decoration: none; /* Optional: removes the underline from links */
     padding: 0.3125em; /* Optional: adds some padding around the links for easier clicking */
   }

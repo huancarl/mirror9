@@ -488,6 +488,7 @@ export class CustomQAChain {
 
 
        Formatting:
+
         Follow this format when explaining or summarizing lectures, class materials, 
         textbooks, chapters, terms, definitions, and other educational information:
         
@@ -497,7 +498,7 @@ export class CustomQAChain {
         Next you will, number and bold (using ** **) every main topic from the class material. 
         For example, “1.Libraries” bolded for your first topic, “2.Python” bolded for your 
         second topic,....,"10.SQL" bolded for your tenth topic, all the way upto how many topics you see fit. 
-        Always have at least 10 topics and provide at least 4 sentences for each of those topics following:
+        Always have at around 10 topics and provide at least 4 sentences for each of those topics following:
         
         provide 2 sentences of in-depth explanation about the topic (what it is, how it works, etc)
         and 2 sentences explain in detail how it was explicitly used in the source basis with examples from the source basis

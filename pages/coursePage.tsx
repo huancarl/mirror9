@@ -5,6 +5,7 @@ import CourseBox from 'components/CourseBox';
 import { v4 as uuidv4 } from 'uuid';
 import {withSession, isAuthenticated} from 'utils/session';
 
+
 //Make sure that the page cannot be accessed without logging in
 export const getServerSideProps = withSession(async ({ req, res }) => {
   const user = await isAuthenticated(req);
@@ -497,6 +498,10 @@ const courses = [
           <CourseBox key={course.key} namespaceTitle={course.namespaceTitle} displayTitle={course.displayTitle} professor={course.professor} />
         ))}
       </div>
+      <footer className={styles.footer}>
+    <a href="https://mountain-pig-87a.notion.site/Terms-Of-Use-CornellGPT-96c16de16cc94ff5b574fb4632b069e9" className={styles.footerLink} target="_blank">Terms of Use</a> |
+        <a href="https://mountain-pig-87a.notion.site/Privacy-Policy-CornellGPT-6f20ea4c7a7741eabe19bfee5004a069" className={styles.footerLink} target="_blank">Privacy Policy</a>
+    </footer>
     </div>
   );
       }

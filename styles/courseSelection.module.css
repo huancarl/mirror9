@@ -9,6 +9,7 @@
 
 
 
+
 .title {
   font-size: 2.5em;
   font-weight: bold;
@@ -320,14 +321,23 @@
   font-weight: bold;
 }
 
+.footer {
+  text-align: center; /* Optional: Center content */
+  padding: 0.625em 0; /* Adjust padding as needed */
+  /* position: relative; */ /* Adjust or remove position property */
+  width: 100%; /* Stretch across the entire width */
+  font-size: small;
+  color: darkred;
+}
 
 
 
+.footerLink {
+  color: darkred; /* Dark red color for the link text */
+  text-decoration: none; /* Optional: removes the underline from links */
+  padding: 0.3125em; /* Optional: adds some padding around the links for easier clicking */
+}
 
-
-
-
-
-
-
-
+.footerLink:hover {
+  text-decoration: underline; /* Re-adds underline on hover for better user interaction */
+}

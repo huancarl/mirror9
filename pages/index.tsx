@@ -56,17 +56,22 @@ const HomePage: React.FC = () => {
   return (
     <div className={styles.container}>
       <Analytics />{}
+
+
+
       <div className={styles.typewriterContainer}>
         <div className={styles.typewriter}>
           {typewriter}
         </div>
+        <img src='/openpoop.png' alt="OpenAI Logo" className={styles.openAILogo} />
       </div>
 
       <div className={styles.buttonContainer}>
         <h1 className={styles.title}>
-          <span style={{ color: 'hsl(0, 100%, 30%)' }}>Cornell</span>
-          <span style={{ color: 'hsl(0, 100%, 30%)' }}>GPT</span>
+          <span style={{ color: 'white' }}>Cornell</span>
+          <span style={{ color: 'white' }}>GPT</span>
         </h1>
+
         
         <Link href="/sign-up" passHref>
           <button className={styles.button}>
@@ -84,6 +89,7 @@ const HomePage: React.FC = () => {
       <a href="https://mountain-pig-87a.notion.site/Terms-Of-Use-CornellGPT-96c16de16cc94ff5b574fb4632b069e9" className={styles.footerLink} target="_blank">Terms of Use</a> |
         <a href="https://mountain-pig-87a.notion.site/Privacy-Policy-CornellGPT-6f20ea4c7a7741eabe19bfee5004a069" className={styles.footerLink} target="_blank">Privacy Policy</a>
         </footer>
+
     </div>
   );
 }

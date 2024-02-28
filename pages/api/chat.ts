@@ -105,7 +105,6 @@ export default async function handler(
 
   const path = require('path');
   const classMappingFilePath = path.join(process.cwd(), 'utils', 'chatAccessDocuments.json');
-
   // const classMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
   const data = await fs.readFile(classMappingFilePath, 'utf8');
   const classMapping = JSON.parse(data);
@@ -344,7 +343,6 @@ export default async function handler(
       returnSourceDocuments: true,
       bufferMaxSize: 4000,
     }, userID, messageID);
-
     
     const assignmentQaChain = AssignmentCustomQAChain.fromLLM(modelForResponse, index, namespaces,{
       returnSourceDocuments: true,

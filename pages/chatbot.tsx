@@ -72,6 +72,8 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
 });
 
 
+
+
 declare global {
   interface Window {
     katex: any;
@@ -405,6 +407,8 @@ const handleCloseModal = () => {
   // Any other state resets if necessary
 };
 
+
+
 async function handleSubmit(e: any) {
   const namespaceToSearch: any = courseTitle;
 
@@ -521,6 +525,49 @@ async function handleSubmit(e: any) {
     setError('An error occurred while fetching the data. Please try again.');
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const [magicName, setMagicName] = useState("CornellGPT");
@@ -664,12 +711,39 @@ function CodeBlock({ code }: { code: string }) {
   };
 
 
+
+
+
+
+  // const Chatbot = () => {
+  // const [classMapping, setClassMapping] = useState({});
+  // const [mappingOutput, setMappingOutput] = useState('');
+  // const [courseTitle, setCourseTitle] = useState(''); // Assuming you have a way to set this
+
+  // // Fetch classMapping data
+  // const fetchClassMapping = async () => {
+  //   const response = await fetch('/api/classMapping');
+  //   const mapping = await response.json();
+  //   setClassMapping(mapping);
+  // };
+
+  // // Call fetchClassMapping on component mount
+  // useEffect(() => {
+  //   fetchClassMapping();
+  // }, []);
+
+  // // Function to handle button click
+  // const handleButtonClick = () => {
+  //   if (classMapping && courseTitle) {
+  //     const output = classMapping[courseTitle];
+  //     setMappingOutput(JSON.stringify(output, null, 2)); // Displaying JSON in a readable format
+  //   }
+  
+
+    
     
 
-
-
-
-
+    
 
 
     
@@ -688,6 +762,19 @@ function CodeBlock({ code }: { code: string }) {
       <Sidebar className={courseTitle} onSessionChange={handleSessionChange} onNewChat={handleSessionChange} /> 
       : null}
   </aside>
+
+
+{/* <button className="classButton" onClick={handleButtonClick}>
+  Show Class Mapping
+</button>
+
+{mappingOutput && (
+  <div>
+    <h3>Class Mapping Output:</h3>
+    <pre>{mappingOutput}</pre>
+  </div>
+)} */}
+  
 
   <button
     className={styles.classInquiryButton}
@@ -912,13 +999,3 @@ function CodeBlock({ code }: { code: string }) {
     </>
   );
 }
-
-
-
-
-
-
-
-
-
-

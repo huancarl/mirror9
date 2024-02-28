@@ -19,7 +19,6 @@
 
 
 
-
 .header p {
   text-align: center;
 }
@@ -462,6 +461,28 @@
   color: #888888; /* Grey color for the first line */
 }
 
+.footer {
+  text-align: center; /* Center align the text */
+  padding: 0.625em 0; /* Adjust padding as needed */
+  position: absolute;
+  bottom: 0;
+  right: 0; /* Align the footer to the right edge */
+  left: 60%; /* Start the footer from the 60% mark of the container */
+  font-size: small;
+  color: darkred;
+}
+
+
+
+.footerLink {
+  color: darkred; /* Dark red color for the link text */
+  text-decoration: none; /* Optional: removes the underline from links */
+  padding: 0.3125em; /* Optional: adds some padding around the links for easier clicking */
+}
+
+.footerLink:hover {
+  text-decoration: underline; /* Re-adds underline on hover for better user interaction */
+}
 
 
 
@@ -658,6 +679,31 @@
 }
 
 .classInquiryButton:hover {
+  background-color: hsl(263, 75%, 70%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.classButton {
+  position: absolute; /* Position relative to the nearest positioned ancestor */
+  top: 0.3rem; /* Position from the top of the page */
+  right: 20rem; /* Position from the right of the page */
+  padding: 10px 23px;
+  background-color: #e30b0b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: auto;
+  max-width: 400px;
+  font-weight: bold;
+}
+
+.classButton:hover {
   background-color: hsl(263, 75%, 70%);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
