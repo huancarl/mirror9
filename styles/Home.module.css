@@ -401,7 +401,7 @@
 /* Base styles for the code block */
 .chatCodeBlock code {
   font-family: 'Consolas', 'Monaco', 'Courier New', Courier, monospace;
-  color: rgb(255, 255, 255); /* Lighter shade for better contrast */
+  color: rgb(255, 26, 26); /* Lighter shade for better contrast */
   font-size: 0.8rem; /* Responsive font size */
   line-height: 1.8;
   white-space: pre;
@@ -629,7 +629,7 @@
   font-size: 1.9em;
   position: absolute;
   top: -5px;
-  left: 195px;
+  left: 169px;
   background: none;
   border: none;
   cursor: pointer;
@@ -639,10 +639,10 @@
 
 .typewriter {
   position: fixed; /* Added fixed positioning */
-  top: 40%; /* Center vertically */
+  top: 16%; /* Center vertically */
   left: 55%; /* Center horizontally */
   transform: translate(-50%, -50%); /* Adjust position to truly center the element */
-  font-size: 7.0rem; /* Bigger font size for typewriter */
+  font-size: 4.5rem; /* Bigger font size for typewriter */
   color: darkred; /* Color of the text */
   border-right: 0.2px solid #000000; /* Cursor */
   white-space: nowrap;
@@ -651,6 +651,382 @@
   z-index: 500; /* Ensure it's above other elements, adjust as needed */
   width: auto; /* Adjust width as necessary */
 }
+
+
+
+
+
+
+
+
+
+
+/* PLSCI 1150 */
+.centeredcard {
+  position: fixed;
+  top: 52%;
+  left: 27%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px 40px; /* Reduced top padding to move the text higher */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 80%;
+  max-width: 330px;
+  height: 330px;
+  min-height: 20px;
+  border: 1px solid #ff4a4a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+}
+
+.centeredcard h1 {
+  margin-bottom: 16px; /* Space between the title and the underline */
+  font-size: 28px; /* Increased font-size for larger title */
+  font-weight: bold; /* Bold font-weight for title */
+}
+
+.centeredcard hr {
+  margin: 0; /* Remove default margin */
+  border: none;
+  height: 2px; /* Height of the underline */
+  background-color: #333; /* Color of the underline */
+  margin-bottom: 16px; /* Space between the underline and the bullet points */
+  text-align: center; /* Align text to the left */
+}
+
+.centeredcard ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  text-align: left; /* Align text to the left */
+}
+
+.centeredcard li {
+  margin-bottom: 8px; /* Space between bullet points */
+  font-size: 16px; /* Smaller font-size for bullet points */
+  font-weight: normal; /* Normal font-weight for bullet points */
+  margin-bottom: 12px;
+}
+
+.centeredcardddd li:before {
+  color: #000000; /* Color of bullet points */
+  font-size: larger; /* Larger bullet points */
+  margin-right: 8px; /* Space between bullet point and text */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.centeredcardd {
+  position: fixed;
+  top: 52%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px 40px; /* Reduced top padding to move the text higher */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 80%;
+  max-width: 330px;
+  height: 330px;
+  min-height: 20px;
+  border: 1px solid #ff4a4a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+}
+
+.centeredcardd h1 {
+  margin-bottom: 16px; /* Space between the title and the underline */
+  font-size: 28px; /* Increased font-size for larger title */
+  font-weight: bold; /* Bold font-weight for title */
+}
+
+.centeredcardd hr {
+  margin: 0; /* Remove default margin */
+  border: none;
+  height: 2px; /* Height of the underline */
+  background-color: #333; /* Color of the underline */
+  margin-bottom: 16px; /* Space between the underline and the bullet points */
+}
+
+.centeredcardd ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  text-align: left; /* Align text to the left */
+}
+
+.centeredcardd li {
+  margin-bottom: 8px; /* Space between bullet points */
+  font-size: 16px; /* Smaller font-size for bullet points */
+  font-weight: normal; /* Normal font-weight for bullet points */
+  margin-bottom: 12px;
+}
+
+.centeredcardddd li:before {
+  color: #000000; /* Color of bullet points */
+  font-size: larger; /* Larger bullet points */
+  margin-right: 8px; /* Space between bullet point and text */
+}
+
+
+
+
+
+
+
+
+
+
+.centeredcarddd {
+  position: fixed;
+  top: 52%;
+  left: 83%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px 40px; /* Reduced top padding to move the text higher */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 80%;
+  max-width: 330px;
+  height: 330px;
+  min-height: 20px;
+  border: 1px solid #ff4a4a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+}
+
+.centeredcarddd h1 {
+  margin-bottom: 16px; /* Space between the title and the underline */
+  font-size: 28px; /* Increased font-size for larger title */
+  font-weight: bold; /* Bold font-weight for title */
+}
+
+.centeredcarddd hr {
+  margin: 0; /* Remove default margin */
+  border: none;
+  height: 2px; /* Height of the underline */
+  background-color: #333; /* Color of the underline */
+  margin-bottom: 16px; /* Space between the underline and the bullet points */
+}
+
+.centeredcarddd ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  text-align: left; /* Align text to the left */
+}
+
+.centeredcarddd li {
+  margin-bottom: 8px; /* Space between bullet points */
+  font-size: 16px; /* Smaller font-size for bullet points */
+  font-weight: normal; /* Normal font-weight for bullet points */
+  margin-bottom: 12px;
+}
+
+.centeredcardddd li:before {
+  color: #000000; /* Color of bullet points */
+  font-size: larger; /* Larger bullet points */
+  margin-right: 8px; /* Space between bullet point and text */
+}
+
+
+
+
+
+
+
+
+
+/* INFO 1260 */
+.centeredcardddd {
+  position: fixed;
+  top: 52%;
+  left: 27%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px 40px; /* Reduced top padding to move the text higher */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 80%;
+  max-width: 330px;
+  height: 330px;
+  min-height: 20px;
+  border: 1px solid #ff4a4a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+}
+
+.centeredcardddd h1 {
+  margin-bottom: 16px; /* Space between the title and the underline */
+  font-size: 28px; /* Increased font-size for larger title */
+  font-weight: bold; /* Bold font-weight for title */
+}
+
+.centeredcardddd hr {
+  margin: 0; /* Remove default margin */
+  border: none;
+  height: 2px; /* Height of the underline */
+  background-color: #333; /* Color of the underline */
+  margin-bottom: 16px; /* Space between the underline and the bullet points */
+  text-align: center; /* Align text to the left */
+}
+
+.centeredcardddd ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  text-align: left; /* Align text to the left */
+}
+
+.centeredcardddd li {
+  margin-bottom: 8px; /* Space between bullet points */
+  font-size: 16px; /* Smaller font-size for bullet points */
+  font-weight: normal; /* Normal font-weight for bullet points */
+  margin-bottom: 12px;
+}
+
+.centeredcardddd li:before {
+  color: #000000; /* Color of bullet points */
+  font-size: larger; /* Larger bullet points */
+  margin-right: 8px; /* Space between bullet point and text */
+}
+
+
+
+
+
+
+
+.centeredcarddddd {
+  position: fixed;
+  top: 52%;
+  left: 55%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px 40px; /* Reduced top padding to move the text higher */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 80%;
+  max-width: 330px;
+  height: 330px;
+  min-height: 20px;
+  border: 1px solid #ff4a4a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+}
+
+.centeredcarddddd h1 {
+  margin-bottom: 16px; /* Space between the title and the underline */
+  font-size: 28px; /* Increased font-size for larger title */
+  font-weight: bold; /* Bold font-weight for title */
+}
+
+.centeredcarddddd hr {
+  margin: 0; /* Remove default margin */
+  border: none;
+  height: 2px; /* Height of the underline */
+  background-color: #333; /* Color of the underline */
+  margin-bottom: 16px; /* Space between the underline and the bullet points */
+  text-align: center; /* Align text to the left */
+}
+
+.centeredcarddddd ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  text-align: left; /* Align text to the left */
+}
+
+.centeredcarddddd li {
+  margin-bottom: 3px; /* Space between bullet points */
+  font-size: 16px; /* Smaller font-size for bullet points */
+  font-weight: normal; /* Normal font-weight for bullet points */
+  margin-bottom: 12px;
+}
+
+.centeredcarddddd li:before {
+  color: #000000; /* Color of bullet points */
+  font-size: larger; /* Larger bullet points */
+  margin-right: 8px; /* Space between bullet point and text */
+}
+
+
+
+.centeredcardddddd {
+  position: fixed;
+  top: 52%;
+  left: 83%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px 40px; /* Reduced top padding to move the text higher */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 80%;
+  max-width: 330px;
+  height: 330px;
+  min-height: 20px;
+  border: 1px solid #ff4a4a;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  color: #333;
+}
+
+.centeredcardddddd h1 {
+  margin-bottom: 16px; /* Space between the title and the underline */
+  font-size: 28px; /* Increased font-size for larger title */
+  font-weight: bold; /* Bold font-weight for title */
+}
+
+.centeredcardddddd hr {
+  margin: 0; /* Remove default margin */
+  border: none;
+  height: 2px; /* Height of the underline */
+  background-color: #333; /* Color of the underline */
+  margin-bottom: 16px; /* Space between the underline and the bullet points */
+  text-align: center; /* Align text to the left */
+}
+
+.centeredcardddddd ul {
+  list-style: none; /* Remove default list styling */
+  padding: 0; /* Remove default padding */
+  text-align: left; /* Align text to the left */
+}
+
+.centeredcardddddd li {
+  margin-bottom: 3px; /* Space between bullet points */
+  font-size: 16px; /* Smaller font-size for bullet points */
+  font-weight: normal; /* Normal font-weight for bullet points */
+  margin-bottom: 12px;
+}
+
+.centeredcardddddd li:before {
+  color: #000000; /* Color of bullet points */
+  font-size: larger; /* Larger bullet points */
+  margin-right: 8px; /* Space between bullet point and text */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Ensure that this styling doesn't break the layout on smaller screens */
 @media (max-width: 768px) {

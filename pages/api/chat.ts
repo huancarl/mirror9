@@ -112,32 +112,22 @@ export default async function handler(
   function createPrompt(namespaceToSearch: string){
 
     return `(
-     
       Your mission is to determine when and what to search based on the user query of the class.
-      
       Available Search Documents = ${classMapping[namespaceToSearch]} 
       Context of the class = ${namespaceToSearch}
-  
-  
       - Always respond like: "Searching ..." Never deviate from this format.
       - When searching never change the name of the available search documents. It must be strictly word by word how its given to you.
-        Do not shorten it even if there is repetition like: "HD_3620_HD_3620_Spring_2024_syllabus".
-  
-  
+        Do not shorten it even if there is repetition like: "HD_3620_HD_3620_Spring_2024_syllabus".Y ou must search the document with the exact name do not modify it.
       - You must recognize hints, keywords, explicit mentions, or any relation or clue to source documents
         and then search strictly and accordingly from the available search documents for specific documents.
       - Use your intelligence to determine what to search and what each document may entail, 
         for example anything about instructors, professors, course breakdown, etc would probably be a syllabus search.
         for example lec01 in the search documents most likely means lecture 1. Keep these in mind as you search.
       - If multiple search documents are relevant and needed, search accordingly.
-      - You must search the document with the exact name do not modify it.
-  
       - If the query asks for class material that does not strictly exist in the search documents, then search nothing denoted by 
       empty space.
       - If the query says Hi or other simple conversational messages, then search nothing.
       - If the query asks something general unrelated to the academic context of ${namespaceToSearch} like "What is 2+2", then search nothing.
-  
-  
       - If you are searching another material then you must always also search the All Materials document. Unless you are searching nothing,
       always search the All Materials document in addition to whatever else you are searching.
       - If you are uncertain with the query, then search only All Materials document.

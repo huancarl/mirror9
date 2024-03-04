@@ -4,8 +4,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 190px; /* Adjust width as needed */
-  height: 90%;
+  width: 155px; /* Adjust width as needed */
+  height: 100%;
   overflow-y: auto;
   background-color: #ffffff; /* Dark background color 18191b */
   color: #000000;
@@ -44,8 +44,8 @@
   cursor: pointer;
   transition: background-color 0;
   font-size: 14px;
-  width: 165px;
-  margin-left: -5px; 
+  width: 135px; /* Adjust width as needed */
+  margin-left: -11px; 
 }
 
 
@@ -78,7 +78,7 @@
   cursor: pointer;
   transition: background-color 0.3s; /* Smooth background color transition on hover */
   margin-bottom: 2;
-  width: 165px;
+  width: 135px;
   height: 30px;
   margin-left: -5px; 
 }
@@ -111,11 +111,12 @@
   visibility: visible;
 }
 
+
 .bottomSection {
   position: fixed; /* Fixed to the bottom */
   bottom: 0; /* At the bottom of the viewport */
   left: 0; /* Align with the left edge of the viewport */
-  width: 190px; /* Match the width of the sidebar */
+  width: 155px; /* Adjust width as needed */
   display: flex;
   flex-direction: column;
   align-items: center; /* Center the buttons */
@@ -125,11 +126,12 @@
   z-index: 10; /* Ensure it's above other content but below modal dialogs, etc. */
   border: 1px solid #000000;
 
-  height: 125px; /* Fixed height */
+  height: 35px; /* Fixed height */
 }
 
+
 .bottomButton {
-  width: 100%; /* Full width of the bottom section */
+  width: 40%; /* Full width of the bottom section */
   background-color: #ffffff; /* Dark button background color */
   color: #ffffff; /* White text color */
   border: none; /* No borders */
@@ -155,19 +157,37 @@
 
 
 .bottomButton:hover {
-  background-color: #f3f3f3; /* Slight highlight on hover */
+  background-color: #ffffff; /* Slight highlight on hover */
 }
 
 .bottomButton:last-child {
   margin-bottom: 0; /* No margin for the last button to avoid extra space */
 }
 
+
 .discordIcon {
-  /* Adjust the size of the icon as needed */
-  width: auto; /* Maintain the aspect ratio */
-  height: 12px; /* Example height, adjust as needed */
-  margin-right: 5px; /* Space between the icon and the text */
+  height: 25px; /* Example height, adjust as needed */
+  margin-right: 20px; /* Space between the icon and the text */
+  margin-top: -10px; /* Adjust this value as needed to move the icon higher */
 }
+
+.instagramIcon {
+  height: 25px; /* Same as discordIcon */
+  margin-right: 25px; /* Adjust if needed, depending on the position */
+  /* Add margin-top if needed to align with the discordIcon */
+  margin-top: -10px; /* Adjust this value as needed to move the icon higher */
+}
+.gmailIcon {
+  height: 20px; /* Adjust the size as needed */
+  margin-left: -145px; /* Space between the icon and any following content */
+  margin-top: -10px; /* Adjust this value as needed to move the icon higher */
+  /* Adjust margin-top if needed for vertical alignment */
+}
+
+
+
+
+
 
 
 .logoutIcon {
@@ -182,7 +202,7 @@
 
 .chatIcon {
   height: 15px; /* Adjust the size as needed */
-  margin-left: 55px; /* Space between the text and the icon */
+  margin-left: 35px; /* Space between the text and the icon */
   flex-shrink: 0; /* Prevents the icon from shrinking */
 }
 

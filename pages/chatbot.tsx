@@ -596,7 +596,152 @@ useEffect(() => {
   return () => clearInterval(interval);
 }, [typewriterPrompts]);
 
-// ... rest of your component
+
+
+
+
+
+
+
+
+
+
+
+
+// PLSCI 1150
+const renderCard = () => {
+  if (courseTitle === "PLSCI 1150" && messages.length === 0) {
+    return (
+      <div className={styles.centeredcard}>
+        <h1>🗒️ ADMIN.</h1>
+        <hr />
+        <ul>
+          <li>When are office hours?</li>
+          <li>What is the grade breakdown?</li>
+          <li>What is the attendance policy?</li>
+          <li>Where is Prof Crepets office?</li>
+        </ul>
+      </div>
+    );
+  }
+  return null;
+};
+
+const renderCardd = () => {
+  if (courseTitle === "PLSCI 1150" && messages.length === 0) {
+    return (
+      <div className={styles.centeredcardd}>
+          <h1>🏛️ COURT</h1>
+          <hr />
+          <ul>
+            <li>Act as the lindbergh trial attorney...</li>
+            <li>Pretend to be the defense for the lindbergh case...</li>
+            <li>Give an example testimony as a witness...</li>
+          </ul>
+        </div>
+    );
+  }
+  return null;
+};
+
+const renderCarddd = () => {
+  if (courseTitle === "PLSCI 1150" && messages.length === 0) {
+    return (
+      <div className={styles.centeredcarddd}>
+          <h1>✏️ STUDY</h1>
+          <hr />
+          <ul>
+            <li>Explain lecture 3 in detail</li>
+            <li>Which lectures mention meiosis and mitosis?</li>
+            <li>Explain apex cells & embryonic tissues from lecture slides</li>
+            <li>Generate a practice quiz...</li>
+          </ul>
+        </div>
+    );
+  }
+  return null;
+};
+
+
+
+
+
+
+
+
+
+// INFO 1260
+const renderCardddd = () => {
+  if (courseTitle === "INFO 1260" && messages.length === 0) {
+    return (
+      <div className={styles.centeredcardddd}>
+        <h1>🗒️ ADMIN.</h1>
+        <hr />
+        <ul>
+          <li>When are office hours?</li>
+          <li>What is the grade breakdown?</li>
+          <li>What is the attendance policy?</li>
+          <li>Which TAs can I get help from?</li>
+          <li>How can I contact the profs?</li>
+        </ul>
+      </div>
+    );
+  }
+  return null;
+};
+
+
+const renderCarddddd = () => {
+  if (courseTitle === "INFO 1260" && messages.length === 0) {
+    return (
+      <div className={styles.centeredcarddddd}>
+        <h1>✏️ HW HELP</h1>
+        <hr />
+        <ul>
+          <li>What concepts do I need to know for problem 1?</li>
+          <li>Which lectures can help me solve HW2?</li>
+          <li>What approach can I use to solve problem 5?</li>
+          <li>Am I headed down the right path?</li>
+        </ul>
+      </div>
+    );
+  }
+  return null;
+};
+
+const renderCardddddd = () => {
+  if (courseTitle === "INFO 1260" && messages.length === 0) {
+    return (
+      <div className={styles.centeredcardddddd}>
+        <h1>💭 STUDY</h1>
+        <hr />
+        <ul>
+          <li>Explain lecture 10 in detail</li>
+          <li>Which lectures talk about truth theory?</li>
+          <li>Explain page 10 of lecture 3</li>
+          <li>Generate a practice final exam</li>
+          <li>Give me 10 practice problems about...</li>
+        </ul>
+      </div>
+    );
+  }
+  return null;
+};
+
+
+// if (userIDRef.current == mpp59@cornell.edu){
+
+// }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -654,8 +799,8 @@ useEffect(() => {
       return [
         'explain lecture 5 in detail...',
         'explain page 4 in lecture 2',
-        'explain the 2nd slideshow',
-        'what is the grade breakdown?...',
+        'explain __ slideshow',
+        'can you help me with this problem?...',
         'when are the professors office hours?...',
         'summarize lecture 20...',
         'explain the course overview...'
@@ -761,7 +906,6 @@ const [classMapping, setClassMapping] = useState({});
 
 
 
-
   return (
     <>
     {showLimitReachedModal && stripePromise && (
@@ -775,6 +919,16 @@ const [classMapping, setClassMapping] = useState({});
       <Sidebar className={courseTitle} onSessionChange={handleSessionChange} onNewChat={handleSessionChange} /> 
       : null}
   </aside>
+
+  {renderCard()}
+  {renderCardd()}
+  {renderCarddd()}
+
+
+  {renderCardddd()}
+  {renderCarddddd()}
+  {renderCardddddd()}
+
   
   <button
     className={styles.classInquiryButton}

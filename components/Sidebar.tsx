@@ -456,26 +456,40 @@ const Sidebar: React.FC<SidebarProps> = ({ className, onSessionChange, sessions,
             {/* Add the new section here */}
             <div className={styles.bottomSection}>
 
-<button className={`${styles.bottomButton} ${styles.referButton}`}>
-  <img src="/refericon.png" alt="Refer" className={styles.referIcon} /> {/* Replace with the actual path to your refer icon */}
-  REFER
-  <span className={styles.newTag}>COMING SOON!</span>
+
+
+            <button className={styles.bottomButton}>
+    <img 
+        src="/discord.png" 
+        alt="Discord" 
+        className={styles.discordIcon} 
+        onClick={() => window.open('https://discord.gg/3V2RhTZWF8', '_blank')}
+    />
+    <img 
+        src="/Instagram1.png" 
+        alt="Instagram" 
+        className={styles.instagramIcon} 
+        onClick={() => window.open('https://www.instagram.com/cornell.gpt/', '_blank')}
+    />
+    <img 
+        src="/gmail.png" 
+        alt="Gmail" 
+        className={styles.gmailIcon} 
+        onClick={() => window.open('mailto:cornellgpt@gmail.com')}
+    />
 </button>
-<button
-    className={styles.bottomButton}
-    onClick={() => window.open('https://discord.gg/3V2RhTZWF8', '_blank')}
->
-    <img src="/discord.png" alt="Discord" className={styles.discordIcon} />
-    CornellGPT Discord
-</button>
+
+
+
+
 
 
                 
-<button className={styles.bottomButton} onClick={togglePopup}>
+{/* <button className={styles.bottomButton} onClick={togglePopup}>
                   <img src="/logout.png" alt="Log Out" className={styles.logoutIcon} />
                   <span className={styles.logoutText}>Profile</span>
                   {showPopup && <ProfilePopup userID={userID} />}
-                </button>
+                </button> */}
                 
             </div>
         </div>
