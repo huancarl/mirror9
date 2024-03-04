@@ -653,7 +653,7 @@ const renderCarddd = () => {
           <h1>✏️ STUDY</h1>
           <hr />
           <ul>
-            <li>Explain lecture 3 in detail</li>
+            <li>Explain lecture 1 in detail</li>
             <li>Which lectures mention meiosis and mitosis?</li>
             <li>Explain apex cells & embryonic tissues from lecture slides</li>
             <li>Generate a practice quiz...</li>
