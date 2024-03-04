@@ -1,0 +1,75 @@
+.container {
+  text-align: center;
+  position: relative;
+  height: 100vh; /* Fills the viewport height */
+}
+
+.courseTitle {
+  margin-top: 1.25rem; /* Adjust as needed */
+  font-size: 3.5rem; /* Adjust as needed */
+}
+
+.buttonsContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem; /* Spacing between buttons */
+}
+
+.buttonWrapper {
+  margin: 1rem; /* Adds space around each button */
+  display: flex; /* Flex display to center the text inside the button */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+.button {
+  padding: 0.75rem 1rem; /* Adjust padding as needed */
+  width: 12rem; /* Set a fixed width */
+  height: 10rem; /* Set a fixed height */
+  border: 0.125rem solid black; /* Red border */
+  border-radius: 1rem; /* Rounded corners */
+  background-color: #f0f0f0; /* Background color */
+  text-decoration: none;
+  color: #000;
+  font-size: 1rem; /* Font size */
+  cursor: pointer; /* Cursor indication for clickability */
+  box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1); /* Box shadow for depth */
+  text-align: center; /* Text centering */
+  display: flex; /* Enables flexbox properties for the button */
+  justify-content: center; /* Centers text horizontally */
+  align-items: center; /* Centers text vertically */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Optional: To ensure that the text doesn't wrap or overflow */
+.button > span {
+  white-space: nowrap; /* Prevents wrapping */
+  overflow: hidden; /* Prevents overflow */
+  text-overflow: ellipsis; /* Adds an ellipsis to overflowing text */
+}
+
+.button:hover {
+  transform: translateY(-0.25rem); /* Moves the button up by 0.25rem */
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.2); /* Optionally make the shadow larger for a 'lifted' effect */
+}
+
+
+/* Adjust for responsiveness and positioning */
+@media (max-width: 48em) {
+  .row {
+    flex-direction: column;
+  }
+  .button {
+    width: 100%; /* Full width buttons on smaller screens */
+  }
+}

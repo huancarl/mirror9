@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 2rem;
+    height: 100vh;
+  }
+  
+  .title {
+    font-size: 2rem; /* 32px assuming a base font-size of 16px */
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+  
+  .dropdown {
+    width: 100%;
+    max-width: 40rem; /* Maximum width of the dropdown */
+    border: 0.1rem solid #ccc;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .dropdownTitle {
+    padding: 1rem;
+    font-size: 1.5rem; /* 24px */
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .dropdownContent {
+    padding: 1rem;
+    border-top: 0.1rem solid #ccc;
+  }
+  
+  

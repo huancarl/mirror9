@@ -32,6 +32,7 @@ import {
 } from '../utils/codeblock'
 
 
+
 import Sidebar from 'components/Sidebar';
 import { Typewriter } from '../utils/typewriter'; 
 import { useRouter } from 'next/router';
@@ -51,6 +52,7 @@ import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { current } from '@reduxjs/toolkit';
 import { join } from 'path';
+
 
 
 
@@ -132,7 +134,7 @@ export default function Home() {
         const newMessages = [ ...prevState.messages];
         newMessages[lastMessageIndexRef.current] = {
           type: 'apiMessage',
-          message: '',
+          message: ``,
           sourceDocs: undefined, 
         };
         return {
@@ -866,14 +868,21 @@ const handleOverlayClick = () => {
 
 
 const [classMapping, setClassMapping] = useState({});
-  const [mappingOutput, setMappingOutput] = useState('');
-  const [showPopup, setShowPopup] = useState(false);
+const [mappingOutput, setMappingOutput] = useState<React.JSX.Element []>([]);
+const [showPopup, setShowPopup] = useState(false);
+const [pdfMapping, setpdfMapping] = useState({});
+
 
   // Fetch classMapping data
   const fetchClassMapping = async () => {
-    const response = await fetch('/api/classMapping');
-    const mapping = await response.json();
-    setClassMapping(mapping);
+    const classResponse = await fetch('/api/classMapping');
+    const classMap = await classResponse.json();
+
+    const pdfResponse = await fetch('/api/pdfMapping');
+    const pdfMap = await pdfResponse.json();
+
+    setpdfMapping(pdfMap);
+    setClassMapping(classMap);
   };
 
   // Call fetchClassMapping on component mount
@@ -881,19 +890,41 @@ const [classMapping, setClassMapping] = useState({});
     fetchClassMapping();
   }, []);
 
-  // Function to handle button click
+  // Function to handle button click for 'Material Access'
   const handleButtonClick = () => {
-    if (classMapping && courseTitle && typeof(courseTitle) !== 'object') {
+    if (classMapping && pdfMapping && courseTitle && typeof(courseTitle) !== 'object') {
+
       const title = courseTitle.replace(/ /g, '_');
       const output = classMapping[title];
-      console.log(output);
-      if (Array.isArray(output)) {
-        // Join the array elements into a string separated by newlines (or another separator)
-        setMappingOutput(output.join('\n'));
-      } else {
-        // If output is not an array, display it as is
-        setMappingOutput(JSON.stringify(output, null, 2));
+
+      //Render all of the links
+      const links: React.JSX.Element []= [];
+      //For each material of a class get the pdf name which points to the link
+      for (let i = 0 ; i < output.length; i++) {
+        
+        let pdfName = pdfMapping[output[i]][0];
+        pdfName += '.pdf';
+
+        if (pdfName && (pdfName !== `${title}_All_Materials.pdf`)) {
+
+          links.push(
+            <>
+            <a key={pdfName} href={`/pdf/${pdfName}`} target="_blank" rel="noopener noreferrer"
+            style={{
+              color: '#b12424',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              fontWeight: 625,
+              }}>
+              {pdfName}
+            </a>
+            <br/>
+            </>
+          );
+        }
       }
+    
+      setMappingOutput(links);
       setShowPopup(true); // Show popup
     }
   };
@@ -1062,7 +1093,6 @@ const [classMapping, setClassMapping] = useState({});
     } else {
       content = <span>{parseBoldText(message.message)}</span>;
     }
-
 
 
     if (isLoading) {

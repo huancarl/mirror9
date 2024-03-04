@@ -94,13 +94,31 @@ export function MessageRenderer({ message }) {
 // For Bold Text
 
 export function parseBoldText(text) {
-  if (typeof text !== 'string') {
+  if (typeof text !== 'string' && !text) {
     return [];
   }
 
-  return text.split(/(\*\*.*?\*\*)/g).map((part, index) => {
-    if (part.startsWith('**') && part.endsWith('**')) {
+  return text.split(/(\*\*.*?\*\*)|(%%.*?%%)/g).map((part, index) => {
+    if (part && part.startsWith('**') && part.endsWith('**')) {
       return <strong key={index}>{part.slice(2, -2)}</strong>;
+    }
+    else if (part && part.startsWith('%%') && part.endsWith('%%')) {
+
+      const sourcePageRegex = /%%Source: (.*?) Page: (\d+)%%/;
+      const match = sourcePageRegex.exec(part);
+      if (match) {
+        const [_, source, page] = match;
+        const url = `/pdf/${source}`; // Construct the URL
+
+        const filename = url.split('/').pop();
+
+        return <a key={index} href={url+`#page=${page}`} target="_blank" rel="noopener noreferrer"
+        style={{
+          textDecoration: 'underline',
+          cursor: 'pointer',
+          fontWeight: 625}}>{filename}</a>;
+      }
+
     }
     return <span key={index}>{part}</span>; // Convert string parts to text nodes
   });

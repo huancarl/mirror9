@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import styles from '@/styles/courseSelection.module.css';
 import CourseBox from 'components/CourseBox';
 import { v4 as uuidv4 } from 'uuid';
 import {withSession, isAuthenticated} from 'utils/session';
-
+import ClassCodeModal from 'components/classCodeModal';
+import * as path from 'path';
+import { useRouter } from 'next/router';
 
 //Make sure that the page cannot be accessed without logging in
 export const getServerSideProps = withSession(async ({ req, res }) => {
@@ -26,6 +28,139 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
 function CourseCatalog() {
 
   const [referralLink, setReferralLink] = useState('');
+  const userIDRef = useRef<string | null>(null);
+  //Enter class code modal
+  const [isClassCodeModalVisible, setIsClassCodeModalVisible] = useState(false);
+  //Handles entering a class code
+  const [classCode, setClassCode] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState(null);
+  const [courseCodeMapping, setCourseCodeMapping] = useState({});
+  const [unlockedClasses, setUnlockedClasses] = useState<string[]>([]);
+  const [finishFetching, setFinishFetching] = useState(false);
+
+  const router = useRouter();
+  //Logic for handling the course box clicks
+  const handleCourseClick = (course) => {
+    setSelectedCourse(course);
+    if(course in courseCodeMapping){
+      setIsClassCodeModalVisible(true);
+    }
+  };
+
+  //Get the unlocked classes for the user
+  const fetchUnlockedClasses = async () => {
+    try {
+
+      const sessionRes = await fetch('/api/userInfo');
+      const sessionData = await sessionRes.json();
+      if (sessionRes.ok) {
+        // Set userID to the user's email from the session
+        userIDRef.current = sessionData.email;
+      } else {
+        // Handle the case where the session is not available
+        console.error('Session not found:', sessionData.error);
+        return;
+      }
+
+
+      const response = await fetch('/api/getUnlockedClasses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userID: userIDRef.current,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        
+        setUnlockedClasses(data.unlockedClasses);
+      } else {
+        // Handle HTTP error responses
+        console.error('Error fetching unlocked classes');
+      }
+    } catch (error) {
+      console.error('Network or other error', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUnlockedClasses();
+    setFinishFetching(true);
+  }, []);
+
+
+  useEffect(() => {
+    // This code runs when selectedCourse changes
+    
+
+    if (selectedCourse && Array.isArray(unlockedClasses) && unlockedClasses.includes(selectedCourse)) {
+      setIsClassCodeModalVisible(false);
+      router.push(`/chatbot?course=${selectedCourse}`);
+    }
+
+    if (selectedCourse && !(selectedCourse in courseCodeMapping)) {
+      router.push(`/chatbot?course=${selectedCourse}`);
+    }
+  }, [selectedCourse, unlockedClasses]);
+
+  const handleCloseModal = () => {
+    setIsClassCodeModalVisible(false);
+  };  
+
+  async function verifyClassCode() {
+
+    //If there isn't a code set yet for the class
+    if(selectedCourse && !(selectedCourse in courseCodeMapping)){
+      router.push(`/chatbot?course=${selectedCourse}`);
+    }
+
+    if(selectedCourse && classCode === courseCodeMapping[selectedCourse]){
+      router.push(`/chatbot?course=${selectedCourse}`);
+      const sessionRes = await fetch('/api/userInfo');
+      const sessionData = await sessionRes.json();
+      if (sessionRes.ok) {
+        // Set userID to the user's email from the session
+        userIDRef.current = sessionData.email;
+      } else {
+        // Handle the case where the session is not available
+        console.error('Session not found:', sessionData.error);
+        return;
+      }
+
+      //Update the database to give the class to the user after they enter the code
+      const response = await fetch('/api/updateUnlockedClasses', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            userID: userIDRef.current,
+            className: selectedCourse,
+        })
+      });
+
+
+    }
+    setIsClassCodeModalVisible(false);
+
+  }
+
+  async function fetchClassCodes () {
+
+    const classCodesResponse = await fetch('/api/fetchCourseCodes');
+    const classCodeMap = await classCodesResponse.json();
+
+    // class code map is a mapping from class code (CS 1110) to a 5 digit code (12345)
+    setCourseCodeMapping(classCodeMap);
+  }
+
+  useEffect (() => {
+    fetchClassCodes();
+  }, [])
+
 
   function getOrGenerateUUID(key: string): string {
     let value = localStorage.getItem(key) || '';
@@ -495,8 +630,21 @@ const courses = [
       />
       <div className={styles.courseGrid}>
         {filteredCourses.map(course => (
-          <CourseBox key={course.key} namespaceTitle={course.namespaceTitle} displayTitle={course.displayTitle} professor={course.professor} />
+          <CourseBox key={course.key} namespaceTitle={course.namespaceTitle} 
+          displayTitle={course.displayTitle} professor={course.professor} 
+          onClick={() => handleCourseClick(course.key)}/>
         ))}
+
+      {isClassCodeModalVisible && (
+        <ClassCodeModal
+          isVisible={isClassCodeModalVisible}
+          onClose={handleCloseModal}
+          onSubmit={verifyClassCode}
+          classCode={classCode}
+          setClassCode={setClassCode}
+        />
+      )}
+
       </div>
       <footer className={styles.footer}>
     <a href="https://mountain-pig-87a.notion.site/Terms-Of-Use-CornellGPT-96c16de16cc94ff5b574fb4632b069e9" className={styles.footerLink} target="_blank">Terms of Use</a> |
@@ -506,4 +654,4 @@ const courses = [
   );
       }
 
-export default CourseCatalog;''
+export default CourseCatalog;

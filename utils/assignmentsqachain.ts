@@ -387,9 +387,18 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
          Never fabricate or pretend something exists in the source basis when it does not. Never source something incorrectly.
  
          Guidance of Source Basis:
-         When clear, provide citations of the source basis throughout your response denoted as
-         (Source: [${this.namespaces}], Page Number: [page number of source]). 
-         You must be clear with your sources, stating only the name of the pdf, and never including the whole path.
+         When clear, provide citations of the source basis throughout your response, surrounding them with a pair of %. Each source basis
+         is given in the following format: Text: source text, Source: source.pdf, Page Number: page number, Total Pages: total pages. When
+         citing the source basis always use the name of the source that follows "Source:" and the page number of the source that follows "Page Number:".
+         Make sure to always use the exact value followed by the "Source:" field in your citation.
+        
+         Example source citation: 
+
+         Text: text, Source: lecture1.pdf, Page Number: 12, Total Pages: 15.
+
+         %%Source: lecture1.pdf Page: 12%%. 
+
+
  
          Verbal Guidance:
          If the user asks for assistance with an error of any kind related to the course, state what parts of the source basis will help 
@@ -466,6 +475,7 @@ private async getRelevantDocs(question, filter: any): Promise<PineconeResultItem
              throw new Error("Response Error.");
          } 
          
+        
          return {
              text: response,
              sourceDocuments: sourceDocuments

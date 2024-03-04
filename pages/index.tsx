@@ -10,12 +10,23 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
   const user = await isAuthenticated(req);
 
   if (user) {
+
+    if(user.isProfessor){
       return {
-          redirect: {
-              destination: '/coursePage', // Redirect to the sign-in page
-              permanent: false,
-          },
-      };
+        redirect: {
+            destination: '/professorCoursePage',
+            permanent: false,
+        },
+    };
+    }
+    else{
+      return {
+        redirect: {
+            destination: '/coursePage', 
+            permanent: false,
+        },
+    };
+    }
   }
   // User is authenticated
   return { props: { user } };

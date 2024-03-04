@@ -66,7 +66,14 @@ const LoginWithEmail: React.FC = () => {
 
     const data = await result.json();
     if (data.success) {
-      router.replace('/coursePage');
+      if(data.isProfessor){
+        //User is a professor
+        router.replace('/professorCoursePage');
+      }
+      else{
+        router.replace('/coursePage');
+      }
+      
     } else {
       setShowErrorMessage(true);
     }

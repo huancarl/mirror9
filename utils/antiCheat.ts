@@ -60,7 +60,10 @@ async function calculate_material_similarity_score(question: any, assignmentName
             console.error('No results found or unexpected result structure.');
         }
     });
-    console.log(similarity_score/remainingDocs, 'this is the similiartiy score');
+    
+    similarity_score = results[0].matches[0].score;  
+
+    console.log(similarity_score, 'this is the similiartiy score');
 
     return similarity_score;  
 }
@@ -109,15 +112,15 @@ async function calculate_similarity_score(question: any, assignmentNamespaces: s
     //return to the prompt in assignmnetqachain
     
     let metadata = {};
-    const sourceName = results[0].matches.source;
-    const text = results[0].matches.text;
-    const pageStart = results[0].matches['loc.pageNumber'];
-    const pageNumbers = results[0].matches['pdf.totalPages']; 
+    // const sourceName = results[0].matches.metadata.source;
+    // const text = results[0].matches.metadata.text;
+    // const pageStart = results[0].matches.metadata['loc.pageNumber'];
+    // const pageNumbers = results[0].matches.metadata['pdf.totalPages']; 
 
-    metadata['source'] = sourceName;
-    metadata['text'] = text; 
-    metadata['pageStart'] = pageStart;
-    metadata['pageNumbers'] = pageNumbers;
+    // metadata['source'] = sourceName;
+    // metadata['text'] = text; 
+    // metadata['pageStart'] = pageStart;
+    // metadata['pageNumbers'] = pageNumbers;
 
     scoreAndVector['score'] = score; 
     scoreAndVector['metadata'] = metadata;

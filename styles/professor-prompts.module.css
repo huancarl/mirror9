@@ -1,0 +1,44 @@
+.settingsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Change this from center to flex-start */
+    height: 100vh; /* Takes the full height of the viewport */
+    padding-top: 3rem; /* Add padding at the top */
+  }
+  
+  .settingsHeader {
+    font-size: 2rem; /* 32px if base is 16px */
+    font-weight: bold;
+    margin-top: 0; /* Remove the top margin if any */
+    margin-bottom: 4rem; /* Spacing below the header */
+    text-align: center;
+  }
+  
+  .settingsRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30rem; /* Adjust the width as needed */
+    margin-bottom: 1.25rem; /* Spacing between rows */
+  }
+  
+  .settingsLabel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Label takes full width of its container */
+    font-size: 1rem; /* Adjust the font size as needed */
+  }
+  
+  .settingsCheckbox {
+    margin-left: 1rem; /* Space between label text and the checkbox */
+    transform: scale(1.5); /* Makes the checkbox larger */
+  }
+  .settingsInput {
+    padding: 0.5rem;
+    border: 0.1rem solid #ccc; /* Border for the input field */
+    border-radius: 0.5rem; /* Rounded corners for the input field */
+    width: 15em;
+  }
+

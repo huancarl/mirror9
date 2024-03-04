@@ -73,7 +73,14 @@ const AccessPage = () => {
 
     const data = await result.json();
     if (data.created) {
-      router.replace('/coursePage');
+
+      if(data.isProfessor){
+        router.replace('/ProfessorCoursePage');
+      }
+      else{
+        router.replace('/coursePage');
+      }
+      
     } else {
       alert(data.message);
     }

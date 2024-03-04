@@ -299,8 +299,10 @@ export class CustomQAChain {
 
     // Experimenting making faster searches with namespaces with Timeout Method
 
-    public async call({ question, questionEmbed, chat_history, namespaceToFilter}: { question: string; questionEmbed: any; chat_history: ChatMessage[], namespaceToFilter: any}, ): Promise<CallResponse> {
+    public async call({ question, questionEmbed, chat_history, namespaceToFilter, promptAddOn}: { question: string; questionEmbed: any; chat_history: ChatMessage[], namespaceToFilter: any, promptAddOn: string}, ): Promise<CallResponse> {
        //Makes the call to openai and declares all of the methods defined in this file
+
+        const addon = promptAddOn;
 
         const relevantDocs = await this.getRelevantDocs(questionEmbed, namespaceToFilter);
 
@@ -331,7 +333,10 @@ export class CustomQAChain {
                 .trim();
         
             // Prepare the full string for this document
-            const fullString = `- Text: "${cleanedText}", Source: "${doc.Source}", Page Number: ${doc.Page_Number}, Total Pages: ${doc.Total_Pages}`;
+
+            const filename = doc.Source.split('/').pop();
+
+            const fullString = `- Text: "${cleanedText}", Source: "${filename}", Page Number: ${doc.Page_Number}, Total Pages: ${doc.Total_Pages}`;
         
             // Check if adding this text would exceed the character limit
             if (charCount + fullString.length > maxChars) {
@@ -500,7 +505,7 @@ export class CustomQAChain {
                 When clear, provide citations of the source basis throughout your response denoted as
                 (Source: [${this.namespaces}], Page Number: [page number of source]). 
                 You must be clear with your sources, stating only the name of the pdf, and never including the whole path.
-    
+                using citations at the end of the sentence formatted like: %%Source: Lecture 9.pdf Page: 20%%.
     
                 You must do this with accuracy and precision.
                 Never make assumptions from the source basis or create information from the source basis that does not exist. 
@@ -572,6 +577,7 @@ export class CustomQAChain {
             Do not ever use bold in your answers. Never use astericks in your answers.
 
 
+            using citations at the end of the sentence formatted like: %%Source: Lecture 9.pdf Page: 20%%.
 
             This is an introductory computer science class, try to simplify your answers and make sure students truly understand everything.
     
@@ -688,8 +694,18 @@ export class CustomQAChain {
         Never fabricate or pretend something exists in the source basis when it does not. Never source something incorrectly.
 
         Guidance of Source Basis:
-        When clear, provide citations of the source basis throughout your response denoted as
-        (Source: [${this.namespaces}], Page Number: [page number of source]). 
+        When clear, provide citations of the source basis throughout your response, surrounding them with a pair of %. Each source basis
+        is given in the following format: Text: source text, Source: source.pdf, Page Number: page number, Total Pages: total pages. When
+        citing the source basis always use the name of the source that follows "Source:" and the page number of the source that follows "Page Number:".
+        Make sure to always use the exact value followed by the "Source:" field in your citation.
+        
+        Example source citation: 
+
+        Text: text, Source: lecture1.pdf, Page Number: 12, Total Pages: 15.
+
+        %%Source: lecture1.pdf Page: 12%%. 
+
+
         You must be clear with your sources, stating only the name of the pdf, and never including the whole path.
 
         Verbal Guidance:
@@ -759,7 +775,7 @@ export class CustomQAChain {
         educational conversation, asking me for more details or questions. Ensure I feels guided and understood in 
         their educational journey. Always be certain about your answers and always strictly follow the formatting instructions. 
         You must always be certain about your answers. Keep in mind your identity as CornellGPT, an educational creation to help 
-        learn. Use varied language and avoid repetition.
+        learning. Use varied language and avoid repetition.
         
         Always abide by these instructions in full. 
         `

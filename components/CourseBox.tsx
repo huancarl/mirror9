@@ -5,16 +5,24 @@ type CourseBoxProps = {
   namespaceTitle: string;
   professor: string;
   displayTitle: string;
+  onClick: () => void;
 };
 
-const CourseBox = ({namespaceTitle, displayTitle, professor }: CourseBoxProps) => {
+const CourseBox = ({namespaceTitle, displayTitle, professor, onClick }: CourseBoxProps) => {
   return (
-    <Link href={`/chatbot?course=${namespaceTitle}`}>
+    // Wrap the Link with a div so we can apply the onClick to the div
+
+    <div onClick={onClick}>
+
+    {/* <Link href={`/chatbot?course=${namespaceTitle}`}> */}
       <div className={styles.courseBox}>
         <h2 className={styles.courseTitle}>{displayTitle}</h2>
         <p className={styles.professorName}>{professor}</p>
       </div>
-    </Link>
+    {/* </Link> */}
+
+    </div>
+
   );
 };
 

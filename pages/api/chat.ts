@@ -334,10 +334,10 @@ export default async function handler(
       bufferMaxSize: 4000,
     }, userID, messageID);
     
-    const assignmentQaChain = AssignmentCustomQAChain.fromLLM(modelForResponse, index, namespaces,{
-      returnSourceDocuments: true,
-      bufferMaxSize: 4000,
-    }, userID, messageID);
+    // const assignmentQaChain = AssignmentCustomQAChain.fromLLM(modelForResponse, index, namespaces,{
+    //   returnSourceDocuments: true,
+    //   bufferMaxSize: 4000,
+    // }, userID, messageID);
 
     
   
@@ -356,41 +356,44 @@ export default async function handler(
 
     // Sourcedocs retrieved from the backend
     let results: any;
+    let customClassPromptAddon = '';
 
     //Only run if the class has a class assignments namespace
     if(assignmentNamespace in cheatNamespaces){
 
       //Check if the user's question is a direct copy and paste of a current assignment's questions
       const antiCheatResponse = await anti_cheat(question, queryEmbedding, assignmentNamespace, allMaterialsNamespace);
-
-      //'cheatGuess' is a bool of true or false and 'vector' is what assignment the user is trying to use
+      //'cheatGuess' is a bool of true or false and 'vector' is what the system thinks the assignment the user is trying finesse
       const cheating = antiCheatResponse['cheatGuess'];
       const metadata = antiCheatResponse['vector'];
 
-    if(cheating) {
-        //If anti cheat returns true then the user is suspected of cheating
-        //Parameters for anti_cheat function: question, question embeddings, namespace to search
-        console.log('Cheating detected, avert from normal user flow');
+      if(cheating) {
+            //If anti cheat returns true then the user is suspected of cheating
+            //Parameters for anti_cheat function: question, question embeddings, namespace to search
+            console.log('Cheating detected, avert from normal user flow');
 
-        results = await assignmentQaChain.call({
-          question: question,
-          questionEmbed: queryEmbedding,
-          chat_history: messages,
-          namespaceToFilter: cleanedNamespace,
-          metadata: metadata
-        });
+            const antiCheatPromptsPath = path.join(process.cwd(), 'utils', 'classAntiCheatPrompts.json');
+            const promptsData = await fs.readFile(antiCheatPromptsPath, 'utf8');
+            const antiCheatPrompts = JSON.parse(promptsData);
+            customClassPromptAddon += antiCheatPrompts[namespaceWithUnderscore];
+
+            // results = await assignmentQaChain.call({
+            //   question: question,
+            //   questionEmbed: queryEmbedding,
+            //   chat_history: messages,
+            //   namespaceToFilter: cleanedNamespace,
+            //   metadata: metadata
+            // });
       }
     }
-    else{
-      results = await qaChain.call({
-        question: question,
-        questionEmbed: queryEmbedding,
-        chat_history: messages,
-        namespaceToFilter: cleanedNamespace
-      });
-    }
 
-    console.log(results, 'results in chat.ts');
+    results = await qaChain.call({
+      question: question,
+      questionEmbed: queryEmbedding,
+      chat_history: messages,
+      namespaceToFilter: cleanedNamespace,
+      promptAddOn: customClassPromptAddon,
+    });
 
     const message = results.text;
     const sourceDocs = results.sourceDocuments;
