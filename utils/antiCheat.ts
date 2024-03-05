@@ -63,7 +63,7 @@ async function calculate_material_similarity_score(question: any, assignmentName
     
     similarity_score = results[0].matches[0].score;  
 
-    console.log(similarity_score, 'this is the similiartiy score');
+    console.log(similarity_score, 'this is the similiartiy score for all materials');
 
     return similarity_score;  
 }

@@ -49,7 +49,7 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    let className = "CS_4780_Assignments"; //Name of the folder must follow the format: SUBJECT_NUMBER_Assignments
+    let className = "CS_1110_Assignments"; //Name of the folder must follow the format: SUBJECT_NUMBER_Assignments
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
     //const classNamespace = `${className}_All_Materials`;
@@ -57,7 +57,7 @@ export const run = async () => {
 
       const fileName = fileNameWithExtension.replace('.pdf', '');
       
-      const namespace = NAMESPACE_NUMB[fileName][0]; // Adjust this if the mapping of folder to namespace changes
+      const namespace = className;
       //console.log(document);
       const splitDocs = await textSplitter.splitDocuments(document);
 
