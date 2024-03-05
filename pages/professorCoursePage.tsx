@@ -57,7 +57,7 @@ function ProfessorHome() {
           if(userIDRef.current){
 
             let nameOfClass = professorToClassMap[userIDRef.current];
-            nameOfClass = nameOfClass.replace(/_/g, ' ');
+            nameOfClass = nameOfClass.replace(/_/g, ' '); 
 
             setClassName(nameOfClass)
           }
@@ -80,30 +80,37 @@ function ProfessorHome() {
 
     return (
       <div className={styles.container}>
+        <div className={styles.classCodeBox}>
+          <div>STUDENT ACCESS CODE</div>
+          <div>11500</div>           {/* CHANGE STUDENT ACCESS CODE DEPENDING ON THE CLASS */}
+        </div>
         <h1 className={styles.courseTitle}>{className}</h1>
+        <div className={styles.universityName}>Cornell University SP24</div>
         <div className={styles.buttonsContainer}>
-          <div className={styles.row}>
-            <div className={styles.buttonWrapper}>
-              <Link href={`/professor-materials?course=${className}`}>
-                <button className={styles.button}>Upload or Delete Chatbot Access Materials</button>
-              </Link>
-            </div>
-            <div className={styles.buttonWrapper}>
-              <Link href="/professor-prompt">
-                <button className={styles.button}>Admin Instruction Modifications</button>
-              </Link>
-            </div>
+          {/* All buttons are now within the same .row div */}
+          <div className={styles.buttonWrapper}>
+            <Link href={`/professor-materials?course=${className}`}>
+            <button className={styles.button} title="Add or remove class materials accessible to the chatbot; controlling the resources available for students.">Admin Update Materials</button>
+            </Link>
           </div>
-          <div className={styles.row}>
-            <div className={styles.buttonWrapper}>
-              <Link href={`/chatbot?course=${className}`}>
-                <button className={styles.button}>Student Chatbot View</button>
-              </Link>
-            </div>
+          <div className={styles.buttonWrapper}>
+            <Link href="/professor-prompt">
+              <button className={styles.button} title="Customize specific instructions and guidelines for the chatbot; tailoring its responses and functionalities to suit your class's requirements.">Admin Instruction Modifications</button>
+            </Link>
+          </div>
+          <div className={styles.buttonWrapper}>
+            <Link href={`/chatbot?course=${className}`}>
+              <button className={styles.button} title="Preview the chatbot from a student's perspective to understand how students interact.">Student View</button>
+            </Link>
+          </div>
+          <div className={styles.buttonWrapper}>
+            <Link href={`/chatbot?course=${className}`}>
+              <button className={styles.button}title="Access professor functionalities; designed to assist professor in enhancing current class materials or creating new class ideas.">Professor View</button>
+            </Link>
           </div>
         </div>
       </div>
     );
-  }
-  
-  export default ProfessorHome;
+}
+
+export default ProfessorHome;

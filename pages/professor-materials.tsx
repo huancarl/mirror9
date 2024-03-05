@@ -113,7 +113,21 @@ function ProfessorModifyMaterials() {
   
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Chatbot Material Access</h1>
+            <h1 className={styles.title}>Class Materials Access</h1>
+            <details className={styles.dropdown}>
+                <summary className={styles.dropdownTitle}>Class Logistics</summary>
+   
+                <div className={styles.dropdownContent}>
+                    {lectureLinks}
+                </div>
+            </details>
+            <details className={styles.dropdown}>
+                <summary className={styles.dropdownTitle}>Notes</summary>
+   
+                <div className={styles.dropdownContent}>
+                    {lectureLinks}
+                </div>
+            </details>
             <details className={styles.dropdown}>
                 <summary className={styles.dropdownTitle}>Lectures</summary>
    

@@ -16,14 +16,18 @@
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Change to row to align buttons side by side */
+  flex-wrap: wrap; /* Allows buttons to wrap to next line if space is insufficient */
+  gap: 2rem; /* Spacing between buttons */
   align-items: center;
+  justify-content: center; /* Centers buttons horizontally */
 }
 
 .row {
   display: flex;
   justify-content: center;
-  gap: 2rem; /* Spacing between buttons */
+  align-items: center; /* Center vertically */
+  gap: 2rem; /* Spacing between buttons in a row */
 }
 
 .buttonWrapper {
@@ -34,15 +38,15 @@
 }
 
 .button {
-  padding: 0.75rem 1rem; /* Adjust padding as needed */
-  width: 12rem; /* Set a fixed width */
-  height: 10rem; /* Set a fixed height */
-  border: 0.125rem solid black; /* Red border */
+  padding: 0.8rem 1.3rem; /* Increased padding */
+  width: 13rem; /* Increased width */
+  height: 10rem; /* Increased height */
+  border: 2px solid darkred; /* Red border */
   border-radius: 1rem; /* Rounded corners */
-  background-color: #f0f0f0; /* Background color */
+  background-color: #fff; /* White background */
   text-decoration: none;
-  color: #000;
-  font-size: 1rem; /* Font size */
+  color: #000; /* Black text color */
+  font-size: 1.05rem; /* Increased font size */
   cursor: pointer; /* Cursor indication for clickability */
   box-shadow: 0 0.25rem 0.5rem rgba(0,0,0,0.1); /* Box shadow for depth */
   text-align: center; /* Text centering */
@@ -50,13 +54,8 @@
   justify-content: center; /* Centers text horizontally */
   align-items: center; /* Centers text vertically */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Optional: To ensure that the text doesn't wrap or overflow */
-.button > span {
-  white-space: nowrap; /* Prevents wrapping */
-  overflow: hidden; /* Prevents overflow */
-  text-overflow: ellipsis; /* Adds an ellipsis to overflowing text */
+  font-weight: 400; /* You can adjust this if you want the font weight to be different */
+  position: relative; 
 }
 
 .button:hover {
@@ -65,12 +64,81 @@
 }
 
 
-/* Adjust for responsiveness and positioning */
+/* Optional: To ensure that the text doesn't wrap or overflow */
+.button > span {
+  white-space: nowrap; /* Prevents wrapping */
+  overflow: hidden; /* Prevents overflow */
+  text-overflow: ellipsis; /* Adds an ellipsis to overflowing text */
+}
+
+
+
+
+.button::after {
+  content: attr(title); /* This will use the title attribute's value */
+  position: absolute;
+  bottom: 70%; /* Position it above the button */
+  left: 10%; /* Center it */
+  transform: translateX(-50%) scaleY(0);
+  transform-origin: bottom;
+  white-space: normal; /* Allows the text to wrap */
+  max-width: 400px; /* Maximum width of the tooltip */
+  padding: 1.0rem;
+  background-color: white; /* Background color of the tooltip */
+  color: black; /* Text color of the tooltip */
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none; /* Prevents the tooltip from being clickable */
+  z-index: 100; /* Ensures it's above other elements */
+  overflow: hidden; /* Prevents the content from spilling out */
+  text-overflow: ellipsis; /* Adds an ellipsis for overflowed text */
+}
+
+.button:hover::after {
+  transform: translateX(-50%) scaleY(1);
+  opacity: 1;
+}
+
+
+
+
+
+
+
 @media (max-width: 48em) {
-  .row {
-    flex-direction: column;
+  .buttonsContainer {
+    flex-direction: column; /* Stacks buttons vertically on smaller screens */
   }
   .button {
     width: 100%; /* Full width buttons on smaller screens */
   }
 }
+
+.universityName {
+  margin-top: 0.2rem; /* Adjust as needed */
+  font-size: 1.4rem; /* Adjust as needed */
+  color: darkred; /* Color of the text */
+  font-style: italic; /* Optional: if you want to italicize the text */
+}
+
+.classCodeBox {
+  position: absolute;
+  top: -1.3rem; /* Adjust this value to move the box up */
+  right: 0.5rem;
+  margin: 1rem;
+  padding: 0.5rem;
+  border: 2px solid darkred; /* Light red border */
+  text-align: center;
+  color: #000;
+  font-size: 1.3rem;
+  font-weight: 500; /* You can adjust this if you want the font weight to be different */
+}
+
+
+
+/* Rest of your CSS */
+
+
+/* Rest of your CSS */

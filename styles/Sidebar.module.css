@@ -126,7 +126,7 @@
   z-index: 10; /* Ensure it's above other content but below modal dialogs, etc. */
   border: 1px solid #000000;
 
-  height: 35px; /* Fixed height */
+  height: 55px; /* Fixed height */
 }
 
 
@@ -167,20 +167,20 @@
 
 .discordIcon {
   height: 25px; /* Example height, adjust as needed */
-  margin-right: 20px; /* Space between the icon and the text */
-  margin-top: -10px; /* Adjust this value as needed to move the icon higher */
+  margin-right: 18px; /* Space between the icon and the text */
+  margin-top: -1px; /* Adjust this value as needed to move the icon higher */
 }
 
 .instagramIcon {
   height: 25px; /* Same as discordIcon */
   margin-right: 25px; /* Adjust if needed, depending on the position */
   /* Add margin-top if needed to align with the discordIcon */
-  margin-top: -10px; /* Adjust this value as needed to move the icon higher */
+  margin-top: -1px; /* Adjust this value as needed to move the icon higher */
 }
 .gmailIcon {
   height: 20px; /* Adjust the size as needed */
   margin-left: -145px; /* Space between the icon and any following content */
-  margin-top: -10px; /* Adjust this value as needed to move the icon higher */
+  margin-top: -1px; /* Adjust this value as needed to move the icon higher */
   /* Adjust margin-top if needed for vertical alignment */
 }
 

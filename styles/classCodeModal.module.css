@@ -31,7 +31,7 @@
   color: red; /* Red color for error message */
   font-size: 14px; /* Smaller font size for the error message */
   margin-top: 5px; /* Spacing between the input box and the error message */
-  margin-left: 90px;
+  margin-left: 120px;
 }
 
 
@@ -71,7 +71,7 @@
   border-radius: 5px; /* Slightly rounded input field */
   font-size: 16px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-left: 15px;
+  margin-left: 45px;
 }
 
 /* Button container for side-by-side layout */
@@ -91,10 +91,11 @@
   cursor: pointer;
   transition: all 0.3s ease; /* Smooth transition for hover and focus */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  margin-left: 35px;
 }
 
 .modal .buttonContainer button:first-child {
-  margin-right: 20px; /* Adds 20px margin to the right side of the first button */
+  margin-right: 10px; /* Adds 20px margin to the right side of the first button */
 }
 
 
