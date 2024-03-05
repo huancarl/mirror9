@@ -1143,9 +1143,11 @@ const [pdfMapping, setpdfMapping] = useState({});
       content = <MessageRenderer key={index} message={message.message} />;
     // #4
     } else if (isCodeMessage) {
+
       content = transformMessageWithCode(message.message);
-    //
-    } else if (message.type === 'apiMessage') {                        
+  
+
+    } else if (!isCodeMessage && message.type === 'apiMessage') {                        
       content = <Typewriter key={index} message={parseBoldText(message.message)} animate={isLatestApiMessage} />;
     } else {
       content = <span>{parseBoldText(message.message)}</span>;

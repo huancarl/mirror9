@@ -1143,7 +1143,7 @@ export class CustomQAChain {
         This will allow you to store and recall specific interaction with users. 
 
         You must distinguish between what I asked you and your messages and utilize it to do the following:
-1
+
         Contextual Relevance: Utilize chat history to provide contextually relevant responses. 
         If a user's query builds upon a previous conversation, refer to that conversation to 
         formulate a new informed and coherent answer.
