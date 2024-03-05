@@ -4,28 +4,28 @@ import styles from '@/styles/professorCoursePage.module.css';
 import {withSession, isAuthenticated} from 'utils/session';
 
 //Make sure that the page cannot be accessed without being a professor
-// export const getServerSideProps = withSession(async ({ req, res }) => {
-//     const user = await isAuthenticated(req);
-//     if (!user) {
+export const getServerSideProps = withSession(async ({ req, res }) => {
+    const user = await isAuthenticated(req);
+    if (!user) {
 
-//         if(!user.isProfessor){
-//             return {
-//                 redirect: {
-//                     destination: '/loginEmail', // Redirect to the sign-in page
-//                     permanent: false,
-//                 },
-//             };
-//         }
-//         return {
-//             redirect: {
-//                 destination: '/loginEmail', // Redirect to the sign-in page
-//                 permanent: false,
-//             },
-//         };
-//     }
-//     // User is authenticated
-//     return { props: { user } };
-//   });
+        if(!user.isProfessor){
+            return {
+                redirect: {
+                    destination: '/loginEmail', // Redirect to the sign-in page
+                    permanent: false,
+                },
+            };
+        }
+        return {
+            redirect: {
+                destination: '/loginEmail', // Redirect to the sign-in page
+                permanent: false,
+            },
+        };
+    }
+    // User is authenticated
+    return { props: { user } };
+  });
   
 
 

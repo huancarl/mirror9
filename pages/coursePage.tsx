@@ -42,9 +42,7 @@ function CourseCatalog() {
   //Logic for handling the course box clicks
   const handleCourseClick = (course) => {
     setSelectedCourse(course);
-    if(course in courseCodeMapping){
-      setIsClassCodeModalVisible(true);
-    }
+    setIsClassCodeModalVisible(true);
   };
 
   //Get the unlocked classes for the user
@@ -95,15 +93,11 @@ function CourseCatalog() {
   useEffect(() => {
     // This code runs when selectedCourse changes
     
-
     if (selectedCourse && Array.isArray(unlockedClasses) && unlockedClasses.includes(selectedCourse)) {
       setIsClassCodeModalVisible(false);
       router.push(`/chatbot?course=${selectedCourse}`);
     }
 
-    if (selectedCourse && !(selectedCourse in courseCodeMapping)) {
-      router.push(`/chatbot?course=${selectedCourse}`);
-    }
   }, [selectedCourse, unlockedClasses]);
 
   const handleCloseModal = () => {
@@ -112,12 +106,7 @@ function CourseCatalog() {
 
   async function verifyClassCode() {
 
-    //If there isn't a code set yet for the class
-    if(selectedCourse && !(selectedCourse in courseCodeMapping)){
-      router.push(`/chatbot?course=${selectedCourse}`);
-    }
-
-    if(selectedCourse && classCode === courseCodeMapping[selectedCourse]){
+    if(selectedCourse && selectedCourse in courseCodeMapping && classCode === courseCodeMapping[selectedCourse][0]){
       router.push(`/chatbot?course=${selectedCourse}`);
       const sessionRes = await fetch('/api/userInfo');
       const sessionData = await sessionRes.json();
@@ -150,11 +139,18 @@ function CourseCatalog() {
 
   async function fetchClassCodes () {
 
-    const classCodesResponse = await fetch('/api/fetchCourseCodes');
-    const classCodeMap = await classCodesResponse.json();
+    const classCodesResponse = await fetch('/api/fetchCourseCodes', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+      }),
+    });
 
+    const classCodeMap = await classCodesResponse.json();
     // class code map is a mapping from class code (CS 1110) to a 5 digit code (12345)
-    setCourseCodeMapping(classCodeMap);
+    setCourseCodeMapping(classCodeMap.mapping);
   }
 
   useEffect (() => {

@@ -117,6 +117,63 @@ export default function Home() {
   //This useRef tracks if the application has mounted or not
   const isInitialMount = useRef(true);
 
+  //Make sure the user entered the code for the class
+  const [unlockedClasses, setUnlockedClasses] = useState<string[]>([]);
+  const [fetchedUnlockedClasses, setFetechedUnlockedClasses] = useState(false);
+  const fetchUnlockedClasses = async () => {
+    try {
+      const sessionRes = await fetch('/api/userInfo');
+      const sessionData = await sessionRes.json();
+      if (sessionRes.ok) {
+        // Set userID to the user's email from the session
+        userIDRef.current = sessionData.email;
+      } else {
+        // Handle the case where the session is not available
+        console.error('Session not found:', sessionData.error);
+        return;
+      }
+      const response = await fetch('/api/getUnlockedClasses', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userID: userIDRef.current,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setUnlockedClasses(data.unlockedClasses);
+        setFetechedUnlockedClasses(true);
+      } else {
+        // Handle HTTP error responses
+        console.error('Error fetching unlocked classes');
+      }
+    } catch (error) {
+      console.error('Network or other error', error);
+    }
+  };
+
+  useEffect(() =>{
+    fetchUnlockedClasses();
+  }, [])
+
+  useEffect(() => {
+    let title = courseTitle;
+    if(typeof(title) === 'string'){
+      title = title.replace(/_/g, " ");
+    }
+    else{
+      return;
+    }
+    if(fetchedUnlockedClasses && courseTitle && !(unlockedClasses.includes(title))){
+      console.log(unlockedClasses, 'testing');
+      router.push(`/coursePage`);
+    }
+  }, [courseTitle, unlockedClasses]);
+
+
+
   // Implement Firebase Realtime Database reading logic here. Set up the connection to the database to read from it.
   // This useeffect triggers when the user sends a message.
   useEffect(() => {

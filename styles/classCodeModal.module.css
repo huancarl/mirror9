@@ -107,3 +107,11 @@
   outline: none; /* Removes default outline */
   box-shadow: 0 0 8px 2px #ff4d4d; /* Glowing effect for focus */
 }
+
+.instructions {
+  width: 100%; /* Adjust the width as needed */
+  margin-bottom: 1.7em; /* Space between the instructions and the input */
+  text-align: center; /* Center the text */
+  font-size: 1em; /* Adjust the font size as needed */
+  color: #333; /* Set the text color */
+}
