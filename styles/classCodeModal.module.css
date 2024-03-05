@@ -1,41 +1,109 @@
+.inputContainer {
+  position: relative;
+  width: 80%;
+  margin-bottom: 20px;
+}
+
+.modal input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid darkred;
+  border-radius: 5px;
+  font-size: 16px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.modal input.invalid {
+  border: 2px solid red; /* Change border color to red when invalid */
+}
+
+.errorIcon {
+  position: absolute;
+  right: 32px;
+  top: 33%;
+  transform: translateY(-50%);
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.invalidCodeMessage {
+  color: red; /* Red color for error message */
+  font-size: 14px; /* Smaller font size for the error message */
+  margin-top: 5px; /* Spacing between the input box and the error message */
+  margin-left: 90px;
+}
+
+
 .modalOverlay {
-    position: fixed; /* Stay in place */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000; /* Sit on top */
-  }
-  
-  .modal {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 2em;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 25em; /* Maximum width */
-    z-index: 1001; /* Sit on top of overlay */
-    display: flex;
-    flex-direction: column; /* Stack vertically */
-    align-items: center; /* Center horizontally */
-  }
-  
-  /* Style the input field */
-  .modal input[type="text"] {
-    width: 50%;
-    margin-bottom: 1em;
-    padding: 1em;
-  }
-  
-  /* Style the buttons */
-  .modal button {
-    width: auto; /* Adjust width to fit content */
-    padding: 1em;
-    margin: 0 1em; /* Horizontal margin, no vertical margin */
-  }
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6); /* Darker background for better focus on modal */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  margin: auto;
+  padding: 30px;
+  border-radius: 10px; /* More pronounced rounded corners */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow for 3D effect */
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arial', sans-serif; /* Modern and sleek font */
+}
+
+.modal input[type="text"] {
+  width: 90%;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 2px solid darkred; /* Red themed border */
+  border-radius: 5px; /* Slightly rounded input field */
+  font-size: 16px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-left: 15px;
+}
+
+/* Button container for side-by-side layout */
+.button-container {
+  display: flex;
+  justify-content: space-around; /* Evenly spaces buttons */
+  width: 100%;
+}
+
+.modal button {
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px; /* Rounded buttons */
+  background: linear-gradient(to bottom, rgb(255, 255, 255) 0%, #ffffff 100%); /* Gradient effect */
+  color: darkred;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for hover and focus */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+}
+
+.modal .buttonContainer button:first-child {
+  margin-right: 20px; /* Adds 20px margin to the right side of the first button */
+}
+
+
+.modal button:hover {
+  background: linear-gradient(to bottom, dark 0%, #ff4d4d 100%); /* Inverted gradient on hover */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.modal button:focus {
+  outline: none; /* Removes default outline */
+  box-shadow: 0 0 8px 2px #ff4d4d; /* Glowing effect for focus */
+}

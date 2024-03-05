@@ -7,6 +7,7 @@
 .courseTitle {
   margin-top: 1.25rem; /* Adjust as needed */
   font-size: 3.5rem; /* Adjust as needed */
+  color: darkred;
 }
 
 .buttonsContainer {

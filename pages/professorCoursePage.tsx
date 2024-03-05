@@ -90,7 +90,7 @@ function ProfessorHome() {
             </div>
             <div className={styles.buttonWrapper}>
               <Link href="/professor-prompt">
-                <button className={styles.button}>Adjust Your Class Chatbot's Settings</button>
+                <button className={styles.button}>Admin Instruction Modifications</button>
               </Link>
             </div>
           </div>

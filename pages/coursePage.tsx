@@ -613,12 +613,12 @@ const courses = [
  GET FREE MESSAGES! 🎁
 </button> */}
       <div className={styles.classInquiryContainer}>
-        <button
+        {/* <button
     className={styles.classInquiryButton}
     onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
   >
     DONT SEE YOUR CLASS?
-  </button>
+  </button> */}
       </div>
       <h1 className={styles.title}>CornellGPT SP24</h1>
       <input

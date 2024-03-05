@@ -961,12 +961,12 @@ const [pdfMapping, setpdfMapping] = useState({});
   {renderCardddddd()}
 
   
-  <button
+  {/* <button
     className={styles.classInquiryButton}
     onClick={() => window.open('https://forms.gle/Gz6Th57GLCa6y2jR6', '_blank')}
   >
   ADD MATERIALS
-  </button>
+  </button> */}
 
 
   <button className={styles.materialsButton} onClick={handleButtonClick}>
