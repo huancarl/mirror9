@@ -52,6 +52,11 @@ async function calculate_material_similarity_score(question: any, assignmentName
 
     // Execute all queries in parallel
     const results = await Promise.all(namespaceQueries);
+
+    if (results.length > 0 && results[0].matches && results[0].matches.length > 0) {
+        const score = results[0].matches[0].score;
+        console.log(score, 'this is score');
+    }
     // Process all results
     results.forEach(queryResult => {
         if (queryResult && Array.isArray(queryResult.matches)) {

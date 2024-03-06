@@ -5,8 +5,12 @@ export function messageContainsCode(message) {
 
 
 
+
+
+
 // export function transformMessageWithCode(message) {
 //   const tripleBacktickSegments = message.split('```');
+
 
 //   return tripleBacktickSegments.map((segment, index) => {
 //     if (index % 2 === 1) {
@@ -38,6 +42,7 @@ export function messageContainsCode(message) {
 export function transformMessageWithCode(message) {
   const tripleBacktickSegments = message.split('```');
 
+
   return tripleBacktickSegments.flatMap((segment, index) => {
     if (index % 2 === 1) {
       // This is a code block segment
@@ -50,6 +55,7 @@ export function transformMessageWithCode(message) {
       // This is a non-code block segment
       // First, handle inline code snippets
       const inlineCodeSegments = segment.split(/(`.*?`)/);
+
 
       // Then, for each segment, parse for bold text and links
       return inlineCodeSegments.flatMap((inlineSegment, inlineIndex) => {
@@ -94,5 +100,13 @@ export function transformMessageWithCode(message) {
 
 
 
-  
+
+
+
+
+
+ 
+
+
+
 

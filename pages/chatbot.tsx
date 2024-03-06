@@ -729,6 +729,39 @@ const renderCarddd = () => {
 
 
 
+
+
+const renderCarddddddd = () => {
+  if (courseTitle === "CS 1110" && messages.length === 0) {
+    return (
+      <div className={styles.centeredcard}>
+        <h1>🗒️ ADMIN.</h1>
+        <hr />
+        <ul>
+          <li>When are office hours?</li>
+          <li>What is the grade breakdown?</li>
+          <li>What is the attendance policy?</li>
+          <li>Where is Professor Bracys office?</li>
+        </ul>
+      </div>
+    );
+  }
+  return null;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // INFO 1260
 const renderCardddd = () => {
   if (courseTitle === "INFO 1260" && messages.length === 0) {
@@ -786,6 +819,11 @@ const renderCardddddd = () => {
   }
   return null;
 };
+
+
+
+
+
 
 
 // if (userIDRef.current == mpp59@cornell.edu){
@@ -1016,6 +1054,8 @@ const [pdfMapping, setpdfMapping] = useState({});
   {renderCardddd()}
   {renderCarddddd()}
   {renderCardddddd()}
+
+  {renderCarddddddd()}
 
   
   {/* <button
