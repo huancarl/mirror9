@@ -22,18 +22,103 @@
     border: 0.1rem solid darkred;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.uploadButton {
+  padding: 0.5rem 2rem; /* Increased padding for a wider button */
+  font-size: 1rem;
+  color: #000000; /* White text color for contrast */
+  background-color: #ffffff; /* Tomato red background */
+  border: none;
+  border-radius: 0.5rem; /* Slightly larger border-radius for a modern look */
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: all 0.3s ease-in-out; /* Smooth transition for interactions */
+  font-weight: bold; /* Bold text */
+}
+
+.uploadButton:hover, .uploadButton:focus {
+  background-color: #fc8075; /* Slightly darker red for interaction */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Larger shadow on hover/focus for 'lifting' effect */
+}
+
+/* Adjust the left position if you want to align it differently */
+.uploadButton {
+  left: -5rem; /* Adjust this as needed, or remove if not necessary */
+}
+
+
+
+
+
   
-  .dropdownTitle {
-    padding: 1rem;
-    font-size: 1.5rem; /* 24px */
-    font-weight: bold;
-    cursor: pointer;
-  }
+.dropdownHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  cursor: pointer;
+}
+
+.dropdownHeader::after {
+  content: '';
+  display: inline-block;
+  margin-left: 0.8rem;
+  vertical-align: middle;
+  border: 0.4em solid transparent;
+  border-bottom-color: rgb(255, 255, 255); /* Arrow color */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for rotation */
+}
+
+details[open] .dropdownHeader::after {
+  transform: rotateX(180deg); /* Flips the arrow upside down */
+}
+
+/* Optional: change the arrow to a '+' sign when closed and a '-' when open */
+.dropdownHeader::before {
+  content: '↑';
+  display: inline-block;
+  font-size: 1.5em;
+  margin-right: 0.5em;
+  transition: transform 0.3s ease-in-out;
+  color: rgb(134, 13, 13);
+}
+
+details[open] .dropdownHeader::before {
+  content: '↓'; /* &minus; HTML entity for minus sign */
+  color: rgb(134, 13, 13);
+}
+
+
+
+.dropdownTitle {
+  flex-grow: 1;
+  padding: 1rem;
+  font-size: 1.5rem; /* 24px */
+  font-weight: bold;
+  cursor: pointer;
+}
   
   .dropdownContent {
     padding: 1rem;
     border-top: 0.1rem solid darkred;
   }
+
+  .canvasIntegrationAnnouncement {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-left: 2rem;
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+}
+
   
   

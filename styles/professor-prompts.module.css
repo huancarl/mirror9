@@ -1,44 +1,86 @@
 .settingsContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Change this from center to flex-start */
-    height: 100vh; /* Takes the full height of the viewport */
-    padding-top: 3rem; /* Add padding at the top */
-  }
-  
-  .settingsHeader {
-    font-size: 2rem; /* 32px if base is 16px */
-    font-weight: bold;
-    margin-top: 0; /* Remove the top margin if any */
-    margin-bottom: 4rem; /* Spacing below the header */
-    text-align: center;
-  }
-  
-  .settingsRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 30rem; /* Adjust the width as needed */
-    margin-bottom: 1.25rem; /* Spacing between rows */
-  }
-  
-  .settingsLabel {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%; /* Label takes full width of its container */
-    font-size: 1rem; /* Adjust the font size as needed */
-  }
-  
-  .settingsCheckbox {
-    margin-left: 1rem; /* Space between label text and the checkbox */
-    transform: scale(1.5); /* Makes the checkbox larger */
-  }
-  .settingsInput {
-    padding: 0.5rem;
-    border: 0.1rem solid #ccc; /* Border for the input field */
-    border-radius: 0.5rem; /* Rounded corners for the input field */
-    width: 15em;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh; /* Changed to min-height for scrolling */
+  padding-top: 0rem;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
+  overflow-y: auto; /* Ensure the container can scroll */
+}
 
+.settingsHeader {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 4rem;
+  text-align: center;
+  color: darkred
+}
+
+.settingsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 30rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid #550000;
+}
+.settingsSubHeader {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #000000; /* Lighter reddish color for subheaders */
+}
+
+
+.settingsLabel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.settingsCheckbox {
+  margin-left: 1rem;
+  transform: scale(1.5);
+  accent-color: #ff6666;
+}
+
+.customInstructionsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.customInstructionsInput {
+  width: 40%; /* Adjust based on your layout */
+  height: 200px; /* You can adjust this for a larger or smaller box */
+  margin-top: 1rem;
+  padding: 1rem;
+  font-size: 1rem;
+  border: 1px solid #550000;
+  border-radius: 5px;
+}
+
+
+.confirmButton {
+  padding: 0.5rem 2rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #550000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirmButton:hover {
+  background-color: #ff6666;
+}

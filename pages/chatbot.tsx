@@ -722,6 +722,20 @@ const renderCarddd = () => {
 };
 
 
+const RenderVerification = () => {
+  if (courseTitle === "PLSCI 1150") {
+    return (
+      <div style={{ color: 'green', position: 'absolute', top: 0, left: 150, padding: '10px', fontSize: '20px', fontWeight: 'bold' }}>
+        *PROFESSOR VERIFIED*
+      </div>
+    );
+  }
+
+  return null; // Return null if the condition is not met
+}
+
+
+
 
 
 
@@ -1049,6 +1063,7 @@ const [pdfMapping, setpdfMapping] = useState({});
   {renderCard()}
   {renderCardd()}
   {renderCarddd()}
+{RenderVerification()}
 
 
   {renderCardddd()}
@@ -1056,6 +1071,7 @@ const [pdfMapping, setpdfMapping] = useState({});
   {renderCardddddd()}
 
   {renderCarddddddd()}
+
 
   
   {/* <button

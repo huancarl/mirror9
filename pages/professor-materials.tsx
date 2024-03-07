@@ -110,49 +110,78 @@ function ProfessorModifyMaterials() {
         console.error('Failed to fetch course materials:', error);
       }
     }
+    const handleUploadClick = (inputId) => {
+      const input = document.getElementById(inputId);
+      input && input.click();
+  };
+
   
     return (
         <div className={styles.container}>
-            <h1 className={styles.title}>Class Materials Access</h1>
+                      <div className={styles.canvasIntegrationAnnouncement}>
+                *CANVAS INTEGRATION COMING SOON*
+            </div>
+            <h1 className={styles.title}>Update Accessed Materials</h1>
             <details className={styles.dropdown}>
-                <summary className={styles.dropdownTitle}>Class Logistics</summary>
-   
-                <div className={styles.dropdownContent}>
-                    {lectureLinks}
-                </div>
-            </details>
-            <details className={styles.dropdown}>
-                <summary className={styles.dropdownTitle}>Notes</summary>
-   
-                <div className={styles.dropdownContent}>
-                    {lectureLinks}
-                </div>
-            </details>
-            <details className={styles.dropdown}>
-                <summary className={styles.dropdownTitle}>Lectures</summary>
-   
-                <div className={styles.dropdownContent}>
-                    {lectureLinks}
-                </div>
-            </details>
-            <details className={styles.dropdown}>
-                <summary className={styles.dropdownTitle}>Homework</summary>
-                <div className={styles.dropdownContent}>
-                    {homeworkLinks}
-                </div>
-            </details>
-            <details className={styles.dropdown}>
-                <summary className={styles.dropdownTitle}>Readings</summary>
-                <div className={styles.dropdownContent}>
-                    {readingLinks}
-                </div>
-            </details>
-            <details className={styles.dropdown}>
-                <summary className={styles.dropdownTitle}>Videos</summary>
-                <div className={styles.dropdownContent}>
-
-                </div>
-            </details>
+    <summary className={styles.dropdownHeader}>
+        <span className={styles.dropdownTitle}>Class Logistics</span>
+        <button className={styles.uploadButton} onClick={() => handleUploadClick('fileInput-logistics')}>UPLOAD</button>
+    </summary>
+    <input type="file" id="fileInput-logistics" style={{ display: 'none' }} />
+    <div className={styles.dropdownContent}>
+        {lectureLinks}
+    </div>
+</details>
+<details className={styles.dropdown}>
+    <summary className={styles.dropdownHeader}>
+        <span className={styles.dropdownTitle}>Notes</span>
+        <button className={styles.uploadButton} onClick={() => handleUploadClick('fileInput-logistics')}>UPLOAD</button>
+    </summary>
+    <input type="file" id="fileInput-logistics" style={{ display: 'none' }} />
+    <div className={styles.dropdownContent}>
+        {lectureLinks}
+    </div>
+</details>
+<details className={styles.dropdown}>
+    <summary className={styles.dropdownHeader}>
+        <span className={styles.dropdownTitle}>Lectures</span>
+        <button className={styles.uploadButton} onClick={() => handleUploadClick('fileInput-logistics')}>UPLOAD</button>
+    </summary>
+    <input type="file" id="fileInput-logistics" style={{ display: 'none' }} />
+    <div className={styles.dropdownContent}>
+        {lectureLinks}
+    </div>
+</details>
+<details className={styles.dropdown}>
+    <summary className={styles.dropdownHeader}>
+        <span className={styles.dropdownTitle}>Homework</span>
+        <button className={styles.uploadButton} onClick={() => handleUploadClick('fileInput-logistics')}>UPLOAD</button>
+    </summary>
+    <input type="file" id="fileInput-logistics" style={{ display: 'none' }} />
+    <div className={styles.dropdownContent}>
+        {lectureLinks}
+    </div>
+</details>
+<details className={styles.dropdown}>
+    <summary className={styles.dropdownHeader}>
+        <span className={styles.dropdownTitle}>Readings</span>
+        <button className={styles.uploadButton} onClick={() => handleUploadClick('fileInput-logistics')}>UPLOAD</button>
+    </summary>
+    <input type="file" id="fileInput-logistics" style={{ display: 'none' }} />
+    <div className={styles.dropdownContent}>
+        {lectureLinks}
+    </div>
+</details>
+<details className={styles.dropdown}>
+    <summary className={styles.dropdownHeader}>
+        <span className={styles.dropdownTitle}>Videos</span>
+        <button className={styles.uploadButton} onClick={() => handleUploadClick('fileInput-logistics')}>UPLOAD</button>
+    </summary>
+    <input type="file" id="fileInput-logistics" style={{ display: 'none' }} />
+    <div className={styles.dropdownContent}>
+        {lectureLinks}
+    </div>
+</details>
         </div>
     );
   }

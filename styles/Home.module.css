@@ -1067,7 +1067,7 @@
 .materialsButton {
   position: absolute; /* Keep absolute positioning */
   top: 0.3rem; /* Align vertically with .classInquiryButton */
-  right: 3rem;
+  right: 1rem;
   /* The rest of the existing styles */
   padding: 10px 23px;
   background-color: #e30b0b;
