@@ -53,10 +53,9 @@ async function calculate_material_similarity_score(question: any, assignmentName
     // Execute all queries in parallel
     const results = await Promise.all(namespaceQueries);
 
-    if (results.length > 0 && results[0].matches && results[0].matches.length > 0) {
-        const score = results[0].matches[0].score;
-        console.log(score, 'this is score');
-    }
+    // if (results.length > 0 && results[0].matches && results[0].matches.length > 0) {
+    //     const score = results[0].matches[0].score;
+    // }
     // Process all results
     results.forEach(queryResult => {
         if (queryResult && Array.isArray(queryResult.matches)) {
@@ -110,19 +109,18 @@ async function calculate_similarity_score(question: any, assignmentNamespaces: s
 
     //Get the highest score
     const score = results[0].matches[0].score;  
-    
-    console.log(score, 'this is score');
 
     //We also want to return which assignment and which part of it we are assuming the user is asking about to
     //return to the prompt in assignmnetqachain
     
     let metadata = {};
-    // const sourceName = results[0].matches.metadata.source;
+
+    const sourceName = results[0].matches[0].metadata.source;
     // const text = results[0].matches.metadata.text;
     // const pageStart = results[0].matches.metadata['loc.pageNumber'];
     // const pageNumbers = results[0].matches.metadata['pdf.totalPages']; 
 
-    // metadata['source'] = sourceName;
+    metadata['source'] = sourceName;
     // metadata['text'] = text; 
     // metadata['pageStart'] = pageStart;
     // metadata['pageNumbers'] = pageNumbers;

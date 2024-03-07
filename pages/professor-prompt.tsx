@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '@/styles/professor-prompts.module.css';
+import { useRouter } from 'next/router';
 
 function ProfessorModifyPrompt() {
-    const [settings, setSettings] = useState({
+  const [settings, setSettings] = useState({
       logisticQuestions: false,
       classMaterialsOnly: false,
       classAndExternalMaterials: false,
@@ -12,6 +13,41 @@ function ProfessorModifyPrompt() {
       writingSkillsDevelopment: false,
       regularUpdates: false,
     });
+    
+  const [className, setClassName] = useState('');
+
+  const router = useRouter();
+
+      //Get the class name from the router at page load
+  useEffect(() => {
+    if (router.query.course) {
+      const courseTitle = Array.isArray(router.query.course) ? router.query.course[0] : router.query.course;
+      setClassName(courseTitle.replace(/ /g, '_'));
+    }
+  }, [router.query]);
+
+  //Fetch the class settings from the backend
+  async function fetchOrSetClassSettings(course: string) {
+    const response = await fetch('/api/fetchOrSetClassSettings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        courseName: course,
+        settings: settings
+      }),
+    });
+    const data = await response.json();
+    if(data){
+      
+    }
+  }
+
+  useEffect(() => {
+    // Fetch materials using the courseTitle
+    fetchOrSetClassSettings(className);
+  });
 
     const handleCheckboxChange = (event) => {
       const { name, checked } = event.target;
@@ -20,8 +56,16 @@ function ProfessorModifyPrompt() {
         [name]: checked,
       }));
     };
+  
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setSettings(prevSettings => ({
+          ...prevSettings,
+          [name]: value,
+        }));
+      };
 
-    return (
+  return (
       <div className={styles.settingsContainer}>
         <h1 className={styles.settingsHeader}>Update Instruction Settings</h1>
 

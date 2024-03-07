@@ -357,6 +357,7 @@ export default async function handler(
     // Sourcedocs retrieved from the backend
     let results: any;
     let customClassPromptAddon = '';
+    let assignmentMetadata: any;
 
     //Only run if the class has a class assignments namespace
     if(assignmentNamespace in cheatNamespaces){
@@ -365,7 +366,11 @@ export default async function handler(
       const antiCheatResponse = await anti_cheat(question, queryEmbedding, assignmentNamespace, allMaterialsNamespace);
       //'cheatGuess' is a bool of true or false and 'vector' is what the system thinks the assignment the user is trying finesse
       const cheating = antiCheatResponse['cheatGuess'];
-      const metadata = antiCheatResponse['vector'];
+      assignmentMetadata = antiCheatResponse['vector'];
+      if(assignmentMetadata){
+        assignmentMetadata = assignmentMetadata.source;
+      }
+      console.log(assignmentMetadata);
 
       if(cheating) {
             //If anti cheat returns true then the user is suspected of cheating
@@ -393,6 +398,7 @@ export default async function handler(
       chat_history: messages,
       namespaceToFilter: cleanedNamespace,
       promptAddOn: customClassPromptAddon,
+      assignment: assignmentMetadata,
     });
 
     const message = results.text;

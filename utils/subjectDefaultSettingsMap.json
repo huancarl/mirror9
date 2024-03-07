@@ -1,0 +1,19 @@
+{
+    "baseline": {
+                    
+                },
+
+    "programming": {
+                    "Use pseudocode": [["Some"], ["None", "Some", "Alot"]],
+                    "Never give code in your response": [["Yes"], ["Yes", "No"]],
+                    "Custom Instructions": [""]
+                },
+
+    "writing": {
+
+                },
+    "social sciences": {
+
+                }
+
+}
