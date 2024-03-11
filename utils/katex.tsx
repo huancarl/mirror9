@@ -4,10 +4,25 @@ import React from "react";
 import 'katex/dist/katex.min.css';
 import { Typewriter } from './typewriter';
 
+
+export function validateAndTransformLatex(latex) {
+  // Add any specific validation logic here
+  // For now, let's just return the transformed LaTeX if it's valid
+  // and null if it's not
+  try {
+    return transformMessageWithLatex(latex);
+  } catch (error) {
+    console.error('Invalid LaTeX syntax:', error);
+    return null;
+  }
+}
+
 export function messageContainsMath(message) {
   const latexPatterns = [
-    /\$\$[\s\S]+?\$\$/,   // Extended display math
-    /(?<!\\)\$.+?\$(?!\\)/, // Improved inline math
+    /^\$\$[\s\S]+?\$\$$/, // Display math: $$...$$
+    /^\$[^\s].+[^\s]\$$/, // Inline math: $...$ (non-whitespace at both ends)
+    /^\\begin\{.+?\}[\s\S]+?\\end\{.+?\}$/, // Environments: \begin{...}...\end{...}
+    /(?<!\\)\$[^\s\$]*[a-zA-Z0-9=+\-*/\\_^\[\]{}()|.,;:'"`<>]+\S*?\$(?!\$)/, // More specific inline math
     /\\begin\{.+?\}[\s\S]*?\\end\{.+?\}/, // LaTeX environments
     /\\[a-zA-Z]+\[.*?\]\{.*?\}/, // Commands with optional arguments
     /\\[a-zA-Z]+(_\{.*?\}|\^\{.*?\})*/, // Commands with subscripts/superscripts
@@ -26,34 +41,59 @@ export function messageContainsMath(message) {
 }
 
 export function transformMessageWithLatex(message) {
-    let isInlineMath = message.startsWith('$') && message.endsWith('$');
-    let isDisplayMath = message.startsWith('$$') && message.endsWith('$$');
-  
-    if (isInlineMath) {
-      message = message.substring(1, message.length - 1);
-    } else if (isDisplayMath) {
-      message = message.substring(2, message.length - 2);
+  let isInlineMath = message.startsWith('$') && message.endsWith('$');
+  let isDisplayMath = message.startsWith('$$') && message.endsWith('$$');
+
+  if (isInlineMath) {
+    message = message.substring(1, message.length - 1);
+  } else if (isDisplayMath) {
+    message = message.substring(2, message.length - 2);
+  }
+
+  let transformedMessage = message;
+
+  // Adjustments for LaTeX syntax
+  transformedMessage = transformedMessage.replace(/\\\[|\\\]/g, "$$"); // Replaces \[ and \] with $$
+  transformedMessage = transformedMessage.replace(/\\\( | \\\)/g, '$'); // Replaces \( and \) with $
+  transformedMessage = transformedMessage.replace(/(\w+)\^(\w+)/g, '$1^{$2}');
+  transformedMessage = transformedMessage.replace(/\b(sqrt|sin|cos|tan|log)\b/g, '\\$1 ');
+  transformedMessage = transformedMessage.replace(/(\d+)\/(\d+)/g, '\\frac{$1}{$2}');
+  transformedMessage = transformedMessage.replace(/<=/g, '\\leq');
+  transformedMessage = transformedMessage.replace(/>=/g, '\\geq');
+  transformedMessage = transformedMessage.replace(/!=/g, '\\neq');
+  transformedMessage = transformedMessage.replace(/(?<!\$)\$(?!\$)/g, '\\$');
+  transformedMessage = transformedMessage.replace(/[“”]/g, '"'); // Fix for typographic quotes
+  transformedMessage = transformedMessage.replace(/%(?!\n)/g, '\\%');
+
+  return transformedMessage;
+}
+
+export function splitMessageIntoSegments(message: string): string[] {
+  const segments: string[] = [];
+  let lastIndex = 0;
+
+  // Regex for identifying LaTeX patterns
+  const regex = /(\$\$[\s\S]+?\$\$|(?<!\\)\$[^\s\$]*[a-zA-Z0-9=+\-*/\\_^\[\]{}()|.,;:'"`<>]+\S*?\$(?!\$)|\\begin\{.+?\}[\s\S]*?\\end\{.+?\})/g;
+
+  let match: RegExpExecArray | null;
+  while ((match = regex.exec(message)) !== null) {
+    // Push preceding non-math text if any
+    if (match.index > lastIndex) {
+      segments.push(message.slice(lastIndex, match.index));
     }
-  
-    let transformedMessage = message;
+    // Push math segment
+    segments.push(match[0]);
+    lastIndex = match.index + match[0].length;
+  }
 
-    // Adjustments for LaTeX syntax
-    transformedMessage = transformedMessage.replace(/\\\[|\\\]/g, "$$");
-    transformedMessage = transformedMessage.replace(/(\w+)\^(\w+)/g, '$1^{$2}');
-    transformedMessage = transformedMessage.replace(/\b(sqrt|sin|cos|tan|log)\b/g, '\\$1 ');
-    transformedMessage = transformedMessage.replace(/(\d+)\/(\d+)/g, '\\frac{$1}{$2}');
-    transformedMessage = transformedMessage.replace(/<=/g, '\\leq');
-    transformedMessage = transformedMessage.replace(/>=/g, '\\geq');
-    transformedMessage = transformedMessage.replace(/!=/g, '\\neq');
-    transformedMessage = transformedMessage.replace(/(?<!\$)\$(?!\$)/g, '\\$');
+  // Push remaining non-math text if any
+  if (lastIndex < message.length) {
+    segments.push(message.slice(lastIndex));
+  }
 
-    return transformedMessage;
+  return segments;
 }
 
-export function splitMessageIntoSegments(message) {
-  const regex = /(\${1,2}.*?\${1,2})/g;
-  return message.split(regex);
-}
 
 export function MathComponent({ latex }) {
   const mathRef = useRef(null);

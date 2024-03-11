@@ -732,16 +732,53 @@ const renderCarddd = () => {
 
 
 const RenderVerification = () => {
+  const [isHovering, setIsHovering] = useState(false);
+  const tooltipText = "This class is verified by your Professor. Your Professor has control of what materials are accessed by this AI. Your Professor controls the instructions of this AI. *Your Professor can not see who you are or what type of questions you send!";
+
   if (courseTitle === "PLSCI 1150") {
     return (
-      <div style={{ color: 'green', position: 'absolute', top: 0, left: 150, padding: '10px', fontSize: '20px', fontWeight: 'bold' }}>
+      <div 
+        style={{ 
+          color: 'green', 
+          position: 'relative', 
+          top: 0, 
+          left: 150, 
+          padding: '10px', 
+          fontSize: '22px', // Reduced font size for a more modern look
+          fontWeight: 'bold' 
+        }}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
         *PROFESSOR VERIFIED*
+        {isHovering && (
+  <div style={{
+    position: 'absolute',
+    width: '320px', // Slightly reduced width
+    top: '85%', 
+    left: '15%',
+    transform: 'translateX(-50%)',
+    backgroundColor: 'white', // Changed to white
+    color: '#333', // Darker text for contrast
+    border: '1px solid #ffcccc', // Light red border color
+    padding: '10px',
+    borderRadius: '5px',
+    boxShadow: '0px 2px 5px rgba(0,0,0,0.2)', // Softer shadow
+    zIndex: 100,
+    fontSize: '14px', // Smaller font size for tooltip text
+    lineHeight: '1.4' // Improved line spacing
+  }}>
+            {tooltipText}
+          </div>
+        )}
       </div>
     );
   }
 
   return null; // Return null if the condition is not met
-}
+};
+
+
 
 
 
@@ -839,6 +876,16 @@ const renderCardddddd = () => {
         </ul>
       </div>
     );
+  }
+  return null;
+};
+const handleBack = () => {
+  router.back(); // This will take the user to the previous page
+};
+
+const renderBackButton = () => {
+  if (messages.length === 0) {
+    return <button onClick={handleBack} className={styles.backButton}>←</button>;
   }
   return null;
 };
@@ -950,6 +997,14 @@ const renderCardddddd = () => {
 
 
 
+// const handleTextareaInput = () => {
+//   const textarea = textAreaRef.current;
+//   if (textarea) {
+//     textarea.style.height = 'auto'; // Reset the height
+//     textarea.style.height = `${textarea.scrollHeight}px`; // Set to scroll height
+//     textarea.style.bottom = '0'; // Keep anchored at the bottom
+//   }
+// };
 
 
 
@@ -1080,6 +1135,7 @@ const [pdfMapping, setpdfMapping] = useState({});
   {renderCardddddd()}
 
   {renderCarddddddd()}
+  {renderBackButton()}
 
 
   
@@ -1310,7 +1366,10 @@ const [pdfMapping, setpdfMapping] = useState({});
                         : placeholderText
                     }
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                      // handleTextareaInput();
+                    }}
                     className={styles.textarea}
                   />
                   <button
