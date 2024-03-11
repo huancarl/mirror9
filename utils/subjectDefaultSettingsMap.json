@@ -1,19 +1,82 @@
 {
-    "baseline": {
-                    
-                },
+    "baseline": [
 
-    "programming": {
-                    "Use pseudocode": [["Some"], ["None", "Some", "Alot"]],
-                    "Never give code in your response": [["Yes"], ["Yes", "No"]],
-                    "Custom Instructions": [""]
-                },
+        ["General Questions", {
+        "Answers only class logistic questions about the class (when are office hours, what is the grade breakdown, etc), and does not answer otherwise at all?": [["No"], ["Yes", "No"]],
+        "Answers questions strictly and only using class materials from class (no outside references)?": [["No"], ["Yes", "No"]],
+        "Answers questions using both class materials + outside references?": [["No"], ["Yes", "No"]]
+        }], 
+        
+        ["Homework Questions", {
+        "Assists students with homework but never provides direct solutions(guides student to class materials)?": [["Yes"], ["Yes", "No"]],
+        "Assists students with homework by providing direct solutions?": [["No"], ["Yes", "No"]],
+        "Computes calculations for students?": [["No"], ["Yes", "No"]]
+        }],
+    
+        ["Writing Questions", {
+        "Assists in developing students' writing skills, focusing on aspects like critical analysis, structure, and clarity, without generating content for them?": [["Yes"], ["Yes", "No"]]
+        }],
 
-    "writing": {
+        ["Report", {
+            "Would you like to receive regular updates or reports on student interactions with the chatbot?": [["No"], ["Yes", "No"]]
+        }]
+    ],
 
-                },
-    "social sciences": {
+    "programming": [
 
-                }
+        ["Subject specific questions", {
+        "Use pseudocode": [["No"], ["Yes", "No"]],
+        "Never give code in your response": [["Yes"], ["Yes", "No"]],
+        "How much does the chatbot guide the user on proofs?": [["None"], ["None (does not write proofs but gives a guide)", "a little (outline of what to possibly cover", "a lot (gives the structure on how to prove)"]],
+        "Solves mathematical equations from user": [["Yes"], ["Yes", "No"]],
+        "Custom Instructions": [[""], [" "]]
+        }]
+    ],
 
+    "writing": [
+
+        ["Subject specific questions", {
+        "Never generate writing for the students": [["No"], ["Yes", "No"]],
+        "Revise and edit writing": [["No"], ["Yes", "No"]],
+        "Help students cite sources": [["No"], ["Yes", "No"]],
+        "Custom Instructions": [[""], [""]]
+        }]
+    ],
+    "social_sciences": [
+        ["Subject specific questions", {
+            "Never generate writing for the students": [["No"], ["Yes", "No"]],
+            "Revise and edit writing": [["No"], ["Yes", "No"]],
+            "Help students cite sources": [["No"], ["Yes", "No"]],
+            "Custom Instructions": [[""], [""]]
+        }]
+    ],
+    "natural_sciences": [
+        ["Subject specific questions", {
+        "Solves mathematical equations from users": [["No"], ["Yes", "No"]],
+        "Custom Instructions": [[""], [""]]
+        }]
+    ],
+    "math": [
+        ["Subject specific questions", {
+        "How much does the chatbot guide the user on proofs": [["None"], ["None", "Some", "A lot"]],
+        "Solves mathematical equations from user": [["No"], ["Yes", "No"]],
+        "Custom Instructions": [[""], [""]]
+        }]
+    ],
+    "law": [
+        ["Subject specific questions", {
+        "Never generate writing for the students": [["No"], ["Yes", "No"]],
+        "Revise and edit writing": [["No"], ["Yes", "No"]],
+        "Help students cite sources": [["No"], ["Yes", "No"]],
+        "Custom Instructions": [[""], [""]]
+        }]
+    ],
+    "business": [
+        ["Subject specific questions", {
+            "Never generate writing for the students": [["No"], ["Yes", "No"]],
+            "Revise and edit writing": [["No"], ["Yes", "No"]],
+            "Help students cite sources": [["No"], ["Yes", "No"]],
+            "Custom Instructions": [[""], [""]]
+        }]
+    ]
 }

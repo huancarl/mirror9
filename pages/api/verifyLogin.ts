@@ -26,43 +26,20 @@ async function loginHandler(req, res) {
             const userEmail = payload.email;
             const db = await connectToDb();
 
-            const profEmailFilePath = path.join(process.cwd(), 'utils', 'professorEmails.json');
-            const profEmailData = await fs.readFile(profEmailFilePath, 'utf8');
-            const profEmails = JSON.parse(profEmailData);
+            const profs = db.collection('verifiedProfessors');
+            const profDoc = await profs.findOne({ userEmail });
 
             let isProfessor: boolean = false;
-            if (userEmail && userEmail in profEmails){
+            if (userEmail && profDoc){
                 isProfessor = true;
             }
 
             if(isProfessor){
                 //Handle professor log in
-                const allUsers = db.collection('verifiedProfessors');
-
-                const currUser = await allUsers.findOne({ userEmail });
-
-                if (currUser) {
-                    // User is valid, set user email in session
-                    req.session.set('user', { email: userEmail, isProfessor: true });
-                    await req.session.save();
-
-                    return res.status(200).json({ success: true, message: "User is valid.", email: userEmail, isProfessor: true });
-                } else {
-                    //Create a professor 
-
-                    await allUsers.insertOne({
-                        userEmail: userEmail,
-                        dateCreated: new Date(),
-                        paid: false,
-                        subscriptionEndDt: null,
-                        stripeSubID: null,
-                    });
-
-                    req.session.set('user', { email: userEmail, isProfessor: true });
-                    await req.session.save();
-                    return res.status(200).json({ success: true, message: "Professor has created an account", email: userEmail, isProfessor: true });
-                }
-            }
+                req.session.set('user', { email: userEmail, isProfessor: true });
+                await req.session.save();
+                return res.status(200).json({ success: true, message: "User is valid.", email: userEmail, isProfessor: true });
+            } 
             else{
                 //Handle user log in
                 const allUsers = db.collection('verifiedUsers');

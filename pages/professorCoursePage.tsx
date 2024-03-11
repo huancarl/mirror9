@@ -35,46 +35,47 @@ function ProfessorHome() {
 
     const [className, setClassName] = useState<string>('');
     const userIDRef = useRef<string | null>(null);
-
+    const [classSubject, setClassSubject] = useState<string>('');
 
     async function fetchProfClass() {
-        const response = await fetch('/api/fetchClassOfProfessor', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const professorToClassMapData = await response.json();
-        const professorToClassMap = professorToClassMapData.profMap;
 
         const sessionRes = await fetch('/api/userInfo');
         const sessionData = await sessionRes.json();
 
         if (sessionRes.ok) {
-          // Set userID to the user's email from the session
           userIDRef.current = sessionData.email;
+        }
+        else {
+          // Handle the case where the session is not available
+          console.error('Session not found:', sessionData.error);
+          return;
+        }
 
-          if(userIDRef.current){
+        //Gets from the database the data for the class of the prof like name of class and its subject
+        const response = await fetch('/api/fetchClassOfProfessor', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userID: userIDRef.current
+          }),
+        });
 
-            let nameOfClass = professorToClassMap[userIDRef.current];
-            nameOfClass = nameOfClass.replace(/_/g, ' '); 
+        const professorClassData = await response.json();
+        const professorClass= professorClassData.profClass;
+        const professorSubject = professorClassData.profSubject;
 
-            setClassName(nameOfClass)
-          }
+        let nameOfClass = professorClass;
+        nameOfClass = nameOfClass.replace(/_/g, ' '); 
+        setClassName(nameOfClass)
+        setClassSubject(professorSubject);
 
-          } else {
-            // Handle the case where the session is not available
-            console.error('Session not found:', sessionData.error);
-              return;
-          }
-        return professorToClassMap;
     }
 
     useEffect(() => {
+        //Get the professor's class
         fetchProfClass();
-
-        console.log(className, 'classname');
-
     }, []);
 
 
@@ -94,12 +95,12 @@ function ProfessorHome() {
             </Link>
           </div>
           <div className={styles.buttonWrapper}>
-            <Link href="/professor-prompt">
+            <Link href={`/professor-prompt?course=${className}&subject=${classSubject}`}>
               <button className={styles.button} title="Customize specific instructions and guidelines for the chatbot; tailoring its responses and functionalities to suit your class's requirements.">Admin Instruction Modifications</button>
             </Link>
           </div>
           <div className={styles.buttonWrapper}>
-            <Link href={`/chatbot?course=${className}`}>
+            <Link href={`/chatbot?course=${className}&subject=${classSubject}`}>
               <button className={styles.button} title="Preview the chatbot from a student's perspective to understand how students interact.">Student View</button>
             </Link>
           </div>

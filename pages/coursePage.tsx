@@ -37,11 +37,13 @@ function CourseCatalog() {
   const [courseCodeMapping, setCourseCodeMapping] = useState({});
   const [unlockedClasses, setUnlockedClasses] = useState<string[]>([]);
   const [finishFetching, setFinishFetching] = useState(false);
+  const [selectedCourseSubject, setSelectedCourseSubject] = useState('');
 
   const router = useRouter();
   //Logic for handling the course box clicks
   const handleCourseClick = (course) => {
-    setSelectedCourse(course);
+    setSelectedCourseSubject(course.subject);
+    setSelectedCourse(course.key);
     setIsClassCodeModalVisible(true);
   };
 
@@ -95,7 +97,7 @@ function CourseCatalog() {
     
     if (selectedCourse && Array.isArray(unlockedClasses) && unlockedClasses.includes(selectedCourse)) {
       setIsClassCodeModalVisible(false);
-      router.push(`/chatbot?course=${selectedCourse}`);
+      router.push(`/chatbot?course=${selectedCourse}&subject=${encodeURIComponent(selectedCourseSubject)}`);
     }
 
   }, [selectedCourse, unlockedClasses]);
@@ -107,7 +109,7 @@ function CourseCatalog() {
   async function verifyClassCode() {
 
     if(selectedCourse && selectedCourse in courseCodeMapping && classCode === courseCodeMapping[selectedCourse][0]){
-      router.push(`/chatbot?course=${selectedCourse}`);
+      router.push(`/chatbot?course=${selectedCourse}&subject=${encodeURIComponent(selectedCourseSubject)}`);
       const sessionRes = await fetch('/api/userInfo');
       const sessionData = await sessionRes.json();
       if (sessionRes.ok) {
@@ -223,14 +225,16 @@ const courses = [
     key: "CS 2110", 
     namespaceTitle: "CS 2110",
     displayTitle: "CS 2110", 
-    professor: 'OOP & Data Structures, Professor Muhlberger' 
+    professor: 'OOP & Data Structures, Professor Muhlberger',
+    subject: 'programming' 
   },
 
   { 
     key: 'INFO 1260', 
     namespaceTitle: 'INFO 1260', 
     displayTitle: 'INFO 1260/CS 1340', 
-    professor: 'Conseq. Of Computing, Professor Kleinberg & Levy' 
+    professor: 'Conseq. Of Computing, Professor Kleinberg & Levy',
+    subject: 'social_sciences' 
   },
 
 
@@ -251,14 +255,16 @@ const courses = [
     key: "PLSCI 2013", 
     namespaceTitle: 'PLSCI 2013', 
     displayTitle: "PLSCI 2013/ PLSCI 2010", 
-    professor: 'Mushrooms, Professor Hodge' 
+    professor: 'Mushrooms, Professor Hodge',
+    subject: 'natural_sciences' 
   },
 
   { 
     key: "CS 1110", 
     namespaceTitle:  "CS 1110", 
     displayTitle: "CS 1110", 
-    professor: 'Intro To Computing, Professor Bracy' 
+    professor: 'Intro To Computing, Professor Bracy',
+    subject: 'programming' 
   },
 
   { 
@@ -628,7 +634,8 @@ const courses = [
         {filteredCourses.map(course => (
           <CourseBox key={course.key} namespaceTitle={course.namespaceTitle} 
           displayTitle={course.displayTitle} professor={course.professor} 
-          onClick={() => handleCourseClick(course.key)}/>
+          onClick={() => handleCourseClick(course) } 
+          subject={course.subject ? course.subject: ''}/>
         ))}
 
       {isClassCodeModalVisible && (

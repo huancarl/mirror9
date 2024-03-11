@@ -1,157 +1,238 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from '@/styles/professor-prompts.module.css';
 import { useRouter } from 'next/router';
 
 function ProfessorModifyPrompt() {
-  const [settings, setSettings] = useState({
-      logisticQuestions: false,
-      classMaterialsOnly: false,
-      classAndExternalMaterials: false,
-      assistHomeworkGuidance: false,
-      assistHomeworkSolutions: false,
-      computeCalculations: false,
-      writingSkillsDevelopment: false,
-      regularUpdates: false,
-    });
+  const [settings, setSettings] = useState({});
     
   const [className, setClassName] = useState('');
+  const [classSubject, setClassSubject] = useState('');
+
+  const [defaultSettings, setDefaultSettings] = useState({});
+  const [changedSettings, setChangedSettings] = useState(false);
+
+  const customInstructions = useRef<string>('');
 
   const router = useRouter();
+  //don't leave the site yet if you didn't save changes
+  useEffect(() => {
+    const handleRouteChange = (url) => {
+      if (changedSettings && !confirm('You have unsaved changes. Are you sure you want to leave?')) {
+        router.events.emit('routeChangeError');
+        throw 'routeChange aborted.';
+      }
+    };
 
-      //Get the class name from the router at page load
+    router.events.on('routeChangeStart', handleRouteChange);
+
+    // Cleanup function
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, [changedSettings, router.events]);
+
+  //Get the class name from the router at page load
   useEffect(() => {
     if (router.query.course) {
       const courseTitle = Array.isArray(router.query.course) ? router.query.course[0] : router.query.course;
       setClassName(courseTitle.replace(/ /g, '_'));
     }
-  }, [router.query]);
+  }, [router.query.course]);
+      
+  useEffect(() => {
+    if (router.query.subject) {
+      const courseSubject = Array.isArray(router.query.subject) ? router.query.subject[0] : router.query.subject;
+      setClassSubject(courseSubject);
+    }
+  }, [router.query.subject]);
 
   //Fetch the class settings from the backend
-  async function fetchOrSetClassSettings(course: string) {
-    const response = await fetch('/api/fetchOrSetClassSettings', {
+  async function fetchOrSetClassSettings() {
+
+    const response = await fetch('/api/fetchClassSettings', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        courseName: course,
-        settings: settings
+        courseName: className,
+        courseSubject: classSubject
       }),
     });
+
     const data = await response.json();
-    if(data){
-      
-    }
+    setSettings(data.settings);
+    setDefaultSettings(data.default);
+
   }
 
   useEffect(() => {
-    // Fetch materials using the courseTitle
-    fetchOrSetClassSettings(className);
-  });
+    // Ensure both className and classSubject are set
+    if (className) {
+      fetchOrSetClassSettings();
+    }
+  }, [className, classSubject]); 
 
-    const handleCheckboxChange = (event) => {
-      const { name, checked } = event.target;
-      setSettings(prev => ({
-        ...prev,
-        [name]: checked,
-      }));
-    };
-  
-    const handleInputChange = (event) => {
-        const { name, value } = event.target;
-        setSettings(prevSettings => ({
-          ...prevSettings,
-          [name]: value,
-        }));
-      };
+  type QuestionOption = [string[], string[]]; // Represents the array of default choice and choices
+  type Questions = { [key: string]: QuestionOption }; // Represents the questions object
+  type Category = [string, Questions]; // Represents the category title and its questions
+  type SettingsData = Category[]; // Represents the entire settings data structure
 
-  return (
-      <div className={styles.settingsContainer}>
-        <h1 className={styles.settingsHeader}>Update Instruction Settings</h1>
+  //Setting rows
+  function renderSettingRows(settingsJson: SettingsData) {
+    return settingsJson.map(([categoryTitle, questions]) => (
 
-        <h2 className={styles.settingsSubHeader}>General Questions</h2>
-        <SettingRow
-          label="Answers only class logistic questions about the class (when are office hours, what is the grade breakdown, etc), and does not answer otherwise at all?"
-          name="logisticQuestions"
-          checked={settings.logisticQuestions}
-          onChange={handleCheckboxChange}
-        />
-        <SettingRow
-          label="Answers questions strictly and only using class materials from class (no outside references)?"
-          name="classMaterialsOnly"
-          checked={settings.classMaterialsOnly}
-          onChange={handleCheckboxChange}
-        />
-        <SettingRow
-          label="Answers questions using both class materials + outside references?"
-          name="classAndExternalMaterials"
-          checked={settings.classAndExternalMaterials}
-          onChange={handleCheckboxChange}
-        />
+      <React.Fragment key={categoryTitle}>
+        <h2 className={styles.settingsSubHeader}>{categoryTitle}</h2>
 
-        <h2 className={styles.settingsSubHeader}>Homework Questions</h2>
-        <SettingRow
-          label="Assists students with homework but never provides direct solutions(guides student to class materials)?"
-          name="assistHomeworkGuidance"
-          checked={settings.assistHomeworkGuidance}
-          onChange={handleCheckboxChange}
-        />
-        <SettingRow
-          label="Assists students with homework by providing direct solutions?"
-          name="assistHomeworkSolutions"
-          checked={settings.assistHomeworkSolutions}
-          onChange={handleCheckboxChange}
-        />
-        <SettingRow
-          label="Computes calculations for students?"
-          name="computeCalculations"
-          checked={settings.computeCalculations}
-          onChange={handleCheckboxChange}
-        />
+        {Object.entries(questions).map(([question, options]) => {
+          
+          if (question === "Custom Instructions") {
+            return (
+              <>
+              <h2 className={styles.settingsSubHeader}>{"Custom Instructions"}</h2>
 
-        <h2 className={styles.settingsSubHeader}>Writing Questions</h2>
-        <SettingRow
-          label="Assists in developing students' writing skills, focusing on aspects like critical analysis, structure, and clarity, without generating content for them?"
-          name="writingSkillsDevelopment"
-          checked={settings.writingSkillsDevelopment}
-          onChange={handleCheckboxChange}
-        />
+              <TextboxSettingRow
+                key={question}
+                label={question}
+                name={question}
+                initialValue={settings[question]}
+                onValueChange={handleTextboxChange}
+              />
+              </>
+            );
+          } else {
+            return (
+              <DropdownSettingRow
+                key={question}
+                label={question}
+                name={question}
+                options={options[1]}
+                selected={settings[question]}
+                onChange={handleSelectChange}
+              />
+            );
+          }
+        })}
+      </React.Fragment>
+    ));
+  }
 
-        <h2 className={styles.settingsSubHeader}>Report</h2>
-        <SettingRow
-          label="Would you like to receive regular updates or reports on student interactions with the chatbot?"
-          name="regularUpdates"
-          checked={settings.regularUpdates}
-          onChange={handleCheckboxChange}
-        />
-<div className={styles.customInstructionsContainer}>
-  <h2 className={styles.settingsSubHeader}>Custom Instructions</h2>
-  <textarea
-    className={styles.customInstructionsInput}
-    placeholder="Provide custom and full instructions manually. You may be as specific and detailed as you'd like."
-  />
-  <button className={styles.confirmButton}>Confirm</button>
-</div>
-
-      </div>
-    );
-}
-
-function SettingRow({ label, name, checked, onChange }) {
+  //Dropdown option selection:
+  function DropdownSettingRow({ label, name, options, selected, onChange }) {
     return (
       <div className={styles.settingsRow}>
         <label className={styles.settingsLabel}>
           {label}
-          <input
-            type="checkbox"
+          <select name={name} value={selected} onChange={onChange} className={styles.settingsSelect}>
+            {options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+            ))}
+          </select>
+        </label>
+      </div>
+    );
+  }
+  
+  function TextboxSettingRow({ label, name, initialValue, onValueChange}) {
+    const [value, setValue] = useState(initialValue);
+  
+    const handleChange = (event) => {
+      const newValue = event.target.value;
+      setValue(newValue);
+
+      if (onValueChange) {
+        onValueChange(newValue);
+        customInstructions.current = newValue;
+      }
+    };  
+    return (
+      <div className={styles.customInstructionsRow}>
+        <label className={styles.customInstructionsLabel}>
+          <textarea
             name={name}
-            checked={checked}
-            onChange={onChange}
-            className={styles.settingsCheckbox}
+            value={value}
+            onChange={handleChange}
+            className={styles.customInstructionsInput}
+            placeholder="Provide custom and full instructions manually. You may be as specific and detailed as you'd like."
           />
         </label>
       </div>
     );
+  }
+
+  function handleSelectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    // Handle the change
+    const { name, value } = event.target;
+    setSettings(prevSettings => ({
+      ...prevSettings,
+      [name]: value
+    }));
+    if(changedSettings === false){
+      setChangedSettings(true);
+    }
+  }
+
+  function handleTextboxChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    // Handle the change
+    if(changedSettings === false){
+      setChangedSettings(true);
+    }
+  }
+
+  async function handleButtonClick(){
+
+    const response = await fetch('/api/updateClassSettings', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        courseName: className,
+        courseSubject: classSubject,
+        settingsToSave: settings, 
+        customInstructions: customInstructions.current
+      }),
+    });
+
+    setSettings(prevSettings => ({
+      ...prevSettings,
+      ['Custom Instructions']: customInstructions.current
+    }));
+
+    const data = await response.json();
+
+    if(changedSettings === true){
+      setChangedSettings(false);
+    }
+    
+  }
+
+
+  return (
+    <div className={styles.settingsContainer}>
+
+        <h1 className={styles.settingsHeader}>Update Instruction Settings</h1>
+
+        {defaultSettings["baseline"] && renderSettingRows(defaultSettings['baseline'])}    
+        {defaultSettings[classSubject] && renderSettingRows(defaultSettings[classSubject])}  
+
+        {/* <div className={styles.customInstructionsContainer}>
+          <h2 className={styles.settingsSubHeader}>Custom Instructions</h2>
+          <textarea
+            className={styles.customInstructionsInput}
+            placeholder="Provide custom and full instructions manually. You may be as specific and detailed as you'd like."
+          />
+          <button className={styles.confirmButton}>Confirm</button>
+        </div> */}
+
+        <button className={styles.confirmButton} onClick={handleButtonClick}>Confirm</button>
+
+    </div>
+    );
 }
+
 
 export default ProfessorModifyPrompt;

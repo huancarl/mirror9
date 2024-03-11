@@ -6,9 +6,10 @@ type CourseBoxProps = {
   professor: string;
   displayTitle: string;
   onClick: () => void;
+  subject?: string;
 };
 
-const CourseBox = ({namespaceTitle, displayTitle, professor, onClick }: CourseBoxProps) => {
+const CourseBox = ({namespaceTitle, displayTitle, professor, onClick, subject }: CourseBoxProps) => {
   return (
     // Wrap the Link with a div so we can apply the onClick to the div
 

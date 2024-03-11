@@ -96,7 +96,7 @@ export default async function handler(
   res: NextApiResponse,
 ) {
 
-  const { question, messages, userID, sessionID, namespace, messageID} = req.body;
+  const { question, messages, userID, sessionID, namespace, messageID, namespaceSubject} = req.body;
   const image = req.body.image;
 
   const cleanedNamespace = namespace.replace(/ /g, '_');
@@ -399,6 +399,7 @@ export default async function handler(
       namespaceToFilter: cleanedNamespace,
       promptAddOn: customClassPromptAddon,
       assignment: assignmentMetadata,
+      namespaceToFilterSubject: namespaceSubject
     });
 
     const message = results.text;

@@ -74,6 +74,8 @@ export const run = async () => {
           embeddingsGenerator.embedDocuments([doc.pageContent])
         ));
  
+        console.log(chunk);
+
         // Format for Pinecone upsert
         const pineconeRecords = chunk.map((doc, idx) => {
           // Use either a combination of file name and index or a UUID

@@ -53,9 +53,6 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 import { current } from '@reduxjs/toolkit';
 import { join } from 'path';
 
-
-
-
 //Make sure that the page cannot be accessed without logging in
 export const getServerSideProps = withSession(async ({ req, res }) => {
   const user = await isAuthenticated(req);
@@ -85,6 +82,8 @@ export default function Home() {
   const [query, setQuery] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  //MessageState stores a list of the messages and their sourcedocs
   const [messageState, setMessageState] = useState<{
       messages: Message[];
       pending?: string;
@@ -103,7 +102,10 @@ export default function Home() {
   const userIDRef = useRef<string | null>(null);
   const sessionIDRef = useRef<string | null>(null);
   const [currentSessionID, setCurrentSessionID] = useState<string | null>(null);
+
+  //Stores the class title and subject
   const [courseTitle, setCourseTitle] = useState<string | string[] | null>(null);
+  const [courseSubject, setCourseSubject] = useState<string | string[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   //For stripe modal
@@ -295,9 +297,15 @@ export default function Home() {
   useEffect(() => {
     if (router.query.course) {
         setCourseTitle(router.query.course);
+        if(router.query.subject){
+          setCourseSubject(router.query.subject);
+        }
+        else{
+          setCourseSubject('');
+        }
         setIsLoading(false); // set loading to false when course is set
     }
-}, [router.query.course]);
+}, [router.query]);
 
 const handleBackClick = (e) => {
   e.preventDefault();
@@ -532,6 +540,7 @@ async function handleSubmit(e: any) {
         userID: userIDRef.current,
         sessionID: sessionIDRef.current,
         namespace: namespaceToSearch,
+        namespaceSubject: courseSubject,
         messageID: newFirebaseMessageID,
       }),
     });
