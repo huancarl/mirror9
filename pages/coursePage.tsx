@@ -616,6 +616,10 @@ const courses = [
   return (
     <div className={styles.container}>
           {/* <ProgressBar count={referralCount} /> */}
+          <div className={styles.studentEnrollmentNotice}>
+    *Student Enrollment Integration Coming Soon...
+    <span className={styles.enrollmentSubtext}> only see & automatically access the classes from your schedule!</span>
+  </div>
           {isPopupVisible && <Popup />}
 {/* <button className={styles.referralText} onClick={handleReferralClick}>
  GET FREE MESSAGES! 🎁

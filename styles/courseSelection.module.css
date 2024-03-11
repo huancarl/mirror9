@@ -341,3 +341,34 @@
 .footerLink:hover {
   text-decoration: underline; /* Re-adds underline on hover for better user interaction */
 }
+
+.studentEnrollmentNotice {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  padding: 10px;
+  background-color: #ffffff; /* Light background, can be adjusted */
+  color: #b00e0e; /* Dark text color for contrast */
+  font-size: 1.1em; /* Adjust size as needed */
+  font-weight: bold; /* Bold text */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Optional shadow for depth */
+  width: auto; /* Auto width to fit content */
+  border-bottom-right-radius: 10px; /* Rounded corner for aesthetics */
+}
+
+.enrollmentSubtext {
+  display: block; /* Makes the span behave like a block element */
+  font-size: 0.7em; /* Smaller font size */
+  margin-top: 4px; /* Space between the lines */
+  color: #000000; /* Dark text color for contrast */
+
+  /* Additional styling here if needed */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .studentEnrollmentNotice {
+    font-size: 0.8em; /* Smaller text on smaller screens */
+    padding: 6px; /* Adjust padding for smaller screens */
+  }
+}

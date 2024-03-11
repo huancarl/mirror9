@@ -88,24 +88,21 @@
 }
 
 .textarea {
-  resize: vertical; /* Allows vertical resizing */
-  overflow: auto; /* Change overflow to make resize work */
+  resize: vertical; 
   font-size: 1.1rem;
   padding: 1rem;
   border-radius: 0.5rem;
   border: 0.0625em solid #ffd4d4;
   color: #000;
   outline: none;
-  flex-grow: 1; /* Allow textarea to fill the space */
-  margin-right: 12rem; /* Adjusted to create space for the button inside the textarea */
+  margin-right: 12rem;
   width: 50rem;
-  max-height: 3.5em; /* Maximum expandable height */
-  min-height: 3.5em;
-
-  
-  padding-right: 4rem; /* Adjust this value based on the size of your button */
-  position: relative; /* This allows absolute positioning for child elements */
+  padding-right: 4rem;
+  bottom: 0; /* Anchor at the bottom */
+  position: relative; /* Ensure it's positioned relative to this container */
+  height: 4.0rem; /* Let the container's height adjust to the textarea */
 }
+
 
 
 
@@ -401,7 +398,7 @@
 /* Base styles for the code block */
 .chatCodeBlock code {
   font-family: 'Consolas', 'Monaco', 'Courier New', Courier, monospace;
-  color: rgb(255, 26, 26); /* Lighter shade for better contrast */
+  color: rgb(255, 255, 255); /* Lighter shade for better contrast */
   font-size: 0.8rem; /* Responsive font size */
   line-height: 1.8;
   white-space: pre;
@@ -626,9 +623,9 @@
   z-index: 1500; /* Ensure it's above other elements, adjust as needed */
 }
 .backButton {
-  font-size: 1.9em;
+  font-size: 2.6em;
   position: absolute;
-  top: -5px;
+  top: 39px;
   left: 169px;
   background: none;
   border: none;
