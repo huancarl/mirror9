@@ -8,8 +8,6 @@ export default async function handler(req, res) {
 
     const { userID} = req.body;
 
-    console.log(userID);
-
     const db = await connectToDb();
     const profs = db.collection('verifiedProfessors');
     const profDoc = await profs.findOne({ userEmail: userID });

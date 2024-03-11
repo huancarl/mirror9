@@ -8,6 +8,11 @@ import { PINECONE_INDEX_NAME, NAMESPACE_NUMB } from '@/config/pinecone';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 import { promises as fs } from 'fs';
 import { OpenAIApi, Configuration } from "openai";
+import updatePdfNamesToNamespace from "scripts/set-pdfNamestoNamespace";
+import updateLowerToUpperMap from "scripts/set-lowerToUpperMap";
+import updateRegexWithPdfNames from "scripts/updateRegex";
+
+
 
 const filePath = 'docs';
 
@@ -55,16 +60,29 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    const className = "CS_1110"; //should have underscores for spaces
+    const className = "BIOMG_2801"; //should have underscores for spaces
+
+    await updatePdfNamesToNamespace(className, className, className);    
+    console.log('Updated pdfs names to namespaces');
+    await updateLowerToUpperMap();
+    console.log('Updated lower to upper mapping');
+    await updateRegexWithPdfNames();
+    console.log('Updated Regex');
+
+    console.log('Starting to upsert into pinecone');
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
     const classNamespace = `${className}_All_Materials`;
+
+    const namespacesMapFilePath = path.join(process.cwd(),'utils', 'pdfNamestoNamespace.json');
+    const data = await fs.readFile(namespacesMapFilePath, 'utf8');
+    const namespacesMap = JSON.parse(data);
 
     for (const [fileNameWithExtension, document] of pdfFiles) {
 
       const fileName = fileNameWithExtension.replace('.pdf', '');
       
-      const namespace = NAMESPACE_NUMB[fileName][0]; // Adjust this if the mapping of folder to namespace changes
+      const namespace = namespacesMap[fileName][0]; // Adjust this if the mapping of folder to namespace changes
       //console.log(document);
       const splitDocs = await textSplitter.splitDocuments(document);
 

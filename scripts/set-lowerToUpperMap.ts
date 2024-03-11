@@ -9,7 +9,7 @@ interface LowerToUpperMap {
   [key: string]: string;
 }
 
-async function updateLowerToUpperMap() {
+export default async function updateLowerToUpperMap() {
   const lowerToUpperMapFilePath = path.join('utils', 'lowerToUpperMap.json');
   const pdfTitlesFilePath = path.join('utils', 'pdfNamestoNamespace.json');
 
@@ -39,4 +39,4 @@ async function updateLowerToUpperMap() {
   }
 }
 
-updateLowerToUpperMap();
+// updateLowerToUpperMap();

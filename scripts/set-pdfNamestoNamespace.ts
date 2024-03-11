@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-function updatePdfNamesToNamespace(folderName: string, className: string, subjectName: string): void {
+export default async function updatePdfNamesToNamespace(folderName: string, className: string, subjectName: string) {
     const folderPath = path.join('docs', folderName);
     const jsonFilePath = path.join('utils', 'pdfNamestoNamespace.json');
     const classMaterialMappingFilePath = path.join('utils', 'chatAccessDocuments.json');
@@ -71,6 +71,6 @@ export const run = async () => {
     const pdfNames = updatePdfNamesToNamespace(nameOfFolder, nameOfClassToAppendInFront, subjectNameForChatTS);
 }
 
-(async () => {
-    await run();
-  })();
+// (async () => {
+//     await run();
+//   })();

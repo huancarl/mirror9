@@ -489,7 +489,13 @@ const courses = [
     displayTitle: "AEM 4670", 
     professor: 'Investments, Professor Murfin'
   },
-
+  { 
+    key: "BIOMG 2801", 
+    namespaceTitle: "BIOMG 2801", 
+    displayTitle: "BIOMG 2801", 
+    professor: 'Genetics and Genomics, Professor Blake',
+    subject: 'natural_sciences'
+  },
 
 
 

@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-async function updateRegexWithPdfNames() {
+export default async function updateRegexWithPdfNames() {
   const pdfNamesFilePath = path.join('utils', 'pdfNamestoNamespace.json');
   const regexFilePath = path.join('utils', 'regex.txt');
 
@@ -25,4 +25,4 @@ async function updateRegexWithPdfNames() {
   }
 }
 
-updateRegexWithPdfNames();
+// updateRegexWithPdfNames();
