@@ -49,7 +49,7 @@ export const run = async () => {
 
     const index = pinecone.Index(PINECONE_INDEX_NAME);
     
-    let className = "CS_1110_Assignments"; //Name of the folder must follow the format: SUBJECT_NUMBER_Assignments
+    let className = "INFO_1260_Assignments"; //Name of the folder must follow the format: SUBJECT_NUMBER_Assignments
 
     const pdfFiles = await getAllPDFFiles(`${filePath}/${className}`);
     //const classNamespace = `${className}_All_Materials`;

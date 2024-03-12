@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 export default async (req, res) => {
-    const { settingsToSave, courseName, courseSubject, customInstructions } = req.body;
+    const { settingsToSave, courseName, courseSubject, customInstructions} = req.body;
 
     if (!settingsToSave) {
         return res.status(400).json({ error: 'Settings are required' });

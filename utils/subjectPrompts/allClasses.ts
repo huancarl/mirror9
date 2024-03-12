@@ -5,6 +5,7 @@ import { createBusinessPrompt } from "./business";
 import { createLawPrompt } from "./law";
 import { createMathPrompt } from "./math";
 import { createWritingPrompt } from "./writing";
+import {connectToDb} from '@/config/db';
 
 export function createAllClassesPrompt(subject, namespaceToFilter, classMapping, namespaces, formattedSourceDocuments) {
 

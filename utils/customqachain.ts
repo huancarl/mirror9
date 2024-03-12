@@ -299,7 +299,7 @@ export class CustomQAChain {
 
     // Experimenting making faster searches with namespaces with Timeout Method
 
-    public async call({ question, questionEmbed, chat_history, namespaceToFilter, promptAddOn}: { question: string; questionEmbed: any; chat_history: ChatMessage[], namespaceToFilter: any, promptAddOn: string}, ): Promise<CallResponse> {
+    public async call({ question, questionEmbed, chat_history, namespaceToFilter, promptAddOn, assignment, namespaceToFilterSubject}: { question: string; questionEmbed: any; chat_history: ChatMessage[], namespaceToFilter: any, promptAddOn: string, assignment: any, namespaceToFilterSubject: String}, ): Promise<CallResponse> {
        //Makes the call to openai and declares all of the methods defined in this file
 
         const addon = promptAddOn;

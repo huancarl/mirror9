@@ -193,7 +193,7 @@ function ProfessorModifyPrompt() {
         courseName: className,
         courseSubject: classSubject,
         settingsToSave: settings, 
-        customInstructions: customInstructions.current
+        customInstructions: customInstructions.current,
       }),
     });
 
@@ -216,8 +216,8 @@ function ProfessorModifyPrompt() {
 
         <h1 className={styles.settingsHeader}>Update Instruction Settings</h1>
 
-        {defaultSettings["baseline"] && renderSettingRows(defaultSettings['baseline'])}    
-        {defaultSettings[classSubject] && renderSettingRows(defaultSettings[classSubject])}  
+        {defaultSettings && defaultSettings["baseline"] && renderSettingRows(defaultSettings['baseline'])}    
+        {defaultSettings && defaultSettings[classSubject] && renderSettingRows(defaultSettings[classSubject])}  
 
         {/* <div className={styles.customInstructionsContainer}>
           <h2 className={styles.settingsSubHeader}>Custom Instructions</h2>
