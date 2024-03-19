@@ -1,0 +1,125 @@
+.wrapper {
+    display: flex;
+    flex-direction: column; /* Change to column on smaller screens */
+    height: auto; /* Change from 100vh to auto for better mobile viewing */
+    font-family: 'Jacques Francois', serif; 
+}
+
+.sidebar {
+    width: 100%; /* Full width on smaller screens */
+    background-color: #9B0909;
+    color: white;
+    padding: 20px;
+    box-sizing: border-box; /* Ensure padding doesn't add to the width */
+}
+
+/* Add a media query for larger screens */
+@media (min-width: 768px) {
+    .wrapper {
+        flex-direction: row; /* Row on larger screens */
+        height: 100vh;
+    }
+
+    .sidebar {
+        width: 240px;
+    }
+
+    .content {
+        flex-grow: 1;
+    }
+}
+
+.courseInfo {
+    text-align: center;
+}
+
+.courseTitle {
+    font-size: 1.8em; /* Decreased font size */
+    margin: 0;
+}
+
+.professorName {
+    margin-top: 5px;
+    font-size: 1.0em;
+}
+
+.navigation {
+    font-size: 1.2em;
+}
+
+.sectionTitle {
+    text-transform: uppercase; /* Make text uppercase */
+    letter-spacing: 1px; /* Adjust spacing to match design */
+    border-bottom: 1px solid white;
+    padding-bottom: 10px; /* Adjust padding to match design */
+    margin-bottom: 12px;
+    font-size: 0.7em;
+
+
+}
+
+.optionLink {
+    display: block;
+    color: white;
+    text-decoration: none;
+    margin-bottom: 5px; /* Reduced from 15px to 5px */
+    padding: 5px 10px;
+    position: relative;
+    transition: color 0.3s ease;
+    overflow: hidden;
+}
+
+
+.optionLink::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%; /* Full width of the link */
+    height: 100%; /* Full height of the link */
+    background-color: rgba(255, 255, 255, 0);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    transform: translate(-50%, -50%) scale(0); /* Start from the center and no size */
+    border-radius: 4px; /* Optional: adds rounded corners */
+}
+
+.optionLink:hover::before {
+    background-color: rgba(255, 255, 255, 0.2); /* Slight background-color change on hover */
+    transform: translate(-50%, -50%) scale(1); /* Scale to the full size of the link */
+}
+
+.optionLink:hover {
+    color: #f8f8f8; /* Existing color change on hover */
+}
+
+
+
+.content {
+    width: 100%; /* Full width on smaller screens */
+    background-color: white;
+    padding: 20px;
+    box-sizing: border-box; /* Ensure padding doesn't add to the width */
+}
+
+@media (min-width: 768px) {
+    .content {
+        flex-grow: 1; /* Only grow on larger screens */
+    }
+}
+
+.controlSection, .studentViewSection {
+    margin-bottom: 390px; /* Adjust the space between the two sections */
+}
+
+.controlSection {
+    margin-top: 70px; /* Adjust this value to move the section upwards */
+}
+
+.sectionTitle, .optionLink {
+    margin-top: 2; /* Remove top margin to move elements upwards */
+}
+
+.studentViewSection {
+    margin-top: -300px; /* Adjust this value to move the section upwards */
+    margin-bottom: 300px; /* Keeps the existing bottom margin */
+}
