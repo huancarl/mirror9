@@ -92,7 +92,7 @@ function ProfessorHome() {
 
     useEffect(() => {
         //Get the professor's class
-        //fetchProfClass();
+        fetchProfClass();
     }, []);
 
 
