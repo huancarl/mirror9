@@ -68,7 +68,7 @@ const LoginWithEmail: React.FC = () => {
     if (data.success) {
       if(data.isProfessor){
         //User is a professor
-        router.replace('/professorCoursePage');
+        router.replace('/professorSide');
       }
       else{
         router.replace('/coursePage');
