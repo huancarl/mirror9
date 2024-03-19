@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, Bar } from 'recharts';
 import {useRouter} from 'next/router';
 
 function StudentAnalytics(){
@@ -33,14 +32,7 @@ function StudentAnalytics(){
 
   <div>
     
-    <BarChart width={730} height={250} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="Course Materials" fill="#8884d8" />
-    </BarChart>
+    Under Construction
 
 
 
