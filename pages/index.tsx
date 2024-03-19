@@ -14,7 +14,7 @@ export const getServerSideProps = withSession(async ({ req, res }) => {
     if(user.isProfessor){
       return {
         redirect: {
-            destination: '/professorCoursePage',
+            destination: '/professorSide',
             permanent: false,
         },
     };
@@ -79,8 +79,8 @@ const HomePage: React.FC = () => {
 
       <div className={styles.buttonContainer}>
         <h1 className={styles.title}>
-          <span style={{ color: 'white' }}>Cornell</span>
-          <span style={{ color: 'white' }}>GPT</span>
+          <span style={{ color: 'white' }}>Sai</span>
+          <span style={{ color: 'white' }}></span>
         </h1>
 
         
@@ -108,11 +108,3 @@ const HomePage: React.FC = () => {
 
 
 export default HomePage;
-
-
-
-
-
-
-
-
